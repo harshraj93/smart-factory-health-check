@@ -1,0 +1,76 @@
+/* structural classes */
+
+@mixin fullHW() {
+    height: 100%;
+    width: 100%;
+}
+
+@mixin anchorLink() {
+    color: $base-white;
+    text-decoration: none;
+    @include transition();
+    &:hover{
+        color: $neon-yellow;
+    }
+}
+
+@mixin backgroundIcon($url) {
+    background-image: $url;
+    background-position: left center;
+    background-size:contain;
+}
+
+@mixin loadingSymbol() {
+    height: 30px;
+    width: 100px;
+    border-radius: $border-radius;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -50px;
+    margin-top: -15px;
+    text-align: center;
+    color: $base-white;
+    background-color: $division-menu-bg-color;
+}
+
+@mixin menu-popup-component-name() {
+    height:66px;
+    color:$base-white;
+    font-size:$fontsize-tv-text;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    top: 50%;
+    /* -webkit-transform: translateY(-50%); */
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+    
+}
+
+@mixin menu-popup-cards() {
+    width:16%;
+    height:32%;
+    background-color: $subNavigation-gradient-bottom;
+    border-radius:$popup-border-radius;
+}
+
+/* structural classes */
+
+/*structure style-sheet */
+
+body{
+    margin: 0;
+    padding: 0;
+    background-color: $base-color;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+*{
+    box-sizing: border-box;
+    outline: none;
+    font-family: 'Open Sans', Roboto, sans-serif;
+} 
+/*structure style-sheet */
