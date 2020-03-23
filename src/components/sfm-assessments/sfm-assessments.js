@@ -7,7 +7,7 @@ class Assessments extends React.Component {
     }
     render() {
         return (
-            <div class="assessments">
+            <div className="assessments">
                 <h1>Assessments Coming Soon</h1>
             </div>
         );

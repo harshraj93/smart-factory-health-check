@@ -7,7 +7,7 @@ class UtilSum extends React.Component {
     }
     render() {
         return (
-            <div class="util-sum">
+            <div className="util-sum">
                 <h1>Util Summary Coming Soon</h1>
             </div>
         );
