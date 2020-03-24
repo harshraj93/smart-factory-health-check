@@ -7,7 +7,7 @@ class Analytics extends React.Component {
     }
     render() {
         return (
-            <div class="analytics">
+            <div className="analytics">
                 <h1>Analytics Coming Soon</h1>
             </div>
         );
