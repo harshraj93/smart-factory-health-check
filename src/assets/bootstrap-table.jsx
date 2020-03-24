@@ -14,7 +14,6 @@ const columns= [{
 },{
     dataField:"Completed",
     text:"",
-    formatter:completeFormatter
 },{
     dataField:"Open",
     text:"",
@@ -72,33 +71,52 @@ function actionsFormatter(cell,row){
         if(row.Completed=="In Progress"){
             rowLabel="Open";
             style={backgroundColor:"#57bb50"};
+            // return <div className="misc-container">
+            //             <span className="button">
+            //                 <CustomButton labelName={rowLabel} className="openButton" style={style} />
+            //             </span>
+            //       </div>
         }
         else{
             rowLabel="Results";
-            style={backgroundColor:"Blue"};
+            style={backgroundColor:"#0b6ec5"};
+            // return  <div className="misc-container">
+            //             <span className="link-icon">
+            //                 &#128279;
+            //             </span>
+            //             <span className="download">
+            //                 &#8595;
+            //             </span>
+            //             <span className="button">
+            //                 <CustomButton labelName={rowLabel} className="openButton" style={style} />
+            //             </span>
+            //         </div>
 
         }
-    return <div className="misc-container">
-                <span className="link-icon">
-                    &#128279;
-                </span>
-                <span className="download">
-                    &#8595;
-                </span>
-                <span className="button"><CustomButton labelName={rowLabel} className="openButton" style={style} /></span>
-            </div>
+        return  <div className="misc-container">
+                        <span className="link-icon">
+                            &#128279;
+                        </span>
+                        <span className="download">
+                            &#8595;
+                        </span>
+                        <span className="button">
+                            <CustomButton labelName={rowLabel} className="openButton" style={style} />
+                        </span>
+                    </div>
+    
 }
 
 
 class Table extends React.Component{
 
+        render(){
+            return(
+                <BootstrapTable keyField='id' striped bordered={false} data={data} columns={columns}/>
+            )
 
-render(){
-return(
-<BootstrapTable keyField='id' striped bordered={false} data={data} columns={columns}/>
+        }
+    }
 
-)
 
-}
-}
 export default Table

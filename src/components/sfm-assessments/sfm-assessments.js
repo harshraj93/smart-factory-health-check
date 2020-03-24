@@ -13,7 +13,7 @@ class Assessments extends React.Component {
                 
                 <div className="search-and-add">
                     <span className="search">
-                        <label for="search-box">&#128269;</label>
+                        <label for="search-box"><span class="glyphicon glyphicon-search" /></label>
                         <input type="text" placeholder={"Search Clients"} className="search-clients"></input>
                     </span>
                     <span className="add-button">

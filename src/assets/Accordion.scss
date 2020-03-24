@@ -1,0 +1,47 @@
+.accordion>.card>.card-header{
+        background-color: #35353b;
+        .industry-name-number{
+            font-size: 24px;
+            padding: 0px 10px 10px 0px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            color: white;
+            //color: #161617;
+            font-weight:600;
+            .company-name{
+               .upload{
+                   margin-left: 16px;
+               } 
+            }
+            .number-open{
+                text-align: right;
+                margin-right:15px;
+            }
+            .number-completed{
+                text-align: center;
+            }
+        }
+        .industry-text-info{
+            font-size: 16px;
+            padding: 0px 10px 10px 0px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            //color: #161617;
+            color: white;
+            opacity: 0.6;
+            .open-text{
+               text-align: right;
+            }
+            .completed-text{
+                text-align: center;
+            }
+        }
+        .dropdown-icon{
+            position: absolute;
+            top: 35%;
+            left: 95%;
+            font-size: 16px;
+
+        }
+    }
+    
