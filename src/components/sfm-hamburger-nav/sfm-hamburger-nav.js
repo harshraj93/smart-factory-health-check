@@ -7,6 +7,7 @@ import { Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Analytics from '../sfm-analytics/sfm-analytics';
 import Assessments from '../sfm-assessments/sfm-assessments';
 import UtilSum from '../sfm-util-sum/sfm-util-sum';
+import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
 
 class HamburgerNav extends React.Component {
     constructor(props) {
