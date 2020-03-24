@@ -1,0 +1,32 @@
+.react-bootstrap-table{
+        .table{
+            margin: 16px;
+            width: 98%;
+        }
+        thead{
+            
+            display: none;
+        }
+        tr td:first-child{
+            font-weight: bold;
+        }
+        .misc-container{
+            .link-icon,.download{
+                margin:16px;
+                padding:4px;
+                cursor: pointer;
+
+            }
+            button{
+                margin-left: 16px;
+                border-radius: 16px;
+                width: 26%;
+                outline: none;
+                color: white;
+                &:focus {
+                    border: 1px solid #ccff00;
+                }
+            }
+        }
+    
+}

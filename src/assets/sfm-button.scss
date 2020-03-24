@@ -1,0 +1,9 @@
+.custom-button{
+    width: 26%;
+    outline: none;
+    color: white;
+    outline: none;
+    &:focus {
+        border: 1px solid #ccff00;
+    }
+}

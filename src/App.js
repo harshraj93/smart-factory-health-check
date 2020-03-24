@@ -7,6 +7,7 @@ import { Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Analytics from './components/sfm-analytics/sfm-analytics';
 import Assessments from './components/sfm-assessments/sfm-assessments';
 import UtilSum from './components/sfm-util-sum/sfm-util-sum';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   var x = 0;

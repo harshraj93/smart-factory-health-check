@@ -1,6 +1,8 @@
 import React from 'react';
 import './sfm-assessments.scss';
-
+import CustomButton from '../../assets/sfm-button';
+import CustomAccordion from '../../assets/Accordion'
+import CustomTab from '../../assets/Tabs'
 class Assessments extends React.Component {
     constructor(props) {
         super(props);
@@ -8,8 +10,24 @@ class Assessments extends React.Component {
     render() {
         return (
             <div class="assessments">
-                <h1>Assessments Coming Soon</h1>
+                
+                <div className="search-and-add">
+                    <span className="search">
+                        <label for="search-box">&#128269;</label>
+                        <input type="text" placeholder={"Search Clients"} className="search-clients"></input>
+                    </span>
+                    <span className="add-button">
+                        <CustomButton labelName="Add Client"/>
+                    </span>
+                </div>
+                <div className="tab-group">
+                    <CustomTab />
+                </div>
+                <div className="accordion-factory-view">
+                    <CustomAccordion />
+                </div>
             </div>
+            
         );
     }
 }

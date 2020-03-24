@@ -1,0 +1,23 @@
+.tab-group{
+    .nav.nav-tabs{
+        width: 100%;
+        border-bottom: unset;
+        justify-content: center;
+        
+    }
+    .nav-item.nav-link{
+        border-radius: 4px;
+        background-color: #35353b;
+        color: #ffffff;
+        opacity: 0.5;
+        outline: none;
+        width: 15%;
+        text-align: center;
+        &.active{
+            opacity: unset;
+            outline: none;
+            width: 15%;
+            text-align: center;
+        }
+    }
+}
