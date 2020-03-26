@@ -1,5 +1,61 @@
 .slider {
-    .bar {
+    width: 52vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .slider-text {
+        font-size: 0.5em;
+        color: #dedede;
+        opacity: 0.4;
+        padding: 1em;
+        margin: 0;
+    }
+
+    .slider-line {
+        display: block;
         width: 41.602vw;
+        height: 0.55vh;
+        border-radius: 2.12em;
+        background-color: #161617;
+    }
+
+    .stops {
+        display: flex;
+        width: 27.84vw;
+        justify-content: space-between;
+        position: absolute;
+        .stop {
+            display: block;
+            height: 2.9vh;
+            width: 0.1vw;
+            border-radius: 1.03em;
+            background-color: #161617;
+        }
+    }
+
+    .ind-avg {
+        position: absolute;
+        width: 15.234vw;
+        height: 1.93vh;
+        border-radius: 1.5em;
+        border: solid 0.05em #727279;
+        background-color: #161617;
+        margin-left: 0;
+    }
+
+    .slider-circle {
+        position: absolute;
+        width: 3.512vh;
+        height: 3.512vh;
+        border-radius: 50%;
+    }
+
+    .small-circle {
+        border-radius: 50%;
+        border: solid 0.01em #727279;
+        background-color: none;
+        width: 1.5vh;
+        height: 1.5vh;
     }
 }
