@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import Table from './bootstrap-table';
 import UploadImg from '../images/icon-small-upload.svg';
 import DropDownImg from '../images/icon-small-chevron-down.svg';
-import CustomButton from './sfm-button';
 
 
 function industryCard (props){
@@ -13,7 +12,7 @@ function industryCard (props){
     <> 
         <div className="industry-name-number">
             <span className="company-name">
-                {props["companyName"]}<img className="upload" src={UploadImg}/>
+                {props["companyName"]}<img className="upload" src={UploadImg} alt=""/>
             </span>
     
              <span className="number-open">
@@ -35,9 +34,9 @@ function industryCard (props){
             </span>
         </div>
     </>
-    )}
+ )}
 
-    
+
 class CustomAccordion extends React.Component{
     constructor(props){
         super(props);
@@ -64,7 +63,7 @@ class CustomAccordion extends React.Component{
                                     {industryCard(data)}
                                        
                                 <Accordion.Toggle as={Button} variant="link" eventKey={index} >
-                                       <div className="dropdown-icon" ><img src={DropDownImg} value={index} onClick={(e)=>this.changeAccordionState(e)}/></div>
+                                       <div className="dropdown-icon" ><img src={DropDownImg} alt="" value={index} onClick={(e)=>this.changeAccordionState(e)}/></div>
                                 </Accordion.Toggle>
                             </Card.Header>
                                 <Accordion.Collapse eventKey={index}>
