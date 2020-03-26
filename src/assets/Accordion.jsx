@@ -6,7 +6,7 @@ import Table from './bootstrap-table';
 import UploadImg from '../images/icon-small-upload.svg';
 import DropDownImg from '../images/icon-small-chevron-down.svg';
 
-
+let lastIndex;
 function industryCard (props){
     return (
     <> 
@@ -46,9 +46,15 @@ class CustomAccordion extends React.Component{
     }
 
     changeAccordionState = (e)=>{
+        
         let value = e.currentTarget.getAttribute("value");
-        let backgroundColor = document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor
+        let backgroundColor = document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor;
+        if((lastIndex)&&lastIndex!==value&&document.getElementsByClassName("card-header "+lastIndex+" card-header")[0].style.backgroundColor==="rgb(190, 190, 190)"){
+            document.getElementsByClassName("card-header "+lastIndex+" card-header")[0].style.backgroundColor="#35353b";
+            document.getElementsByClassName("card-header "+lastIndex+" card-header")[0].style.color="#ffffff";
+            }
         if(backgroundColor==="rgb(190, 190, 190)"){
+            
             document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor="#35353b";
             document.getElementsByClassName("card-header "+value+" card-header")[0].style.color="#ffffff";
         }
@@ -56,6 +62,7 @@ class CustomAccordion extends React.Component{
         document.getElementsByClassName("card-header "+value+" card-header")[0].style.color="#161617";
         document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor="#bebebe";
         }
+        lastIndex=value;
         
     }
 
