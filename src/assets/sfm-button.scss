@@ -1,0 +1,9 @@
+.custom-button{
+    width: 26%;
+    outline: none;
+    color: white;
+    outline: none;
+    &:focus {
+        border: $button-click-border;
+    }
+}

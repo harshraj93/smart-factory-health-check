@@ -1,0 +1,59 @@
+.accordion{
+    .card{
+        border-radius: $border-radius !important;
+        margin-bottom: $large-margin;
+        background-color:$accordion-card-background;
+        border: unset;
+    .card-header{
+        background-color: $accordion-dark-background;
+        
+        .industry-name-number{
+            font-size: $font-normal-fontSize;
+            padding: 0px 10px 10px 0px;
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr;
+            //color: white;
+            //color: #161617;
+            font-weight:$bold;
+            .company-name{
+               .upload{
+                   margin-left: $common-margin;
+               } 
+            }
+            .number-open{
+                text-align: right;
+                margin-right:$common-margin;
+            }
+            .number-completed{
+                text-align: center;
+            }
+        }
+        .industry-text-info{
+            font-size: $font-least-fontSize;
+            padding: 0px 10px 10px 0px;
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr;
+            //color: #161617;
+            //color: white;
+            opacity: 0.6;
+            .open-text{
+               text-align: right;
+            }
+            .completed-text{
+                text-align: center;
+            }
+        }
+        .btn.btn-link{
+            position: relative;
+            top: -60px;
+            left: 95%;
+            .dropdown-icon{
+                font-size: $font-least-fontSize;
+    
+            }
+        }
+        
+    }
+}
+    
+}

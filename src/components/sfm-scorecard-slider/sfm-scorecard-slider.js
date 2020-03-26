@@ -1,5 +1,4 @@
 import React from 'react';
-import './sfm-scorecard-slider.scss';
 
 class Slider extends React.Component {
     constructor(props) {

@@ -14,7 +14,7 @@ $gray-lighter: #d0d0ce;
 $basic-gray-color:#5d5e60;
 $dull-gray-color:#d0d0ce40;
 $background-gray:#3a414b;
-
+$white:#ffffff;
 // colors
 $red: #da291c;
 $yellow: #ffcd00;
@@ -24,6 +24,9 @@ $blue: #a0dcff;
 $blue-85: #a0dcffd9;
 
 /* color-theme selection */
+$add-site-color:#0b6ec5;
+$add-site-button-color:#006cc7;
+$custom-blue:#549ad7;
 $base-color: #e4e4e4;
 $font-darker-gray:#bbbcbc;
 $font-gray:#808080;
@@ -41,34 +44,37 @@ $link-color:#ededed;
 $highlight-orange:#f39001;
 $highlight-green: #f4f404;
 $neon-warning: #ffd602;
-
-
+$accordion-card-background: #dedede;
+$accordion-dark-background: #35353b;
 /* color-theme selection */
 
 
 /* other variable declaration */
-
-$border-radius: 2px;
+$img-height:32px;
+$img-width:32px;
+$border-radius: 8px;
+$border-radius-large: 16px;
+$border-radius-extra-large: 24px;
 $popup-border-radius:2px;
 $heading-main-fontsize: 50px;
 $menu-icon-fontsize: 25px;
 $fontsize-fourty: 40px;
 $header-fontSize:23px;
 $font-smallest:9px;
-$font-least-fontSize:12px;
-$font-normal-fontsize: 20px;
+$font-least-fontSize:16px;
+$font-normal-fontSize: 24px;
 $font-max-fontSize:36px;
 $font-normal-fontsize-table: 15px;
 $menu-bar-width: 245px;
-
-
+$button-click-border:1px solid #ccff00;
+$accordion-max-height:80vh;
 $small-margin:8px;
 $common-margin:16px;
 $medium-margin:24px;
 $large-margin:32px;
 
 $alert-titleWidth: 180px;
-
+$accordion-max-height: 80vh;
 
 //Font weight
 $regular:300;
@@ -96,8 +102,8 @@ $sizeThirty: 30px;
 $sumHeaderFooter: calc(100vh - 80px);
 $menuOpenContainerWidth: calc(100vw - 550px); // -$menuOpen-width:
 $menuSmallContainerWidth: calc(100vw - 84px); // -$menuSmall-width
-
-
+$tab-width:15%;
+$search-client-border:1px solid #e8e8e8;
 /* mixin */
 @mixin transition() {
     transition: all 0.3s linear;

@@ -1,5 +1,6 @@
 import React from 'react';
-import './App.scss';
+import './SCSS/main.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import HamburgerNav from './components/sfm-hamburger-nav/sfm-hamburger-nav';
 
 function App() {

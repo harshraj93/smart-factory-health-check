@@ -1,0 +1,75 @@
+.react-bootstrap-table{
+        .table{
+            margin: $common-margin;
+            width: 98%;
+        }
+        thead{
+            
+            display: none;
+        }
+        tr td:first-child{
+            font-weight: bold;
+        }
+        .misc-container{
+            .link-icon,.download{
+                margin:$common-margin;
+                padding:4px;
+                cursor: pointer;
+
+            }
+            button{
+                margin-left: $common-margin;
+                border-radius: $border-radius-large;
+                width: 26%;
+                outline: none;
+                color: white;
+                &:focus {
+                    border: $button-click-border;
+                }
+            }
+        }
+    
+}
+
+
+.add-site{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    color: $add-site-button-color;
+    
+    .add-button{
+        margin-left: $common-margin;
+        margin-right: $common-margin;
+        padding: 8px;
+        font-weight: bold;
+        
+    .custom-button{
+        width: $img-width;
+        height: $img-height;
+        border-radius: 50%;
+        // margin-left: 16px;
+        margin-bottom: $common-margin;
+        margin-right: $common-margin;
+        // padding: 8px;
+        background-color: $add-site-color;
+        outline: none;
+        cursor: pointer;
+    }
+    .add-text{
+        margin-bottom: $common-margin;
+        cursor: pointer;
+    }
+}
+    .view-plant{
+        
+        text-align: right;
+        margin-bottom: $common-margin;
+        margin-top: $small-margin;
+        margin-right: $large-margin;
+        font-weight: bold;
+        .plant-navigate{
+            margin-left: $common-margin;
+            cursor: pointer;
+        }
+    }
+}
