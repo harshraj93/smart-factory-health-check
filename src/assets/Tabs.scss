@@ -6,17 +6,17 @@
         
     }
     .nav-item.nav-link{
-        border-radius: 4px;
-        background-color: #35353b;
-        color: #ffffff;
+        border-radius: $border-radius;
+        background-color: $accordion-dark-background;
+        color: $white;
         opacity: 0.5;
         outline: none;
-        width: 15%;
+        width: $tab-width;
         text-align: center;
         &.active{
             opacity: unset;
             outline: none;
-            width: 15%;
+            width: $tab-width;
             text-align: center;
         }
     }

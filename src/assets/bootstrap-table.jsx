@@ -2,7 +2,6 @@ import React from 'react'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import CustomButton from './sfm-button';
-import './bootstrap-table.scss'
 import plusIcon from '../images/icon-small-add.svg'
 
 const columns= [{
@@ -55,21 +54,11 @@ function locationFormatter(cell,row){
     }
 }
 
-function completeFormatter(cell,row){
-    console.log(cell,"cell",row,"row");
-    if(cell!="In Progress")
-    {
-        return <>&#10004; {cell}</>
-    }
-    else{
-        return cell
-    }
-}
 
 function actionsFormatter(cell,row){
     
     let rowLabel,style;
-        if(row.Completed=="In Progress"){
+        if(row.Completed==="In Progress"){
             rowLabel="Open";
             style={backgroundColor:"#57bb50"};
         }
@@ -87,10 +76,8 @@ function actionsFormatter(cell,row){
                         <span className="button">
                             <CustomButton labelName={rowLabel} className="openButton" style={style} />
                         </span>
-                    </div>
+                </div>
     
-
-        
 }
 
 function addSiteRow (props){

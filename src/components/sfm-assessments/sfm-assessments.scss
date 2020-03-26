@@ -14,28 +14,31 @@
         .search-clients{
             background-color: inherit;
             border:unset;
-            border-bottom: 1px solid #e8e8e8;
-            color: white;
+            border-bottom: $search-client-border;
+            color: $white;
             width: 45%;
         }
         .add-button{
             text-align: right;
         .custom-button{
-            margin-left:16px;
-            border-radius: 24px;
-            background-color: #549ad7;
+            margin-left:$common-margin;
+            border-radius: $border-radius-extra-large;
+            background-color: $custom-blue;
             outline: none;
         }
     }
     }
     .tab-group{
-        display: flex;
-        margin-bottom: 5%;
         width: 100%;
-        justify-content: center;
+        .nav.nav-tabs{
+            margin-bottom: 5%;
+        }
     }
     .accordion-factory-view{
         width: 100%;
-        overflow-y: scroll;
+        .accordion{
+            max-height: $accordion-max-height;
+            overflow-y: scroll;
+        }
     }
 }

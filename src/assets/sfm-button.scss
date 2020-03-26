@@ -4,6 +4,6 @@
     color: white;
     outline: none;
     &:focus {
-        border: 1px solid #ccff00;
+        border: $button-click-border;
     }
 }

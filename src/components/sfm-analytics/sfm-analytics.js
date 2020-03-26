@@ -1,10 +1,7 @@
 import React from 'react';
-import './sfm-analytics.scss';
 
 class Analytics extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+    
     render() {
         return (
             <div className="analytics">

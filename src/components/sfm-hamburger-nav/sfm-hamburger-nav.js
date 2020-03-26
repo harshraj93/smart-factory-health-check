@@ -1,5 +1,4 @@
 import React from 'react';
-import './sfm-hamburger-nav.scss';
 import assessmentsIcon from '../../img/icon-small-assessments.svg';
 import analyticsIcon from '../../img/icon-small-analytics.svg';
 import utilSumIcon from '../../img/icon-small-utlization-summary.svg';

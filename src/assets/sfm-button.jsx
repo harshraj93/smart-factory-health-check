@@ -1,5 +1,4 @@
 import React from 'react';
-import './sfm-button.scss';
 function CustomButton(props){
 
     if(props.imgSrc){

@@ -1,6 +1,6 @@
 .react-bootstrap-table{
         .table{
-            margin: 16px;
+            margin: $common-margin;
             width: 98%;
         }
         thead{
@@ -12,19 +12,19 @@
         }
         .misc-container{
             .link-icon,.download{
-                margin:16px;
+                margin:$common-margin;
                 padding:4px;
                 cursor: pointer;
 
             }
             button{
-                margin-left: 16px;
-                border-radius: 16px;
+                margin-left: $common-margin;
+                border-radius: $border-radius-large;
                 width: 26%;
                 outline: none;
                 color: white;
                 &:focus {
-                    border: 1px solid #ccff00;
+                    border: $button-click-border;
                 }
             }
         }
@@ -35,40 +35,40 @@
 .add-site{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    color: #006cc7;
+    color: $add-site-button-color;
     
     .add-button{
-        margin-left: 16px;
-        margin-right: 10px;
+        margin-left: $common-margin;
+        margin-right: $common-margin;
         padding: 8px;
         font-weight: bold;
         
     .custom-button{
-        width: 32px;
-        height: 32px;
+        width: $img-width;
+        height: $img-height;
         border-radius: 50%;
         // margin-left: 16px;
-        margin-bottom: 12px;
-        margin-right: 10px;
+        margin-bottom: $common-margin;
+        margin-right: $common-margin;
         // padding: 8px;
-        background-color: #0b6ec5;
+        background-color: $add-site-color;
         outline: none;
         cursor: pointer;
     }
     .add-text{
-        margin-bottom: 20px;
+        margin-bottom: $common-margin;
         cursor: pointer;
     }
 }
     .view-plant{
         
         text-align: right;
-        margin-bottom: 20px;
-        margin-top: 8px;
-        margin-right: 44px;
+        margin-bottom: $common-margin;
+        margin-top: $small-margin;
+        margin-right: $large-margin;
         font-weight: bold;
         .plant-navigate{
-            margin-left: 13px;
+            margin-left: $common-margin;
             cursor: pointer;
         }
     }
