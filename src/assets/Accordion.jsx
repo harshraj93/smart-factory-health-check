@@ -41,8 +41,7 @@ class CustomAccordion extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            accordionState:"true",
-            arrayIndex:0
+            
         }
     }
 
@@ -50,22 +49,29 @@ class CustomAccordion extends React.Component{
         let value = e.currentTarget.getAttribute("value");
         let backgroundColor = document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor
         console.log(document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor)
-        
+        if(backgroundColor==="rgb(190, 190, 190)"){
+            document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor="#35353b";
+            document.getElementsByClassName("card-header "+value+" card-header")[0].style.color="#ffffff";
+        }
+        else{
+        document.getElementsByClassName("card-header "+value+" card-header")[0].style.color="#161617";
+        document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor="#bebebe";
+        }
         
     }
 
     render(){
         
         return(
-            <Accordion defaultActiveKey={0}>
+            <Accordion>
             {this.props.data.map((data,index)=>{
                 return(
                         <Card key={index}>
                             <Card.Header className={"card-header "+index }>
                                     {industryCard(data)}
                                        
-                                <Accordion.Toggle as={Button} variant="link" eventKey={index} >
-                                       <div className="dropdown-icon" ><img src={DropDownImg} alt="" value={index} onClick={(e)=>this.changeAccordionState(e)}/></div>
+                                <Accordion.Toggle as={Button} variant="link" eventKey={index} value={index} onClick={(e)=>this.changeAccordionState(e)}>
+                                <img src={DropDownImg} alt=""></img>
                                 </Accordion.Toggle>
                             </Card.Header>
                                 <Accordion.Collapse eventKey={index}>

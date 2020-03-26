@@ -107,7 +107,7 @@ class Table extends React.Component{
         render(){
             return(
                 <>
-                <BootstrapTable keyField='id' striped bordered={false} data={data} columns={columns} rowStyle={{height:"56px"}}/>
+                <BootstrapTable keyField='id' striped bordered={false} data={data} columns={columns}/>
                 {addSiteRow()}
                 </>                    
             )

@@ -8,9 +8,7 @@
                     cursor: unset;
                 };
             }
-            .thead.tr.th{
-                color: #727279;
-            }
+            
             .button.custom-button{
                 width: 80%;
             }
@@ -38,7 +36,7 @@
                 width: 80%;
                 outline: none;
                 color: white;
-                //padding: 8px;
+                padding: 4px;
                 &:focus {
                     border: $button-click-border;
                 }
