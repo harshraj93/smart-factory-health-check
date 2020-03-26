@@ -1,7 +1,7 @@
 import React from 'react';
-import assessmentsIcon from '../../img/icon-small-assessments.svg';
-import analyticsIcon from '../../img/icon-small-analytics.svg';
-import utilSumIcon from '../../img/icon-small-utlization-summary.svg';
+import assessmentsIcon from '../../images/icon-small-assessments.svg';
+import analyticsIcon from '../../images/icon-small-analytics.svg';
+import utilSumIcon from '../../images/icon-small-utlization-summary.svg';
 import { Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Analytics from '../sfm-analytics/sfm-analytics';
 import Assessments from '../sfm-assessments/sfm-assessments';
@@ -14,7 +14,8 @@ class HamburgerNav extends React.Component {
 
         this.state = {
             x: 0,
-            divId: ""
+            divId: "",
+            toggleSidebar: "block"
         };
 
         this.navbar = this.navbar.bind(this);
@@ -62,7 +63,7 @@ class HamburgerNav extends React.Component {
                             <div className="bar"></div>
                             <div className="bar"></div>
                         </div>
-                        <div className="top-text">SMART FACTORY</div>
+                        <div className="top-text" style={{display: this.state.toggleSidebar}}>SMART FACTORY</div>
                     </div>
                     <Link onClick={() => this.darken("assessments")} className="sidebar-option" id="assessments" to="/assessments" style={{background: "#161617"}}>
                         <img src={assessmentsIcon} className="sidebar-icon" alt=""/>
