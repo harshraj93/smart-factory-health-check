@@ -48,7 +48,6 @@ class CustomAccordion extends React.Component{
     changeAccordionState = (e)=>{
         let value = e.currentTarget.getAttribute("value");
         let backgroundColor = document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor
-        console.log(document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor)
         if(backgroundColor==="rgb(190, 190, 190)"){
             document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor="#35353b";
             document.getElementsByClassName("card-header "+value+" card-header")[0].style.color="#ffffff";
