@@ -5,18 +5,18 @@ import CustomTab from '../../assets/Tabs'
 let tabValues = ["All","Open","Completed"];
 let data=[{
     companyName:"Conagra",
-    openNumber:"1",
-    completedNumber:"3",
+    openNumber:"3",
+    completedNumber:"1",
     industryType:"Consumer Products"
 },  {
     companyName:"Evergreen",
-    openNumber:"0",
+    openNumber:"3",
     completedNumber:"1",
     industryType:"Industrial Consumer Products"
 },{
     companyName:"Graham Packaging",
-    openNumber:"0",
-    completedNumber:"3",
+    openNumber:"3",
+    completedNumber:"1",
     industryType:"Consumer Products"
 }
 ];

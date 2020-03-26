@@ -69,7 +69,7 @@ class CustomAccordion extends React.Component{
     render(){
         
         return(
-            <Accordion>
+            <Accordion >
             {this.props.data.map((data,index)=>{
                 return(
                         <Card key={index}>
