@@ -8,6 +8,10 @@
     font-weight: $bold;
 }
 
+.top-part {
+    height: 91.79%;
+}
+
 .sidebar-option-top {
     display: flex;
     align-items: center;
@@ -16,11 +20,18 @@
 
 .sidebar-option {
     text-decoration: none;
-    color: #ffffff;
+    color: $base-white;
     display: flex;
     padding: 2.65vh 1.85vw;
     align-items: center;
     outline: none !important;
+    &:hover {
+        outline: none !important;
+        -webkit-user-select: none;
+        user-select: none;
+        text-decoration: none;
+        color: $base-white;
+    }
     &:active {
         background-color: #161617 !important;
         outline: none !important;
@@ -86,5 +97,44 @@
     // width: 100%;  // This is causing issues
     height: 100%;
     transition: 0.3s;
+    z-index: 1;
+}
+
+.logout {
+    display: flex;
+    height: 8.2%;
+    .name-circle {
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        color: #cdcdcd;
+        background-color: $accordion-dark-background;
+        border-radius: 50%;
+        margin-left: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .user-info {
+        padding-left: 20px;
+        .username {
+            font-size: 16px;
+            font-weight: $regular;
+            margin-bottom: 6px;
+        }
+        .logout-text {
+            font-size: 13px;
+            font-weight: $regular;
+            opacity: 0.5;
+            margin: 0;
+        }
+    }
+    .logout-down-arrow {
+        width: 12px;
+        height: 8px;
+        margin: 8px;
+        margin-left: 15px;
+    }
 }
 
