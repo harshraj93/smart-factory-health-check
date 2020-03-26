@@ -41,25 +41,27 @@ class CustomAccordion extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            accordionState:"true",
             arrayIndex:0
         }
     }
 
     changeAccordionState = (e)=>{
-        let value = e.currentTarget.getAttribute("value")
-        this.setState({
-            arrayIndex:value
-        })
+        let value = e.currentTarget.getAttribute("value");
+        let backgroundColor = document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor
+        console.log(document.getElementsByClassName("card-header "+value+" card-header")[0].style.backgroundColor)
+        
         
     }
 
     render(){
+        
         return(
             <Accordion defaultActiveKey={0}>
             {this.props.data.map((data,index)=>{
                 return(
-                        <Card>
-                            <Card.Header className={"card-header "+index===this.state.arrayIndex?"active":"inactive"}>
+                        <Card key={index}>
+                            <Card.Header className={"card-header "+index }>
                                     {industryCard(data)}
                                        
                                 <Accordion.Toggle as={Button} variant="link" eventKey={index} >

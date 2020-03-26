@@ -53,11 +53,11 @@ class Assessments extends React.Component {
 
     render() {
         return (
-            <div class="assessments">
+            <div className="assessments">
                 
                 <div className="search-and-add">
                     <span className="search">
-                        <label for="search-box"><span class="glyphicon glyphicon-search" /></label>
+                        <label htmlFor="search-box"><span className="glyphicon glyphicon-search" /></label>
                         <input type="text" placeholder={"Search Clients"} className="search-clients"></input>
                     </span>
                     <span className="add-button">

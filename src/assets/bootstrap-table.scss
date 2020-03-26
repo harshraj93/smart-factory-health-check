@@ -2,17 +2,32 @@
         .table{
             margin: $common-margin;
             width: 98%;
+            #revisit{
+                .custom-button{
+                    width: 40%;
+                    cursor: unset;
+                };
+            }
+            .thead.tr.th{
+                color: #727279;
+            }
+            .button.custom-button{
+                width: 80%;
+            }
         }
-        thead{
+        // thead{
             
-            display: none;
-        }
+        //     display: none;
+        // }
         tr td:first-child{
             font-weight: bold;
         }
+        
         .misc-container{
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr;
             .link-icon,.download{
-                margin:$common-margin;
+                //margin:10px;
                 padding:4px;
                 cursor: pointer;
 
@@ -20,9 +35,10 @@
             button{
                 margin-left: $common-margin;
                 border-radius: $border-radius-large;
-                width: 26%;
+                width: 80%;
                 outline: none;
                 color: white;
+                //padding: 8px;
                 &:focus {
                     border: $button-click-border;
                 }
@@ -50,7 +66,7 @@
         // margin-left: 16px;
         margin-bottom: $common-margin;
         margin-right: $common-margin;
-        // padding: 8px;
+         padding: 2px;
         background-color: $add-site-color;
         outline: none;
         cursor: pointer;
@@ -72,4 +88,5 @@
             cursor: pointer;
         }
     }
+    
 }
