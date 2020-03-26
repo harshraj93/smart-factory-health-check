@@ -5,33 +5,28 @@ import CustomButton from './sfm-button';
 import plusIcon from '../images/icon-small-add.svg';
 import smallLink from '../images/icon-small-link.svg';
 import downloadIcon from '../images/icon-small-download.svg';
+let headerStyle = ()=>{
+    return { width: '35%',color: "#727279", fontSize:"11px" };
+}
 const columns= [{
     dataField:"Location",
-    text:"Site",
+    text:"SITE",
     formatter:locationFormatter,
-    headerStyle:() => {
-        return { width: '25%',color: "#727279" };
-      }
+    headerStyle:headerStyle()
 },{
     dataField:"DeloitteLead",
-    text:"Deloitte Lead",
-    headerStyle:() => {
-        return { width: '20%',color: "#727279"  };
-      }
+    text:"DELOITTE LEAD",
+    headerStyle:headerStyle()
 },{
     dataField:"Completed",
-    text:"Status",
-    headerStyle:() => {
-        return { width: '20%',color: "#727279"  };
-      }
+    text:"STATUS",
+    headerStyle:headerStyle()
 },{
     dataField:"Open",
     text:"",
     isDummyField:true,
     formatter: actionsFormatter,
-    headerStyle:() => {
-        return { width: '35%',color: "#727279"  };
-      }
+    headerStyle:headerStyle()
 }
     ]
 
