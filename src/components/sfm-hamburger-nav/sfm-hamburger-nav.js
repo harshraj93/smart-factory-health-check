@@ -2,11 +2,11 @@ import React from 'react';
 import assessmentsIcon from '../../images/icon-small-assessments.svg';
 import analyticsIcon from '../../images/icon-small-analytics.svg';
 import utilSumIcon from '../../images/icon-small-utlization-summary.svg';
+import DropDownImg from '../../images/icon-small-chevron-down.svg';
 import { Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Analytics from '../sfm-analytics/sfm-analytics';
 import Assessments from '../sfm-assessments/sfm-assessments';
 import UtilSum from '../sfm-util-sum/sfm-util-sum';
-import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
 
 class HamburgerNav extends React.Component {
     constructor(props) {
@@ -15,10 +15,12 @@ class HamburgerNav extends React.Component {
         this.state = {
             x: 0,
             divId: "",
-            toggleSidebar: "block"
+            toggleSidebar: "block",
+            username: "Bryan Takayama"
         };
 
         this.navbar = this.navbar.bind(this);
+        this.getNick = this.getNick.bind(this);
         localStorage.setItem("pageName", "assessments");
     }
 
@@ -52,6 +54,11 @@ class HamburgerNav extends React.Component {
         }); 
     }
 
+    getNick() {
+        var nameArray = this.state.username.split(" ");
+        return nameArray[0].charAt(0) + nameArray[1].charAt(0);
+    }
+
     render() {
         return (
             <Router>
@@ -82,7 +89,14 @@ class HamburgerNav extends React.Component {
                         <div className="sidebar-text">Frame Overview</div>
                     </Link>
                     </div>
-                    <div className="logout"></div>
+                    <div className="logout">
+                        <span className="name-circle">{this.getNick()}</span>
+                        <div className="user-info">
+                            <p className="username">{this.state.username}</p>
+                            <p className="logout-text">LOGOUT</p>
+                        </div>
+                        <img src={DropDownImg} alt="" className="logout-down-arrow"/>
+                    </div>
                 </div>
                 <div className="main">
                     <Switch>
