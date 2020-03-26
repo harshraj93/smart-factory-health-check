@@ -5,6 +5,7 @@
     flex-direction: column;
     padding: 2vh;
     align-items: center;
+    max-height: 100%;
     .search-and-add{
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -35,5 +36,6 @@
     }
     .accordion-factory-view{
         width: 100%;
+        overflow-y: scroll;
     }
 }

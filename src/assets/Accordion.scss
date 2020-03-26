@@ -1,11 +1,18 @@
-.accordion>.card>.card-header{
+.accordion{
+    .card{
+        border-radius: 8px !important;
+        margin-bottom: 32px;
+        background-color: #dedede;
+        border: unset;
+.card-header{
         background-color: #35353b;
+        
         .industry-name-number{
             font-size: 24px;
             padding: 0px 10px 10px 0px;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            color: white;
+            grid-template-columns: 3fr 1fr 1fr;
+            //color: white;
             //color: #161617;
             font-weight:600;
             .company-name{
@@ -25,9 +32,9 @@
             font-size: 16px;
             padding: 0px 10px 10px 0px;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 3fr 1fr 1fr;
             //color: #161617;
-            color: white;
+            //color: white;
             opacity: 0.6;
             .open-text{
                text-align: right;
@@ -36,12 +43,17 @@
                 text-align: center;
             }
         }
-        .dropdown-icon{
-            position: absolute;
-            top: 35%;
+        .btn.btn-link{
+            position: relative;
+            top: -60px;
             left: 95%;
-            font-size: 16px;
-
-        }
-    }
+            .dropdown-icon{
+                font-size: 16px;
     
+            }
+        }
+        
+    }
+}
+    
+}

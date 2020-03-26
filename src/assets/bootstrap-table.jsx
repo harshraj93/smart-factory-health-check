@@ -3,6 +3,7 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import CustomButton from './sfm-button';
 import './bootstrap-table.scss'
+import plusIcon from '../images/icon-small-add.svg'
 
 const columns= [{
     dataField:"Location",
@@ -71,27 +72,10 @@ function actionsFormatter(cell,row){
         if(row.Completed=="In Progress"){
             rowLabel="Open";
             style={backgroundColor:"#57bb50"};
-            // return <div className="misc-container">
-            //             <span className="button">
-            //                 <CustomButton labelName={rowLabel} className="openButton" style={style} />
-            //             </span>
-            //       </div>
         }
         else{
             rowLabel="Results";
             style={backgroundColor:"#0b6ec5"};
-            // return  <div className="misc-container">
-            //             <span className="link-icon">
-            //                 &#128279;
-            //             </span>
-            //             <span className="download">
-            //                 &#8595;
-            //             </span>
-            //             <span className="button">
-            //                 <CustomButton labelName={rowLabel} className="openButton" style={style} />
-            //             </span>
-            //         </div>
-
         }
         return  <div className="misc-container">
                         <span className="link-icon">
@@ -105,14 +89,36 @@ function actionsFormatter(cell,row){
                         </span>
                     </div>
     
+
+        
 }
+
+function addSiteRow (props){
+    return (
+    <div className="add-site">
+       
+        <span className="add-button">
+            <CustomButton imgSrc={plusIcon}/>
+                    <span className="add-text">Add Site</span>
+        </span>
+        
+        <div className="view-plant">
+            View Conagra Network <span className="plant-navigate">></span>
+        </div>
+    </div>
+    )
+}
+
 
 
 class Table extends React.Component{
 
         render(){
             return(
+                <>
                 <BootstrapTable keyField='id' striped bordered={false} data={data} columns={columns}/>
+                {addSiteRow()}
+                </>                    
             )
 
         }
