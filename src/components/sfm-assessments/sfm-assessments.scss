@@ -29,6 +29,29 @@
     }
     }
     .tab-group{
+        .nav.nav-tabs{
+            width: 100%;
+            border-bottom: unset;
+            justify-content: center;
+            
+        }
+        .nav-item.nav-link{
+            border-radius: $border-radius;
+            background-color: $accordion-dark-background;
+            color: $white;
+            opacity: 0.5;
+            outline: none;
+            width: $tab-width;
+            text-align: center;
+            &.active{
+                opacity: unset;
+                outline: none;
+                width: $tab-width;
+                text-align: center;
+            }
+        }
+    }
+    .tab-group{
         width: 100%;
         .nav.nav-tabs{
             margin-bottom: 5%;
