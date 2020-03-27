@@ -4,23 +4,97 @@ import CustomAccordion from '../../assets/Accordion'
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 let tabValues = ["All","Open","Completed"];
-let data=[{
+let data = [{
     companyName:"Conagra",
     openNumber:"0",
-    completedNumber:"1",
-    industryType:"Consumer Products"
-},  {
-    companyName:"Evergreen",
-    openNumber:"3",
-    completedNumber:"1",
-    industryType:"Industrial Consumer Products"
-},{
-    companyName:"Graham Packaging",
-    openNumber:"3",
-    completedNumber:"1",
-    industryType:"Consumer Products"
+    completedNumber:"6",
+    siteList:[{
+        openNumber:"0",
+        completedNumber:"3",
+        industryType:"Consumer Products",
+        table_data:[{
+            Location:"Bristol",
+            DeloitteLead:"Jana Strassman",
+            Completed:"In Progress",
+        
+        },{
+            Location:"Edinburgh",
+            DeloitteLead:"Jana Strassman",
+            Completed:"In Progress",
+        
+        },{
+            Location:"Odessa",
+            DeloitteLead:"Jana Strassman",
+            Completed:"10/25/2019",
+        
+        },{
+            Location:"Bristol",
+            DeloitteLead:"Jana Strassman",
+            Completed:"In Progress",
+        
+        }]
+    },
+    {
+        openNumber:"0",
+        completedNumber:"3",
+        industryType:"Healthcare Products",
+        table_data:[{
+            Location:"Bristol",
+            DeloitteLead:"Jana Strassman",
+            Completed:"In Progress",
+        
+        },{
+            Location:"Edinburgh",
+            DeloitteLead:"Jana Strassman",
+            Completed:"In Progress",
+        
+        },{
+            Location:"Odessa",
+            DeloitteLead:"Jana Strassman",
+            Completed:"10/25/2019",
+        
+        },{
+            Location:"Bristol",
+            DeloitteLead:"Jana Strassman",
+            Completed:"In Progress",
+        
+        }]
+    }]
+    },{
+        companyName:"Evergreen",
+        openNumber:"0",
+        completedNumber:"3",
+        siteList:[{
+        openNumber:"0",
+        completedNumber:"3",
+        industryType:"Consumer Products",
+        table_data:[{
+            Location:"Chicago",
+            DeloitteLead:"Jana Strassman",
+            Completed:"In Progress",
+        
+        },{
+            Location:"New York",
+            DeloitteLead:"Jana Strassman",
+            Completed:"In Progress",
+        
+        },{
+            Location:"Washington",
+            DeloitteLead:"Jana Strassman",
+            Completed:"10/25/2019",
+        
+        },{
+            Location:"Bristol",
+            DeloitteLead:"Jana Strassman",
+            Completed:"In Progress",
+        
+        }]
+    }]
 }
-];
+]
+
+
+
 
 
 class Assessments extends React.Component {
