@@ -7,7 +7,9 @@ class Slider extends React.Component {
         this.state = {
             indAvg: 0,
             score: 0,
-            target: 0
+            scorePos: 0,
+            target: 0,
+            targetPos: 0
         };
     }
     updatePosition(value) {
@@ -45,13 +47,18 @@ class Slider extends React.Component {
                     <span className="stop"></span>
                 </div>
                 <span className="ind-avg" style={{marginLeft: this.state.indAvg}}></span>
-                <span className="slider-circle" style={{backgroundColor: "#57bb50", marginLeft: this.state.score}}></span>
-                <div className="slider-circle" style={{backgroundColor: "#ffffff", marginLeft: this.state.target}}>
+                <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "px"}}>
+                    <p className="score-text">{this.state.score}</p>
+                    <span className="slider-circle" style={{backgroundColor: "#57bb50"}}></span>
+                </div>
+                <div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "px"}}> 
+                    <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
                     {/* <span className="small-circle"></span>
                     <div className="plus">
                         <span className="small-line"></span>
                         <span className="small-line"></span>
                     </div> */}
+                    <p className="score-text">{this.state.target}</p>
                 </div>
                 <p className="slider-text">High 7</p>
             </div>

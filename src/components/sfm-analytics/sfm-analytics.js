@@ -1,4 +1,5 @@
 import React from 'react';
+import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
 
 class Analytics extends React.Component {
     
