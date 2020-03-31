@@ -6,6 +6,7 @@ import CustomButton from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import downloadIcon from '../../images/icon-small-download.svg';
 import linkIcon from '../../images/icon-small-link.svg';
+import ReportsAccordion from '../sfm-reports-accordion/sfm-reports-accordion';
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=["Overview","Demographics"];
 
@@ -64,7 +65,9 @@ function AssessmentsHeader(props){
         <Tabs className="tab-group">
             {inProgressList.map((element,index)=>{
                 return(
-                    <Tab key={index} eventKey={index} title={element}></Tab>
+                    <Tab key={index} eventKey={index} title={element}>
+                        
+                    </Tab>
                 )
             })}
         </Tabs>
@@ -82,7 +85,9 @@ function AssessmentsHeader(props){
     }
     render(){
     return(
-        <ResultsHeader ></ResultsHeader>
+        <ResultsHeader>
+            
+        </ResultsHeader>
         
     )
 }
