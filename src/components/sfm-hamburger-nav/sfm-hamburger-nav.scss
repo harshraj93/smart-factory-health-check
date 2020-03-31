@@ -1,11 +1,13 @@
 @import '../../SCSS/fonts';
 
 .sidenav {
+    display: block !important;
     background-color: #232325;
     width: 22.852vw;
     //height: 100%;
     transition: 0.3s;
     font-weight: $bold;
+    
 }
 
 .top-part {

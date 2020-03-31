@@ -1,0 +1,115 @@
+.accordion-parent.accordion{
+    overflow-y: scroll;
+    max-height: 80vh;
+    .card{
+        border-radius: $border-radius;
+        margin-top: $common-margin;
+        border: unset;
+        background-color: $accordion-dark-background;  
+        margin-bottom: $common-margin;
+        &.true{
+            background-color:$accordion-card-background;
+            color: $gray-darkest;
+        }
+        
+    .card-header{
+        background-color: $accordion-dark-background; 
+        
+        &.true{
+            background-color:$accordion-card-background;
+            color: $gray-darkest;
+            .drop-down{
+                transform:rotate(180deg);
+                transition-duration: 0.3s;
+                transition-timing-function: linear;
+            } 
+        }
+        
+        .industry-name-number{
+            font-size: $font-normal-fontSize;
+            padding: 0px 10px 10px 0px;
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr;
+            font-weight:$bold;
+            .company-name{
+               .custom-button{
+                    position: absolute;
+                    top: 15px;
+                   margin-left: $common-margin;
+                   width: 24px;
+                   height: 24px;
+                   border-radius: 50%;
+                   background-color: #727279;
+                   padding: 0px;
+                   img{
+                   padding-bottom: 8px;
+                }
+               } 
+            }
+            .number-open{
+                text-align: right;
+                margin-right:$common-margin;
+            }
+            .number-completed{
+                text-align: center;
+            }
+        }
+
+        .industry-text-info{
+            font-size: $font-least-fontSize;
+            padding: 0px 10px 10px 0px;
+            display: grid;
+            grid-template-columns:3fr 1fr 1fr;
+            opacity: 0.6;
+            .open-text{
+               text-align: right;
+            }
+            .completed-text{
+                text-align: center;
+            }
+        }
+
+        .btn.btn-link{
+            position: relative;
+            top: -60px;
+            left: 95%;
+            
+        }
+        
+    }
+    
+}
+
+}
+
+.accordion-child.accordion{
+    .child-card.card{
+        margin-right: $common-margin;
+        margin-left: $common-margin;
+        .card-header{
+            //background-color: $accordion-child-background;
+            margin-bottom: 0px !important;
+            
+                background-color:$accordion-child-background;
+                color: $gray-darkest;
+                 &.true.card-header.drop-down{
+                     transform:none !important;
+                     transition-duration: none;
+                     transition-timing-function: linear;
+                 } 
+                
+            
+            
+            .industry-name-number{
+                font-size:18px;
+                
+            }
+            
+            
+        }
+        .collapse,.collapsing,.collapse-show{
+            background-color: white;
+        }
+       
+    }
+}
