@@ -3,12 +3,12 @@ function CustomButton(props){
 
     if(props.imgSrc){
         return(
-            <button className="custom-button" style={props.style}><img src={props.imgSrc} alt=""/></button>
+            <button className="custom-button" style={props.style}><img src={props.imgSrc} alt="" onClick={props.clickFunction}/></button>
         )
     }
     else{
         return(
-            <button className="custom-button" style={props.style}>{props.labelName}</button>
+            <button className="custom-button" style={props.style} onClick={props.clickFunction}>{props.labelName}</button>
         )
     }
     }

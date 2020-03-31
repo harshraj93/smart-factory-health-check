@@ -1,8 +1,9 @@
 import React from 'react';
 import CustomButton from '../../assets/sfm-button';
-import CustomAccordion from '../../assets/Accordion'
+import CustomAccordion from './Accordion'
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+
 let tabValues = ["All","Open","Completed"];
 let data = [{
     companyName:"Conagra",
@@ -145,7 +146,7 @@ class Assessments extends React.Component {
                 <Tabs defaultActiveKey="All" id="selection-tabs" onClick={(e)=>this.onSelect(e)}>
                         {tabValues.map((element,index)=><Tab key={index} eventKey={element} title={element}>
                         <div className="accordion-factory-view">
-                                <CustomAccordion  data={this.state.accordionData}/>
+                                <CustomAccordion  data={this.state.accordionData} disableMenu={this.props.disableMenu}/>
                         </div>
                         </Tab>)}
                          

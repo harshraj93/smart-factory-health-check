@@ -5,9 +5,12 @@ import CustomButton from './sfm-button';
 import plusIcon from '../images/icon-small-add.svg';
 import smallLink from '../images/icon-small-link.svg';
 import downloadIcon from '../images/icon-small-download.svg';
+import {Link,withRouter} from 'react-router-dom';
+
 let headerStyle = ()=>{
-    return { width: '35%',color: "#727279", fontSize:"11px" };
+    return { width: '35%',color: "#727279", fontSize:"11px", borderTop:"unset" };
 }
+let props = ""
 const columns= [{
     dataField:"Location",
     text:"SITE",
@@ -30,27 +33,6 @@ const columns= [{
 }
     ]
 
-const data=[{
-    Location:"Bristol",
-    DeloitteLead:"Jana Strassman",
-    Completed:"In Progress",
-
-},{
-    Location:"Edinburgh",
-    DeloitteLead:"Jana Strassman",
-    Completed:"In Progress",
-
-},{
-    Location:"Odessa",
-    DeloitteLead:"Jana Strassman",
-    Completed:"10/25/2019",
-
-},{
-    Location:"Bristol",
-    DeloitteLead:"Jana Strassman",
-    Completed:"In Progress",
-
-}]
 
 function locationFormatter(cell,row){
     let style={backgroundColor:"#ef7c03",borderRadius:"4px", color:"white", marginLeft:"4px", outline:"none"}
@@ -65,26 +47,29 @@ function locationFormatter(cell,row){
 
 function actionsFormatter(cell,row){
     
-    let rowLabel,style;
+    let rowLabel,style,loadComponentString;
         if(row.Completed==="In Progress"){
             rowLabel="Open";
             style={backgroundColor:"#57bb50"};
+            loadComponentString="assessments";
         }
         else{
             rowLabel="Results";
             style={backgroundColor:"#0b6ec5"};
+            loadComponentString="results";
         }
         return  <div className="misc-container">
                         {row.Completed!=="In Progress"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
                         {row.Completed!=="In Progress"?<img  className="download" aria-label="download" src={downloadIcon} alt=""/>:<div></div>}         
                         <span className="button"> 
-                            <CustomButton labelName={rowLabel} className="openButton" style={style} />
+                        <Link to='/reports'> <CustomButton labelName={rowLabel} className="openButton" style={style} clickFunction={()=>loadComponent(loadComponentString)}/></Link>
                         </span>
                 </div>
     
 }
 
 function addSiteRow (props){
+    
     return (
     <div className="add-site">
        
@@ -94,21 +79,30 @@ function addSiteRow (props){
         </span>
         
         <div className="view-plant">
-            View Conagra Network <span className="plant-navigate">></span>
+            View {props.industryType} <span className="plant-navigate">></span>
         </div>
     </div>
     )
 }
 
+function loadComponent(pageString){
+    props.disableMenu();
+    
+}
 
 
 class Table extends React.Component{
+   
+        componentDidMount = ()=>{
+            props=this.props;
+        }
 
         render(){
+            
             return(
                 <>
-                <BootstrapTable keyField='id' striped bordered={false} data={data} columns={columns}/>
-                {addSiteRow()}
+                <BootstrapTable keyField='id' striped bordered={false} data={this.props.data} columns={columns}/>
+                {addSiteRow(this.props)}
                 </>                    
             )
 
@@ -116,4 +110,4 @@ class Table extends React.Component{
     }
 
 
-export default Table
+export default withRouter(Table)

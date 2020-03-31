@@ -59,9 +59,7 @@
     }
     .accordion-factory-view{
         width: 100%;
-        .accordion{
-            max-height: $accordion-max-height;
-            overflow-y: scroll;
-        }
+        
     }
+   
 }

@@ -3,11 +3,8 @@ import assessmentsIcon from '../../images/icon-small-assessments.svg';
 import analyticsIcon from '../../images/icon-small-analytics.svg';
 import utilSumIcon from '../../images/icon-small-utlization-summary.svg';
 import DropDownImg from '../../images/icon-small-chevron-down.svg';
-import { Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom';
-import Analytics from '../sfm-analytics/sfm-analytics';
-import Assessments from '../sfm-assessments/sfm-assessments';
-import UtilSum from '../sfm-util-sum/sfm-util-sum';
-
+import {Link,BrowserRouter as Router} from 'react-router-dom';
+import Routes from '../../Routes/index'
 class HamburgerNav extends React.Component {
     constructor(props) {
         super(props);
@@ -16,7 +13,8 @@ class HamburgerNav extends React.Component {
             x: 0,
             divId: "",
             toggleSidebar: "block",
-            username: "Bryan Takayama"
+            username: "Bryan Takayama",
+            showNav:""
         };
 
         this.navbar = this.navbar.bind(this);
@@ -61,8 +59,9 @@ class HamburgerNav extends React.Component {
 
     render() {
         return (
-            <Router>
-                <div className="sidenav">
+            //  <Router>
+                <>
+               <div className="sidenav">
                     <div className="top-part">
                     <div className="sidebar-option-top">
                         <div className="hamburger" onClick={this.navbar}>
@@ -72,7 +71,7 @@ class HamburgerNav extends React.Component {
                         </div>
                         <div className="top-text" style={{display: this.state.toggleSidebar}}>SMART FACTORY</div>
                     </div>
-                    <Link onClick={() => this.darken("assessments")} className="sidebar-option" id="assessments" to="/assessments" style={{background: "#161617"}}>
+                    <Link onClick={() => this.darken("assessments")} className="sidebar-option" id="assessments" to="/" style={{background: "#161617"}}>
                         <img src={assessmentsIcon} className="sidebar-icon" alt=""/>
                         <div className="sidebar-text">Assessments</div>
                     </Link>
@@ -98,18 +97,15 @@ class HamburgerNav extends React.Component {
                         <img src={DropDownImg} alt="" className="logout-down-arrow"/>
                     </div>
                 </div>
-                <div className="main">
-                    <Switch>
-                        <Route exact path="/"> <Assessments/> </Route>
-                        <Route exact path="/assessments"> <Assessments/> </Route>
-                        <Route exact path="/analytics"> <Analytics/> </Route>
-                        <Route exact path="/utilization"> <UtilSum/> </Route>
-                        <Route exact path="/overview"></Route>
-                    </Switch>
-                </div>
-            </Router>
+                {/* <div className="main"> */}
+                    {/* <Routes disableMenu={this.props.disableMenu}/> */}
+                {/* </div> */}
+                </>
+        //    </Router>
         );
+    
     }
+    
 }
 
 export default HamburgerNav;

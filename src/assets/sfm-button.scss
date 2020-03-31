@@ -2,7 +2,7 @@
     width: 26%;
     outline: none;
     color: white;
-    outline: none;
+    outline: none !important;
     &:focus {
         border: $button-click-border;
     }
