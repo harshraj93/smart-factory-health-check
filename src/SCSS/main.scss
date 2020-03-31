@@ -2,10 +2,10 @@
 
 /* module css*/
 @import '../index.scss';
-@import '../assets/Accordion';
 @import '../assets/bootstrap-table';
 @import '../assets/sfm-button';
-@import '../components/sfm-assessments/sfm-assessments';
+@import '../components/sfm-assessments/Accordion.scss';
+@import '../components/sfm-assessments/sfm-assessments.scss';
 @import '../components/sfm-analytics/sfm-analytics';
 @import '../components/sfm-hamburger-nav/sfm-hamburger-nav';
 @import '../components//sfm-scorecard-slider/sfm-scorecard-slider';

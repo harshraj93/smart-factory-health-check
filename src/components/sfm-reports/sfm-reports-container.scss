@@ -1,0 +1,76 @@
+
+.main{
+    width: 100%;
+    
+    .reports-container{
+        width: 100%;
+        padding: 16px 16px 0px 48px;
+        background-color: #232325;
+        .assessment-overview-title{
+            font-size: 18px;
+            font-weight: bold;
+            padding: 0px 10px 10px 0px;
+            margin-bottom: 6%;
+            .custom-button{
+                position: absolute;
+                height: 32px;
+                top: 16px;
+                left: 10px;
+                width: 35px;
+                border-radius: 4px;
+                background-color: #35353b;
+            }
+            .title-text{
+                margin-left:48%;
+            }
+        }
+        h2{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            .share-link{
+                font-size:16px;
+                text-align: right;
+            }
+            .download-link{
+                font-size: 16px;
+                text-align: right;
+            }
+        }
+        .company-name{
+            font-size: 18px;
+            opacity: 0.6;
+            font-weight: 600;
+            padding-top: 8px;
+            margin-bottom: 5%;
+            
+        }
+        
+       .custom-button{
+            width: 48px;
+            height: 48px;
+            border: solid 2px #006cc8;
+            border-radius: 50%;
+            margin-left: 16px;
+            background-color: inherit;
+        }
+        .nav-tabs{
+            border-bottom: unset;
+            
+            .nav-item.nav-link{
+                color:#ffffff;
+                opacity: 0.5;
+                border: unset;
+                &.active{
+                    color:#ffffff;
+                    opacity: unset;
+                    font-weight: 500;
+                    border-bottom:4px solid #57bb50;
+                    background-color: unset;
+                    
+                }
+                
+            }
+        }
+    }
+
+}

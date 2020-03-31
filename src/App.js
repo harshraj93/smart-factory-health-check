@@ -1,14 +1,36 @@
 import React from 'react';
 import './SCSS/main.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Reports from './components/sfm-reports/sfm-reports-container';
 import HamburgerNav from './components/sfm-hamburger-nav/sfm-hamburger-nav';
+import {BrowserRouter as Router} from 'react-router-dom';
+import Routes from './Routes/index'
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      showMenu:true
+    }
+  }
 
-function App() {
+  disableMenu = ()=>{
+    this.setState({
+      showMenu:false
+    })
+  }
+
+  render(){
   return (
     <div className="App">
-      <HamburgerNav/>
-    </div>
+      <Router>
+      {this.state.showMenu&&<HamburgerNav/>}
+        <div className="main">
+          <Routes disableMenu={this.disableMenu}/>
+        </div>
+      </Router>
+    </div> 
   );
+}
 }
 
 export default App;
