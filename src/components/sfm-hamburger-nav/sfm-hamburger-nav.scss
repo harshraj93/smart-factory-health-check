@@ -3,7 +3,7 @@
 .sidenav {
     display: block !important;
     background-color: #232325;
-    width: 22.852vw;
+    width: 250px;
     //height: 100%;
     transition: 0.3s;
     font-weight: $bold;
@@ -17,14 +17,14 @@
 .sidebar-option-top {
     display: flex;
     align-items: center;
-    padding: 1.93vh 1.15vw;
+    padding: 16px 10px;
 }
 
 .sidebar-option {
     text-decoration: none;
     color: $base-white;
     display: flex;
-    padding: 2.65vh 1.85vw;
+    padding: 20px 17px;
     align-items: center;
     outline: none !important;
     &:hover {
@@ -64,8 +64,8 @@
 }
 
 .sidebar-text {
-    padding-left: 1.9vw;
-    padding-bottom: 0.4vh;
+    padding-left: 20px;
+    padding-bottom: 2px;
     font-size: $font-least-fontSize;
 }
 
@@ -95,7 +95,7 @@
 
 .main {
     background-color: #161617;
-    width: 77.148vw;
+    width: calc(100vw - 250px);
     // width: 100%;  // This is causing issues
     height: 100%;
     transition: 0.3s;

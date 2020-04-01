@@ -6,6 +6,7 @@ import CustomButton from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import downloadIcon from '../../images/icon-small-download.svg';
 import linkIcon from '../../images/icon-small-link.svg';
+import ReportsOverview from './sfm-reports-overview/sfm-reports-overview';
 import DemographicsForm from './sfm-reports-demographics/demographics-form';
 import {withRouter} from 'react-router-dom';
 
@@ -67,7 +68,7 @@ let resultsList=["Overview","Demographics"];
                 {resultsList.map((element,index)=>{
                     return(
                         <Tab key={index} eventKey={index} title={element} >
-                            {element==="Demographics"?<DemographicsForm />:""}
+                            {element==="Demographics"?<DemographicsForm />:<ReportsOverview/>}
                         </Tab>
                     )
                 })}
