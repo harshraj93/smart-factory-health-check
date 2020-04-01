@@ -89,9 +89,10 @@
     .child-card.card{
         margin-right: $common-margin;
         margin-left: $common-margin;
+        width: unset;
         .card-header{
             //background-color: $accordion-child-background;
-            margin-bottom: 0px !important;
+            //margin-bottom: $common-margin;
             height: 100px;
                 background-color:$accordion-child-background;
                 color: $gray-darkest;
