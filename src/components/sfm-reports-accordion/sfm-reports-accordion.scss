@@ -9,6 +9,7 @@
         background-color:unset;
         border: unset;
         width: 100%;
+        margin-bottom: 0px !important;
 
         .card-header{
             display: flex;
@@ -16,6 +17,7 @@
             // margin-bottom: $common-margin !important;
             margin-top: $common-margin !important;
             border-radius:$border-radius ;
+            margin-bottom: 0px !important;
             width: 100%;
             padding: 16px 32px;
 
@@ -39,6 +41,30 @@
                 }
             }
         }
+
+        .collapse,.collapsing,.collapse-show{
+            background-color: $accordion-dark-background;
+
+            .tr-com-box {
+                background-color: #232325;
+                margin: 8px 24px;
+                width: 95%;
+                height: 168px;
+                border-radius: 8px;
+            }
+
+            .reports-card {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .area-name {
+                    width: 139px;
+                    height: 87px;
+                    font-size: 18px;
+                }
+            }
+        }
     
     }
 
@@ -49,6 +75,7 @@
     .child-card.card{
         margin-right: 16px;
         margin-left: 16px;
+        margin-bottom: 0px !important;
         width: 100%;
         .card-header-child.card-header{
             background-color: $accordion-dark-background;
@@ -67,6 +94,9 @@
                     font-size: 18px;
                 }
             }
+        }
+        .open-accordion {
+            background-color: $accordion-dark-background;
         }
         .collapse.show,.collapsing,.collapse-show{
             // background-color: $accordion-dark-background;

@@ -26,9 +26,9 @@ class Slider extends React.Component {
         });
 
         this.setState({
-            indAvg: avindAvg/(arr.length),
-            score: avscore/(arr.length),
-            target: avtarget/(arr.length),
+            indAvg: (avindAvg/(arr.length)).toFixed(2),
+            score: (avscore/(arr.length)).toFixed(2),
+            target: (avtarget/(arr.length)).toFixed(2),
             indAvgPos: this.updatePosition(avindAvg/(arr.length)),
             scorePos: this.updatePosition(avscore/(arr.length)),
             targetPos: this.updatePosition(avtarget/(arr.length))

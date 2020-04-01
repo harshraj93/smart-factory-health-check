@@ -178,14 +178,24 @@ class ReportsAccordion extends React.Component {
                             </Card.Header>
                                 <Accordion.Collapse eventKey={index}>
                                     <div>
-                                        {data.parts.map((x,y) => {
-                                        return (
-                                            <div className="reports-card">
-                                                <span className="area-name">{x.c}</span>
-                                                <Slider data={x}/>
+                                        <div className="tr-com-box">
+                                            <div className="tr-box">
+                                                <span className="tr-heading">Key Themes</span>
+                                                <p className="tr-text"></p>
                                             </div>
-                                        )
-                                    })}
+                                            <div className="tr-box">
+                                                <span className="tr-heading">Recommendations</span>
+                                                <p className="tr-text"></p>
+                                            </div>
+                                        </div>
+                                        {data.parts.map((x,y) => {
+                                            return (
+                                                <div className="reports-card">
+                                                    <span className="area-name">{x.c}</span>
+                                                    <Slider data={x}/>
+                                                </div>
+                                            )
+                                        })}
                                     </div>
                                 </Accordion.Collapse>
                          </Card>

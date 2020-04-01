@@ -33,7 +33,9 @@ function ResultsHeader(props){
         <Tabs className="tab-group">
             {resultsList.map((element,index)=>{
                 return(
-                    <Tab key={index} eventKey={index} title={element}></Tab>
+                    <Tab key={index} eventKey={index} title={element}>
+                        <ReportsAccordion/>
+                    </Tab>
                 )
             })}
         </Tabs>
@@ -65,9 +67,7 @@ function AssessmentsHeader(props){
         <Tabs className="tab-group">
             {inProgressList.map((element,index)=>{
                 return(
-                    <Tab key={index} eventKey={index} title={element}>
-                        
-                    </Tab>
+                    <Tab key={index} eventKey={index} title={element}></Tab>
                 )
             })}
         </Tabs>
