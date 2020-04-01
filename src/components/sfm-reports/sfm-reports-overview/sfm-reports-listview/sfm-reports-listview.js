@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import DropDownImg from '../../../../images/icon-small-chevron-down.svg';
 import EditIcon from '../../../../images/icon-small-edit.svg';
 import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
-import './sfm-reports-accordion.scss';
+import './sfm-reports-listview.scss';
 
 let reportsData = [
     {
@@ -93,54 +93,19 @@ let reportsData = [
 ];
 
 function reportScoreCard (data){
-    if (Array.isArray(data.parts)) {
-        return (
-            <> 
-                <div className="reports-card">
-                    <span className="area-name">{data.bizName}</span>
-                    <Slider data={data.parts}/>
-                    <p style={{margin: "0", fontSize: "14px"}}>Breakdown</p>
-                    
-                    {/* <span className="company-name">
-                        {props["companyName"]?props["companyName"]:props["industryType"]}
-                        {props["companyName"]?<img className="upload" src={UploadImg} alt=""/>:null}
-                    </span>
-            
-                     <span className="number-open">
-                        {props["openNumber"]}
-                    </span>
-                    <span className="number-completed">
-                        {props["completedNumber"]}
-                    </span> */}
-                </div>
-            </>
-        );
-    }
-    else {
-        return (
-            <> 
-                <div className="reports-card">
-                    <span className="area-name">{data.c}</span>
-                    <Slider data={data}/>
-                    
-                    {/* <span className="company-name">
-                        {props["companyName"]?props["companyName"]:props["industryType"]}
-                        {props["companyName"]?<img className="upload" src={UploadImg} alt=""/>:null}
-                    </span>
-            
-                     <span className="number-open">
-                        {props["openNumber"]}
-                    </span>
-                    <span className="number-completed">
-                        {props["completedNumber"]}
-                    </span> */}
-                </div>
-            </>
-        );
-    }
+
+    return (
+        <> 
+            <div className="listview-card">
+                <span className="area-name">{data.bizName}</span>
+                <Slider data={data.parts}/>
+                <p style={{margin: "0", fontSize: "14px"}}>Breakdown</p>
+            </div>
+        </>
+    );
 }
 
-class ReportsAccordion extends React.Component {
+class ReportsListView extends React.Component {
     constructor(props){
         super(props);
         this.state={
@@ -151,24 +116,6 @@ class ReportsAccordion extends React.Component {
     render(){
         return(
             <Accordion className="listview-accordion">
-                {/* <Card>
-                    <Card.Header className={"card-header"}>
-                        <div className="reports-card">
-                            <span className="area-name">Operations</span>
-                            <Slider/>
-                            <p style={{margin: "0"}}>Breakdown</p>
-                        </div>
-                        <Accordion.Toggle as={Button} variant="link">
-                                <img src={DropDownImg} alt=""></img>
-                        </Accordion.Toggle>
-                    </Card.Header>
-                    <Accordion.Collapse>
-                    <div className="reports-card">
-                        <span className="area-name">Capability</span>
-                        <Slider/>
-                    </div>
-                    </Accordion.Collapse>
-                </Card> */}
             {reportsData.map((data,index)=>{
                 return(
                         <Card key={index}>
@@ -198,7 +145,7 @@ class ReportsAccordion extends React.Component {
                                         </div>
                                         {data.parts.map((x,y) => {
                                             return (
-                                                <div className="reports-card">
+                                                <div className="listview-card">
                                                     <span className="area-name">{x.c}</span>
                                                     <Slider data={x}/>
                                                 </div>
@@ -215,4 +162,4 @@ class ReportsAccordion extends React.Component {
     }
 }
 
-export default ReportsAccordion;
+export default ReportsListView;

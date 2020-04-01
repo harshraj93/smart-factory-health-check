@@ -57,7 +57,7 @@ class Slider extends React.Component {
             x = ((value - 6) * 60) + 142;
         }
 
-        return x;
+        return ((x/532.469)*100).toFixed(2);
     }
 
     componentDidMount() {
@@ -101,12 +101,12 @@ class Slider extends React.Component {
                     <span className="stop"></span>
                     <span className="stop"></span>
                 </div>
-                <span className="ind-avg" style={{marginLeft: this.state.indAvgPos}}></span>
-                <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "px"}}>
+                <span className="ind-avg" style={{marginLeft: this.state.indAvgPos + "%"}}></span>
+                <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "%"}}>
                     <p className="score-text">{this.state.score}</p>
                     <span className="slider-circle" style={{backgroundColor: "#57bb50"}}></span>
                 </div>
-                <div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "px"}}> 
+                <div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "%"}}> 
                     <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
                     {/* <span className="small-circle"></span>
                     <div className="plus">
