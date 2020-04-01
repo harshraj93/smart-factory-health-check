@@ -104,6 +104,7 @@ class Assessments extends React.Component {
         this.state={
             accordionData:data
         }
+        this.props.disableMenu("true");
     }
 
     onSelect = (e)=>{

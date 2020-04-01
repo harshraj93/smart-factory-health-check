@@ -1,7 +1,6 @@
 import React from 'react';
 import './SCSS/main.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Reports from './components/sfm-reports/sfm-reports-container';
 import HamburgerNav from './components/sfm-hamburger-nav/sfm-hamburger-nav';
 import {BrowserRouter as Router} from 'react-router-dom';
 import Routes from './Routes/index'
@@ -13,9 +12,9 @@ class App extends React.Component {
     }
   }
 
-  disableMenu = ()=>{
+  disableMenu = (showFlag)=>{
     this.setState({
-      showMenu:false
+      showMenu:showFlag
     })
   }
 

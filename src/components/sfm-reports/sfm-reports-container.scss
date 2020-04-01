@@ -4,18 +4,19 @@
     
     .reports-container{
         width: 100%;
-        padding: 16px 16px 0px 48px;
+        // padding: 16px 16px 0px 48px;
         background-color: #232325;
         .assessment-overview-title{
+            padding-left: 15%;
+            padding-right: 15%;
             font-size: 18px;
             font-weight: bold;
-            padding: 0px 10px 10px 0px;
-            margin-bottom: 6%;
+            padding: 16px 10px 10px 0px;
+            margin-bottom: 30px;
             .custom-button{
                 position: absolute;
                 height: 32px;
-                top: 16px;
-                left: 10px;
+                left: 11%;
                 width: 35px;
                 border-radius: 4px;
                 background-color: #35353b;
@@ -25,6 +26,8 @@
             }
         }
         h2{
+            padding-left: 15%;
+            padding-right: 15%;
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             .share-link{
@@ -37,11 +40,13 @@
             }
         }
         .company-name{
+            padding-left: 15%;
+            padding-right: 15%;
             font-size: 18px;
             opacity: 0.6;
             font-weight: 600;
             padding-top: 8px;
-            margin-bottom: 5%;
+            margin-bottom: 30px;
             
         }
         
@@ -53,9 +58,13 @@
             margin-left: 16px;
             background-color: inherit;
         }
+        .tab-content{
+            background-color: #161617;
+        }
         .nav-tabs{
             border-bottom: unset;
-            
+            padding-left: 15%;
+            padding-right: 15%;
             .nav-item.nav-link{
                 color:#ffffff;
                 opacity: 0.5;
