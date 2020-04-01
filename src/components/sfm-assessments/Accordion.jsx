@@ -8,12 +8,14 @@ import UploadImg from '../../images/icon-small-upload.svg';
 import DropDownImg from '../../images/icon-small-chevron-down.svg';
 import {withRouter} from 'react-router-dom';
 
+let companyName =""; 
 function industryCard (props){
+    companyName=props["companyName"]===undefined?companyName:props["companyName"];
     return (
     <> 
         <div className="industry-name-number">
             <span className="company-name">
-                {props["companyName"]?props["companyName"]:props["industryType"]}
+                {props["companyName"]?props["companyName"] :props["industryType"]}
                 {props["industryType"]?<CustomButton imgSrc={UploadImg} alt=""/>:null}
             </span>
     
@@ -55,7 +57,7 @@ class CustomAccordion extends React.Component{
 
 
     render(){
-
+        
         return(
             <Accordion className="accordion-parent" defaultActiveKey={0}>
             {this.props.data.map((data,index)=>{
@@ -81,7 +83,13 @@ class CustomAccordion extends React.Component{
                                                     </Accordion.Toggle>
                                                 </Card.Header>
                                                 <Accordion.Collapse eventKey={siteListIndex}>
-                                                    <Table data={element.table_data} industryType={element.industryType} disableMenu={this.props.disableMenu}/>
+                                                    
+                                                    <Table 
+                                                    data={element.table_data} 
+                                                    industryType={element.industryType} 
+                                                    disableMenu={this.props.disableMenu}
+                                                    companyName = {companyName}
+                                                    />
                                                 </Accordion.Collapse>
 
                                                 </Card>
