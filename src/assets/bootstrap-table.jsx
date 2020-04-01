@@ -17,11 +17,11 @@ const columns= [{
     formatter:locationFormatter,
     headerStyle:headerStyle()
 },{
-    dataField:"DeloitteLead",
+    dataField:"POC",
     text:"DELOITTE LEAD",
     headerStyle:headerStyle()
 },{
-    dataField:"Completed",
+    dataField:"Status",
     text:"STATUS",
     headerStyle:headerStyle()
 },{
@@ -62,7 +62,7 @@ function actionsFormatter(cell,row){
                         {row.Completed!=="In Progress"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
                         {row.Completed!=="In Progress"?<img  className="download" aria-label="download" src={downloadIcon} alt=""/>:<div></div>}         
                         <span className="button"> 
-                        <Link to='/reports'> <CustomButton labelName={rowLabel} className="openButton" style={style} clickFunction={()=>loadComponent(loadComponentString)}/></Link>
+                        <Link to='/reports'> <CustomButton labelName={rowLabel} className="openButton" style={style}/></Link>
                         </span>
                 </div>
     
@@ -85,10 +85,7 @@ function addSiteRow (props){
     )
 }
 
-function loadComponent(pageString){
-    props.disableMenu();
-    
-}
+
 
 
 class Table extends React.Component{

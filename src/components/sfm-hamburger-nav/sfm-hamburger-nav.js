@@ -3,8 +3,8 @@ import assessmentsIcon from '../../images/icon-small-assessments.svg';
 import analyticsIcon from '../../images/icon-small-analytics.svg';
 import utilSumIcon from '../../images/icon-small-utlization-summary.svg';
 import DropDownImg from '../../images/icon-small-chevron-down.svg';
-import {Link,BrowserRouter as Router} from 'react-router-dom';
-import Routes from '../../Routes/index'
+import {Link} from 'react-router-dom';
+
 class HamburgerNav extends React.Component {
     constructor(props) {
         super(props);
