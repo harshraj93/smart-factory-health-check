@@ -59,7 +59,7 @@ class HamburgerNav extends React.Component {
 
     render() {
         return (
-            //  <Router>
+            
                 <>
                <div className="sidenav">
                     <div className="top-part">
@@ -97,11 +97,7 @@ class HamburgerNav extends React.Component {
                         <img src={DropDownImg} alt="" className="logout-down-arrow"/>
                     </div>
                 </div>
-                {/* <div className="main"> */}
-                    {/* <Routes disableMenu={this.props.disableMenu}/> */}
-                {/* </div> */}
-                </>
-        //    </Router>
+              </>
         );
     
     }

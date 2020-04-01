@@ -15,24 +15,24 @@ let data = [{
         industryType:"Consumer Products",
         table_data:[{
             Location:"Bristol",
-            DeloitteLead:"Jana Strassman",
-            Completed:"In Progress",
-        
+            POC:"Jana Strassman",
+            Status:"In Progress",
+            OpenedOn:"26/11/12"
         },{
             Location:"Edinburgh",
-            DeloitteLead:"Jana Strassman",
-            Completed:"In Progress",
-        
+            POC:"Jana Strassman",
+            Status:"In Progress",
+            OpenedOn:"21/11/18"
         },{
             Location:"Odessa",
-            DeloitteLead:"Jana Strassman",
-            Completed:"10/25/2019",
-        
+            POC:"Jana Strassman",
+            Status:"10/25/2019",
+            OpenedOn:"26/06/16"
         },{
             Location:"Bristol",
-            DeloitteLead:"Jana Strassman",
-            Completed:"In Progress",
-        
+            POC:"Jana Strassman",
+            Status:"In Progress",
+            OpenedOn:"26/01/19"
         }]
     },
     {
@@ -41,24 +41,24 @@ let data = [{
         industryType:"Healthcare Products",
         table_data:[{
             Location:"Bristol",
-            DeloitteLead:"Jana Strassman",
-            Completed:"In Progress",
-        
+            POC:"Jana Strassman",
+            Status:"In Progress",
+            OpenedOn:"26/02/14"
         },{
             Location:"Edinburgh",
-            DeloitteLead:"Jana Strassman",
-            Completed:"In Progress",
-        
+            POC:"Jana Strassman",
+            Status:"In Progress",
+            OpenedOn:"26/12/19"
         },{
             Location:"Odessa",
-            DeloitteLead:"Jana Strassman",
-            Completed:"10/25/2019",
-        
+            POC:"Jana Strassman",
+            Status:"10/25/2019",
+            OpenedOn:"26/11/12"
         },{
             Location:"Bristol",
-            DeloitteLead:"Jana Strassman",
-            Completed:"In Progress",
-        
+            POC:"Jana Strassman",
+            Status:"In Progress",
+            OpenedOn:"26/11/12"
         }]
     }]
     },{
@@ -71,24 +71,24 @@ let data = [{
         industryType:"Consumer Products",
         table_data:[{
             Location:"Chicago",
-            DeloitteLead:"Jana Strassman",
-            Completed:"In Progress",
-        
+            POC:"Jana Strassman",
+            Status:"In Progress",
+            OpenedOn:"26/11/12"
         },{
             Location:"New York",
-            DeloitteLead:"Jana Strassman",
-            Completed:"In Progress",
-        
+            POC:"Jana Strassman",
+            Status:"In Progress",
+            OpenedOn:"26/11/12"
         },{
             Location:"Washington",
-            DeloitteLead:"Jana Strassman",
-            Completed:"10/25/2019",
-        
+            POC:"Jana Strassman",
+            Status:"10/25/2019",
+            OpenedOn:"26/11/12"
         },{
             Location:"Bristol",
-            DeloitteLead:"Jana Strassman",
-            Completed:"In Progress",
-        
+            POC:"Jana Strassman",
+            Status:"In Progress",
+            OpenedOn:"26/11/12"
         }]
     }]
 }
