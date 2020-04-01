@@ -55,7 +55,7 @@ class CustomAccordion extends React.Component{
 
 
     render(){
-        console.log(this.props);
+
         return(
             <Accordion className="accordion-parent" defaultActiveKey={0}>
             {this.props.data.map((data,index)=>{

@@ -1,0 +1,14 @@
+.demographics-form{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    // margin: 0px 24px 24px 24px;
+    // padding: 0px 24px 24px 24px;
+    padding-left: 15%;
+    padding-right: 10%;
+    background-color: #161617;
+    .bottom-border{
+        border-bottom: 1px solid white;
+        
+    }
+}

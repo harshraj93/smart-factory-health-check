@@ -1,0 +1,17 @@
+.labelled-input-field{
+    margin-top: 40px;
+    display: grid;
+    grid-template-rows:1fr 1fr;
+    label{
+        font-size:12px;
+        opacity: 0.5;
+        font-size: 12px;
+    }
+    input{
+        background-color: inherit;
+        border: unset;
+        border-bottom: 1px solid #727279;
+        color: white;
+        width: 80%;
+    }
+}
