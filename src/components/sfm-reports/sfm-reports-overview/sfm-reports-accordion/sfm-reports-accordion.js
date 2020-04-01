@@ -2,13 +2,16 @@ import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import DropDownImg from '../../images/icon-small-chevron-down.svg';
+import DropDownImg from '../../../../images/icon-small-chevron-down.svg';
+import EditIcon from '../../../../images/icon-small-edit.svg';
 import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
 import './sfm-reports-accordion.scss';
 
 let reportsData = [
     {
         bizName: "Operations",
+        keyThemes: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
+        recs: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
         parts: [
             {
                 c: "Capability 1",
@@ -179,13 +182,18 @@ class ReportsAccordion extends React.Component {
                                 <Accordion.Collapse eventKey={index}>
                                     <div>
                                         <div className="tr-com-box">
-                                            <div className="tr-box">
-                                                <span className="tr-heading">Key Themes</span>
-                                                <p className="tr-text"></p>
+                                            <div className="edit">
+                                                <img src={EditIcon} alt=""></img>
                                             </div>
-                                            <div className="tr-box">
-                                                <span className="tr-heading">Recommendations</span>
-                                                <p className="tr-text"></p>
+                                            <div style={{display: "flex"}}>
+                                                <div className="tr-box">
+                                                    <span className="tr-heading">Key Themes</span>
+                                                    <p className="tr-text">{data.keyThemes}</p>
+                                                </div>
+                                                <div className="tr-box">
+                                                    <span className="tr-heading">Recommendations</span>
+                                                    <p className="tr-text">{data.recs}</p>
+                                                </div>
                                             </div>
                                         </div>
                                         {data.parts.map((x,y) => {

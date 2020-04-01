@@ -6,7 +6,7 @@ import CustomButton from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import downloadIcon from '../../images/icon-small-download.svg';
 import linkIcon from '../../images/icon-small-link.svg';
-import ReportsAccordion from '../sfm-reports-accordion/sfm-reports-accordion';
+import ReportsOverview from './sfm-reports-overview/sfm-reports-overview';
 import DemographicsForm from './sfm-reports-demographics/demographics-form';
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
@@ -61,7 +61,7 @@ let resultsList=["Overview","Demographics"];
                 {resultsList.map((element,index)=>{
                     return(
                         <Tab key={index} eventKey={index} title={element} >
-                            {element==="Demographics"?<DemographicsForm />:""}
+                            {element==="Demographics"?<DemographicsForm />:<ReportsOverview/>}
                         </Tab>
                     )
                 })}
