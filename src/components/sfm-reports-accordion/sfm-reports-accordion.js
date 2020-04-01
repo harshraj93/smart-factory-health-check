@@ -147,7 +147,7 @@ class ReportsAccordion extends React.Component {
 
     render(){
         return(
-            <Accordion className="accordion-parent">
+            <Accordion className="listview-accordion">
                 {/* <Card>
                     <Card.Header className={"card-header"}>
                         <div className="reports-card">
