@@ -1,23 +1,26 @@
 .accordion-parent.accordion{
     overflow-y: scroll;
-    max-height: 80vh;
+    max-height: 75vh;
     .card{
         border-radius: $border-radius;
         margin-top: $common-margin;
         border: unset;
         background-color: $accordion-dark-background;  
         margin-bottom: $common-margin;
+        
         &.true{
             background-color:$accordion-card-background;
             color: $gray-darkest;
+            
         }
         
     .card-header{
         background-color: $accordion-dark-background; 
-        
+        height: 100px;
         &.true{
             background-color:$accordion-card-background;
             color: $gray-darkest;
+           
             .drop-down{
                 transform:rotate(180deg);
                 transition-duration: 0.3s;
@@ -89,7 +92,7 @@
         .card-header{
             //background-color: $accordion-child-background;
             margin-bottom: 0px !important;
-            
+            height: 100px;
                 background-color:$accordion-child-background;
                 color: $gray-darkest;
                  &.true.card-header.drop-down{

@@ -7,66 +7,8 @@ import smallLink from '../images/icon-small-link.svg';
 import downloadIcon from '../images/icon-small-download.svg';
 import {Link,withRouter} from 'react-router-dom';
 
-let headerStyle = ()=>{
-    return { width: '35%',color: "#727279", fontSize:"11px", borderTop:"unset" };
-}
-let props = ""
-const columns= [{
-    dataField:"Location",
-    text:"SITE",
-    formatter:locationFormatter,
-    headerStyle:headerStyle()
-},{
-    dataField:"POC",
-    text:"DELOITTE LEAD",
-    headerStyle:headerStyle()
-},{
-    dataField:"Status",
-    text:"STATUS",
-    headerStyle:headerStyle()
-},{
-    dataField:"Open",
-    text:"",
-    isDummyField:true,
-    formatter: actionsFormatter,
-    headerStyle:headerStyle()
-}
-    ]
 
 
-function locationFormatter(cell,row){
-    let style={backgroundColor:"#ef7c03",borderRadius:"4px", color:"white", marginLeft:"4px", outline:"none"}
-    if(row.Completed!=="In Progress"){
-        return <div id="revisit">{cell} <CustomButton labelName="Revisit" style={style} /></div>
-    }
-    else {
-        return cell;
-    }
-}
-
-
-function actionsFormatter(cell,row){
-    
-    let rowLabel,style,loadComponentString;
-        if(row.Completed==="In Progress"){
-            rowLabel="Open";
-            style={backgroundColor:"#57bb50"};
-            loadComponentString="assessments";
-        }
-        else{
-            rowLabel="Results";
-            style={backgroundColor:"#0b6ec5"};
-            loadComponentString="results";
-        }
-        return  <div className="misc-container">
-                        {row.Completed!=="In Progress"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
-                        {row.Completed!=="In Progress"?<img  className="download" aria-label="download" src={downloadIcon} alt=""/>:<div></div>}         
-                        <span className="button"> 
-                        <Link to='/reports'> <CustomButton labelName={rowLabel} className="openButton" style={style}/></Link>
-                        </span>
-                </div>
-    
-}
 
 function addSiteRow (props){
     
@@ -86,19 +28,89 @@ function addSiteRow (props){
 }
 
 
-
-
 class Table extends React.Component{
-   
-        componentDidMount = ()=>{
-            props=this.props;
-        }
 
-        render(){
+
+headerStyle = ()=>{
+    return { width: '35%',color: "#727279", fontSize:"11px", borderTop:"unset" };
+}
+
+
+locationFormatter = (cell,row)=>{
+    let style={backgroundColor:"#ef7c03",borderRadius:"4px", color:"white", marginLeft:"4px", outline:"none"}
+    if(row.Status!=="In Progress"){
+        return <div id="revisit">{cell} <CustomButton labelName="Revisit" style={style} /></div>
+    }
+    else {
+        return cell;
+    }
+}
+
+
+actionsFormatter = (cell,row)=>{
+
+    let rowLabel,style;
+        if(row.Status==="In Progress"){
+            rowLabel="Open";
+            style={backgroundColor:"#57bb50"};
+            //loadComponentString="assessments";
+        }
+        else{
+            rowLabel="Results";
+            style={backgroundColor:"#0b6ec5"};
+            //loadComponentString="results";
+        }
+        return  (<div className="misc-container">
+                        {row.Status!=="In Progress"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
+                        {row.Status!=="In Progress"?<img  className="download" aria-label="download" src={downloadIcon} alt=""/>:<div></div>}         
+                        <span className="button"> 
+                        <Link to={{
+                            pathname:'/reports',
+                            locationString:row.Location,
+                            companyName:this.props.companyName
+                        }}
+                        >
+                            <CustomButton labelName={rowLabel} className="openButton" style={style}/>
+                        </Link>
+                        </span>
+                </div>
+        )    
+}
+
+
+columns= [{
+    dataField:"Location",
+    text:"SITE",
+    formatter:this.locationFormatter,
+    headerStyle:this.headerStyle
+},{
+    dataField:"POC",
+    text:"DELOITTE LEAD",
+    headerStyle:this.headerStyle
+},{
+    dataField:"Status",
+    text:"STATUS",
+    headerStyle:this.headerStyle
+},{
+    dataField:"Open",
+    text:"",
+    isDummyField:true,
+    formatter: this.actionsFormatter,
+    headerStyle:this.headerStyle
+}
+    ]
+
+
+    render(){
             
             return(
                 <>
-                <BootstrapTable keyField='id' striped bordered={false} data={this.props.data} columns={columns}/>
+                <BootstrapTable 
+                keyField='id' 
+                striped bordered={false} 
+                data={this.props.data} 
+                columns={this.columns}
+                />
                 {addSiteRow(this.props)}
                 </>                    
             )
