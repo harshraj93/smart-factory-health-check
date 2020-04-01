@@ -31,8 +31,8 @@ class HamburgerNav extends React.Component {
             });
         }
         else {
-            document.querySelector(".sidenav").style.width = "280px";
-            document.querySelector(".main").style.width = "calc(100vw - 280px)";
+            document.querySelector(".sidenav").style.width = "250px";
+            document.querySelector(".main").style.width = "calc(100vw - 250px)";
             this.setState({
                 x: 0
             });

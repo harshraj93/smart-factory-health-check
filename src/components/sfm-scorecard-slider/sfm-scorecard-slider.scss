@@ -5,17 +5,17 @@
     align-items: center;
 
     .slider-text {
-        font-size: 0.5em;
-        color: $accordion-card-background;
+        font-size: 12px;
         opacity: 0.4;
-        padding: 1em;
+        padding: 1vh;
         margin: 0;
+        color: $accordion-card-background;
     }
 
     .slider-line {
         display: block;
         width: 41.602vw;
-        height: 0.55vh;
+        height: 0.9vh;
         border-radius: 2.12em;
         background-color: #161617;
     }
@@ -28,7 +28,7 @@
         .stop {
             display: block;
             height: 2.9vh;
-            width: 0.1vw;
+            width: 0.2vw;
             border-radius: 1.03em;
             background-color: #161617;
         }
@@ -44,8 +44,14 @@
         margin-left: 0;
     }
 
-    .slider-circle {
+    .score-box {
+        display: flex;
+        flex-direction: column;
         position: absolute;
+        align-items: center;
+    }
+
+    .slider-circle {
         width: 3.512vh;
         height: 3.512vh;
         border-radius: 50%;
@@ -57,5 +63,11 @@
         background-color: none;
         width: 1.5vh;
         height: 1.5vh;
+    }
+
+    .score-text {
+        font-size: 24px;
+        color: #ffffff;
+        margin: 0;
     }
 }

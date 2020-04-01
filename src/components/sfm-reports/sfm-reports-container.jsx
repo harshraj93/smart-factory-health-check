@@ -6,6 +6,7 @@ import CustomButton from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import downloadIcon from '../../images/icon-small-download.svg';
 import linkIcon from '../../images/icon-small-link.svg';
+import ReportsAccordion from '../sfm-reports-accordion/sfm-reports-accordion';
 import DemographicsForm from './sfm-reports-demographics/demographics-form';
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
