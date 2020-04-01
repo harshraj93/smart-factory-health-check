@@ -7,98 +7,13 @@ import EditIcon from '../../../../images/icon-small-edit.svg';
 import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
 import './sfm-reports-listview.scss';
 
-let reportsData = [
-    {
-        bizName: "Operations",
-        keyThemes: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
-        recs: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
-        parts: [
-            {
-                c: "Capability 1",
-                score: 3.2,
-                target: 5.8,
-                indAvgFrom: 2.5,
-                indAvgTo: 4.5 
-            },
-            {
-                c: "Capability 2",
-                score: 3,
-                target: 4.8,
-                indAvgFrom: 2.5,
-                indAvgTo: 4.5 
-            },
-            {
-                c: "Capability 3",
-                score: 3.2,
-                target: 6.8,
-                indAvgFrom: 2.5,
-                indAvgTo: 4.5 
-            },
-            {
-                c: "Capability 4",
-                score: 3.2,
-                target: 3.4,
-                indAvgFrom: 2.5,
-                indAvgTo: 4.5 
-            },
-            {
-                c: "Capability 5",
-                score: 3.2,
-                target: 4,
-                indAvgFrom: 2.5,
-                indAvgTo: 4.5 
-            }
-        ]
-    },
-    {
-        bizName: "Procurement & Supplier Management",
-        parts: [
-            {
-                c: "Capability 1",
-                score: 3.2,
-                target: 5.8,
-                indAvgFrom: 2.5,
-                indAvgTo: 4.5 
-            },
-            {
-                c: "Capability 2",
-                score: 3,
-                target: 4.8,
-                indAvgFrom: 2.5,
-                indAvgTo: 4.5 
-            },
-            {
-                c: "Capability 3",
-                score: 3.2,
-                target: 6.8,
-                indAvgFrom: 2.5,
-                indAvgTo: 4.5 
-            },
-            {
-                c: "Capability 4",
-                score: 3.2,
-                target: 3.4,
-                indAvgFrom: 2.5,
-                indAvgTo: 4.5 
-            },
-            {
-                c: "Capability 5",
-                score: 3.2,
-                target: 4,
-                indAvgFrom: 2.5,
-                indAvgTo: 4.5 
-            }
-        ]
-    }
-];
-
 function reportScoreCard (data){
 
     return (
         <> 
             <div className="listview-card">
                 <span className="area-name">{data.bizName}</span>
-                <Slider data={data.parts}/>
+                <Slider data={data}/>
                 <p style={{margin: "0", fontSize: "14px"}}>Breakdown</p>
             </div>
         </>
@@ -116,7 +31,7 @@ class ReportsListView extends React.Component {
     render(){
         return(
             <Accordion className="listview-accordion">
-            {reportsData.map((data,index)=>{
+            {this.props.data.map((data,index)=>{
                 return(
                         <Card key={index}>
                             <Card.Header className={"card-header" }>

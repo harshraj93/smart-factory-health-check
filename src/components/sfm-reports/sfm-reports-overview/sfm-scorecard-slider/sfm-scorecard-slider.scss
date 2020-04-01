@@ -1,6 +1,6 @@
 .slider {
     position: relative;
-    width: 52vw;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,7 +15,7 @@
 
     .slider-line {
         display: block;
-        width: 80%;
+        width: 82%;
         height: 0.9vh;
         border-radius: 2.12em;
         background-color: #161617;
@@ -37,7 +37,7 @@
 
     .ind-avg {
         position: absolute;
-        width: 15.234vw;
+        width: 27%;
         height: 1.93vh;
         border-radius: 1.5em;
         border: solid 0.05em #727279;

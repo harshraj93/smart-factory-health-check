@@ -3,93 +3,9 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import DropDownImg from '../../../../images/icon-small-chevron-down.svg';
-import EditIcon from '../../../../images/icon-small-edit.svg';
 import './sfm-reports-reportview.scss';
 
-let reportsData = [
-    {
-        bizName: "Operations",
-        keyThemes: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
-        recs: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
-        score: 4.5,
-        target: 6.0,
-        indAvg: 3.8,
-        parts: [
-            {
-                c: "Capability 1",
-                score: 3.2,
-                target: 5.8,
-                indAvg: 3.8,
-            },
-            {
-                c: "Capability 2",
-                score: 3,
-                target: 4.8,
-                indAvg: 3.8, 
-            },
-            {
-                c: "Capability 3",
-                score: 3.2,
-                target: 6.8,
-                indAvg: 3.8,
-            },
-            {
-                c: "Capability 4",
-                score: 3.2,
-                target: 3.4,
-                indAvg: 3.8,
-            },
-            {
-                c: "Capability 5",
-                score: 3.2,
-                target: 4,
-                indAvg: 3.8,
-            }
-        ]
-    },
-    {
-        bizName: "Procurement & Supplier Management",
-        keyThemes: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
-        recs: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
-        score: 4.5,
-        target: 6.0,
-        indAvg: 3.8,
-        parts: [
-            {
-                c: "Capability 1",
-                score: 3.2,
-                target: 5.8,
-                indAvg: 3.8,
-            },
-            {
-                c: "Capability 2",
-                score: 3,
-                target: 4.8,
-                indAvg: 3.8,
-            },
-            {
-                c: "Capability 3",
-                score: 3.2,
-                target: 6.8,
-                indAvg: 3.8,
-            },
-            {
-                c: "Capability 4",
-                score: 3.2,
-                target: 3.4,
-                indAvg: 3.8,
-            },
-            {
-                c: "Capability 5",
-                score: 3.2,
-                target: 4,
-                indAvg: 3.8,
-            }
-        ]
-    }
-];
-
-class ReportsReportView extends React.Component {
+class ReportsCardView extends React.Component {
     constructor(props){
         super(props);
         this.state={
@@ -136,7 +52,7 @@ class ReportsReportView extends React.Component {
                         </div>
                     </Accordion.Collapse>
                 </Card> */}
-            {reportsData.map((data,index)=>{
+            {this.props.data.map((data,index)=>{
                 return(
                     <Card key={index}>
                         <Card.Header className={"card-header"}>
@@ -175,4 +91,4 @@ class ReportsReportView extends React.Component {
     }
 }
 
-export default ReportsReportView;
+export default ReportsCardView;

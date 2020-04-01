@@ -19,7 +19,6 @@
             }
             .summary-text {
                 color: #dedede;
-                height: 43.89vh;
                 margin: 0;
             }
         }
@@ -39,6 +38,7 @@
                     width: 71.2%;
                     margin-left: 12.4%;
                     display: flex;
+                    justify-content: space-between;
                     align-items: center;
                     padding: 12px 16px;
                     border-radius: 5px;
@@ -47,7 +47,6 @@
                     .legend-part {
                         display: flex;
                         align-items: center;
-                        margin-right: 6.2%;
                         .ind-avg {
                             border-radius: 1.5em;
                             border: solid 0.05em #727279;
@@ -113,7 +112,7 @@
         height: 2px;
         background-color: $accordion-dark-background;
         border-radius: 5px;
-        margin: 4% 0%;
+        margin: 40px 0px;
     }
 
     .overview-tab-group{
