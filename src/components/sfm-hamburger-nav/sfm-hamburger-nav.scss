@@ -104,7 +104,7 @@
 
 .logout {
     display: flex;
-    height: 8.2%;
+    height: calc(100% - 80px);
     .name-circle {
         width: 40px;
         min-width: 40px;

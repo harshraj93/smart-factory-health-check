@@ -1,7 +1,6 @@
 import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import DropDownImg from '../../../../images/icon-small-chevron-down.svg';
 import './sfm-reports-reportview.scss';
 
@@ -27,7 +26,7 @@ class ReportsCardView extends React.Component {
 
     render() {
         return(
-            <Accordion className="reportview-accordion">
+            <Accordion className="reportview-accordion" defaultActiveKey={0}>
                 {/* <Card>
                     <Card.Header className={"card-header"}>
                         <span className="area-name">Operations</span>
@@ -55,22 +54,20 @@ class ReportsCardView extends React.Component {
             {this.props.data.map((data,index)=>{
                 return(
                     <Card key={index}>
-                        <Card.Header className={"card-header"}>
+                        <Accordion.Toggle as={Card.Header} className={"card-header"} variant="link" eventKey={index} value={index}>
                             <span className="area-name">{data.bizName}</span>
-                            <Accordion.Toggle as={Button} variant="link" eventKey={index} value={index}>
-                                    <img src={DropDownImg} alt=""></img>
-                            </Accordion.Toggle>
+                            <img className="drop-down" src={DropDownImg} alt=""></img>
                             <p className="score">{data.score}</p>
                             <span className="circle" style={{backgroundColor: this.circleColor((data.target - data.score).toFixed(1))}}></span>
                             <p className="score">{data.target}</p>
                             <p className="score">{data.target - data.score}</p>
                             <p className="score">{data.indAvg}</p>
-                        </Card.Header>
+                        </Accordion.Toggle>
                             <Accordion.Collapse eventKey={index}>
                                 <div>
                                     {data.parts.map((x,y) => {
                                         return (
-                                            <div className="reportview-card">
+                                            <div className="reportview-card" key={y}>
                                                 <span className="area-name">{x.c}</span>
                                                 <span className="circle" style={{backgroundColor: "#35353b"}}></span>
                                                 <p className="score">{x.score}</p>
