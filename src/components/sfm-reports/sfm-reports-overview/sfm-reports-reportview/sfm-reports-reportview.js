@@ -24,7 +24,8 @@ class ReportsCardView extends React.Component {
     }
 
     handleClick = (e)=>{
-        let index = e.currentTarget.value?e.currentTarget.value:0
+        let value = e.currentTarget.getAttribute("value");
+        let index = value?value:0
         this.setState({
             arrayIndex:this.state.arrayIndex===String(index)?"":String(index),
         });

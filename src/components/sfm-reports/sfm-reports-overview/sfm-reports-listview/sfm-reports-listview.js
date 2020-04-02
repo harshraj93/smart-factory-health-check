@@ -28,9 +28,10 @@ class ReportsListView extends React.Component {
     }
 
     handleClick = (e)=>{
-        let index = e.currentTarget.value?e.currentTarget.value:0
+        let value = e.currentTarget.getAttribute("value")
+        let index = value?value:0
         this.setState({
-            arrayIndex:this.state.arrayIndex===String(index)?"":String(index),
+            arrayIndex:this.state.arrayIndex===String(index)?"":String(index)
         });
     }
 
@@ -40,9 +41,9 @@ class ReportsListView extends React.Component {
             {this.props.data.map((data,index)=>{
                 return(
                         <Card key={index} className={"card"}>                                   
-                            <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} variant="link" eventKey={index} value={index} onClick={(e)=>this.handleClick(e)}>
+                            <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
                                 {reportScoreCard(data)}
-                                <img className="drop-down" src={DropDownImg} alt=""></img>
+                                <img className="drop-down" src={DropDownImg} alt="" ></img>
                             </Accordion.Toggle>
                             <Accordion.Collapse eventKey={index}>
                                 <div>
