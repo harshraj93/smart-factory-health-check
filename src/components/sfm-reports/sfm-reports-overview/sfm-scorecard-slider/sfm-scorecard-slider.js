@@ -22,7 +22,7 @@ class Slider extends React.Component {
         arr.map((data,index)=>{
             avscore += data.score;
             avtarget += data.target;
-            avindAvg += (data.indAvgFrom + data.indAvgTo)/2;
+            avindAvg += data.indAvg;
         });
 
         this.setState({
@@ -35,7 +35,7 @@ class Slider extends React.Component {
         });
     }
 
-    updatePosition(value) {
+    updatePosition(value, str) {
         // Function to update the position value for the industry avg bar, score and target circles
         var x = 0;
         if (value >=1 && value < 2) {
@@ -57,23 +57,32 @@ class Slider extends React.Component {
             x = ((value - 6) * 60) + 142;
         }
 
-        return x;
+        if (str === "indAvg"){
+            if (value >= 1 && value <= 2) {
+                x = -142;
+            }
+            else if (value >= 6 && value <= 7) {
+                x = 142;
+            }
+        }
+
+        return ((x/532.469)*100).toFixed(2);
     }
 
     componentDidMount() {
-        if (Array.isArray(this.props.data)) {
-            this.calcAvg();
-        }
-        else {
+        // if (Array.isArray(this.props.data)) {
+        //     this.calcAvg();
+        // }
+        // else {
             this.setState({
                 score: this.props.data.score,
                 target: this.props.data.target,
-                indAvg: (this.props.data.indAvgFrom + this.props.data.indAvgTo)/2,
-                scorePos: this.updatePosition(this.props.data.score),
-                targetPos: this.updatePosition(this.props.data.target),
-                indAvgPos: this.updatePosition((this.props.data.indAvgFrom + this.props.data.indAvgTo)/2)
+                indAvg: this.props.data.indAvg,
+                scorePos: this.updatePosition(this.props.data.score, "score"),
+                targetPos: this.updatePosition(this.props.data.target, "target"),
+                indAvgPos: this.updatePosition(this.props.data.indAvg, "indAvg")
             });
-        }
+        // }
     }
 
     render() {
@@ -101,12 +110,12 @@ class Slider extends React.Component {
                     <span className="stop"></span>
                     <span className="stop"></span>
                 </div>
-                <span className="ind-avg" style={{marginLeft: this.state.indAvgPos}}></span>
-                <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "px"}}>
+                <span className="ind-avg" style={{marginLeft: this.state.indAvgPos + "%"}}></span>
+                <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "%"}}>
                     <p className="score-text">{this.state.score}</p>
                     <span className="slider-circle" style={{backgroundColor: "#57bb50"}}></span>
                 </div>
-                <div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "px"}}> 
+                <div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "%"}}> 
                     <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
                     {/* <span className="small-circle"></span>
                     <div className="plus">

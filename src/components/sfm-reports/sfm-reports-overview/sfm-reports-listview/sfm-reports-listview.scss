@@ -29,14 +29,14 @@
                 }
             }
             
-            .reports-card {
-                display: flex;
-                justify-content: center;
+            .listview-card {
+                display: grid;
+                grid-template-columns: 1fr 8fr 1fr;
+                grid-template-rows: 87px;
                 align-items: center;
 
                 .area-name {
                     width: 139px;
-                    height: 87px;
                     font-size: 18px;
                 }
             }
@@ -74,14 +74,15 @@
                 }
             }
 
-            .reports-card {
-                display: flex;
-                justify-content: center;
+            .listview-card {
+                display: grid;
+                grid-template-columns: 1fr 8fr 1fr;
+                grid-template-rows: 87px;
                 align-items: center;
+                margin: 20px 32px;
 
                 .area-name {
                     width: 139px;
-                    height: 87px;
                     font-size: 18px;
                 }
             }
@@ -89,50 +90,4 @@
     
     }
 
-}
-
-.accordion-child.accordion{
-    width: 100%;
-    .child-card.card{
-        margin-right: 16px;
-        margin-left: 16px;
-        margin-bottom: 0px !important;
-        width: 100%;
-        .card-header-child.card-header{
-            background-color: $accordion-dark-background;
-            margin-top: 16px !important;
-            margin-bottom: 0px !important;
-            border-radius: $border-radius-large;
-            width: 100%;
-            .reports-card {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                .area-name {
-                    width: 139px;
-                    height: 87px;
-                    font-size: 18px;
-                }
-            }
-        }
-        .open-accordion {
-            background-color: $accordion-dark-background;
-        }
-        .collapse.show,.collapsing,.collapse-show{
-            // background-color: $accordion-dark-background;
-
-            .reports-card {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                .area-name {
-                    width: 139px;
-                    height: 87px;
-                    font-size: 18px;
-                }
-            }
-        }
-    }
 }
