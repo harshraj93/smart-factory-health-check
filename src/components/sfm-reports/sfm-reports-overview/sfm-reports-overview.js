@@ -101,7 +101,7 @@ class ReportsOverview extends React.Component {
                     <Tabs defaultActiveKey="List" id="overview-selection-tabs" onSelect={this.selectTab}>
                         {tabValues.map((element,index)=>{
                             return(
-                                <Tab key={index} eventKey={index} title={element} >
+                                <Tab key={index} eventKey={element} title={element} >
                                     {element==="List"?<ReportsListView data={this.props.data.reportsData}/>:this.reportView()}
                                 </Tab>
                             )

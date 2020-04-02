@@ -1,7 +1,6 @@
 import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import DropDownImg from '../../../../images/icon-small-chevron-down.svg';
 import EditIcon from '../../../../images/icon-small-edit.svg';
 import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
@@ -28,46 +27,47 @@ class ReportsListView extends React.Component {
         }
     }
 
+    // toggle(value) {
+    //     if(this.state.active === true)
+    // }
+
     render(){
         return(
-            <Accordion className="listview-accordion">
+            <Accordion className="listview-accordion" defaultActiveKey={0}>
             {this.props.data.map((data,index)=>{
                 return(
-                        <Card key={index}>
-                            <Card.Header className={"card-header" }>
-                                    {reportScoreCard(data)}
-                                       
-                                <Accordion.Toggle as={Button} variant="link" eventKey={index} value={index}>
-                                <img src={DropDownImg} alt=""></img>
-                                </Accordion.Toggle>
-                            </Card.Header>
-                                <Accordion.Collapse eventKey={index}>
-                                    <div>
-                                        <div className="tr-com-box">
-                                            <div className="edit">
-                                                <img src={EditIcon} alt=""></img>
+                        <Card key={index}>                                   
+                            <Accordion.Toggle as={Card.Header} className={"card-header"} variant="link" eventKey={index} value={index}>
+                                {reportScoreCard(data)}
+                                <img className="drop-down" src={DropDownImg} alt=""></img>
+                            </Accordion.Toggle>
+                            <Accordion.Collapse eventKey={index}>
+                                <div>
+                                    <div className="tr-com-box">
+                                        <div className="edit">
+                                            <img src={EditIcon} alt=""></img>
+                                        </div>
+                                        <div style={{display: "flex"}}>
+                                            <div className="tr-box">
+                                                <span className="tr-heading">Key Themes</span>
+                                                <p className="tr-text">{data.keyThemes}</p>
                                             </div>
-                                            <div style={{display: "flex"}}>
-                                                <div className="tr-box">
-                                                    <span className="tr-heading">Key Themes</span>
-                                                    <p className="tr-text">{data.keyThemes}</p>
-                                                </div>
-                                                <div className="tr-box">
-                                                    <span className="tr-heading">Recommendations</span>
-                                                    <p className="tr-text">{data.recs}</p>
-                                                </div>
+                                            <div className="tr-box">
+                                                <span className="tr-heading">Recommendations</span>
+                                                <p className="tr-text">{data.recs}</p>
                                             </div>
                                         </div>
-                                        {data.parts.map((x,y) => {
-                                            return (
-                                                <div className="listview-card">
-                                                    <span className="area-name">{x.c}</span>
-                                                    <Slider data={x}/>
-                                                </div>
-                                            )
-                                        })}
                                     </div>
-                                </Accordion.Collapse>
+                                    {data.parts.map((x,y) => {
+                                        return (
+                                            <div className="listview-card" key={y}>
+                                                <span className="area-name">{x.c}</span>
+                                                <Slider data={x}/>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </Accordion.Collapse>
                          </Card>
                 )
             })}

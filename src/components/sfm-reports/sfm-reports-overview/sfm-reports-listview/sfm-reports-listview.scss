@@ -17,9 +17,20 @@
             // margin-bottom: $common-margin !important;
             margin-top: $common-margin !important;
             border-radius:$border-radius ;
-            margin-bottom: 0px !important;
             width: 100%;
             padding: 16px 32px;
+
+            .drop-down{
+                transform:rotate(180deg);
+                transition-duration: 0.3s;
+                transition-timing-function: linear;
+            } 
+
+            .drop-up{
+                transform:rotate(180deg);
+                transition-duration: 0.3s;
+                transition-timing-function: linear;
+            } 
 
             .btn.btn-link{
                 position: unset;
@@ -44,6 +55,7 @@
 
         .collapse,.collapsing,.collapse-show{
             background-color: $accordion-dark-background;
+            margin-top: -6px;
 
             .tr-com-box {
                 background-color: #232325;
