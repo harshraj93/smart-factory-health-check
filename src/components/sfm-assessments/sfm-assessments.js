@@ -3,7 +3,6 @@ import CustomButton from '../../assets/sfm-button';
 import CustomAccordion from './Accordion'
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import searchIcon from '../../images/icons8-search.svg';
 let tabValues = ["All","Open","Completed"];
 let data = [{
     companyName:"Conagra",
@@ -107,6 +106,7 @@ class Assessments extends React.Component {
         this.props.disableMenu("true");
     }
 
+    
     onSelect = (e)=>{
         let accordionData;
         let tabText = e.target.childNodes[0].wholeText;
@@ -129,6 +129,7 @@ class Assessments extends React.Component {
             accordionData:accordionData
         })
     }
+
 
     triggerSearch=(e)=>{
         let value = e.target.value;
