@@ -7,11 +7,11 @@ import searchIcon from '../../images/icons8-search.svg';
 let tabValues = ["All","Open","Completed"];
 let data = [{
     companyName:"Conagra",
-    openNumber:"0",
-    completedNumber:"6",
+    openNumber:"6",
+    completedNumber:"2",
     siteList:[{
-        openNumber:"0",
-        completedNumber:"3",
+        openNumber:"3",
+        completedNumber:"1",
         industryType:"Consumer Products",
         table_data:[{
             Location:"Bristol",
@@ -36,8 +36,8 @@ let data = [{
         }]
     },
     {
-        openNumber:"0",
-        completedNumber:"3",
+        openNumber:"3",
+        completedNumber:"1",
         industryType:"Healthcare Products",
         table_data:[{
             Location:"Bristol",
@@ -63,11 +63,11 @@ let data = [{
     }]
     },{
         companyName:"Evergreen",
-        openNumber:"0",
-        completedNumber:"3",
+        openNumber:"3",
+        completedNumber:"1",
         siteList:[{
-        openNumber:"0",
-        completedNumber:"3",
+        openNumber:"3",
+        completedNumber:"1",
         industryType:"Consumer Products",
         table_data:[{
             Location:"Chicago",
@@ -130,6 +130,18 @@ class Assessments extends React.Component {
         })
     }
 
+    triggerSearch=(e)=>{
+        let value = e.target.value;
+        if(value.length>0){
+        let searchedData = data.filter(element=>{
+            return value.match(element.companyName)
+        })
+        this.setState({
+            accordionData:searchedData===undefined?this.state.accordionData:searchedData
+        })
+    }
+    }
+
     render() {
         return (
             <div className="assessments">
@@ -137,7 +149,7 @@ class Assessments extends React.Component {
                 <div className="search-and-add">
                     <span className="search">
                         <label htmlFor="search-box"><span className="glyphicon glyphicon-search" /></label>
-                        <input id="icon" type="text" placeholder={"Search Clients"} className="search-clients"></input>
+                        <input id="icon" onChange={(e)=>this.triggerSearch(e)} type="text" placeholder={"Search Clients"} className="search-clients"></input>
                     </span>
                     <span className="add-button">
                         <CustomButton labelName="Add Client"/>
