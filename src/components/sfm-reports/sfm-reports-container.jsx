@@ -202,7 +202,7 @@ let data = {
     render(){
     return(
     
-      this.state.loadComponentString==="assessments"?this.resultHeader():this.AssessmentsHeader()
+      this.state.loadComponentString==="results"?this.resultHeader():this.AssessmentsHeader()
         
         
     )
