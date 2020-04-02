@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import DropDownImg from '../../../../images/icon-small-chevron-down.svg';
 import EditIcon from '../../../../images/icon-small-edit.svg';
 import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
-import './sfm-reports-listview.scss';
+
 
 function reportScoreCard (data){
 

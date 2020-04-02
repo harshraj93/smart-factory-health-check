@@ -1,7 +1,6 @@
 import React from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import './sfm-reports-container.scss';
 import CustomButton from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import downloadIcon from '../../images/icon-small-download.svg';
@@ -108,7 +107,8 @@ let data = {
             title:"Overview",
             companyName:"",
             locationName:"",
-            reportsOverview: data
+            reportsOverview: data,
+            loadComponentString:""
         }
         this.props.disableMenu(false)
         
@@ -166,20 +166,25 @@ let data = {
         )
     }
 
+    componentDidMount = ()=>{
+        this.setState({
+            loadComponentString:this.props.location.loadComponentString
+        })
+    }
 
     AssessmentsHeader = ()=>{
         return(
         <div className="reports-container">
             <div className="assessment-overview-title">
-                <CustomButton imgSrc={leftIcon} />
+                <CustomButton imgSrc={leftIcon} clickFunction={this.props.history.goBack}/>
                 <span className="title-text">
                     Assessment Overview
                 </span>
             </div>
-            <h2 className="location-name">Bristol
+            <h2 className="location-name">{this.props.location.locationString!==undefined?this.props.location.locationString:"Bristol"}
             </h2>
                 
-            <h5 className="company-name">Conagra</h5>
+            <h5 className="company-name">{this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}</h5>
             <Tabs className="tab-group">
                 {inProgressList.map((element,index)=>{
                     return(
@@ -197,7 +202,7 @@ let data = {
     render(){
     return(
     
-      this.resultHeader()
+      this.state.loadComponentString==="assessments"?this.resultHeader():this.AssessmentsHeader()
         
         
     )

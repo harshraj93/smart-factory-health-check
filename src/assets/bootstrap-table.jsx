@@ -49,16 +49,16 @@ locationFormatter = (cell,row)=>{
 
 actionsFormatter = (cell,row)=>{
 
-    let rowLabel,style;
+    let rowLabel,style,loadComponentString;
         if(row.Status==="In Progress"){
             rowLabel="Open";
             style={backgroundColor:"#57bb50"};
-            //loadComponentString="assessments";
+            loadComponentString="assessments";
         }
         else{
             rowLabel="Results";
             style={backgroundColor:"#0b6ec5"};
-            //loadComponentString="results";
+            loadComponentString="results";
         }
         return  (<div className="misc-container">
                         {row.Status!=="In Progress"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
@@ -67,7 +67,8 @@ actionsFormatter = (cell,row)=>{
                         <Link to={{
                             pathname:'/reports',
                             locationString:row.Location,
-                            companyName:this.props.companyName
+                            companyName:this.props.companyName,
+                            loadComponentString : loadComponentString
                         }}
                         >
                             <CustomButton labelName={rowLabel} className="openButton" style={style}/>

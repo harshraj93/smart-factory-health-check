@@ -17,6 +17,7 @@
             border-bottom: $search-client-border;
             color: $white;
             width: 45%;
+            
         }
         .add-button{
             text-align: right;
@@ -25,6 +26,7 @@
             border-radius: $border-radius-extra-large;
             background-color: $add-site-color;
             outline: none;
+            border: unset;
         }
     }
     }
@@ -36,9 +38,9 @@
             
         }
         .nav-item.nav-link{
-            border-radius: $border-radius;
-            background-color: $accordion-dark-background;
-            color: $white;
+            border-radius: 4px;
+            background-color:$accordion-dark-background;
+            color: white;
             opacity: 0.5;
             outline: none;
             width: $tab-width;
@@ -48,6 +50,8 @@
                 outline: none;
                 width: $tab-width;
                 text-align: center;
+                color: #35353b;
+                background-color: #fefefe
             }
         }
     }

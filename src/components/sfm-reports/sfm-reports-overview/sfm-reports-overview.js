@@ -6,7 +6,7 @@ import ReorderIcon from '../../../images/icon-small-reorder.svg';
 import Slider from './sfm-scorecard-slider/sfm-scorecard-slider';
 import ReportsListView from './sfm-reports-listview/sfm-reports-listview';
 import ReportsCardView from './sfm-reports-reportview/sfm-reports-reportview';
-import './sfm-reports-overview.scss';
+
 
 let tabValues = ["List","Report Card"];
 

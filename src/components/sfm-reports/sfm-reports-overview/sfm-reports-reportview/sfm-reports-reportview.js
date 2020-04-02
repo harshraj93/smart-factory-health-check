@@ -3,7 +3,6 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import DropDownImg from '../../../../images/icon-small-chevron-down.svg';
-import './sfm-reports-reportview.scss';
 
 class ReportsCardView extends React.Component {
     constructor(props){

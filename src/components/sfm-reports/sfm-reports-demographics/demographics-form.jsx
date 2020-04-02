@@ -1,7 +1,7 @@
 import React from 'react';
 import DropDownMenu from '../../../assets/drop-down-input-box';
 import LabelledInputField from '../../../assets/input-field';
-import './demographics-form.scss';
+
 
 let data = 
 [{

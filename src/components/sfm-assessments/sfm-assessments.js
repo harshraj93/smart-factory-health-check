@@ -3,7 +3,7 @@ import CustomButton from '../../assets/sfm-button';
 import CustomAccordion from './Accordion'
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-
+import searchIcon from '../../images/icons8-search.svg';
 let tabValues = ["All","Open","Completed"];
 let data = [{
     companyName:"Conagra",
@@ -137,7 +137,7 @@ class Assessments extends React.Component {
                 <div className="search-and-add">
                     <span className="search">
                         <label htmlFor="search-box"><span className="glyphicon glyphicon-search" /></label>
-                        <input type="text" placeholder={"Search Clients"} className="search-clients"></input>
+                        <input id="icon" type="text" placeholder={"Search Clients"} className="search-clients"></input>
                     </span>
                     <span className="add-button">
                         <CustomButton labelName="Add Client"/>
