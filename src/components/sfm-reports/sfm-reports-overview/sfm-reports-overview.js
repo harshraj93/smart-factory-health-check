@@ -98,7 +98,7 @@ class ReportsOverview extends React.Component {
                             <p style={{margin: "0", paddingLeft:"10px"}}>Reorder</p>
                         </div>
                     </div>
-                    <Tabs defaultActiveKey="List" id="overview-selection-tabs" onSelect={this.selectTab}>
+                    <Tabs defaultActiveKey={0} id="overview-selection-tabs" onSelect={this.selectTab}>
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={index} title={element} >
