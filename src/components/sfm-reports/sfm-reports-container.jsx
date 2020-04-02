@@ -55,8 +55,7 @@ let resultsList=["Overview","Demographics"];
             {this.props.location.locationString!==undefined?this.props.location.locationString:"Bristol"}
             <span className="share-link">Share Link
                     <CustomButton className="share-link-button" imgSrc={linkIcon} />
-            </span>
-            <span className="download-link">Download PDF
+                    Download PDF
                     <CustomButton className="share-link-button" imgSrc={downloadIcon} />
             </span>
             </h2>
