@@ -134,7 +134,7 @@ class Assessments extends React.Component {
         let value = e.target.value;
         if(value.length>0){
         let searchedData = data.filter(element=>{
-            return value.match(element.companyName)
+            return value.match(element.companyName.toLowerCase())
         })
         this.setState({
             accordionData:searchedData===undefined?this.state.accordionData:searchedData
