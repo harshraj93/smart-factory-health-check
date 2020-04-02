@@ -25,13 +25,21 @@
             margin-bottom: 0px !important;
             width: 100%;
             padding: 12px 16px;
-
+            
             .drop-down{
-                transform:rotate(180deg);
                 transition-duration: 0.3s;
                 transition-timing-function: linear;
                 margin: 7px 10px;
             } 
+
+            &.true {
+                .drop-down{
+                    transform:rotate(180deg);
+                    transition-duration: 0.3s;
+                    transition-timing-function: linear;
+                    margin: 7px 10px;
+                } 
+            }
 
             .score {
                 text-align: center;

@@ -7,7 +7,7 @@ class ReportsCardView extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            
+            arrayIndex:"0",
         }
     }
 
@@ -21,6 +21,14 @@ class ReportsCardView extends React.Component {
         else {
             return "#c02424";
         }
+    }
+
+    handleClick = (e)=>{
+        let value = e.currentTarget.getAttribute("value");
+        let index = value?value:0
+        this.setState({
+            arrayIndex:this.state.arrayIndex===String(index)?"":String(index),
+        });
     }
 
     render() {
@@ -52,8 +60,8 @@ class ReportsCardView extends React.Component {
                 </Card> */}
             {this.props.data.map((data,index)=>{
                 return(
-                    <Card key={index}>
-                        <Accordion.Toggle as={Card.Header} className={"card-header"} variant="link" eventKey={index} value={index}>
+                    <Card key={index} className={"card"}>
+                        <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} variant="link" eventKey={index} value={index} onClick={(e)=>this.handleClick(e)}>
                             <span className="area-name">{data.bizName}</span>
                             <img className="drop-down" src={DropDownImg} alt=""></img>
                             <p className="score">{data.score}</p>

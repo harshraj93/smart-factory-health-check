@@ -23,23 +23,27 @@ class ReportsListView extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            
+            arrayIndex:"0",
         }
     }
 
-    // toggle(value) {
-    //     if(this.state.active === true)
-    // }
+    handleClick = (e)=>{
+        let value = e.currentTarget.getAttribute("value")
+        let index = value?value:0
+        this.setState({
+            arrayIndex:this.state.arrayIndex===String(index)?"":String(index)
+        });
+    }
 
     render(){
         return(
             <Accordion className="listview-accordion" defaultActiveKey={0}>
             {this.props.data.map((data,index)=>{
                 return(
-                        <Card key={index}>                                   
-                            <Accordion.Toggle as={Card.Header} className={"card-header"} variant="link" eventKey={index} value={index}>
+                        <Card key={index} className={"card"}>                                   
+                            <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
                                 {reportScoreCard(data)}
-                                <img className="drop-down" src={DropDownImg} alt=""></img>
+                                <img className="drop-down" src={DropDownImg} alt="" ></img>
                             </Accordion.Toggle>
                             <Accordion.Collapse eventKey={index}>
                                 <div>
