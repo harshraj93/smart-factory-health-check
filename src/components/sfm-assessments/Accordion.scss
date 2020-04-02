@@ -90,24 +90,23 @@
         margin-right: $common-margin;
         margin-left: $common-margin;
         width: unset;
-        .card-header{
+        .card-header-child{
             //background-color: $accordion-child-background;
             //margin-bottom: $common-margin;
-            height: 90px;
+                height: 90px;
                 background-color:$accordion-child-background;
                 color: $gray-darkest;
-                 &.true.card-header.drop-down{
-                     transform:none !important;
-                     transition-duration: none;
-                     transition-timing-function: linear;
-                 } 
-                
-            
-            
+                &.true.card-header{
+                     .drop-down{
+                        transform:rotate(180deg);
+                        transition-duration: 0.5s;
+                        transition-timing-function: linear;
+                     } 
+                }
+
             .industry-name-number{
                 font-size:18px;
-                
-            }
+                }
             
             
         }

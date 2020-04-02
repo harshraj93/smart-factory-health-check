@@ -43,7 +43,8 @@ class CustomAccordion extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            arrayIndex:"0"
+            arrayIndex:"0",
+            childCardArrayIndex:"0"
         }
     }
 
@@ -51,7 +52,14 @@ class CustomAccordion extends React.Component{
     handleClick = (e)=>{
         let index = e.currentTarget.value?e.currentTarget.value:0
         this.setState({
-            arrayIndex:this.state.arrayIndex===String(index)?"":index
+            arrayIndex:this.state.arrayIndex===String(index)?"":index,
+        })
+    }
+
+    handleChildClick = (e)=>{
+        let index = e.currentTarget.value?e.currentTarget.value:0
+        this.setState({
+           childCardArrayIndex:this.state.childCardArrayIndex===String(index)?"":index
         })
     }
 
@@ -76,9 +84,9 @@ class CustomAccordion extends React.Component{
                                         {data.siteList.map((element,siteListIndex)=>{
                                             return(
                                                 <Card key={siteListIndex} className="child-card">
-                                                <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
+                                                <Card.Header className={"card-header-child "+(this.state.childCardArrayIndex===String(siteListIndex))} >
                                                             {industryCard(element)}
-                                                    <Accordion.Toggle as={Button} variant="link" eventKey={siteListIndex} value={siteListIndex}>
+                                                    <Accordion.Toggle as={Button} variant="link" eventKey={siteListIndex} value={siteListIndex} onClick={(e)=>this.handleChildClick(e)}>
                                                     <img className="drop-down" src={DropDownImg} alt=""></img>
                                                     </Accordion.Toggle>
                                                 </Card.Header>
