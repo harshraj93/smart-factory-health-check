@@ -1,7 +1,7 @@
 import React from 'react'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
-import CustomButton from './sfm-button';
+import {CustomButton} from './sfm-button';
 import plusIcon from '../images/icon-small-add.svg';
 import smallLink from '../images/icon-small-link.svg';
 import downloadIcon from '../images/icon-small-download.svg';

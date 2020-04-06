@@ -1,10 +1,10 @@
 import React from 'react';
-import CustomButton from '../../assets/sfm-button'
+import {CustomButton} from '../../assets/sfm-button'
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import {withRouter} from 'react-router-dom';
 import DropDownMenu from '../../assets/drop-down-input-box';
 import LabelledInputField from '../../assets/input-field';
-
+import Collapse from 'react-bootstrap/Collapse';
 let data = 
 [{
     labelName:"Select Industry",
@@ -16,6 +16,8 @@ let data =
     labelName:"#Employees",
     dropDownData:["100-200","200-300"]
 },]
+
+
 function header(props){
     return(
         <div className="add-new-client-title">
@@ -27,65 +29,82 @@ function header(props){
     )
 }
 
+
 function clientInfoForm(props){
     return(
         <div className = "client-info-container">
         <div className="title">Client Information</div>
         <div className="client-info">
-        <LabelledInputField placeholder={true} labelName="Client Name*" />
-        <LabelledInputField placeholder={true} labelName="Primary Client Paricipation*" />
-        <LabelledInputField placeholder={true} labelName="Primary Client Role*" />
-        <DropDownMenu placeholder={data[0].labelName+"*"} data={data[0]} />
-        <LabelledInputField placeholder={true} labelName="Total Sites in Network (optional)" />
-        <LabelledInputField placeholder={true} labelName="# of Sites to Assess*" />
-        <LabelledInputField placeholder={true} labelName="Company Revenue (optional)" />
-        <LabelledInputField placeholder={true} labelName="Company EBITDA (optional)" />
+        <LabelledInputField placeholder={false} labelName="Client Name*" />
+        <LabelledInputField placeholder={false} labelName="Primary Client Paricipation*" />
+        <LabelledInputField placeholder={false} labelName="Primary Client Role*" />
+        <DropDownMenu  data={data[0]} />
+        <LabelledInputField placeholder={false} labelName="Total Sites in Network (optional)" />
+        <LabelledInputField placeholder={false} labelName="# of Sites to Assess*" />
+        <LabelledInputField placeholder={false} labelName="Company Revenue (optional)" />
+        <LabelledInputField placeholder={false} labelName="Company EBITDA (optional)" />
         </div>
         </div>
     )
 }
+
 
 function teamInfoForm(props){
     return(
-        <div className = "client-info-container">
-        <div className="title">Deloitte Team Information</div>
-        <div className="client-info">
-        <LabelledInputField placeholder={true} labelName="Primary Owner Name*" />
-        <LabelledInputField placeholder={true} labelName="Primary Owner Level*" />
-        <LabelledInputField placeholder={true} labelName="Primary Owner Email*" />
+        <div className = "team-info-container">
+        <div className="team-info-title">Deloitte Team Information</div>
+        <div className="team-info">
+        <LabelledInputField placeholder={false} labelName="Primary Owner Name*" />
+        <LabelledInputField placeholder={false} labelName="Primary Owner Level*" />
+        <LabelledInputField placeholder={false} labelName="Primary Owner Email*" />
         </div>
         </div>
     )
 }
 
-function addSupportResource(props){
+
+function addSupportResource(props,state){
     return(
-        <div className="client-info">
-        <LabelledInputField placeholder={true} labelName="Support Resource Name" />
-        <LabelledInputField placeholder={true} labelName="Support Resource Level" />
-        <LabelledInputField placeholder={true} labelName="Support Resource Email" />
+        <Collapse in={state.showSupportResource}>
+        <div className = "support-info-container">
+        <div className="support-info">
+        <LabelledInputField placeholder={false} labelName="Support Resource Name" />
+        <LabelledInputField placeholder={false} labelName="Support Resource Level" />
+        <LabelledInputField placeholder={false} labelName="Support Resource Email" />
         </div>
+        </div>
+        </Collapse>
     )
 }
+
 
 class AddNewClient extends React.Component{
     constructor(props){
         super(props);
         this.state={
-
+            showSupportResource:false
         }
         this.props.disableMenu(false);
     }
 
+    showSupportResource = ()=>{
+        this.setState({
+            showSupportResource:!this.state.showSupportResource
+        })
+    }
 
 
     render(){
-       
-        return(
+       return(
             <div className='add-new-client-container'>
             {header(this.props)}
             {clientInfoForm(this.props)}
+            <div className="border-bottom"></div>
             {teamInfoForm(this.props)}
+            <div className="border-bottom"></div>
+            {this.state.showSupportResource&&addSupportResource(this.props,this.state)}
+            <button className={"add-support-resource "+this.state.showSupportResource} onClick={this.showSupportResource}><img alt="" />Add Support Resource</button>
+            <div className="next-step"><CustomButton labelName="Next Step"></CustomButton></div>
             </div>
         )
     }

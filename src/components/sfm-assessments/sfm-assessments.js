@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomButton from '../../assets/sfm-button';
+import {CustomButton} from '../../assets/sfm-button';
 import CustomAccordion from './Accordion'
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';

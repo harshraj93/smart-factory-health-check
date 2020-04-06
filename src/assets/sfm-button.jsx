@@ -13,5 +13,13 @@ function CustomButton(props){
     }
     }
 
+function nextStepButton(props){
 
-export default CustomButton;
+}
+
+
+export {
+    CustomButton,
+    nextStepButton
+}
+
