@@ -1,0 +1,38 @@
+.add-new-client-container{  
+   
+    .add-new-client-title{
+        background-color: #232325;
+        padding-left:5%;
+        padding-right: 5%;
+    .custom-button{
+        height: 32px;
+        position: relative;
+        left: 2.5%;
+        width: 35px;
+        border-radius: 4px;
+        background-color: #35353b;
+        margin: $common-margin;
+    }
+    .title-text{
+        position: relative;
+        left: 45%;
+        font-weight: bold;
+        font-size: 18px;
+    }
+}
+    .client-info-container{
+        padding-left:5%;
+        padding-right: 5%;
+        .title{
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 40px;
+        }
+        .client-info{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+        }
+    }
+
+}
