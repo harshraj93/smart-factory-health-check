@@ -21,9 +21,9 @@ let data =
 function downloadUpload(props){
     return(
         <div className="upload-client-details">
-            <span className="upload-text">Upload Client & Site Details</span>
-            <span className="download-button"><DownloadButton labelName="Download Template" /></span>
-            <span className="download-button"><DownloadButton labelName="Upload Template" /></span>
+            <div className="upload-text">Upload Client & Site Details</div>
+            <span className="button-download"><DownloadButton labelName="Download Template" /></span>
+            <span className="button-upload" id="upload"><DownloadButton labelName="Upload Template" /></span>
         </div>
     )
 }
@@ -118,7 +118,7 @@ class AddNewClient extends React.Component{
        return(
             <div className='add-new-client-container'>
             {header("Add New Client",this.props)}
-            {/* {downloadUpload(this.props)} */}
+            {downloadUpload(this.props)}
             <form id="add-client-form">
             {clientInfoForm(this.props,this.handleChange)}
             <div className="border-bottom"></div>
