@@ -56,7 +56,7 @@ class ReportsOverview extends React.Component {
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
                             <img src={EditIcon} alt=""></img>
                         </div>
-                        <p className="summary-text">{this.props.data.summary}</p>
+                        <p className="summary-text" contentEditable="true">{this.props.data.summary}</p>
                     </div>
                     <div className="overall">
                         <div className="overall-header">

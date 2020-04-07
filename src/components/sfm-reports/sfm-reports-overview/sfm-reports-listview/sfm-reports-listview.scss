@@ -13,6 +13,7 @@
 
         .card-header{
             display: flex;
+            align-items: center;
             background-color: $accordion-dark-background; 
             // margin-bottom: $common-margin !important;
             margin-top: $common-margin !important;
@@ -43,13 +44,48 @@
             
             .listview-card {
                 display: grid;
-                grid-template-columns: 1fr 8fr 1fr;
+                grid-template-columns: 1fr 8fr;
                 grid-template-rows: 87px;
                 align-items: center;
 
                 .area-name {
                     width: 139px;
                     font-size: 18px;
+                    font-weight: 600;
+                }
+            }
+
+            .assess-overview-card {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+
+                .area-name {
+                    width: 307px;
+                    min-width: 307px;
+                    font-size: 18px;
+                    font-weight: 600;
+                }
+
+                .custom-button{
+                    margin-left:$common-margin;
+                    margin-right: 28px;
+                    border-radius: $border-radius-extra-large;
+                    background-color: $add-site-color;
+                    outline: none;
+                    border: unset;
+                    width: 11.75%;
+                }
+
+                .percent-complete {
+                    margin: 11px 0px;
+                    font-weight: 600;
+                    .progress {
+                        width: 280px;
+                        height: 0.5rem;
+                        background-color: #232325;
+                    }
                 }
             }
         }
@@ -57,6 +93,7 @@
         .collapse,.collapsing,.collapse-show{
             background-color: $accordion-dark-background;
             margin-top: -6px;
+            padding-bottom: 10px;
 
             .tr-com-box {
                 background-color: #232325;
@@ -97,6 +134,31 @@
                 .area-name {
                     width: 139px;
                     font-size: 18px;
+                    font-weight: 600;
+                }
+            }
+
+            .assess-overview-card {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-top: 21px;
+                margin: 23px 23px 12px 23px;
+                border-top: 1px solid #232325;
+                font-weight: 600;
+
+                .area-name {
+                    width: 139px;
+                    font-size: 18px;
+                }
+
+                .custom-button{
+                    margin-left:$common-margin;
+                    border-radius: $border-radius-extra-large;
+                    background-color: $add-site-color;
+                    outline: none;
+                    border: unset;
+                    width: 11.75%;
                 }
             }
         }
