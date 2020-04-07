@@ -19,7 +19,7 @@ class Slider extends React.Component {
         var avindAvg = 0; 
         var avtarget = 0;
         let arr = this.props.data;
-        arr.map((data,index)=>{
+        arr.forEach((data,index)=>{
             avscore += data.score;
             avtarget += data.target;
             avindAvg += data.indAvg;
