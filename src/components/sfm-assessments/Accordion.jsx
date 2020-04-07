@@ -3,7 +3,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Table from '../../assets/bootstrap-table';
-import CustomButton from '../../assets/sfm-button'
+import {CustomButton} from '../../assets/sfm-button'
 import UploadImg from '../../images/icon-small-upload.svg';
 import DropDownImg from '../../images/icon-small-chevron-down.svg';
 import {withRouter} from 'react-router-dom';

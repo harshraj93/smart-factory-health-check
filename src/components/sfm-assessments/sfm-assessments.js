@@ -1,8 +1,10 @@
 import React from 'react';
-import CustomButton from '../../assets/sfm-button';
+import {CustomButton} from '../../assets/sfm-button';
 import CustomAccordion from './Accordion'
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+import {Link} from 'react-router-dom';
+
 let tabValues = ["All","Open","Completed"];
 let data = [{
     companyName:"Conagra",
@@ -153,7 +155,7 @@ class Assessments extends React.Component {
                         <input id="icon" onChange={(e)=>this.triggerSearch(e)} type="text" placeholder={"Search Clients"} className="search-clients"></input>
                     </span>
                     <span className="add-button">
-                        <CustomButton labelName="Add Client"/>
+                    <Link to="/addnewclient"><CustomButton labelName="Add Client"/></Link>
                     </span>
                 </div>
                 <div className="tab-group">

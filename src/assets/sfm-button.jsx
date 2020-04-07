@@ -13,5 +13,21 @@ function CustomButton(props){
     }
     }
 
+function FormNavigationButton(props){
+    return(
+        <button type="submit" className="form-navigation-button" value={props.labelName}>{props.labelName}</button>
+    )
+}
 
-export default CustomButton;
+function DownloadButton(props){
+    return(
+        <button type="submit" className="download-button" value={props.labelName}>{props.labelName}</button>
+    )
+}
+
+export {
+    CustomButton,
+    FormNavigationButton,
+    DownloadButton
+}
+

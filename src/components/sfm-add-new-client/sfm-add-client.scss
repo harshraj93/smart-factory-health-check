@@ -1,0 +1,94 @@
+.add-new-client-container{  
+    max-height: 90vh;
+    overflow-y: scroll;
+    .add-new-client-title{
+        background-color: #232325;
+        padding-left:5%;
+        padding-right: 5%;
+    .custom-button{
+        height: 32px;
+        position: relative;
+        left: 2.5%;
+        width: 35px;
+        border-radius: 4px;
+        background-color: #35353b;
+        margin: $common-margin;
+    }
+    .title-text{
+        position: relative;
+        left: 45%;
+        font-weight: bold;
+        font-size: 18px;
+    }
+}       
+    .upload-client-details{
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 10%;
+    border-radius: 8px;
+    background: #35353b;
+    height: 100px;
+    }
+    .border-bottom{
+        border-bottom: 1px solid #35353b !important;
+        margin-top: 48px;
+        margin-left: 5%;
+        margin-right: 11%;
+
+    }
+    .client-info-container{
+        padding-left:5%;
+        padding-right: 5%;
+        .title{
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 40px;
+        }
+        .client-info{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+        }
+    }
+    .team-info-container{
+        padding-left:5%;
+        padding-right: 5%;
+        .team-info-title{
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 40px;
+        }
+        .team-info{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+    .support-info-container{
+        padding-left:5%;
+        padding-right: 5%;
+        .support-info{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+    .add-support-resource{
+        margin-left:5%;
+        margin-right: 5%;
+        margin-top: 40px;
+        border-radius: 19.5px;
+        padding: 2px 8px 2px 8px;
+        outline: none;
+        color: white;
+        background-color: $accordion-dark-background;
+        border: none;
+        &.true{
+            color: #727279;
+        }
+        span{
+            //font-size: 24px;
+            padding-right: 5px;
+        }
+    }
+    
+
+}
