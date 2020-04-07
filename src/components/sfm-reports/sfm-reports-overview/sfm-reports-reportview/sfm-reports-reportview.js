@@ -62,7 +62,7 @@ class ReportsCardView extends React.Component {
                 return(
                     <Card key={index} className={"card"}>
                         <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} variant="link" eventKey={index} value={index} onClick={(e)=>this.handleClick(e)}>
-                            <span className="area-name">{data.bizName}</span>
+                            <span className="area-name">{data.name}</span>
                             <img className="drop-down" src={DropDownImg} alt=""></img>
                             <p className="score">{data.score}</p>
                             <span className="circle" style={{backgroundColor: this.circleColor((data.target - data.score).toFixed(1))}}></span>
@@ -75,7 +75,7 @@ class ReportsCardView extends React.Component {
                                     {data.parts.map((x,y) => {
                                         return (
                                             <div className="reportview-card" key={y}>
-                                                <span className="area-name">{x.c}</span>
+                                                <span className="area-name">{x.name}</span>
                                                 <span className="circle" style={{backgroundColor: "#35353b"}}></span>
                                                 <p className="score">{x.score}</p>
                                                 <span className="circle" style={{backgroundColor: this.circleColor((x.target - x.score).toFixed(1))}}></span>
