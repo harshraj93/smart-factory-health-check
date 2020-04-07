@@ -7,3 +7,18 @@
         border: $button-click-border;
     }
 }
+
+
+.form-navigation-button{
+        position: relative;
+        left: 70%;
+        color: White;
+        background-color: #0b6ec5;
+        border-radius: 24px;
+        padding: 8px 10px 10px 8px;
+        border: unset;   
+        font-weight: 500; 
+        outline: none !important;
+        width: 14%;  
+        
+}

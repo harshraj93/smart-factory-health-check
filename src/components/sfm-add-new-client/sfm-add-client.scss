@@ -1,5 +1,6 @@
 .add-new-client-container{  
-   
+    max-height: 90vh;
+    overflow-y: scroll;
     .add-new-client-title{
         background-color: #232325;
         padding-left:5%;
@@ -21,8 +22,11 @@
     }
 }   
     .border-bottom{
-        border-bottom: 1px solid #35353b;
+        border-bottom: 1px solid #35353b !important;
         margin-top: 48px;
+        margin-left: 5%;
+        margin-right: 11%;
+
     }
     .client-info-container{
         padding-left:5%;
@@ -64,7 +68,7 @@
         margin-right: 5%;
         margin-top: 40px;
         border-radius: 19.5px;
-        padding: 11px;
+        padding: 2px 8px 2px 8px;
         outline: none;
         color: white;
         background-color: $accordion-dark-background;
@@ -72,17 +76,11 @@
         &.true{
             color: #727279;
         }
+        span{
+            //font-size: 24px;
+            padding-right: 5px;
+        }
     }
-    .next-step .custom-button{
-        position: relative;
-        left: 70%;
-        color: White;
-        background-color: #0b6ec5;
-        border-radius: 24px;
-        width: 12%;
-        padding: 15px 24px 14px 24px;
-        border: unset;
-
-    }
+    
 
 }

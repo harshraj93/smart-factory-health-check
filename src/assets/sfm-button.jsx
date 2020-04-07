@@ -13,13 +13,15 @@ function CustomButton(props){
     }
     }
 
-function nextStepButton(props){
-
+function FormNavigationButton(props){
+    return(
+        <button type="submit" className="form-navigation-button" value={props.labelName}>{props.labelName}</button>
+    )
 }
 
 
 export {
     CustomButton,
-    nextStepButton
+    FormNavigationButton
 }
 

@@ -6,6 +6,7 @@ import Analytics from '../components/sfm-analytics/sfm-analytics';
 import Assessments from '../components/sfm-assessments/sfm-assessments';
 import UtilSum from '../components/sfm-util-sum/sfm-util-sum';
 import AddNewClient from '../components/sfm-add-new-client/sfm-add-client'
+import AddSiteDetails from '../components/sfm-setup-site-details/setup-site-details'
 
 export default function Routes(props){
     return(
@@ -16,7 +17,7 @@ export default function Routes(props){
         <Route exact path="/overview"></Route>
         <Route exact path='/reports'><Reports disableMenu={props.disableMenu}/></Route>
         <Route exact path="/addnewclient"><AddNewClient disableMenu={props.disableMenu}/></Route>
-
+        <Route exact path="/addsitedetails"><AddSiteDetails disableMenu={props.disableMenu}/></Route>
 
     </Switch>
     );
