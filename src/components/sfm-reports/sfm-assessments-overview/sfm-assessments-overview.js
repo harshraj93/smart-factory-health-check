@@ -1,6 +1,4 @@
 import React from 'react';
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
 import EditIcon from '../../../images/icon-small-edit.svg';
 import ReportsListView from '../sfm-reports-overview/sfm-reports-listview/sfm-reports-listview';
 import './sfm-assessments-overview.scss';
