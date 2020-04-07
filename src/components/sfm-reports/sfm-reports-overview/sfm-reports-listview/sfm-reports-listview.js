@@ -5,7 +5,7 @@ import DropDownImg from '../../../../images/icon-small-chevron-down.svg';
 import EditIcon from '../../../../images/icon-small-edit.svg';
 import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import CustomButton from '../../../../assets/sfm-button';
+import {CustomButton} from '../../../../assets/sfm-button';
 
 class ReportsListView extends React.Component {
     constructor(props){
