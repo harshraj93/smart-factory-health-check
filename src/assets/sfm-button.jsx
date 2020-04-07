@@ -19,9 +19,15 @@ function FormNavigationButton(props){
     )
 }
 
+function DownloadButton(props){
+    return(
+        <button type="submit" className="download-button" value={props.labelName}>{props.labelName}</button>
+    )
+}
 
 export {
     CustomButton,
-    FormNavigationButton
+    FormNavigationButton,
+    DownloadButton
 }
 

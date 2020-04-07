@@ -3,7 +3,7 @@ import {header} from '../sfm-add-new-client/sfm-add-client'
 import {withRouter} from 'react-router-dom';
 import LabelledInputField from '../../assets/input-field';
 import DropDownMenu from '../../assets/drop-down-input-box'
-import {FormNavigationButton} from '../../assets/sfm-button'
+import {FormNavigationButton,DownloadButton} from '../../assets/sfm-button'
 
 
 let data = 
@@ -82,6 +82,7 @@ class AddSiteDetails extends React.Component{
                 )
                 })}
             <FormNavigationButton labelName="Next Step" />
+            
             </div>
          )
     }

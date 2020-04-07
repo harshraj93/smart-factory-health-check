@@ -1,5 +1,5 @@
 import React from 'react';
-import {CustomButton,FormNavigationButton} from '../../assets/sfm-button'
+import {CustomButton,FormNavigationButton,DownloadButton} from '../../assets/sfm-button'
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import {withRouter} from 'react-router-dom';
 import DropDownMenu from '../../assets/drop-down-input-box';
@@ -17,6 +17,16 @@ let data =
     labelName:"#Employees",
     dropDownData:["100-200","200-300"]
 },]
+
+function downloadUpload(props){
+    return(
+        <div className="upload-client-details">
+            <span className="upload-text">Upload Client & Site Details</span>
+            <span className="download-button"><DownloadButton labelName="Download Template" /></span>
+            <span className="download-button"><DownloadButton labelName="Upload Template" /></span>
+        </div>
+    )
+}
 
 
 export function header(title,props){
@@ -108,6 +118,7 @@ class AddNewClient extends React.Component{
        return(
             <div className='add-new-client-container'>
             {header("Add New Client",this.props)}
+            {/* {downloadUpload(this.props)} */}
             <form id="add-client-form">
             {clientInfoForm(this.props,this.handleChange)}
             <div className="border-bottom"></div>
