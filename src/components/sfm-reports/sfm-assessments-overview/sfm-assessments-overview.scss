@@ -1,3 +1,5 @@
+@import '../../../SCSS/config';
+
 .assess-overview {
     height: 100%;
     width: 100%;
@@ -10,5 +12,137 @@
         align-items: center;
         font-size: 14px;
         font-weight: bold;
+    }
+
+    .custom-button{
+        margin-left:$common-margin;
+        border-radius: $border-radius-extra-large;
+        background-color: $add-site-color;
+        outline: none;
+        border: unset;
+        width: 11.75%;
+    }
+
+    .assess-overview-accordion.accordion{
+        width: 100%;
+        .card{
+            border-radius: $border-radius !important;
+            
+            background-color:unset;
+            border: unset;
+            width: 100%;
+            margin-bottom: 0px !important;
+    
+            .card-header{
+                display: flex;
+                align-items: center;
+                background-color: $accordion-dark-background; 
+                // margin-bottom: $common-margin !important;
+                margin-top: $common-margin !important;
+                border-radius:$border-radius ;
+                width: 100%;
+                padding: 16px 24px;
+    
+                &.true {
+                    .drop-down{
+                        transform:rotate(180deg);
+                        transition-duration: 0.3s;
+                        transition-timing-function: linear;
+                    }
+                }
+                .btn.btn-link{
+                    position: unset;
+                    // left: 95%;
+                    .dropdown-icon{
+                        font-size: $font-least-fontSize;
+                    }
+                }
+
+                .react-switch-bg {
+                    margin-right: 20px !important;
+                }
+    
+                .assess-overview-card {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                    height: 7.04vh;
+    
+                    .area-name {
+                        width: 307px;
+                        min-width: 307px;
+                        font-size: 18px;
+                        font-weight: 600;
+                    }
+    
+                    .custom-button{
+                        margin-left:$common-margin;
+                        border-radius: $border-radius-extra-large;
+                        background-color: $add-site-color;
+                        outline: none;
+                        border: unset;
+                        width: 11.75%;
+                    }
+    
+                    .percent-complete {
+                        margin: 11px 0px;
+                        margin-right: 50px;
+                        font-weight: 600;
+                        .progress {
+                            width: 300px;
+                            height: 0.5rem;
+                            background-color: #232325;
+    
+                            .bg-success {
+                                background-color: #57bb50 !important;
+                            }
+                        }
+                    }
+                }
+            }
+    
+            .collapse,.collapsing,.collapse-show{
+                background-color: $accordion-dark-background;
+                margin-top: -6px;
+                padding-bottom: 10px;
+    
+                .assess-overview-card {
+                    display: flex;
+                    align-items: center;
+                    padding-top: 21px;
+                    margin: 23px 23px 12px 23px;
+                    border-top: 1px solid #232325;
+                    font-weight: 600;
+
+                    .react-switch-bg {
+                        margin-right: 20px !important;
+                    }
+
+                    .child-group {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        width: 100%;
+                        
+                        .area-name {
+                            width: 139px;
+                            font-size: 18px;
+                        }
+        
+                        .custom-button{
+                            margin-left:$common-margin;
+                            border-radius: $border-radius-extra-large;
+                            background-color: $add-site-color;
+                            outline: none;
+                            border: unset;
+                            width: 11.75%;
+                        }
+                    }                    
+                }
+            }
+        
+        }
+    
     }
 }

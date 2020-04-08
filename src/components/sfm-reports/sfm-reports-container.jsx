@@ -103,7 +103,6 @@ let data = {
 };
 
 let assessOverview = {
-    page: "Assessments Overview",
     functions: [
         {
             name: "Operations",
