@@ -18,20 +18,6 @@ function percentComplete(data, str) {
     )
 }
 
-function inactiveCard(data, index) {
-    return (
-        <>
-        <Card key={index} className={"card"}>
-            <Card.Header className={"card-header"}>
-                <div className="listview-card" style={{opacity: "0.3"}}>
-                    <span className="area-name">{data.name}</span>
-                </div>
-            </Card.Header>
-        </Card>
-        </>
-    )
-}
-
 class ReportsListView extends React.Component {
     constructor(props){
         super(props);
@@ -88,33 +74,51 @@ class ReportsListView extends React.Component {
         )
     }
 
+    activeCard = (data, index) => {
+        return (
+            <Card key={index} className={"card"}>                                   
+                <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
+                    <div className="assess-overview-card">
+                        <span className="area-name">{data.name}</span>
+                        {data.completed?percentComplete(data, "success"):percentComplete(data, "")}
+                        {data.completed?<CustomButton labelName="Done" style={{backgroundColor: "#57bb50"}}/>:<CustomButton labelName="Open"/>}
+                    </div>
+                    <img className="drop-down" src={DropDownImg} alt="" ></img>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey={index}>
+                    <div>
+                        {data.parts.map((x,y) => {
+                            return (
+                                <div className="assess-overview-card" key={y}>
+                                    <span className="area-name">{x.name}</span>
+                                    {x.completed?<CustomButton labelName="Done" style={{backgroundColor: "#57bb50"}}/>:<CustomButton labelName="Open"/>}
+                                </div>
+                            )
+                        })}
+                    </div>
+                </Accordion.Collapse>
+            </Card>
+        )
+    }
+
+    inactiveCard = (data, index) => {
+        return (
+            <Card key={index} className={"card"}>
+                <Card.Header className={"card-header"} style={{opacity: "0.3"}}>
+                    <div className="assess-overview-card">
+                        <span className="area-name">{data.name}</span>
+                    </div>
+                </Card.Header>
+            </Card>
+        )
+    }
+
     assessmentsCard = () => {
         return (
             <Accordion className="listview-accordion" defaultActiveKey={0}>
             {this.props.data.functions.map((data,index)=>{
                 return(
-                    <Card key={index} className={"card"}>                                   
-                        <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
-                            <div className="assess-overview-card">
-                                <span className="area-name">{data.name}</span>
-                                {data.completed?percentComplete(data, "success"):percentComplete(data, "")}
-                                {data.completed?<CustomButton labelName="Done" style={{backgroundColor: "#57bb50"}}/>:<CustomButton labelName="Open"/>}
-                            </div>
-                            <img className="drop-down" src={DropDownImg} alt="" ></img>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey={index}>
-                            <div>
-                                {data.parts.map((x,y) => {
-                                    return (
-                                        <div className="assess-overview-card" key={y}>
-                                            <span className="area-name">{x.name}</span>
-                                            {x.completed?<CustomButton labelName="Done" style={{backgroundColor: "#57bb50"}}/>:<CustomButton labelName="Open"/>}
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </Accordion.Collapse>
-                    </Card>
+                    data.active?this.activeCard(data, index):this.inactiveCard(data, index)
                 )
             })}
             </Accordion>
