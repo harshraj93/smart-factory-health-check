@@ -7,6 +7,31 @@ import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import {CustomButton} from '../../../../assets/sfm-button';
 
+function percentComplete(data, str) {
+    return (
+        <>
+        <div className="percent-complete">
+            <ProgressBar now={data.percentComplete} variant={str}/>
+            <p style={{margin: "0", fontSize: "14px", float: "right", marginRight: "5px"}}>{data.percentComplete}% Complete</p>
+        </div>
+        </>
+    )
+}
+
+function inactiveCard(data, index) {
+    return (
+        <>
+        <Card key={index} className={"card"}>
+            <Card.Header className={"card-header"}>
+                <div className="listview-card" style={{opacity: "0.3"}}>
+                    <span className="area-name">{data.name}</span>
+                </div>
+            </Card.Header>
+        </Card>
+        </>
+    )
+}
+
 class ReportsListView extends React.Component {
     constructor(props){
         super(props);
@@ -72,11 +97,8 @@ class ReportsListView extends React.Component {
                         <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
                             <div className="assess-overview-card">
                                 <span className="area-name">{data.name}</span>
-                                <div className="percent-complete">
-                                    <ProgressBar now={data.percentComplete}/>
-                                    <p style={{margin: "0", fontSize: "14px", float: "right", marginRight: "5px"}}>{data.percentComplete}% Complete</p>
-                                </div>
-                                <CustomButton labelName="Open"/>
+                                {data.completed?percentComplete(data, "success"):percentComplete(data, "")}
+                                {data.completed?<CustomButton labelName="Done" style={{backgroundColor: "#57bb50"}}/>:<CustomButton labelName="Open"/>}
                             </div>
                             <img className="drop-down" src={DropDownImg} alt="" ></img>
                         </Accordion.Toggle>
@@ -86,7 +108,7 @@ class ReportsListView extends React.Component {
                                     return (
                                         <div className="assess-overview-card" key={y}>
                                             <span className="area-name">{x.name}</span>
-                                            <CustomButton labelName="Open"/>
+                                            {x.completed?<CustomButton labelName="Done" style={{backgroundColor: "#57bb50"}}/>:<CustomButton labelName="Open"/>}
                                         </div>
                                     )
                                 })}
