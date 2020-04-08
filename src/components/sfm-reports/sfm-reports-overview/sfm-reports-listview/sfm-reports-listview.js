@@ -90,8 +90,8 @@ class ReportsListView extends React.Component {
                         {data.parts.map((x,y) => {
                             return (
                                 <div className="assess-overview-card" key={y}>
-                                    <span className="area-name">{x.name}</span>
-                                    {x.completed?<CustomButton labelName="Done" style={{backgroundColor: "#57bb50"}}/>:<CustomButton labelName="Open"/>}
+                                    {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
+                                    {x.active?(x.completed?<CustomButton labelName="Done" style={{backgroundColor: "#57bb50"}}/>:<CustomButton labelName="Open"/>):""}
                                 </div>
                             )
                         })}
