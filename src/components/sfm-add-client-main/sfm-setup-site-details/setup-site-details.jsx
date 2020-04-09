@@ -18,14 +18,13 @@ let data =
     dropDownData:["100-200","200-300"]
 },]
 
-let siteNumber = ["Site 1","Site 2","Site 3","Site 4"]
-
+let siteNumber=[];
 
 function siteHeader(props){
     return(
         <div className="site-header-container">
             <span className="site-name">Rotiva</span>
-            <Link to="/addbusinessfunctions"><FormNavigationButton labelName="Next Step" /></Link>
+         <Link to="/addbusinessfunctions"><FormNavigationButton labelName="Next Step" /></Link> 
         </div>
     )
 }
@@ -40,11 +39,18 @@ class AddSiteDetails extends React.Component{
         this.props.disableMenu(false)
     }
 
+    handleSubmit=(e)=>{
+        console.log(e);
+        e.preventDefault();
+        this.props.history.push('/addbusinessfunctions')
+    }
+
     siteInfoForm =(siteNumber)=>{
         return(
             <>
         <div className="site-form-modal">
         <div className="site-number">{siteNumber}</div>
+        
         <div className="site-form">
         
         <LabelledInputField placeholder={true} labelName="Site Name*" />
@@ -65,25 +71,47 @@ class AddSiteDetails extends React.Component{
         <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" />
         <LabelledInputField placeholder={true} labelName="OEE - Availability % (optional)" />
         <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" />
-
+        
         </div>
+       
         </div>
         <div className="border-bottom"></div>
         </>
         )
+    }   
+
+
+    componentDidMount = ()=>{
+        siteNumber = this.evaluateSiteNumber();
     }
 
+
+    evaluateSiteNumber = ()=>{
+        let siteNumArray=[];
+        let siteNum = this.props.location.state.sites;
+        for(let i=1;i<=siteNum;i++){
+            siteNumArray.push("Site "+i);
+        }
+        return siteNumArray;
+    }
+
+
     render(){
+        
          return(
              <div className="setup-site-details">
             <Header title="Enter site details" props={this.props} />
             {siteHeader(this.props)}
             {siteNumber.map((number,element)=>{
                 return (
-                    this.siteInfoForm(number)
+                    <form onSubmit={this.handleSubmit}>
+                    {this.siteInfoForm(number)}
+                    </form>
                 )
                 })}
-            <Link to="/addbusinessfunctions"><FormNavigationButton labelName="Next Step" /></Link>
+            {/* <Link to="/addbusinessfunctions"> */}
+           <Link to="/addbusinessfunctions"><FormNavigationButton labelName="Next Step" type="submit"/></Link>
+            {/* </Link> */}
             
             </div>
          )

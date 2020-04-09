@@ -26,7 +26,6 @@ function siteHeader(props){
 
 function businessFunctionCards(props,cardSelected,index,changeState){
     let businessName = props;
-    console.log(cardSelected,index);
     let booleanValue=cardSelected.filter(element=>{
         return element===String(index)
     })
@@ -51,15 +50,15 @@ class AddBusinessFunctions extends React.Component{
     }
 
 
-    changeCardState = (e)=>{
-        console.log(e.currentTarget.getAttribute("value"))
-        let pushValue = e.currentTarget.getAttribute("value")
-        let updatedArray = this.state.cardSelectedIndexArray.push(pushValue);
-        // this.setState({
-        //     cardSelectedIndexArray:updatedArray
-        // })
+    // changeCardState = (e)=>{
+    //     console.log(e.currentTarget.getAttribute("value"))
+    //     let pushValue = e.currentTarget.getAttribute("value")
+    //     let updatedArray = this.state.cardSelectedIndexArray.push(pushValue);
+    //     // this.setState({
+    //     //     cardSelectedIndexArray:updatedArray
+    //     // })
         
-    }
+    // }
 
     render(){
         return(

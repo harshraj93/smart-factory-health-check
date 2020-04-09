@@ -11,7 +11,7 @@ function downloadUpload(props,fileChange){
                 <DownloadButton labelName="Upload Template" />
                     
                 
-                {/* <input type="file" onChange={fileChange}></input> */}
+                 {/* <input type="file" onChange={fileChange}></input>  */}
             </span>
         </div>
     )
