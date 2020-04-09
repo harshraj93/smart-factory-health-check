@@ -123,7 +123,7 @@ class AddNewClient extends React.Component{
             {addSupportResource(this.props,this.state)}
             <div className="border-bottom"></div>
             {this.state.showSupportResource&&addSupportResource(this.props,this.state)}
-            <button className={"add-support-resource "+this.state.showSupportResource} 
+            <button type="button" className={"add-support-resource "+this.state.showSupportResource} 
             onClick={this.showSupportResource}>
                 <span>&#8853;</span> 
                 Add Support Resource
