@@ -1,10 +1,10 @@
 import React from 'react';
-import {header} from '../sfm-add-new-client/sfm-add-client'
+import Header from '../sfm-add-client-main'
 import {withRouter} from 'react-router-dom';
-import LabelledInputField from '../../assets/input-field';
-import DropDownMenu from '../../assets/drop-down-input-box'
-import {FormNavigationButton,DownloadButton} from '../../assets/sfm-button'
-
+import LabelledInputField from '../../../assets/input-field';
+import DropDownMenu from '../../../assets/drop-down-input-box'
+import {FormNavigationButton} from '../../../assets/sfm-button'
+import {Link} from 'react-router-dom';
 
 let data = 
 [{
@@ -20,14 +20,16 @@ let data =
 
 let siteNumber = ["Site 1","Site 2","Site 3","Site 4"]
 
+
 function siteHeader(props){
     return(
         <div className="site-header-container">
             <span className="site-name">Rotiva</span>
-            <FormNavigationButton labelName="Next Step" />
+            <Link to="/addbusinessfunctions"><FormNavigationButton labelName="Next Step" /></Link>
         </div>
     )
 }
+
 
 class AddSiteDetails extends React.Component{
     constructor(props){
@@ -74,14 +76,14 @@ class AddSiteDetails extends React.Component{
     render(){
          return(
              <div className="setup-site-details">
-            {header("Setup Site Details",this.props)}
+            <Header title="Enter site details" props={this.props} />
             {siteHeader(this.props)}
             {siteNumber.map((number,element)=>{
                 return (
                     this.siteInfoForm(number)
                 )
                 })}
-            <FormNavigationButton labelName="Next Step" />
+            <Link to="/addbusinessfunctions"><FormNavigationButton labelName="Next Step" /></Link>
             
             </div>
          )

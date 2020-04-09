@@ -4,12 +4,12 @@
     overflow-x: hidden;
     .add-new-client-title{
         background-color: #232325;
-        padding-left:5%;
-        padding-right: 5%;
+        padding-left:5px;
+        padding-right: 5px;
     .custom-button{
         height: 32px;
         position: relative;
-        left: 2.5%;
+        left: 30px;
         width: 35px;
         border-radius: 4px;
         background-color: #35353b;
@@ -21,26 +21,25 @@
         font-weight: bold;
         font-size: 18px;
     }
-}
+    } 
     .site-header-container{
-        
-        padding-left: 10%;
-        padding-right: 5%;
+        padding-left: 100px;
+        padding-right: 100px;
         background-color: #232325;
         padding-top: 32px;
-        padding-bottom: 32px;
         .site-name{
             font-size: 32px;
             font-weight: 600;
         }
     }
+
         .site-form-modal{
            padding-bottom: 32px;
         .site-form{
             background-color:#35353b;
-            padding-left: 5%;
+            padding-left: 60px;
             padding-bottom: 2%;
-            margin: 0 10%;
+            margin: 0 100px;
             display:grid;
             grid-template-columns: 1fr 1fr 1fr;
             grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -53,7 +52,7 @@
         }
         .site-number{
             position: relative;
-            left: 10%;
+            left: 100px;
             margin: 32px 0 32px 0;
             font-size: 20px;
             font-weight: bold;
@@ -62,8 +61,8 @@
         
     }
     .border-bottom{
-        width: 80%;
-        margin-left: 10%;
+        width: 90%;
+        margin-left: 100px;
         border-bottom: 1px solid #35353b !important;
     }
 

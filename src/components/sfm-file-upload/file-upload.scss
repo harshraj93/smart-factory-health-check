@@ -1,0 +1,28 @@
+.upload-client-details{
+    margin-top: 100px;
+    margin-left: 100px;
+    margin-right: 10%;
+    border-radius: 8px;
+    background: #35353b;
+    height: 10%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    .upload-text{
+        margin: 36px 0 36px 0;
+        padding-left: 10px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .button-download{
+        text-align: center;
+    }
+    #upload{
+        text-align: center;
+        padding-top: 35px;
+        height: 100px;
+        background-color: #727279;
+        border-radius: 0 8px 8px 0;
+    }
+
+    }

@@ -1,9 +1,11 @@
 @import 'config','structure','fonts';
 
 /* module css*/
+@import '../App.scss';
 @import '../index.scss';
 @import '../assets/bootstrap-table';
 @import '../assets/sfm-button';
+@import '../assets/check-box.scss';
 @import '../components/sfm-assessments/Accordion.scss';
 @import '../components/sfm-assessments/sfm-assessments.scss';
 @import '../components/sfm-analytics/sfm-analytics';
@@ -16,9 +18,14 @@
 @import '../components/sfm-reports/sfm-reports-overview/sfm-scorecard-slider/sfm-scorecard-slider.scss';
 @import '../components/sfm-reports/sfm-reports-overview/sfm-reports-listview/sfm-reports-listview.scss';
 @import '../components/sfm-util-sum/sfm-util-sum';
-@import '../components/sfm-add-new-client/sfm-add-client.scss';
-@import '../components/sfm-setup-site-details/setup-site-details.scss';
-@import '../App.scss'
+@import '../components/sfm-add-client-main/sfm-add-new-client/sfm-add-client.scss';
+@import '../components/sfm-add-client-main/sfm-setup-site-details/setup-site-details.scss';
+@import '../components/sfm-file-upload/file-upload.scss';
+@import '../components/sfm-add-client-main/sfm-add-client-main.scss';
+@import '../components/sfm-add-client-main/sfm-add-business-functions/sfm-add-business.scss';
+
+
+
 
 
 

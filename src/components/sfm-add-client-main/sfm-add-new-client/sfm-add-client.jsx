@@ -1,11 +1,13 @@
 import React from 'react';
-import {CustomButton,FormNavigationButton,DownloadButton} from '../../assets/sfm-button'
-import leftIcon from '../../images/icon-small-chevron-left.svg';
+import {FormNavigationButton} from '../../../assets/sfm-button'
 import {withRouter} from 'react-router-dom';
-import DropDownMenu from '../../assets/drop-down-input-box';
-import LabelledInputField from '../../assets/input-field';
-//import Collapse from 'react-bootstrap/Collapse';
+import DropDownMenu from '../../../assets/drop-down-input-box';
+import LabelledInputField from '../../../assets/input-field';
+import FileUpload from '../../sfm-file-upload/file-upload';
 import {Link} from 'react-router-dom';
+import Header from '../sfm-add-client-main'
+
+
 let data = 
 [{
     labelName:"Select Industry",
@@ -17,28 +19,6 @@ let data =
     labelName:"#Employees",
     dropDownData:["100-200","200-300"]
 },]
-
-function downloadUpload(props){
-    return(
-        <div className="upload-client-details">
-            <div className="upload-text">Upload Client & Site Details</div>
-            <span className="button-download"><DownloadButton labelName="Download Template" /></span>
-            <span className="button-upload" id="upload"><DownloadButton labelName="Upload Template" /></span>
-        </div>
-    )
-}
-
-
-export function header(title,props){
-    return(
-        <div className="add-new-client-title">
-                <CustomButton imgSrc={leftIcon} clickFunction={props.history.goBack}/>
-                <span className="title-text">
-                    {title}
-                </span>
-        </div>
-    )
-}
 
 
 let clientInfoForm=(props,handleChange)=>{
@@ -97,7 +77,6 @@ class AddNewClient extends React.Component{
     }
 
   
-
     showSupportResource = ()=>{
         this.setState({
             showSupportResource:!this.state.showSupportResource
@@ -117,8 +96,8 @@ class AddNewClient extends React.Component{
     render(){
        return(
             <div className='add-new-client-container'>
-            {header("Add New Client",this.props)}
-            {downloadUpload(this.props)}
+            <Header title="Add New Client" props={this.props}/>
+            <FileUpload props={this.props} />
             <form id="add-client-form">
             {clientInfoForm(this.props,this.handleChange)}
             <div className="border-bottom"></div>
