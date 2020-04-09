@@ -5,7 +5,7 @@ function DropDownMenu(props){
         return(
             <div className="dropdown">
                 {props.placeholder?"":<label htmlFor="dropdown-select">{props.data.labelName.toUpperCase()}</label>}
-                <select className="dropdown-select">
+                <select className="dropdown-select" required={props.required}>
                 {props.placeholder&&<option value="" disabled selected style={{fontWeight:"100"}}>{props.placeholder}</option>}
                     {props.data.dropDownData.map((element,index)=>{
                         return(

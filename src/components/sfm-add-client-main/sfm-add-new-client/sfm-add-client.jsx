@@ -29,7 +29,7 @@ let clientInfoForm=(props,handleChange)=>{
         <LabelledInputField placeholder={true} labelName="Client Name*" required={true} name="clientName" onChange={handleChange}/>
         <LabelledInputField placeholder={true} labelName="Primary Client Paricipation*" required={true} name="clientParticipation" onChange={handleChange}/>
         <LabelledInputField placeholder={true} labelName="Primary Client Role*" required={true} name="clientRole" onChange={handleChange}/>
-        <DropDownMenu placeholder={data[0].labelName} data={data[0]} name="clientName" onChange={handleChange}/>
+        <DropDownMenu required={true} placeholder={data[0].labelName+"*"} data={data[0]} name="clientName" onChange={handleChange}/>
         <LabelledInputField placeholder={true} labelName="Total Sites in Network (optional)" name="totalSites" onChange={handleChange}/>
         <LabelledInputField placeholder={true} labelName="# of Sites to Assess*" 
         required={true} name="numSites" onChange={handleChange} type="number" min="0" step="1"/>
