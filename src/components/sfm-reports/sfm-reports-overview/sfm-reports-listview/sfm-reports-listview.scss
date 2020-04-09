@@ -75,6 +75,7 @@
                     outline: none;
                     border: unset;
                     width: 11.75%;
+                    height: 55%;
                 }
 
                 .percent-complete {
@@ -82,7 +83,7 @@
                     margin-right: 50px;
                     font-weight: 600;
                     .progress {
-                        width: 300px;
+                        width: 30vw;
                         height: 0.5rem;
                         background-color: #232325;
 
@@ -163,6 +164,7 @@
                     outline: none;
                     border: unset;
                     width: 11.75%;
+                    height: 55%;
                 }
             }
         }
