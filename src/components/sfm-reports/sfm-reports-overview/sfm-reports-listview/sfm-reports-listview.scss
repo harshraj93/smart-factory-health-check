@@ -68,14 +68,15 @@
                     font-weight: 600;
                 }
 
-                .custom-button{
+                button.form-navigation-button {
                     margin-left:$common-margin;
                     border-radius: $border-radius-extra-large;
                     background-color: $add-site-color;
                     outline: none;
                     border: unset;
                     width: 11.75%;
-                    height: 55%;
+                    position: unset;
+                    padding: 5px !important;
                 }
 
                 .percent-complete {
@@ -157,14 +158,15 @@
                     font-size: 18px;
                 }
 
-                .custom-button{
+                button.form-navigation-button {
                     margin-left:$common-margin;
                     border-radius: $border-radius-extra-large;
                     background-color: $add-site-color;
                     outline: none;
                     border: unset;
                     width: 11.75%;
-                    height: 55%;
+                    position: unset;
+                    padding: 5px !important;
                 }
             }
         }

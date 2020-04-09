@@ -6,7 +6,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import ToggleSwitch from 'react-switch';
 import DropDownImg from '../../../images/icon-small-chevron-down.svg';
 import EditIcon from '../../../images/icon-small-edit.svg';
-import {CustomButton} from '../../../assets/sfm-button';
+import {CustomButton, FormNavigationButton} from '../../../assets/sfm-button';
 import ReportsListView from '../sfm-reports-overview/sfm-reports-listview/sfm-reports-listview';
 import './sfm-assessments-overview.scss';
 
@@ -55,7 +55,7 @@ class AssessmentsOverview extends React.Component {
                             <div className="assess-overview-card">
                                 <span className="area-name">{data.name}</span>
                                 {data.completed?percentComplete(data, ""):percentComplete(data, "success")}
-                                {data.completed?<CustomButton labelName="Done"/>:<CustomButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>}
+                                {data.completed?<FormNavigationButton labelName="Done"/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>}
                             </div>
                             <Accordion.Toggle as={Button} value={index} variant="link" eventKey={0} onClick={(e,value)=>this.handleClick(e,value)}>
                                 <img className="drop-down" src={DropDownImg} alt="" ></img>
@@ -69,7 +69,7 @@ class AssessmentsOverview extends React.Component {
                                             <ToggleSwitch onChange={this.handleChange} checked={this.state.checked} uncheckedIcon={false} checkedIcon={false} offColor="#57bb50" onColor="#161617" offHandleColor="#ffffff" onHandleColor="#727279" id={y}/>
                                             <div className="child-group">
                                             {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
-                                            {x.active?(x.completed?<CustomButton labelName="Done"/>:<CustomButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
+                                            {x.active?(x.completed?<FormNavigationButton labelName="Done"/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
                                             </div>
                                         </div>
                                     )
@@ -95,8 +95,8 @@ class AssessmentsOverview extends React.Component {
     applyChanges = () => {
         return (
             <div className="edit-bar">
-                <CustomButton labelName="Cancel" style={{backgroundColor: "#161617", boxShadow: "0 0 0 2px inset #616161"}} onClick={this.editToggle}/>
-                <CustomButton labelName="Apply Changes" onClick={this.editToggle}/>
+                <CustomButton labelName="Cancel" style={{backgroundColor: "#161617", boxShadow: "0 0 0 2px inset #616161"}} clickFunction={this.editToggle}/>
+                <CustomButton labelName="Apply Changes" clickFunction={this.editToggle}/>
             </div>
         )
     }
