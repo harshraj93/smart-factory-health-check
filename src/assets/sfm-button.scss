@@ -2,6 +2,7 @@
     width: 26%;
     outline: none;
     color: white;
+    border: none;
     outline: none !important;
     &:focus {
         border: $button-click-border;
@@ -27,8 +28,9 @@
     border-radius: 16px;
     font-size: 14px;
     font-weight: 500;
-    padding: 8px 16px 8px 16px;
+    padding: 4px 8px 4px 8px;
     background: inherit;
     color:white;
-    outline: none;
+    outline: none !important;
+    border:2px solid white;
 }
