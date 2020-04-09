@@ -13,5 +13,12 @@
         border-bottom: 1px solid #ffffff;
         color: white;
         width: 80%;
+        &.true{
+            border-bottom: 1px solid red;
+        }
+        
+    }
+    .required-text{
+        padding-top: 8px;
     }
 }
