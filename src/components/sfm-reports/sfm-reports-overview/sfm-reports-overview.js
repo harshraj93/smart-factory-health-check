@@ -1,6 +1,10 @@
 import React from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup'; 
 import EditIcon from '../../../images/icon-small-edit.svg';
 import ReorderIcon from '../../../images/icon-small-reorder.svg';
 import Slider from './sfm-scorecard-slider/sfm-scorecard-slider';
@@ -15,7 +19,81 @@ class ReportsOverview extends React.Component {
         super(props);
         this.state={
             title:"List",
+            summaryEdit: false,
+            recsEdit: false,
+            summary: this.props.data.summary
         }
+    }
+
+    editToggle = (str) => {
+        if (str === "summary") {
+            if (this.state.summaryEdit) {
+                this.setState({
+                    summaryEdit: false
+                });
+            }
+            else {
+                this.setState({
+                    summaryEdit: true
+                });
+            }
+        }
+        else if (str === "recs") {
+            if (this.state.recsEdit) {
+                this.setState({
+                    recsEdit: false
+                });
+            }
+            else {
+                this.setState({
+                    recsEdit: true
+                });
+            }
+        }
+    }
+
+    capTextForm() {
+        return (
+            <InputGroup controlId="capText">
+                <Form.Row>
+                    <Form.Group as={Col} controlId="keyThemes">
+                        <Form.Control type="list"/>
+                        <Form.Text className="text-muted">
+                            500/600 characters
+                        </Form.Text>
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="recs">
+                        <Form.Control type="list"/>
+                        <Form.Text className="text-muted">
+                            500/600 characters
+                        </Form.Text>
+                    </Form.Group>
+                </Form.Row>
+                
+                <InputGroup.Append>
+                    <Button variant="primary" type="submit">
+                        Done
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
+        )
+    }
+
+    summaryForm() {
+        return (
+            <InputGroup controlId="summaryText">
+                <Form.Control type="text" placeholder={this.state.summary}/>
+                <InputGroup.Append>
+                    <Form.Text className="text-muted">
+                        500/600 characters
+                    </Form.Text>
+                    <Button variant="primary" type="submit">
+                        Done
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
+        )
     }
 
     reportView() {
@@ -54,9 +132,9 @@ class ReportsOverview extends React.Component {
                     <div className="summary">
                         <div className="summary-header">
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
-                            <img src={EditIcon} alt=""></img>
+                            <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>
                         </div>
-                        <p className="summary-text" contentEditable="true">{this.props.data.summary}</p>
+                        {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.props.data.summary}</p>}
                     </div>
                     <div className="overall">
                         <div className="overall-header">
@@ -82,9 +160,9 @@ class ReportsOverview extends React.Component {
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
-                                    <img src={EditIcon} alt=""></img>
+                                    <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
                                 </div>
-                                <p className="overall-recs-text">{this.props.data.overallRecs}</p>
+                                {this.state.recsEdit?this.summaryForm():<p className="overall-recs-text">{this.props.data.overallRecs}</p>}
                             </div>
                         </div>
                     </div>

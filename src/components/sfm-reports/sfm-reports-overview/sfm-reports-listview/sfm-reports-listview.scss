@@ -105,7 +105,6 @@
                 background-color: #232325;
                 margin: 8px 24px;
                 width: 95%;
-                height: 168px;
                 border-radius: 8px;
                 padding: 10px 10px;
                 .edit {
@@ -114,7 +113,7 @@
                     justify-content: flex-end;
                 }
                 .tr-box {
-                    margin: 0 40px;
+                    margin: 0 35px;
                     .tr-heading {
                         display: flex;
                         align-items: center;
@@ -126,6 +125,48 @@
                         font-size: 14px;
                         color: #dedede;
                         margin: 0;
+                    }
+                }
+            }
+
+            .input-group {
+                display: flex;
+                flex-direction: column;
+                margin: 0px 35px;
+
+                .form-row {
+                    margin: 0;
+
+                    .form-label {
+                        font-weight: 600;
+                    }
+
+                    .form-control {
+                        background-color: #35353b;
+                        border-radius: 8px;
+                        color: #dedede;
+                        width: 33.5vw;
+                        height: 29.3vh;
+                        border: none;
+                        flex: none;
+                        background-clip: unset;
+                    }
+
+                    .text-muted {
+                        color: #727279!important;
+                        font-size: 92%;
+                        margin: 0;
+                        margin-right: 10px;
+                    }
+                }
+
+                .input-group-append {
+                    margin-right: 80px;
+                    justify-content: flex-end;
+                    align-items: center;
+
+                    .btn {
+                        border-radius: 25px;
                     }
                 }
             }

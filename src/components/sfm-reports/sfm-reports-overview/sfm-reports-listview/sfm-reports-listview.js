@@ -1,10 +1,14 @@
 import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup'; 
 import DropDownImg from '../../../../images/icon-small-chevron-down.svg';
 import EditIcon from '../../../../images/icon-small-edit.svg';
 import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
-import ProgressBar from 'react-bootstrap/ProgressBar';
 import {FormNavigationButton} from '../../../../assets/sfm-button';
 
 function percentComplete(data, str) {
@@ -23,7 +27,53 @@ class ReportsListView extends React.Component {
         super(props);
         this.state={
             arrayIndex:"0",
+            capTextEdit: false
         }
+
+        this.editToggle = this.editToggle.bind(this);
+    }
+
+    editToggle() {
+        if (this.state.capTextEdit) {
+            this.setState({
+                capTextEdit: false
+            });
+        }
+        else {
+            this.setState({
+                capTextEdit: true
+            });
+        }
+    }
+
+    capTextForm() {
+        return (
+            <InputGroup controlId="capText">
+                <Form.Row>
+                    <Form.Group as={Col} controlId="keyThemes">
+                        <Form.Label>Key Themes</Form.Label>
+                        <Form.Control type="list" placeholder="Enter key themes" />
+                        <Form.Text className="text-muted">
+                            500/600 characters
+                        </Form.Text>
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="recs">
+                        <Form.Label>Recommendations</Form.Label>
+                        <Form.Control type="list" placeholder="Enter recommendations" />
+                        <Form.Text className="text-muted">
+                            500/600 characters
+                        </Form.Text>
+                    </Form.Group>
+                </Form.Row>
+                
+                <InputGroup.Append>
+                    <Button variant="primary" type="submit">
+                        Done
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
+        )
     }
 
     reportScoreCard = () => {
@@ -44,9 +94,9 @@ class ReportsListView extends React.Component {
                             <div>
                                 <div className="tr-com-box">
                                     <div className="edit">
-                                        <img src={EditIcon} alt=""></img>
+                                        <img src={EditIcon} alt="" onClick={this.editToggle}></img>
                                     </div>
-                                    <div style={{display: "flex"}}>
+                                    {this.state.capTextEdit?this.capTextForm():<div style={{display: "flex"}}>
                                         <div className="tr-box">
                                             <span className="tr-heading">Key Themes</span>
                                             <p className="tr-text">{data.keyThemes}</p>
@@ -55,7 +105,7 @@ class ReportsListView extends React.Component {
                                             <span className="tr-heading">Recommendations</span>
                                             <p className="tr-text">{data.recs}</p>
                                         </div>
-                                    </div>
+                                    </div>}
                                 </div>
                                 {data.parts.map((x,y) => {
                                     return (
