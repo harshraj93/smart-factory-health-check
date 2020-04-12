@@ -52,34 +52,6 @@ class ReportsOverview extends React.Component {
         }
     }
 
-    capTextForm() {
-        return (
-            <InputGroup controlId="capText">
-                <Form.Row>
-                    <Form.Group as={Col} controlId="keyThemes">
-                        <Form.Control type="list"/>
-                        <Form.Text className="text-muted">
-                            500/600 characters
-                        </Form.Text>
-                    </Form.Group>
-
-                    <Form.Group as={Col} controlId="recs">
-                        <Form.Control type="list"/>
-                        <Form.Text className="text-muted">
-                            500/600 characters
-                        </Form.Text>
-                    </Form.Group>
-                </Form.Row>
-                
-                <InputGroup.Append>
-                    <Button variant="primary" type="submit">
-                        Done
-                    </Button>
-                </InputGroup.Append>
-            </InputGroup>
-        )
-    }
-
     summaryForm() {
         return (
             <InputGroup controlId="summaryText">
