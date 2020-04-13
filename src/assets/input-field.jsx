@@ -19,7 +19,13 @@ export default class LabelledInputField extends React.Component{
         this.setState({
             showRequired:true
         })
-    }
+        this.props.changeButtonState();
+        }
+        else{
+            this.setState({
+                showRequired:false
+            })
+        }
     }
 
 
@@ -41,16 +47,8 @@ export default class LabelledInputField extends React.Component{
 
     setValueBorder=(e)=>{
         changeBorder(e);
-        this.setValue(e)
     }
 
-
-    setValue=(e)=>{
-        let value = e.target.value;
-        this.setState({
-            value:value
-        })
-    }
 
 
     render(){
@@ -71,6 +69,7 @@ export default class LabelledInputField extends React.Component{
             onInput={(e)=>this.setValueBorder(e)}
             name={this.props.name}
             onBlur={(e)=>this.addRequired(e)}
+           
             >
             </input>
             {this.state.showRequired&&this.props.required&&!this.state.value&&<div className="required-text">! Required Field</div>}
