@@ -52,17 +52,17 @@ class ReportsListView extends React.Component {
                 <Form.Row>
                     <Form.Group as={Col} controlId="keyThemes">
                         <Form.Label>Key Themes</Form.Label>
-                        <Form.Control type="list" placeholder="Enter key themes" />
+                        <Form.Control as={"input"} type="text" maxLength={450} placeholder="Enter key themes" />
                         <Form.Text className="text-muted">
-                            500/600 characters
+                            300/450 characters
                         </Form.Text>
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="recs">
                         <Form.Label>Recommendations</Form.Label>
-                        <Form.Control type="list" placeholder="Enter recommendations" />
+                        <Form.Control as={"input"} type="text" maxLength={450} placeholder="Enter recommendations" />
                         <Form.Text className="text-muted">
-                            500/600 characters
+                            300/450 characters
                         </Form.Text>
                     </Form.Group>
                 </Form.Row>

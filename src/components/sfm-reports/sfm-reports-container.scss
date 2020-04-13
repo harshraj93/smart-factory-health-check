@@ -13,8 +13,10 @@
             padding-right: 5%;
             font-size: 18px;
             font-weight: bold;
-            padding: 16px 10px 10px 0px;
+            padding: 16px 16px 10px 0px;
             margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
             .custom-button{
                 height: 32px;
                 position: relative;
@@ -25,7 +27,14 @@
             }
             .title-text{
                 position: relative;
-                left: 45%;
+                left: 5%;
+            }
+            .remove-site {
+                display: flex;
+                align-items: center;
+                color: #dedede;
+                font-size: 14px;
+                font-weight: 600;
             }
         }
         h2{

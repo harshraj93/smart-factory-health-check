@@ -5,6 +5,7 @@ import {CustomButton} from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import downloadIcon from '../../images/icon-small-download.svg';
 import linkIcon from '../../images/icon-small-link.svg';
+import DeleteIcon from '../../images/combined-shape.svg';
 import ReportsOverview from './sfm-reports-overview/sfm-reports-overview';
 import DemographicsForm from './sfm-reports-demographics/demographics-form';
 import AssessmentsOverview from './sfm-assessments-overview/sfm-assessments-overview';
@@ -340,6 +341,10 @@ class Reports extends React.Component{
                     <span className="title-text">
                         Assessment Overview
                     </span>
+                    <div className="remove-site">
+                        <img src={DeleteIcon} alt=""/>
+                        <p style={{margin: "0", marginLeft: "10px"}}> Remove Site</p>
+                    </div>
                 </div>
                 <h2 className="location-name">{this.props.location.locationString!==undefined?this.props.location.locationString:"Bristol"}
                 </h2>
