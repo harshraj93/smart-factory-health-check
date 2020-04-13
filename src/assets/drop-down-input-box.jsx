@@ -1,13 +1,48 @@
 import React from 'react';
-import './drop-down-input-box.scss'
-function DropDownMenu(props){
+
+class DropDownMenu extends React.Component{
+
+
+        constructor(props){
+            super(props);
+            this.state={
+                showRequired:""
+            }
+        }
+
+
+        customInvalidAction = (e)=>{
+            e.preventDefault();
+            //this.addRequired();
+        }
     
+    
+        handleInvalid = (e)=>{
+                return this.customInvalidAction;
+        }
+    
+        
+        showRequired = (e)=>{
+            if(e.target.value==="Select Industry*"){
+            this.setState({
+                showRequired:true
+            })
+        }
+        }
+
+
+        componentDidMount = ()=>{
+            document.addEventListener('invalid', this.handleInvalid(), true);
+        }
+
+
+        render(){
         return(
             <div className="dropdown">
-                {props.placeholder?"":<label htmlFor="dropdown-select">{props.data.labelName.toUpperCase()}</label>}
-                <select className="dropdown-select" required={props.required}>
-                {props.placeholder&&<option value="" disabled selected style={{fontWeight:"100"}}>{props.placeholder}</option>}
-                    {props.data.dropDownData.map((element,index)=>{
+                {this.props.placeholder?"":<label htmlFor="dropdown-select">{this.props.data.labelName.toUpperCase()}</label>}
+                <select className="dropdown-select" required={this.props.required} onChange={this.props.onChange} name={this.props.name}>
+                {this.props.placeholder&&<option value="" disabled selected style={{fontWeight:"100"}}>{this.props.placeholder}</option>}
+                    {this.props.data.dropDownData.map((element,index)=>{
                         return(
                             <>
                             <option key={index} value={element}>{element}</option>
@@ -17,7 +52,7 @@ function DropDownMenu(props){
                 </select>
             </div>
         )
-    
+    }
 }
 
 export default DropDownMenu

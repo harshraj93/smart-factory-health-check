@@ -4,6 +4,8 @@ import CustomAccordion from './Accordion'
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import {Link} from 'react-router-dom';
+import {assessmentsApi} from '../../api/assessments/assessments'
+import {apiGetHeader,apiPostHeader} from '../../api/main/mainapistorage'
 
 let tabValues = ["All","Open","Completed"];
 let data = [{
@@ -133,17 +135,25 @@ class Assessments extends React.Component {
     }
 
 
-    triggerSearch=(e)=>{
-        let value = e.target.value;
-        if(value.length>0){
-        let searchedData = data.filter(element=>{
-            return value.match(element.companyName.toLowerCase())
-        })
-        this.setState({
-            accordionData:searchedData===undefined?this.state.accordionData:searchedData
-        })
+    fetchAssessmentsData = ()=>{
+        let obj = {
+            method: 'GET',
+            headers: {
+              'x-api-key': 'ITEdpYmxd29yhWvXwmW07IUHyLtJaPZ1gmRDDGZ4',
+              'Content-Type': 'application/json',
+            }
+          }
+        fetch('https://4n8f11s940.execute-api.us-east-1.amazonaws.com/dev/client/assessmentDetails',obj)
+        .then(results=>console.log(results.json()))
+        .then(resp=>console.log(resp))
+        .catch(err=>console.log(err))
     }
+
+
+    componentDidMount = ()=>{
+        this.fetchAssessmentsData();
     }
+
 
     render() {
         return (
