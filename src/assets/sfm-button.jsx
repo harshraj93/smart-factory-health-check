@@ -15,7 +15,7 @@ function CustomButton(props){
 
 function FormNavigationButton(props){
     return(
-        <button type="submit" className="form-navigation-button" value={props.labelName} style={props.style}>{props.labelName}</button>
+        <button type="submit" className={"form-navigation-button "+props.buttonStatus} value={props.labelName} style={props.style}>{props.labelName}</button>
     )
 }
 
