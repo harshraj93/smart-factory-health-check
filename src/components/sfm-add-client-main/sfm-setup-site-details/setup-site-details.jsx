@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom';
 import LabelledInputField from '../../../assets/input-field';
 import DropDownMenu from '../../../assets/drop-down-input-box'
 import {FormNavigationButton} from '../../../assets/sfm-button'
-import {Link} from 'react-router-dom';
+//import {Link} from 'react-router-dom';
 
 let data = 
 [{
@@ -20,11 +20,11 @@ let data =
 
 let siteNumber=[];
 
-function siteHeader(props){
+function siteHeader(props,enableButton){
     return(
         <div className="site-header-container">
             <span className="site-name">Rotiva</span>
-         <Link to="/addbusinessfunctions"><FormNavigationButton labelName="Next Step" /></Link> 
+         <FormNavigationButton labelName="Next Step" buttonStatus={enableButton}/>
         </div>
     )
 }
@@ -34,15 +34,23 @@ class AddSiteDetails extends React.Component{
     constructor(props){
         super(props);
         this.state={
-
+            enableButton:false
         }
         this.props.disableMenu(false)
     }
 
+    setNextStepState = ()=>{
+        this.setState({
+            enableButton:"false"
+        })
+    }
+
+
     handleSubmit=(e)=>{
-        console.log(e);
         e.preventDefault();
-        this.props.history.push('/addbusinessfunctions')
+        this.props.history.push({
+            pathname:'/addbusinessfunctions'
+        })
     }
 
     siteInfoForm =(siteNumber)=>{
@@ -53,9 +61,9 @@ class AddSiteDetails extends React.Component{
         
         <div className="site-form">
         
-        <LabelledInputField placeholder={true} labelName="Site Name*" />
-        <LabelledInputField placeholder={true} labelName="Primary POC*" />
-        <LabelledInputField placeholder={true} labelName="Primary POC Role*" />
+        <LabelledInputField placeholder={true} changeButtonState={this.setNextStepState} required={true} labelName="Site Name*" />
+        <LabelledInputField placeholder={true} changeButtonState={this.setNextStepState} required={true} labelName="Primary POC*" />
+        <LabelledInputField placeholder={true} changeButtonState={this.setNextStepState} required={true} labelName="Primary POC Role*" />
         <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <div className="bottom-border"></div>
@@ -100,18 +108,19 @@ class AddSiteDetails extends React.Component{
         
          return(
              <div className="setup-site-details">
-            <Header title="Enter site details" props={this.props} />
-            {siteHeader(this.props)}
+            <Header title="Enter site details" handleSubmit={this.handleSubmit} props={this.props}/>
+            <form id="setup-site-details" onSubmit={this.handleSubmit}>
+            {siteHeader(this.props,this.state.enableButton)}
             {siteNumber.map((number,element)=>{
                 return (
-                    <form onSubmit={this.handleSubmit}>
-                    {this.siteInfoForm(number)}
-                    </form>
+                    
+                    this.siteInfoForm(number)
+                    
                 )
                 })}
-            {/* <Link to="/addbusinessfunctions"> */}
-           <Link to="/addbusinessfunctions"><FormNavigationButton labelName="Next Step" type="submit"/></Link>
-            {/* </Link> */}
+           
+           <FormNavigationButton labelName="Next Step" buttonStatus={this.state.enableButton} type="submit"/>
+           </form>
             
             </div>
          )
