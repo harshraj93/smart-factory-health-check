@@ -395,22 +395,30 @@ class Reports extends React.Component{
         )
     }
 
+
     fetchResultsData = ()=>{
-        var postHeader = JSON.parse(apiPostHeader);
-        postHeader.body = JSON.stringify({ "clientName": this.props.location.companyName, "siteName": this.props.location.locationString });
+        let body = { 
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString
+        };
+
+        
+        let postHeader = (apiPostHeader);
+        postHeader["body"] = JSON.stringify(body); 
         console.log(postHeader);
         fetch(resultsApi.getResults,postHeader)
             .then(results=>results.json())
-            .then(resp=>this.setState({data:resp.resultantJSON}))
+            .then(resp => async() =>await this.setState({data:resp.resultantJSON,reportsOverview:resp.resultantJSON}))
             .catch(err=>console.log(err))
     }
+
 
     componentDidMount = ()=>{
         this.fetchResultsData();
         this.setState({
             loadComponentString:this.props.location.loadComponentString
         })
-        console.log(this.state.data);
+        
     }
 
     render(){
