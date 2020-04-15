@@ -5,8 +5,8 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import {Link} from 'react-router-dom';
 import {assessmentsApi} from '../../api/assessments/assessments'
-import {apiGetHeader,apiPostHeader} from '../../api/main/mainapistorage'
-
+import {apiGetHeader} from '../../api/main/mainapistorage'
+import parseAssessmentsJSON from '../../util/assessmentspageutil'
 let tabValues = ["All","Open","Completed"];
 
 
@@ -44,11 +44,16 @@ class Assessments extends React.Component {
         })
     }
 
+    parsingFunctions = (data)=>{
+        
+        //this.setState({data:resp.resultantJSON,accordionData:resp.resultantJSON})
+        parseAssessmentsJSON(data)
+    }
 
     fetchAssessmentsData = ()=>{
     fetch(assessmentsApi.getAssessments,JSON.parse(apiGetHeader))
         .then(results=>results.json())
-        .then(resp=>this.setState({data:resp.resultantJSON,accordionData:resp.resultantJSON}))
+        .then(resp=>this.parsingFunctions(resp))
         .catch(err=>console.log(err))
     }
 

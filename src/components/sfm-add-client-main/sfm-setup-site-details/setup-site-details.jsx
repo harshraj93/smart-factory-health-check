@@ -19,11 +19,12 @@ let data =
 },]
 
 let siteNumber=[];
+let requiredFieldNames=[];
 
 function siteHeader(props,enableButton){
     return(
         <div className="site-header-container">
-            <span className="site-name">Rotiva</span>
+            <span className="site-name">{props.location.state.clientName}</span>
          <FormNavigationButton labelName="Next Step" buttonStatus={enableButton}/>
         </div>
     )
@@ -34,10 +35,11 @@ class AddSiteDetails extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            enableButton:false
+            enableButton:"false"
         }
         this.props.disableMenu(false)
     }
+
 
     setNextStepState = ()=>{
         this.setState({
@@ -48,40 +50,86 @@ class AddSiteDetails extends React.Component{
 
     handleSubmit=(e)=>{
         e.preventDefault();
+        let clientNameArray = []
+        let clientNames=requiredFieldNames.filter(element=>{
+            return element.includes("siteName")
+        })
+        clientNames.forEach(element=>{
+            clientNameArray.push(this.state[element])
+        })
+        let dataForBusinessFunctions = {
+            clientNames:clientNameArray
+        }
+        
         this.props.history.push({
-            pathname:'/addbusinessfunctions'
+            pathname:'/addbusinessfunctions',
+            state:{
+                dataForBusinessFunctions:dataForBusinessFunctions,
+                siteName:this.props.location.state.clientName
+            }
         })
     }
 
-    siteInfoForm =(siteNumber)=>{
+
+    handleChange = async(e)=>{
+
+        let name = e.target.name;
+        await this.setState({
+            [name]:e.target.value
+        })
+        this.checkRequiredFields();
+        
+    }
+
+
+    checkRequiredFields = ()=>{
+        let prevValue;
+        let boolFlag;
+        requiredFieldNames.forEach(element=>{
+            boolFlag = prevValue&&this.state[element];
+            prevValue = this.state[element];
+            boolFlag!==undefined?boolFlag=true:boolFlag=false
+        })
+        if(boolFlag){
+            this.setState({
+            enableButton:"true"
+        })
+        }
+    }
+
+
+    siteInfoForm =(siteNumber,index)=>{
         return(
             <>
-        <div className="site-form-modal">
+        <div className="site-form-modal" key={index}>
+        
         <div className="site-number">{siteNumber}</div>
         
+        <div className="modal-container">
+        <div className="required">* Required field</div>
         <div className="site-form">
-        
-        <LabelledInputField placeholder={true} changeButtonState={this.setNextStepState} required={true} labelName="Site Name*" />
-        <LabelledInputField placeholder={true} changeButtonState={this.setNextStepState} required={true} labelName="Primary POC*" />
-        <LabelledInputField placeholder={true} changeButtonState={this.setNextStepState} required={true} labelName="Primary POC Role*" />
+       
+        <LabelledInputField placeholder={true} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"siteName"+index} required={true} labelName="Site Name*" siteNumber={index}/>
+        <LabelledInputField placeholder={true} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primePoc"+index} required={true} labelName="Primary POC*" siteNumber={index}/>
+        <LabelledInputField placeholder={true} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primPocRole"+index} required={true} labelName="Primary POC Role*" siteNumber={index} />
         <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <div className="bottom-border"></div>
-        <DropDownMenu placeholder="Manufacturing Archetype*"  data={data[0]} name="clientName" />
-        <DropDownMenu placeholder="Sector*"  data={data[1]} name="clientName" />
-        <LabelledInputField placeholder={true} labelName="# of Shifts (optional)" />
-        <LabelledInputField placeholder={true} labelName="# Employees (optional)" />
-        <LabelledInputField placeholder={true} labelName="# of Assets (optional)" />
-        <LabelledInputField placeholder={true} labelName="Site Revenue(optional)" />
-        <LabelledInputField placeholder={true} labelName="Site EBITDA (optional)" />
-        <LabelledInputField placeholder={true} labelName="OTIF % (optional)" />
-        <LabelledInputField placeholder={true} labelName="Site OEE (optional)" />
-        <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" />
-        <LabelledInputField placeholder={true} labelName="OEE - Availability % (optional)" />
-        <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" />
+        <DropDownMenu placeholder="Manufacturing Archetype*" required={true}  data={data[0]} name={"manfArch"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder="Sector*"  data={data[1]} required={true} name={"sector"+index} onChange={this.handleChange}/>
+        <LabelledInputField placeholder={true} labelName="# of Shifts (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
+        <LabelledInputField placeholder={true} labelName="# Employees (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
+        <LabelledInputField placeholder={true} labelName="# of Assets (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
+        <LabelledInputField placeholder={true} labelName="Site Revenue(optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteRevenue"+index}/>
+        <LabelledInputField placeholder={true} labelName="Site EBITDA (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteEBI"+index}/>
+        <LabelledInputField placeholder={true} labelName="OTIF % (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteOTIF"+index}/>
+        <LabelledInputField placeholder={true} labelName="Site OEE (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteOEE"+index}/>
+        <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentSiteOEE"+index}/>
+        <LabelledInputField placeholder={true} labelName="OEE - Availability % (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentAvailable"+index}/>
+        <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentQuality"+index}/>
         
         </div>
-       
+        </div>
         </div>
         <div className="border-bottom"></div>
         </>
@@ -99,6 +147,11 @@ class AddSiteDetails extends React.Component{
         let siteNum = this.props.location.state.sites;
         for(let i=1;i<=siteNum;i++){
             siteNumArray.push("Site "+i);
+            requiredFieldNames.push("primePoc"+String(i-1));
+            requiredFieldNames.push("siteName"+String(i-1));
+            requiredFieldNames.push("primPocRole"+String(i-1));
+            requiredFieldNames.push("manfArch"+String(i-1));
+            requiredFieldNames.push("sector"+String(i-1));
         }
         return siteNumArray;
     }
@@ -111,10 +164,10 @@ class AddSiteDetails extends React.Component{
             <Header title="Enter site details" handleSubmit={this.handleSubmit} props={this.props}/>
             <form id="setup-site-details" onSubmit={this.handleSubmit}>
             {siteHeader(this.props,this.state.enableButton)}
-            {siteNumber.map((number,element)=>{
+            {siteNumber.map((number,index)=>{
                 return (
                     
-                    this.siteInfoForm(number)
+                    this.siteInfoForm(number,index)
                     
                 )
                 })}

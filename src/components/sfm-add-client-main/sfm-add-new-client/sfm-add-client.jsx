@@ -87,9 +87,10 @@ class AddNewClient extends React.Component{
     }
 
 
-    handleChange = (e)=>{
+    handleChange = async (e)=>{
         let name = e.target.name;
-        this.setState({
+        
+        await this.setState({
             [name]:e.target.value
         })
         this.checkRequiredFields();
@@ -100,7 +101,10 @@ class AddNewClient extends React.Component{
         e.preventDefault();
         this.props.history.push({
            pathname: '/addsitedetails',
-           state:{sites:this.state.numSites}
+           state:{
+               sites:this.state.numSites,
+               clientName:this.state.clientName
+            }
         })
         
     }
