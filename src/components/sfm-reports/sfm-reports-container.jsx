@@ -10,6 +10,8 @@ import ReportsOverview from './sfm-reports-overview/sfm-reports-overview';
 import DemographicsForm from './sfm-reports-demographics/demographics-form';
 import AssessmentsOverview from './sfm-assessments-overview/sfm-assessments-overview';
 import {withRouter} from 'react-router-dom';
+import {resultsApi} from '../../api/assessments/reports'
+import {apiGetHeader,apiPostHeader} from '../../api/main/mainapistorage'
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=["Overview","Demographics"];
@@ -269,7 +271,10 @@ class Reports extends React.Component{
             locationName:"",
             reportsOverview: data,
             assessOverview: assessOverview,
-            loadComponentString:""
+            loadComponentString:"",
+            data:{},
+            assessData:[],
+            x: false
         }
         this.props.disableMenu(false)
         
@@ -327,21 +332,48 @@ class Reports extends React.Component{
         )
     }
 
-    componentDidMount = ()=>{
-        this.setState({
-            loadComponentString:this.props.location.loadComponentString
-        })
+    editToggle = () => {
+        if (this.state.x) {
+            this.setState({
+                x: false
+            });
+        }
+        else {
+            this.setState({
+                x: true
+            });
+        }
+    }
+
+    deleteModal = () => {
+        return (
+            <div className="delete-modal">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <p>Remove Site</p>
+                    </div>
+                    <div className="modal-body">
+                        <p>Are you sure you want to remove this site?</p>
+                    </div>
+                    <div className="modal-footer">
+                        <CustomButton labelName="Cancel" style={{backgroundColor: "#232325", boxShadow: "0 0 0 2px inset #616161"}} clickFunction={this.editToggle}/>
+                        <CustomButton labelName="Delete Site" clickFunction={this.editToggle}/>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     AssessmentsHeader = ()=>{
         return(
             <div className="reports-container">
+                {this.state.x?this.deleteModal():""}
                 <div className="assessment-overview-title">
                     <CustomButton imgSrc={leftIcon} clickFunction={this.props.history.goBack}/>
                     <span className="title-text">
                         Assessment Overview
                     </span>
-                    <div className="remove-site">
+                    <div className="remove-site" onClick={this.editToggle}>
                         <img src={DeleteIcon} alt=""/>
                         <p style={{margin: "0", marginLeft: "10px"}}> Remove Site</p>
                     </div>
@@ -363,6 +395,23 @@ class Reports extends React.Component{
         )
     }
 
+    fetchResultsData = ()=>{
+        var postHeader = JSON.parse(apiPostHeader);
+        postHeader.body = JSON.stringify({ "clientName": this.props.location.companyName, "siteName": this.props.location.locationString });
+        console.log(postHeader);
+        fetch(resultsApi.getResults,postHeader)
+            .then(results=>results.json())
+            .then(resp=>this.setState({data:resp.resultantJSON}))
+            .catch(err=>console.log(err))
+    }
+
+    componentDidMount = ()=>{
+        this.fetchResultsData();
+        this.setState({
+            loadComponentString:this.props.location.loadComponentString
+        })
+        console.log(this.state.data);
+    }
 
     render(){
     return(

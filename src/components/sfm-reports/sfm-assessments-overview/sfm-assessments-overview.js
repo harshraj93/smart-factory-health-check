@@ -31,10 +31,14 @@ class AssessmentsOverview extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(id, checked) {
+    handleChange(e) {
         // this.setState({ checked });
-        document.getElementById(id).setAttribute("checked", !checked);
-        
+        // document.getElementById(id).setAttribute("checked", !checked);
+        let id = e.currentTarget.getAttribute("id");
+
+        this.setState({
+            [id]: e.currentTarget.getAttribute("checked")
+        })
     }
 
     handleClick = (e)=>{
@@ -53,7 +57,7 @@ class AssessmentsOverview extends React.Component {
                     <Card key={index} className={"card"}>                                   
                         <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
                         
-                            <ToggleSwitch onChange={this.handleChange()} checked={!data.active} uncheckedIcon={false} checkedIcon={false} offColor="#57bb50" onColor="#161617" offHandleColor="#ffffff" onHandleColor="#727279" id={"switch"+index}/>
+                            <ToggleSwitch onChange={(e,id,checked)=>this.handleChange(e,id,checked)} checked={!data.active} uncheckedIcon={false} checkedIcon={false} offColor="#57bb50" onColor="#161617" offHandleColor="#ffffff" onHandleColor="#727279" id={"switch"+index}/>
                             <div className="assess-overview-card">
                                 <span className="area-name">{data.name}</span>
                                 {data.completed?percentComplete(data, ""):percentComplete(data, "success")}

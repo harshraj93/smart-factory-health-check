@@ -16,7 +16,8 @@ let apiPostHeader = JSON.stringify({
     'Accept': 'application/json',
       'Content-Type': 'application/json',
       'x-api-key': xapikey,
-    }
+    },
+    body: ""
 })
 
 
