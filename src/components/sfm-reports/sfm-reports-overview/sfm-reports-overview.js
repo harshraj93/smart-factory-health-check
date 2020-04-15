@@ -18,10 +18,11 @@ class ReportsOverview extends React.Component {
         super(props);
         this.state={
             title:"List",
+            reportsData: [],
             summaryEdit: false,
             recsEdit: false,
-            summary: this.props.data.summary,
-            overallRecs: this.props.data.overallRecs
+            summary: "this.props.data.summary",
+            overallRecs: "this.props.data.overallRecs"
         }
     }
 
@@ -107,7 +108,7 @@ class ReportsOverview extends React.Component {
                         <p className="reportview-header-text">Industry Avg</p>
                     </div>
                 </div>
-                <ReportsCardView data={this.props.data.reportsData}/>
+                <ReportsCardView data={this.props.data}/>
             </div>
         );
     }
@@ -125,6 +126,13 @@ class ReportsOverview extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.setState({
+            reportsData: this.props.data.reportsData
+        });
+        console.log(this.props.data);
+    }
+
     render() {
         return (
             <div className="reports-overview">
@@ -134,7 +142,7 @@ class ReportsOverview extends React.Component {
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
                             <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>
                         </div>
-                        {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.state.summary}</p>}
+                        {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.props.data.summary}</p>}
                     </div>
                     <div className="overall">
                         <div className="overall-header">
@@ -162,7 +170,7 @@ class ReportsOverview extends React.Component {
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
                                     <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
                                 </div>
-                                {this.state.recsEdit?this.overallRecsForm():<p className="overall-recs-text">{this.state.overallRecs}</p>}
+                                {this.state.recsEdit?this.overallRecsForm():<p className="overall-recs-text">{this.props.data.overallRecs}</p>}
                             </div>
                         </div>
                     </div>
@@ -180,7 +188,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data.reportsData}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data}/>:this.reportView()}
                                 </Tab>
                             )
                         })}

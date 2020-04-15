@@ -15,95 +15,95 @@ import {apiGetHeader,apiPostHeader} from '../../api/main/mainapistorage'
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=["Overview","Demographics"];
-let data = {
-    summary: "Lore ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna.",
-    overallRecs: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
-    score: 4.5,
-    target: 6,
-    indAvg: 2.8,
-    reportsData :[
-        {
-            name: "Operations",
-            keyThemes: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
-            recs: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
-            score: 4.5,
-            target: 6.0,
-            indAvg: 4.8,
-            parts: [
-                {
-                    name: "Capability 1",
-                    score: 3.2,
-                    target: 5.8,
-                    indAvg: 3.8,
-                },
-                {
-                    name: "Capability 2",
-                    score: 3,
-                    target: 4.8,
-                    indAvg: 3.8, 
-                },
-                {
-                    name: "Capability 3",
-                    score: 3.2,
-                    target: 6.8,
-                    indAvg: 3.8,
-                },
-                {
-                    name: "Capability 4",
-                    score: 3.2,
-                    target: 3.4,
-                    indAvg: 3.8,
-                },
-                {
-                    name: "Capability 5",
-                    score: 3.2,
-                    target: 4,
-                    indAvg: 3.8,
-                }
-            ]
-        },
-        {
-            name: "Procurement & Supplier Management",
-            keyThemes: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
-            recs: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
-            score: 4.5,
-            target: 6.0,
-            indAvg: 3.8,
-            parts: [
-                {
-                    name: "Capability 1",
-                    score: 3.2,
-                    target: 5.8,
-                    indAvg: 3.8,
-                },
-                {
-                    name: "Capability 2",
-                    score: 3,
-                    target: 4.8,
-                    indAvg: 3.8,
-                },
-                {
-                    name: "Capability 3",
-                    score: 3.2,
-                    target: 6.8,
-                    indAvg: 3.8,
-                },
-                {
-                    name: "Capability 4",
-                    score: 3.2,
-                    target: 3.4,
-                    indAvg: 3.8,
-                },
-                {
-                    name: "Capability 5",
-                    score: 3.2,
-                    target: 4,
-                    indAvg: 3.8,
-                }
-            ]
-        }
-    ]
-};
+// let data = {
+//     summary: "Lore ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna.",
+//     overallRecs: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
+//     score: 4.5,
+//     target: 6,
+//     indAvg: 2.8,
+//     reportsData :[
+//         {
+//             name: "Operations",
+//             keyThemes: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
+//             recs: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
+//             score: 4.5,
+//             target: 6.0,
+//             indAvg: 4.8,
+//             parts: [
+//                 {
+//                     name: "Capability 1",
+//                     score: 3.2,
+//                     target: 5.8,
+//                     indAvg: 3.8,
+//                 },
+//                 {
+//                     name: "Capability 2",
+//                     score: 3,
+//                     target: 4.8,
+//                     indAvg: 3.8, 
+//                 },
+//                 {
+//                     name: "Capability 3",
+//                     score: 3.2,
+//                     target: 6.8,
+//                     indAvg: 3.8,
+//                 },
+//                 {
+//                     name: "Capability 4",
+//                     score: 3.2,
+//                     target: 3.4,
+//                     indAvg: 3.8,
+//                 },
+//                 {
+//                     name: "Capability 5",
+//                     score: 3.2,
+//                     target: 4,
+//                     indAvg: 3.8,
+//                 }
+//             ]
+//         },
+//         {
+//             name: "Procurement & Supplier Management",
+//             keyThemes: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
+//             recs: "Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis. Vestibulum volutpat sit amet lacus eu convallis.",
+//             score: 4.5,
+//             target: 6.0,
+//             indAvg: 3.8,
+//             parts: [
+//                 {
+//                     name: "Capability 1",
+//                     score: 3.2,
+//                     target: 5.8,
+//                     indAvg: 3.8,
+//                 },
+//                 {
+//                     name: "Capability 2",
+//                     score: 3,
+//                     target: 4.8,
+//                     indAvg: 3.8,
+//                 },
+//                 {
+//                     name: "Capability 3",
+//                     score: 3.2,
+//                     target: 6.8,
+//                     indAvg: 3.8,
+//                 },
+//                 {
+//                     name: "Capability 4",
+//                     score: 3.2,
+//                     target: 3.4,
+//                     indAvg: 3.8,
+//                 },
+//                 {
+//                     name: "Capability 5",
+//                     score: 3.2,
+//                     target: 4,
+//                     indAvg: 3.8,
+//                 }
+//             ]
+//         }
+//     ]
+// };
 
 let assessOverview = {
     functions: [
@@ -269,7 +269,7 @@ class Reports extends React.Component{
             title:"Overview",
             companyName:"",
             locationName:"",
-            reportsOverview: data,
+            reportsOverview: {},
             assessOverview: assessOverview,
             loadComponentString:"",
             data:{},
@@ -296,6 +296,7 @@ class Reports extends React.Component{
 
     
     resultHeader = ()=>{
+        console.log(this.state.data);
         return(
             <div className="reports-container">
             <div className="assessment-title">
@@ -364,7 +365,7 @@ class Reports extends React.Component{
         )
     }
 
-    AssessmentsHeader = ()=>{
+    AssessmentsHeader(){
         return(
             <div className="reports-container">
                 {this.state.x?this.deleteModal():""}
@@ -408,7 +409,7 @@ class Reports extends React.Component{
         console.log(postHeader);
         fetch(resultsApi.getResults,postHeader)
             .then(results=>results.json())
-            .then(resp => async() =>await this.setState({data:resp.resultantJSON,reportsOverview:resp.resultantJSON}))
+            .then(resp => async() =>await this.setState({data:resp.resultantJSON,reportsOverview:resp.resultantJSON}), resp=> console.log(resp.resultantJSON))
             .catch(err=>console.log(err))
     }
 
@@ -418,7 +419,7 @@ class Reports extends React.Component{
         this.setState({
             loadComponentString:this.props.location.loadComponentString
         })
-        
+        console.log(this.state.data)
     }
 
     render(){

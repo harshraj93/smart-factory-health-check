@@ -34,31 +34,7 @@ class ReportsCardView extends React.Component {
     render() {
         return(
             <Accordion className="reportview-accordion" defaultActiveKey={0}>
-                {/* <Card>
-                    <Card.Header className={"card-header"}>
-                        <span className="area-name">Operations</span>
-                        <Accordion.Toggle as={Button} variant="link">
-                                <img src={DropDownImg} alt=""></img>
-                        </Accordion.Toggle>
-                        <p className="score">3.0</p>
-                        <span className="circle" style={{}}></span>
-                        <p className="score">3.0</p>
-                        <p className="score">4.0</p>
-                        <p className="score">5.0</p>
-                    </Card.Header>
-                    <Accordion.Collapse>
-                        <div className="reportview-card">
-                            <span className="area-name">Capability</span>
-                            <span className="circle" style={{backgroundColor: "#35353b"}}></span>
-                            <p className="score">3.0</p>
-                            <span className="circle" style={{}}></span>
-                            <p className="score">3.0</p>
-                            <p className="score">4.0</p>
-                            <p className="score">5.0</p>
-                        </div>
-                    </Accordion.Collapse>
-                </Card> */}
-            {this.props.data.map((data,index)=>{
+            {this.props.data.reportsData.map((data,index)=>{
                 return(
                     <Card key={index} className={"card"}>
                         <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} variant="link" eventKey={index} value={index} onClick={(e)=>this.handleClick(e)}>

@@ -79,7 +79,7 @@ class ReportsListView extends React.Component {
     reportScoreCard = () => {
         return (
             <Accordion className="listview-accordion" defaultActiveKey={0}>
-            {this.props.data.map((data,index)=>{
+            {this.props.data.reportsData.map((data,index)=>{
                 return(
                     <Card key={index} className={"card"}>                                   
                         <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
@@ -184,8 +184,9 @@ class ReportsListView extends React.Component {
     }
 
     render(){
+        console.log(this.props.data);
         return(
-            this.props.data.functions?this.assessmentsCard():this.reportScoreCard()
+            this.props.data.functions!==undefined?this.assessmentsCard():this.reportScoreCard()
         )
     }
 }
