@@ -2,26 +2,29 @@
     overflow-y: auto;
     height: 100vh;
     overflow-x: hidden;
-    .add-new-client-title{
-        background-color: #232325;
-        padding-left:5px;
-        padding-right: 5px;
-    .custom-button{
-        height: 32px;
-        position: relative;
-        left: 30px;
-        width: 35px;
-        border-radius: 4px;
-        background-color: #35353b;
-        margin: $common-margin;
-    }
-    .title-text{
-        position: relative;
-        left: 45%;
-        font-weight: bold;
-        font-size: 18px;
-    }
-    } 
+    // .add-new-client-title{
+    //     background-color: #232325;
+    //     padding-left:5px;
+    //     padding-right: 5px;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+
+    // .custom-button{
+    //     height: 32px;
+    //     position: relative;
+    //     left: 30px;
+    //     width: 35px;
+    //     border-radius: 4px;
+    //     background-color: #35353b;
+    //     margin: $common-margin;
+    // }
+    // .title-text{
+    //     margin: auto;
+    //     font-weight: bold;
+    //     font-size: 18px;
+    // }
+    // } 
     .site-header-container{
         padding-left: 100px;
         padding-right: 100px;
@@ -35,21 +38,32 @@
 
         .site-form-modal{
            padding-bottom: 32px;
-        .site-form{
+        .modal-container{
             background-color:#35353b;
             padding-left: 60px;
             padding-bottom: 2%;
             margin: 0 100px;
+            border-radius: 8px;
+            .required{
+                font-size: 12px;
+                font-weight: bold;
+                position: relative;
+                left: 82%;
+                padding-top: 16px;
+            }
+        .site-form{
+            
             display:grid;
             grid-template-columns: 1fr 1fr 1fr;
             grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-            border-radius: 8px;
+            
             .bottom-border{
                 border-top: 1px solid #161617 !important;
                 margin-top: 56px;
                 width: 100%;
             }
         }
+    }
         .site-number{
             position: relative;
             left: 100px;

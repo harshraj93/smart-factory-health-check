@@ -2,6 +2,9 @@
     background-color: #232325;
     padding-left:5px;
     padding-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 .custom-button{
     height: 32px;
     position: relative;
@@ -12,8 +15,7 @@
     margin: $common-margin;
 }
 .title-text{
-    position: relative;
-    left: 45%;
+    margin: auto;
     font-weight: bold;
     font-size: 18px;
 }

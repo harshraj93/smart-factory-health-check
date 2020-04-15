@@ -3,105 +3,166 @@ import {FormNavigationButton} from '../../../assets/sfm-button';
 import Header from '../sfm-add-client-main';
 import {Link,withRouter} from 'react-router-dom';
 import {CustomButton} from '../../../assets/sfm-button';
-import CheckBox from '../../../assets/check-box';
+import {createCardSelectedObj} from '../../../util/addbusinessfunctions'
 
 let businessNames=[
     "Operations","Maintenance","Quality","Planning & Scheduling","Replenishment & Material Management",
     "Procurement & Supplier Management","Engineering & R&D","Continuous Improvement","Information Technology","Human Resources"
 ];
 
-let siteNames=[
-    "Greenville","Muscatine","Wilton","Durant"
-]
 
 
-function siteHeader(props){
+
+function siteHeader(props,enableButton){
     return(
         <div className="site-header-container">
-            <span className="company-name">Rotiva</span>
-            <Link to="/"><FormNavigationButton labelName="Complete" /></Link>
+            <span className="company-name">{props.location.state.siteName}</span>
+            <Link to="/"><FormNavigationButton labelName="Complete" buttonStatus={enableButton}/></Link>
         </div>
     )
 }
 
-function businessFunctionCards(props,cardSelected,index,changeState){
-    let businessName = props;
-    let booleanValue=cardSelected.filter(element=>{
-        return element===String(index)
-    })
-    return(
-        <>
-        <div className={"function-card "+booleanValue} onClick={changeState} value={index}>
-            <CustomButton labelName={<>&#9432;</>}></CustomButton>
-            <div className="card-text">{businessName}</div>
-        </div>
-       
-        </>
-    )
-}
 
+let indexObjectArray=[];
 class AddBusinessFunctions extends React.Component{
     constructor(props){
         super(props);
-        this.state={
-            cardSelectedIndexArray:[]
-        }
         this.props.disableMenu(false);
+        let indexObjArray=[];
+        indexObjectArray = createCardSelectedObj(this.props.location.state.dataForBusinessFunctions.clientNames,indexObjArray)
+        this.state={
+            cardSelectedIndexArray:[...indexObjectArray],
+            checked:"",
+            enableButton:"false"
+        }
+        
     }
 
 
-    // changeCardState = (e)=>{
-    //     console.log(e.currentTarget.getAttribute("value"))
-    //     let pushValue = e.currentTarget.getAttribute("value")
-    //     let updatedArray = this.state.cardSelectedIndexArray.push(pushValue);
-    //     // this.setState({
-    //     //     cardSelectedIndexArray:updatedArray
-    //     // })
+    highlightCard = async(e)=>{
+        let id = e.currentTarget.getAttribute("value");
+        let siteName = e.currentTarget.getAttribute("sitename");
+        let tempState = this.state.cardSelectedIndexArray;
+        let cnt=0;
+        let indexArrayObj = tempState.filter(element=>{
+            return element.businessName===siteName
+        })
+        let tempArray = indexArrayObj[0].indexArray
+        if(tempArray.includes(id)){
+            let index = tempArray.indexOf(id);
+            tempArray.splice(index,1);
+        }
+        else{
+            tempArray.push(id);
+        }
         
-    // }
+        tempState.forEach(element=>{
+            if(element.indexArray.length>0){
+                cnt++;
+            }
+        })
+        if(cnt===tempState.length){
+            this.setState({
+                enableButton:"true"
+            })
+        }
+        else{
+            this.setState({
+                enableButton:"false"
+            }) 
+        }
+        await this.setState({ 
+            cardSelectedIndexArray:[...tempState],
+        })
+    }
+
+
+    businessFunctionCards = (businessName,siteName,index)=>{
+        let businessObject = this.state.cardSelectedIndexArray.filter(element=>{
+            return element.businessName===siteName
+        })
+        return(
+            <>
+            <div className={"function-card "+(businessObject[0].indexArray.includes(String(index))?"true":"false")} onClick={this.highlightCard} sitename={siteName} key={index} value={index} >
+                <CustomButton labelName={<>&#9432;</>}></CustomButton>
+                <div className="card-text" >{businessName}</div>
+            </div>
+           
+            </>
+        )
+    }
+
+
+    handleCheckBox = (e,siteName)=>{
+        let tempArray = this.state.cardSelectedIndexArray; 
+        let businessNameObjArray = tempArray.filter(element=>{
+            return element.businessName===siteName;
+        });
+        tempArray.forEach(element=>{
+            element.indexArray = businessNameObjArray[0].indexArray
+        })
+        if(!this.state.checked){
+        this.setState({
+            cardSelectedIndexArray:[...tempArray],
+            checked:!this.state.checked
+        })
+        }
+        else{
+            let businessArray = tempArray.filter(element=>{
+                return element.businessName!==siteName
+            })
+            businessArray[0].indexArray=[];
+            this.setState({
+                checked:false,
+                
+            })
+        }
+        
+        
+    }
+
 
     render(){
+       
         return(
         <div className="add-business-function">
         <Header title="Add Business Functions" props={this.props} />
-        {siteHeader(this.props)}
-        
-        <div className="site-name">{siteNames[0]}
-            <CheckBox labelName="Apply Selections across all sites"/>
-        </div>
-        <div className="cards-container">
-        {businessNames.map((element,index)=>
-        {
-            return(
-        businessFunctionCards(element,this.state.cardSelectedIndexArray,index,this.changeCardState)
-        )
-        })}
-        
-        </div>
-        {siteNames.map((element,index)=>{
-            
-        if(index!==0){
-            return(
+        {siteHeader(this.props,this.state.enableButton)}
+
+        {this.props.location.state.dataForBusinessFunctions.clientNames.map((element,index)=>{
+         return(
             <>
-                <div className="bottom-border"></div>
-                <div className="site-name">
+                
+                <div className="site-name" key={index}>
                     {element}
+                    {index===0?
+                    <>
+                        <span className="check-box" onChange={(e)=>this.handleCheckBox(e,element)}>
+                             <input type="checkbox" checked={this.state.checked} />
+                            <span></span>
+                            <label>Apply Selections across all sites</label>
+                        </span>
+                    </>:""}
                 </div>
         
                 <div className="cards-container">
-                        {businessNames.map((element,index)=>
-                {
+                        {businessNames.map((businessNames,index)=>
+                {   
                     return(
-                    businessFunctionCards(element,this.state.cardSelectedIndexArray,index,this.changeCardState)
+                        <>
+                {this.businessFunctionCards(businessNames,element,index)}
+                    </>
                     )
                 })}
         
                 </div> 
+                <div className="bottom-border"></div>
              </>  
             )
-            }
+            
             
             })}
+            <Link to="/"><FormNavigationButton labelName="Complete" buttonStatus={this.state.enableButton}/></Link>
         </div>
         )
     }
