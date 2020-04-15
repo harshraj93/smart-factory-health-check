@@ -138,6 +138,7 @@ class AddSiteDetails extends React.Component{
 
 
     componentDidMount = ()=>{
+        requiredFieldNames=[]
         siteNumber = this.evaluateSiteNumber();
     }
 
@@ -153,7 +154,7 @@ class AddSiteDetails extends React.Component{
             requiredFieldNames.push("manfArch"+String(i-1));
             requiredFieldNames.push("sector"+String(i-1));
         }
-        return siteNumArray;
+        return siteNumArray
     }
 
 

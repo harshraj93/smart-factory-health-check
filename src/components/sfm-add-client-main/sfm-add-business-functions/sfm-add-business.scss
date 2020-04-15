@@ -29,6 +29,9 @@
         border-radius: 8px;
         background-color: #35353b;
         margin: 16px 8px 16px 0;
+        &.true{
+            border: 2px solid blue;
+        }
         .custom-button{
             position: relative;
             left: 80%;

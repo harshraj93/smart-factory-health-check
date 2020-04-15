@@ -45,9 +45,11 @@ class Assessments extends React.Component {
     }
 
     parsingFunctions = (data)=>{
-        
-        //this.setState({data:resp.resultantJSON,accordionData:resp.resultantJSON})
-        parseAssessmentsJSON(data)
+        let jsondata = parseAssessmentsJSON(data);
+        this.setState({
+            data:jsondata.resultantJSON,
+            accordionData:jsondata.resultantJSON
+        })
     }
 
     fetchAssessmentsData = ()=>{
