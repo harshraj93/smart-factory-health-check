@@ -269,14 +269,15 @@ class Reports extends React.Component{
             title:"Overview",
             companyName:"",
             locationName:"",
-            reportsOverview: {},
+            reportsOverview: [],
             assessOverview: assessOverview,
             loadComponentString:"",
-            data:{},
+            data:[],
             assessData:[],
             x: false
         }
-        this.props.disableMenu(false)
+        this.props.disableMenu(false);
+        
         
     }
 
@@ -296,7 +297,6 @@ class Reports extends React.Component{
 
     
     resultHeader = ()=>{
-        console.log(this.state.data);
         return(
             <div className="reports-container">
             <div className="assessment-title">
@@ -397,29 +397,27 @@ class Reports extends React.Component{
     }
 
 
-    fetchResultsData = ()=>{
+    fetchResultsData = async()=>{
         let body = { 
             "clientName": this.props.location.companyName, 
             "siteName": this.props.location.locationString
         };
-
-        
         let postHeader = (apiPostHeader);
-        postHeader["body"] = JSON.stringify(body); 
-        console.log(postHeader);
-        fetch(resultsApi.getResults,postHeader)
-            .then(results=>results.json())
-            .then(resp => async() =>await this.setState({data:resp.resultantJSON,reportsOverview:resp.resultantJSON}), resp=> console.log(resp.resultantJSON))
-            .catch(err=>console.log(err))
+        postHeader["body"] = JSON.stringify(body);
+        const response = await fetch(resultsApi.getResults,postHeader)
+        const json =  await response.json();
+        return json;    
     }
 
 
-    componentDidMount = ()=>{
-        this.fetchResultsData();
+    componentDidMount = async()=>{
+        let resultJSON = await this.fetchResultsData();
+        console.log(resultJSON.resultantJSON)
         this.setState({
-            loadComponentString:this.props.location.loadComponentString
+            loadComponentString:this.props.location.loadComponentString,
+            data:resultJSON.resultantJSON,
+            reportsOverview:resultJSON.resultantJSON
         })
-        console.log(this.state.data)
     }
 
     render(){

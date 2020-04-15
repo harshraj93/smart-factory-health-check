@@ -184,7 +184,7 @@ class ReportsListView extends React.Component {
     }
 
     render(){
-        console.log(this.props.data);
+        
         return(
             this.props.data.functions!==undefined?this.assessmentsCard():this.reportScoreCard()
         )
