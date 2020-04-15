@@ -98,6 +98,7 @@ class AddBusinessFunctions extends React.Component{
         let businessNameObjArray = tempArray.filter(element=>{
             return element.businessName===siteName;
         });
+        let cnt=0;
         tempArray.forEach(element=>{
             element.indexArray = businessNameObjArray[0].indexArray
         })
@@ -117,7 +118,22 @@ class AddBusinessFunctions extends React.Component{
                 
             })
         }
-        
+       
+        tempArray.forEach(element=>{
+            if(element.indexArray.length>0){
+                cnt++;
+            }
+        })
+        if(cnt===tempArray.length){
+            this.setState({
+                enableButton:"true"
+            })
+        }
+        else{
+            this.setState({
+                enableButton:"false"
+            }) 
+        }
         
     }
 
