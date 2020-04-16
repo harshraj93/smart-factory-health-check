@@ -329,7 +329,7 @@ class Reports extends React.Component{
 
     componentDidMount = async()=>{
         let resultJSON = await this.fetchResultsData();
-        this.setState({
+        await this.setState({
             loadComponentString:this.props.location.loadComponentString,
             data:resultJSON.resultantJSON,
             reportsOverview:resultJSON.resultantJSON
