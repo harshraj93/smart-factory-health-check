@@ -62,6 +62,21 @@
                 .react-switch-bg {
                     margin-right: 20px !important;
                 }
+
+                .custom-switch.custom-control {
+                    .custom-control-input{}
+                    .custom-control-label {
+                        position: relative;
+                        margin-bottom: 0;
+                        vertical-align: top;
+                        &:before {
+                            background-color: #57bb50;
+                        }
+                        &:after {
+                            background-color: #ffffff;
+                        }
+                    }
+                }
     
                 .assess-overview-card {
                     display: flex;

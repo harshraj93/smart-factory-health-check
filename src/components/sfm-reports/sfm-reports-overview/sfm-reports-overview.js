@@ -18,11 +18,10 @@ class ReportsOverview extends React.Component {
         super(props);
         this.state={
             title:"List",
-            reportsData: [],
             summaryEdit: false,
             recsEdit: false,
-            summary: "this.props.data.summary",
-            overallRecs: "this.props.data.overallRecs"
+            summary: "Enter summary",
+            overallRecs: "Enter Recommendations"
         }
     }
 
@@ -103,6 +102,7 @@ class ReportsOverview extends React.Component {
                 <div style={{display: "flex", width: "100%", justifyContent: "flex-end"}}>
                     <div className="reportview-header">
                         <p className="reportview-header-text">Current</p>
+                        <span className="circle" style={{backgroundColor: "#35353b"}}></span>
                         <p className="reportview-header-text">Target</p>
                         <p className="reportview-header-text">Gap</p>
                         <p className="reportview-header-text">Industry Avg</p>
@@ -124,13 +124,6 @@ class ReportsOverview extends React.Component {
                 title:"Report View"
             })
         }
-    }
-
-    componentDidMount() {
-        this.setState({
-            reportsData: this.props.data.reportsData
-        });
-        console.log(this.props.data);
     }
 
     render() {

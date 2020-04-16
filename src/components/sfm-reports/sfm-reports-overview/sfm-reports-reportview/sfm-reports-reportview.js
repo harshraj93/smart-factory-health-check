@@ -40,11 +40,11 @@ class ReportsCardView extends React.Component {
                         <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} variant="link" eventKey={index} value={index} onClick={(e)=>this.handleClick(e)}>
                             <span className="area-name">{data.name}</span>
                             <img className="drop-down" src={DropDownImg} alt=""></img>
-                            <p className="score">{data.score}</p>
+                            <p className="score">{Number(data.score).toFixed(1)}</p>
                             <span className="circle" style={{backgroundColor: this.circleColor((data.target - data.score).toFixed(1))}}></span>
-                            <p className="score">{data.target}</p>
-                            <p className="score">{data.target - data.score}</p>
-                            <p className="score">{data.indAvg}</p>
+                            <p className="score">{Number(data.target).toFixed(1)}</p>
+                            <p className="score">{(data.target - data.score).toFixed(1)}</p>
+                            <p className="score">{data.indAvg.toFixed(1)}</p>
                         </Accordion.Toggle>
                             <Accordion.Collapse eventKey={index}>
                                 <div>
@@ -53,11 +53,11 @@ class ReportsCardView extends React.Component {
                                             <div className="reportview-card" key={y}>
                                                 <span className="area-name">{x.name}</span>
                                                 <span className="circle" style={{backgroundColor: "#35353b"}}></span>
-                                                <p className="score">{x.score}</p>
+                                                <p className="score">{Number(x.score).toFixed(1)}</p>
                                                 <span className="circle" style={{backgroundColor: this.circleColor((x.target - x.score).toFixed(1))}}></span>
-                                                <p className="score">{x.target}</p>
+                                                <p className="score">{Number(x.target).toFixed(1)}</p>
                                                 <p className="score">{(x.target - x.score).toFixed(1)}</p>
-                                                <p className="score">{x.indAvg}</p>
+                                                <p className="score">{x.indAvg.toFixed(1)}</p>
                                             </div>
                                         )
                                     })}

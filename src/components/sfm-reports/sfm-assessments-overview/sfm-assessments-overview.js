@@ -3,7 +3,8 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import ToggleSwitch from 'react-switch';
+import Form from "react-bootstrap/Form";
+// import ToggleSwitch from 'react-switch';
 import DropDownImg from '../../../images/icon-small-chevron-down.svg';
 import EditIcon from '../../../images/icon-small-edit.svg';
 import {CustomButton, FormNavigationButton} from '../../../assets/sfm-button';
@@ -31,6 +32,10 @@ class AssessmentsOverview extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    onChange = () => {
+        console.log("onChange was called!");
+    };
+
     handleChange(e) {
         // this.setState({ checked });
         // document.getElementById(id).setAttribute("checked", !checked);
@@ -57,7 +62,7 @@ class AssessmentsOverview extends React.Component {
                     <Card key={index} className={"card"}>                                   
                         <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
                         
-                            <ToggleSwitch onChange={(e,id,checked)=>this.handleChange(e,id,checked)} checked={!data.active} uncheckedIcon={false} checkedIcon={false} offColor="#57bb50" onColor="#161617" offHandleColor="#ffffff" onHandleColor="#727279" id={"switch"+index}/>
+                        <Form.Switch id={data.name} label="" onChange={this.onChange} checked={true}/>
                             <div className="assess-overview-card">
                                 <span className="area-name">{data.name}</span>
                                 {data.completed?percentComplete(data, ""):percentComplete(data, "success")}
@@ -72,7 +77,7 @@ class AssessmentsOverview extends React.Component {
                                 {data.parts.map((x,y) => {
                                     return (
                                         <div className="assess-overview-card" key={y}>
-                                            <ToggleSwitch onChange={this.handleChange} checked={data.active?!x.active:!data.active} uncheckedIcon={false} checkedIcon={false} offColor="#57bb50" onColor="#161617" offHandleColor="#ffffff" onHandleColor="#727279" id={y}/>
+                                            <Form.Switch id={x.name} label="" onChange={this.onChange} />
                                             <div className="child-group">
                                             {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
                                             {x.active?(x.completed?<FormNavigationButton labelName="Done"/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}

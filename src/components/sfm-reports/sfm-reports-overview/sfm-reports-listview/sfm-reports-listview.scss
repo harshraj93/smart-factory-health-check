@@ -114,11 +114,15 @@
                 }
                 .tr-box {
                     margin: 0 35px;
+                    width: 335px;
+                    margin-bottom: 12px;                
                     .tr-heading {
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
                         margin-bottom: 1.5vh;
+                        font-weight: 600;
+                        font-size: 14px;
                     }
 
                     .tr-text {
@@ -139,6 +143,7 @@
 
                     .form-label {
                         font-weight: 600;
+                        font-size: 14px;
                     }
 
                     .form-control {
