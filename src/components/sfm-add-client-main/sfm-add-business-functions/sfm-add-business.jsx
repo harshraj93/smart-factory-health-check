@@ -17,7 +17,7 @@ function siteHeader(props,enableButton){
     return(
         <div className="site-header-container">
             <span className="company-name">{props.location.state.siteName}</span>
-            <Link to="/"><FormNavigationButton labelName="Complete" buttonStatus={enableButton}/></Link>
+           <Link to = "/"><FormNavigationButton labelName="Complete" buttonStatus={enableButton} type="submit"/></Link>
         </div>
     )
 }
@@ -138,13 +138,28 @@ class AddBusinessFunctions extends React.Component{
     }
 
 
+
+
+    // handleFormSubmission = ()=>{
+    //     console.log(this.props.location.state.dataForBusinessFunctions.clientNames,this.props.location.state.siteDetailsJSON)
+    //     let siteDetailsJSON = this.props.location.state.siteDetailsJSON;
+    //     let clientNames = this.props.location.state.dataForBusinessFunctions.clientNames;
+    //     for(let i = 0; i<siteDetailsJSON.sites.length; i++){
+    //         if(siteDetailsJSON.sites[i].siteDetails.siteName===clientNames[i]){
+    //             console.log(siteDetailsJSON.sites[i].siteDetails.siteName,clientNames[i])
+    //         }
+            
+    //     }
+    // }
+
+
     render(){
        
         return(
         <div className="add-business-function">
         <Header title="Add Business Functions" props={this.props} />
         {siteHeader(this.props,this.state.enableButton)}
-
+            {/* <form id="add-business-functions" onSubmit={this.handleFormSubmission}> */}
         {this.props.location.state.dataForBusinessFunctions.clientNames.map((element,index)=>{
          return(
             <>
@@ -178,7 +193,10 @@ class AddBusinessFunctions extends React.Component{
             
             
             })}
-            <Link to="/"><FormNavigationButton labelName="Complete" buttonStatus={this.state.enableButton}/></Link>
+           <Link to="/">
+           <FormNavigationButton labelName="Complete" buttonStatus={this.state.enableButton}/>
+           </Link>
+            {/* </form> */}
         </div>
         )
     }
