@@ -52,6 +52,7 @@ class Assessments extends React.Component {
         })
     }
 
+    
     fetchAssessmentsData = ()=>{
     fetch(assessmentsApi.getAssessments,JSON.parse(apiGetHeader))
         .then(results=>results.json())

@@ -56,13 +56,14 @@ function teamInfoForm(props,handleChange,changeButtonState){
 }
 
 
-function addSupportResource(props,state){
+function addSupportResource(props,state,hideSupportResource){
     return(
         <div className = "support-info-container">
         <div className="support-info">
         <LabelledInputField placeholder={true}  labelName="Support Resource Name" />
         <LabelledInputField placeholder={true}  labelName="Support Resource Level" />
         <LabelledInputField placeholder={true}  labelName="Support Resource Email" />
+        
         </div>
         </div>
     )
@@ -82,7 +83,13 @@ class AddNewClient extends React.Component{
   
     showSupportResource = ()=>{
         this.setState({
-            showSupportResource:!this.state.showSupportResource,
+            showSupportResource:true,
+        })
+    }
+
+    hideSupportResource = ()=>{
+        this.setState({
+            showSupportResource:false,
         })
     }
 
@@ -109,6 +116,7 @@ class AddNewClient extends React.Component{
         
     }
 
+
     setNextStepState = ()=>{
         this.setState({
             enableButton:false
@@ -117,13 +125,17 @@ class AddNewClient extends React.Component{
 
 
     checkRequiredFields = ()=>{
-        let prevValue;
         let boolFlag;
+        let cnt=0;
         requiredFieldNames.forEach(element=>{
-            boolFlag = prevValue&&this.state[element];
-            prevValue = this.state[element];
-            boolFlag!==undefined?boolFlag=true:boolFlag=false
+            let stateName = this.state[element]
+            if(stateName){
+            cnt++;
+        }
         })
+        if(cnt===requiredFieldNames.length){
+            boolFlag=true;
+        }
 
         if(boolFlag){
             this.setState({
@@ -147,6 +159,7 @@ class AddNewClient extends React.Component{
             {addSupportResource(this.props,this.state)}
             <div className="border-bottom"></div>
             {this.state.showSupportResource&&addSupportResource(this.props,this.state)}
+            {this.state.showSupportResource&&<span className="close-button" onClick={this.hideSupportResource}>&times;</span>}
             <button type="button" className={"add-support-resource "+this.state.showSupportResource} 
             onClick={this.showSupportResource}>
                 <span>&#8853;</span> 

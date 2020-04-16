@@ -8,7 +8,8 @@ export default class LabelledInputField extends React.Component{
         super(props);
         this.state={
             showRequired:false,
-            value:""
+            value:"",
+            showEmailError:""
         }
     }
 
@@ -22,6 +23,19 @@ export default class LabelledInputField extends React.Component{
         this.props.changeButtonState();
         }
         else{
+            if(e.target.name.includes("Email")){
+                if(!e.target.value.includes("@")){
+                    this.setState({
+                        showEmailError:true
+                    })
+                this.props.changeButtonState();
+                }
+                else{
+                    this.setState({
+                        showEmailError:false
+                    })  
+                }
+            }
             this.setState({
                 showRequired:false
             })
@@ -45,7 +59,7 @@ export default class LabelledInputField extends React.Component{
     }
 
 
-    setValueBorder=(e)=>{
+    misc=(e)=>{
         changeBorder(e);
     }
 
@@ -60,19 +74,20 @@ export default class LabelledInputField extends React.Component{
             min={this.props.min}
             onKeyDown={this.props.onKeyDown}
             step={this.props.step}
-            className ={"input-text "+String(this.state.showRequired&&this.props.required&&!this.state.value)}
+            className ={"input-text "+String((this.state.showRequired&&this.props.required&&!this.state.value)||this.state.showEmailError)}
             defaultValue={this.props.data} 
             placeholder={this.props.labelName} 
             onChange={this.props.onChange} 
             required={this.props.required}
             id={this.props.labelName}
-            onInput={(e)=>this.setValueBorder(e)}
+            onInput={(e)=>this.misc(e)}
             name={this.props.name}
             onBlur={(e)=>this.addRequired(e)}
             siteNumber={this.props.siteNumber}
             >
             </input>
             {this.state.showRequired&&this.props.required&&!this.state.value&&<div className="required-text">! Required Field</div>}
+            {this.state.showEmailError&&<div className="required-text">! Invalid Email</div>}
         </div>
     )
     }
