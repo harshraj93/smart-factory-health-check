@@ -83,6 +83,7 @@ export default class LabelledInputField extends React.Component{
             onInput={(e)=>this.misc(e)}
             name={this.props.name}
             onBlur={(e)=>this.addRequired(e)}
+            readOnly={this.props.readOnly}
             >
             </input>
             {this.state.showRequired&&this.props.required&&!this.state.value&&<div className="required-text">! Required Field</div>}
