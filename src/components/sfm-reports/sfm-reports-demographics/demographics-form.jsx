@@ -7,7 +7,7 @@ export default function DemographicsForm(props){
     return(
         <div className="demographics-form">
        
-        <LabelledInputField placeholder={false} labelName="Location" data={jsonData.sitename}/>
+        <LabelledInputField placeholder={false} labelName="Location" data={jsonData.sitename} readOnly={true}/>
         <LabelledInputField placeholder={false} labelName="Primary POC" data={jsonData.primarysitepocname}/>
         <LabelledInputField placeholder={false} labelName="Primary POC Role" data={jsonData.primarysitepocrole}/>
         <LabelledInputField placeholder={false} labelName="Manufacturing Archetype" data={jsonData.manufacturearchtype}/>
