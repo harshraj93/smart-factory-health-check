@@ -1,8 +1,7 @@
 import React from 'react';
-import DropDownMenu from '../../../assets/drop-down-input-box';
 import LabelledInputField from '../../../assets/input-field';
 import siteInfoApi from '../../../api/assessments/assess-siteInfo';
-import {apiGetHeader,apiPostHeader} from '../../../api/main/mainapistorage';
+import {apiPostHeader} from '../../../api/main/mainapistorage';
 import './sfm-assessments-site-info.scss';
 
 let bfplist=["Operations","Quality","Information Technology","Procurement &amp; Supplier Management","Continuous Improvement","Replenishment &amp; Material Management","Maintenance","Planning &amp; Scheduling","Human Resources","Engineering &amp; R&amp;D"];
@@ -19,7 +18,7 @@ class SiteInfo extends React.Component{
     }
 
     fetchSiteInfo = async()=> {
-        console.log(this.props.data);
+        // console.log(this.props.data);
         apiPostHeader.body = JSON.stringify(this.props.data);
         try{
         const response = await fetch(siteInfoApi.siteInfo,apiPostHeader)
@@ -72,7 +71,7 @@ class SiteInfo extends React.Component{
                 <div className="client-info">
                     {this.state.BusinessFunctionPoC.map((data,index)=>{
                         return(
-                            <LabelledInputField placeholder={true}  labelName={bfplist[index]} data={data.ResourceName} />
+                            <LabelledInputField placeholder={false} labelName={bfplist[index]} data={data.ResourceName} />
                         )
                     }) }
                 {/* <LabelledInputField placeholder={true}  labelName="Operations" data={this.state.BusinessFunctionPoC[0].ResourceName} />
