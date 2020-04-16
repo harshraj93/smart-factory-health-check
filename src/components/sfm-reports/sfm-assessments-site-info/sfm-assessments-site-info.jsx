@@ -81,23 +81,6 @@ function thirdForm(props,state){
     )
 }
 
-function clientInfo (props, handleChange) {
-    return (
-        <div className = "client-info-container">
-        <div className="client-info">
-        <LabelledInputField placeholder={true}  labelName="Primary Client Name*" />
-        <LabelledInputField placeholder={true}  labelName="Primary Client Participant*" />
-        <LabelledInputField placeholder={true}  labelName="Total # of Sites (optional)" />
-        <DropDownMenu placeholder={data[2].labelName+"*"} required={true} data={data[2]} name="industry" onChange={handleChange}/>
-        <LabelledInputField placeholder={true}  labelName="Primary Participant Role*" />
-        <LabelledInputField placeholder={true}  labelName="# of Sites to Assess (optional)" />
-        <LabelledInputField placeholder={true}  labelName="Company Revenue (optional)" />
-        <LabelledInputField placeholder={true}  labelName="Company EBIDTA (optional)" />
-        </div>
-        </div>
-    )
-}
-
 class SiteInfo extends React.Component {
     constructor(props){
         super(props);

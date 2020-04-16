@@ -13,7 +13,7 @@ import SiteInfo from './sfm-assessments-site-info/sfm-assessments-site-info';
 import ClientInfo from './sfm-assessments-client-info/sfm-assessments-client-info';
 import {withRouter} from 'react-router-dom';
 import {resultsApi} from '../../api/assessments/reports'
-import {apiGetHeader,apiPostHeader} from '../../api/main/mainapistorage'
+import {apiPostHeader} from '../../api/main/mainapistorage'
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=["Overview","Demographics"];
@@ -187,7 +187,8 @@ class Reports extends React.Component{
             loadComponentString:"",
             data:[],
             assessData:[],
-            x: false
+            x: false,
+            demographicsData:[]
         }
         this.props.disableMenu(false);
         
@@ -239,7 +240,7 @@ class Reports extends React.Component{
                 {resultsList.map((element,index)=>{
                     return(
                         <Tab key={index} eventKey={index} title={element} >
-                            {element==="Demographics"?<DemographicsForm />:<ReportsOverview data={this.state.reportsOverview}/>}
+                            {element==="Demographics"?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview}/>}
                         </Tab>
                     )
                 })}
@@ -321,18 +322,44 @@ class Reports extends React.Component{
         };
         let postHeader = (apiPostHeader);
         postHeader["body"] = JSON.stringify(body);
+        try{
         const response = await fetch(resultsApi.getResults,postHeader)
         const json =  await response.json();
-        return json;    
+        return json; 
+        }
+        catch(err){
+            return err
+        }   
+           
+    }
+
+
+    fetchDemographicsData = async()=>{
+        let body = {
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+            "sector":this.props.location.industryType
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        try{
+        const response = await fetch(resultsApi.demographics,apiPostHeader)
+        const demographicsData = await response.json();
+        return demographicsData;
+        }
+        catch(err){
+            return err
+        }   
     }
 
 
     componentDidMount = async()=>{
         let resultJSON = await this.fetchResultsData();
+        let demographicsData = await this.fetchDemographicsData();
         await this.setState({
             loadComponentString:this.props.location.loadComponentString,
             data:resultJSON.resultantJSON,
-            reportsOverview:resultJSON.resultantJSON
+            reportsOverview:resultJSON.resultantJSON,
+            demographicsData:demographicsData
         })
     }
 

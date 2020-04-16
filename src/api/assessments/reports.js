@@ -1,7 +1,8 @@
 import {apiUrl} from '../main/mainapistorage'
 
 let resultsApi={
-    getResults:apiUrl+"/report"
+    getResults:apiUrl+"/client/report",
+    demographics:apiUrl+"/site/demographic"
 }
 
 export {
