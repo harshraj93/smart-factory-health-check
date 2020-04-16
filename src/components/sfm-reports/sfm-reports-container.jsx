@@ -188,7 +188,8 @@ class Reports extends React.Component{
             data:[],
             assessData:[],
             x: false,
-            demographicsData:[]
+            demographicsData:[],
+            assessBody: {}
         }
         this.props.disableMenu(false);
         
@@ -305,7 +306,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview}/>:(element==="Notes"?"":(element==="Site Info"?<SiteInfo disableMenu={this.props.disableMenu}/>:<ClientInfo disableMenu={this.props.disableMenu}/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview}/>:(element==="Notes"?"":(element==="Site Info"?<SiteInfo data={this.state.assessBody} disableMenu={this.props.disableMenu}/>:<ClientInfo disableMenu={this.props.disableMenu}/>))}
                             </Tab>
                         )
                     })}
@@ -329,8 +330,7 @@ class Reports extends React.Component{
         }
         catch(err){
             return err
-        }   
-           
+        }
     }
 
 
@@ -355,6 +355,11 @@ class Reports extends React.Component{
     componentDidMount = async()=>{
         let resultJSON = await this.fetchResultsData();
         let demographicsData = await this.fetchDemographicsData();
+        this.setState({
+            assessBody: {"clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+            "sector":this.props.location.industryType}
+        })
         await this.setState({
             loadComponentString:this.props.location.loadComponentString,
             data:resultJSON.resultantJSON,

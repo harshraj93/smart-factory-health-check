@@ -1,6 +1,8 @@
 import React from 'react';
 import DropDownMenu from '../../../assets/drop-down-input-box';
 import LabelledInputField from '../../../assets/input-field';
+import clientInfoApi from '../../../api/assessments/assess-clientInfo';
+import {apiGetHeader,apiPostHeader} from '../../../api/main/mainapistorage';
 import './sfm-assessments-client-info.scss';
 
 let data = [
@@ -27,7 +29,6 @@ function clientInfo (props, handleChange) {
         <LabelledInputField placeholder={true}  labelName="Primary Client Name*" />
         <LabelledInputField placeholder={true}  labelName="Primary Client Participant*" />
         <LabelledInputField placeholder={true}  labelName="Total # of Sites (optional)" />
-        <DropDownMenu placeholder={data[2].labelName+"*"} required={true} data={data[2]} name="industry" onChange={handleChange}/>
         <LabelledInputField placeholder={true}  labelName="Primary Participant Role*" />
         <LabelledInputField placeholder={true}  labelName="# of Sites to Assess (optional)" />
         <LabelledInputField placeholder={true}  labelName="Company Revenue (optional)" />
@@ -41,7 +42,8 @@ class ClientInfo extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            enableButton:"false"
+            enableButton:"false",
+            jsonData: {}
         }
         this.props.disableMenu(false);
     }
@@ -84,12 +86,40 @@ class ClientInfo extends React.Component {
         }
     }
 
+    fetchSiteInfo = async()=> {
+        // console.log(this.props.data);
+        // apiPostHeader.body = JSON.stringify(this.props.data);
+        try{
+        const response = await fetch(clientInfoApi.clientInfo,apiGetHeader)
+        const siteInfoData = await response.json();
+        return siteInfoData;
+        }
+        catch(err){
+            return err
+        }
+    }
+
+    componentDidMount = async()=> {
+        let siteInfoData = await this.fetchSiteInfo();
+        await this.setState({
+            jsonData:siteInfoData.resultantJSON
+        })
+    }
+
     render(){
         return(
              <div className='client-info-container'>
-             <form id="client-info-form" onSubmit={this.handleSubmit}>
-                {clientInfo(this.props,this.handleChange,this.setNextStepState)}
-             </form>
+             <div className = "client-info-container">
+                <div className="client-info">
+                <LabelledInputField placeholder={false}  labelName="Primary Client Name*" data={this.state.jsonData.clientname} />
+                <LabelledInputField placeholder={false}  labelName="Primary Client Participant*" data={this.state.jsonData.primaryclientparticipant} />
+                <LabelledInputField placeholder={false}  labelName="Total # of Sites (optional)" data={this.state.jsonData.totalsites} />
+                <LabelledInputField placeholder={false}  labelName="Primary Participant Role*" data={this.state.jsonData.primaryclientrole} />
+                <LabelledInputField placeholder={false}  labelName="# of Sites to Assess (optional)" data={this.state.jsonData.assesssites} />
+                <LabelledInputField placeholder={false}  labelName="Company Revenue (optional)" data={this.state.jsonData.revenue} />
+                <LabelledInputField placeholder={false}  labelName="Company EBIDTA (optional)" data={this.state.jsonData.ebitda} />
+                </div>
+                </div>
              </div>
          )
     }
