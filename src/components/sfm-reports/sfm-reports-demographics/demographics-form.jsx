@@ -8,20 +8,20 @@ export default function DemographicsForm(props){
         <div className="demographics-form">
        
         <LabelledInputField placeholder={false} labelName="Location" data={jsonData.sitename} readOnly={true}/>
-        <LabelledInputField placeholder={false} labelName="Primary POC" data={jsonData.primarysitepocname}/>
-        <LabelledInputField placeholder={false} labelName="Primary POC Role" data={jsonData.primarysitepocrole}/>
-        <LabelledInputField placeholder={false} labelName="Manufacturing Archetype" data={jsonData.manufacturearchtype}/>
-        <LabelledInputField placeholder={false} labelName="Sectors" data={jsonData.sector}/>
-        <LabelledInputField placeholder={false} labelName="# of shifts" data={jsonData.totalshifts}/>
-        <LabelledInputField placeholder={false} labelName="# Employees" data={jsonData.totalemployees}/>
-        <LabelledInputField placeholder={false} labelName="# of production assets" data={jsonData.totalproductionassets}/>
-        <LabelledInputField placeholder={false} labelName="site revenue" data={jsonData.siterevenue}/>
-        <LabelledInputField placeholder={true} labelName="Site EPITDA (optional)" data={jsonData.siteebitda}/>
-        <LabelledInputField placeholder={true} labelName="OTIF % (optional)" data={jsonData.otif}/>
-        <LabelledInputField placeholder={true} labelName="Site OEE (optional)" data={jsonData.overalloee}/>
-        <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" data={jsonData.performanceoee}/>
-        <LabelledInputField placeholder={true} labelName="OEE - Availability % (optional)" data={jsonData.availabilityoee}/>
-        <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" data={jsonData.qualityoee}/>
+        <LabelledInputField placeholder={false} labelName="Primary POC" data={jsonData.primarysitepocname} readOnly={true}/>
+        <LabelledInputField placeholder={false} labelName="Primary POC Role" data={jsonData.primarysitepocrole} readOnly={true}/>
+        <LabelledInputField placeholder={false} labelName="Manufacturing Archetype" data={jsonData.manufacturearchtype} readOnly={true}/>
+        <LabelledInputField placeholder={false} labelName="Sectors" data={jsonData.sector} readOnly={true}/>
+        <LabelledInputField placeholder={false} labelName="# of shifts" data={jsonData.totalshifts} readOnly={true}/>
+        <LabelledInputField placeholder={false} labelName="# Employees" data={jsonData.totalemployees} readOnly={true}/>
+        <LabelledInputField placeholder={false} labelName="# of production assets" data={jsonData.totalproductionassets} readOnly={true}/>
+        <LabelledInputField placeholder={false} labelName="site revenue" data={jsonData.siterevenue} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Site EPITDA (optional)" data={jsonData.siteebitda} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="OTIF % (optional)" data={jsonData.otif} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Site OEE (optional)" data={jsonData.overalloee} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" data={jsonData.performanceoee} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="OEE - Availability % (optional)" data={jsonData.availabilityoee} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" data={jsonData.qualityoee} readOnly={true}/>
         
         </div>
     )
