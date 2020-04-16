@@ -83,7 +83,6 @@ export default class LabelledInputField extends React.Component{
             onInput={(e)=>this.misc(e)}
             name={this.props.name}
             onBlur={(e)=>this.addRequired(e)}
-            siteNumber={this.props.siteNumber}
             >
             </input>
             {this.state.showRequired&&this.props.required&&!this.state.value&&<div className="required-text">! Required Field</div>}
@@ -96,7 +95,6 @@ export default class LabelledInputField extends React.Component{
 
 
 function changeBorder(e){
-    //let siteNumber = e.currenTarget.getAttribute("siteNumber");
     let id = e.target.id;
     let element = document.getElementById(id).style;
     e.target.value.length>0?element.borderColor="#727279":element.borderColor="#ffffff";

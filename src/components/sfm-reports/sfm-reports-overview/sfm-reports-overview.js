@@ -130,7 +130,6 @@ class ReportsOverview extends React.Component {
         this.setState({
             reportsData: this.props.data.reportsData
         });
-        console.log(this.props.data);
     }
 
     render() {

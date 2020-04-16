@@ -68,7 +68,8 @@ actionsFormatter = (cell,row)=>{
                             pathname:'/reports',
                             locationString:row.Location,
                             companyName:this.props.companyName,
-                            loadComponentString : loadComponentString
+                            loadComponentString : loadComponentString,
+                            industryType : this.props.industryType
                         }}
                         >
                             <CustomButton labelName={rowLabel} className="openButton" style={style}/>

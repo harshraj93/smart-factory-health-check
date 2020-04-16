@@ -1,4 +1,4 @@
-import apiUrl from '../main/mainapistorage'
+import {apiUrl} from '../main/mainapistorage'
 
 let addclientapi={
     industryList:apiUrl+'/client/industryList',

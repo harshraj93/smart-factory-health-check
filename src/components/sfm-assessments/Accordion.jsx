@@ -15,8 +15,8 @@ function industryCard (props){
     <> 
         <div className="industry-name-number">
             <span className="company-name">
-                {props["companyName"]?props["companyName"] :props["industryType"]}
-                {props["industryType"]?<CustomButton imgSrc={UploadImg} alt=""/>:null}
+                {props["companyName"]?props["companyName"] :props["sector"]}
+                {props["sector"]?<CustomButton imgSrc={UploadImg} alt=""/>:null}
             </span>
     
              <span className="number-open">
@@ -95,7 +95,7 @@ class CustomAccordion extends React.Component{
                                                     
                                                     <Table 
                                                     data={element.table_data} 
-                                                    industryType={element.industryType} 
+                                                    industryType={element.sector} 
                                                     disableMenu={this.props.disableMenu}
                                                     companyName = {companyName}
                                                     />

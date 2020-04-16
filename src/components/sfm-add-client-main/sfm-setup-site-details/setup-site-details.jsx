@@ -4,22 +4,14 @@ import {withRouter} from 'react-router-dom';
 import LabelledInputField from '../../../assets/input-field';
 import DropDownMenu from '../../../assets/drop-down-input-box'
 import {FormNavigationButton} from '../../../assets/sfm-button'
-//import {Link} from 'react-router-dom';
+import {apiGetHeader} from '../../../api/main/mainapistorage';
+import addclientapi from '../../../api/addclient/addclient';
 
-let data = 
-[{
-    labelName:"Manufacturing Archetype",
-    dropDownData:["Manufacturing","Fabricating"]
-},{
-    labelName:"Sector",
-    dropDownData:["Selected Sector","Sector 1"]
-},{
-    labelName:"#Employees",
-    dropDownData:["100-200","200-300"]
-},]
+
 
 let siteNumber=[];
 let requiredFieldNames=[];
+
 
 function siteHeader(props,enableButton){
     return(
@@ -35,7 +27,9 @@ class AddSiteDetails extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            enableButton:"false"
+            enableButton:"false",
+            manuArchetype:[],
+            sectorData:[]
         }
         this.props.disableMenu(false)
     }
@@ -115,8 +109,8 @@ class AddSiteDetails extends React.Component{
         <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <div className="bottom-border"></div>
-        <DropDownMenu placeholder="Manufacturing Archetype*" required={true}  data={data[0]} name={"manfArch"+index} onChange={this.handleChange}/>
-        <DropDownMenu placeholder="Sector*"  data={data[1]} required={true} name={"sector"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder="Manufacturing Archetype*" required={true}  data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder="Sector*"  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
         <LabelledInputField placeholder={true} labelName="# of Shifts (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
         <LabelledInputField placeholder={true} labelName="# Employees (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
         <LabelledInputField placeholder={true} labelName="# of Assets (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
@@ -137,9 +131,23 @@ class AddSiteDetails extends React.Component{
     }   
 
 
+    getSectorandManufactureTypeDetails = ()=>{
+        fetch(addclientapi.sectorList+`?industry=${this.props.location.state.industry}`,apiGetHeader)
+            .then(resp=>resp.json())
+            .then(resp=>this.setState({sectorData:resp.resultantJSON}))
+            .catch(err=>console.log(err))
+        
+        fetch(addclientapi.manufactureTypeList,apiGetHeader)
+            .then(resp=>resp.json())
+            .then(resp=>this.setState({manuArchetype:resp.resultantJSON}))
+            .catch(err=>console.log(err))
+    }
+
+
     componentDidMount = ()=>{
         requiredFieldNames=[]
         siteNumber = this.evaluateSiteNumber();
+        this.getSectorandManufactureTypeDetails();
     }
 
 
@@ -158,8 +166,8 @@ class AddSiteDetails extends React.Component{
     }
 
 
+
     render(){
-        
          return(
              <div className="setup-site-details">
             <Header title="Enter site details" handleSubmit={this.handleSubmit} props={this.props}/>
