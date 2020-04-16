@@ -20,6 +20,34 @@
                 color: #dedede;
                 margin: 0;
             }
+
+            .input-group {
+                display: flex;
+                flex-direction: column;
+
+                .form-control {
+                    background-color: #232325;
+                    border-radius: 8px;
+                    color: #dedede;
+                    height: 37.76vh;
+                    border: none;
+                    flex: none;
+                    background-clip: unset;
+                }
+
+                .input-group-append {
+                    margin-right: 10px;
+                    justify-content: flex-end;
+                    align-items: center;
+
+                    .text-muted {
+                        color: #727279!important;
+                        font-size: 92%;
+                        margin: 0;
+                        margin-right: 10px;
+                    }
+                }
+            }
         }
 
         .overall {
@@ -93,6 +121,34 @@
                         align-items: center;
                         justify-content: space-between;
                         margin-bottom: 1.5vh;
+                    }
+
+                    .input-group {
+                        display: flex;
+                        flex-direction: column;
+        
+                        .form-control {
+                            background-color: #35353b;
+                            border-radius: 8px;
+                            color: #dedede;
+                            height: 14.76vh;
+                            border: none;
+                            flex: none;
+                            background-clip: unset;
+                        }
+        
+                        .input-group-append {
+                            margin-right: 10px;
+                            justify-content: flex-end;
+                            align-items: center;
+        
+                            .text-muted {
+                                color: #727279!important;
+                                font-size: 92%;
+                                margin: 0;
+                                margin-right: 10px;
+                            }
+                        }
                     }
 
                     .overall-recs-text {

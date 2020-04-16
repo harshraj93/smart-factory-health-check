@@ -10,14 +10,15 @@ let apiGetHeader = JSON.stringify({
 })
 
 
-let apiPostHeader = JSON.stringify({
+let apiPostHeader = {
     method:'POST',
     headers:{
-    'Accept': 'application/json',
+        'Accept': 'application/json',
       'Content-Type': 'application/json',
       'x-api-key': xapikey,
-    }
-})
+    },
+    body: {}
+}
 
 
 export {

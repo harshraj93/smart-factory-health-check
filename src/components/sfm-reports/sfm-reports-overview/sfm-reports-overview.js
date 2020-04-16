@@ -1,6 +1,9 @@
 import React from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup'; 
 import EditIcon from '../../../images/icon-small-edit.svg';
 import ReorderIcon from '../../../images/icon-small-reorder.svg';
 import Slider from './sfm-scorecard-slider/sfm-scorecard-slider';
@@ -15,7 +18,83 @@ class ReportsOverview extends React.Component {
         super(props);
         this.state={
             title:"List",
+            reportsData: [],
+            summaryEdit: false,
+            recsEdit: false,
+            summary: "this.props.data.summary",
+            overallRecs: "this.props.data.overallRecs"
         }
+    }
+
+    editToggle = (str) => {
+        if (str === "summary") {
+            if (this.state.summaryEdit) {
+                this.setState({
+                    summaryEdit: false
+                });
+            }
+            else {
+                this.setState({
+                    summaryEdit: true
+                });
+            }
+        }
+        else if (str === "recs") {
+            if (this.state.recsEdit) {
+                this.setState({
+                    recsEdit: false
+                });
+            }
+            else {
+                this.setState({
+                    recsEdit: true
+                });
+            }
+        }
+    }
+
+    handleChangeRecs = (e)=>{
+        this.setState({
+            overallRecs:e.target.value
+        })
+    }
+
+    overallRecsForm() {
+        return (
+            <InputGroup>
+                <Form.Control type="text" maxLength={400} value={this.state.overallRecs} onChange={this.handleChangeRecs}/>
+                <InputGroup.Append>
+                    <Form.Text className="text-muted">
+                        {this.state.overallRecs.length}/400 characters
+                    </Form.Text>
+                    <Button variant="primary" type="submit" onClick={()=>this.editToggle("recs")}>
+                        Done
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
+        )
+    }
+
+    handleChange = (e)=>{
+        this.setState({
+            summary:e.target.value
+        })
+    }
+
+    summaryForm() {
+        return (
+            <InputGroup>
+                <Form.Control type="text" maxLength={600} value={this.state.summary} onChange={this.handleChange}/>
+                <InputGroup.Append>
+                    <Form.Text className="text-muted">
+                        {this.state.summary.length}/600 characters
+                    </Form.Text>
+                    <Button variant="primary" type="submit" onClick={()=>this.editToggle("summary")}>
+                        Done
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
+        )
     }
 
     reportView() {
@@ -29,7 +108,7 @@ class ReportsOverview extends React.Component {
                         <p className="reportview-header-text">Industry Avg</p>
                     </div>
                 </div>
-                <ReportsCardView data={this.props.data.reportsData}/>
+                <ReportsCardView data={this.props.data}/>
             </div>
         );
     }
@@ -47,6 +126,13 @@ class ReportsOverview extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.setState({
+            reportsData: this.props.data.reportsData
+        });
+        console.log(this.props.data);
+    }
+
     render() {
         return (
             <div className="reports-overview">
@@ -54,9 +140,9 @@ class ReportsOverview extends React.Component {
                     <div className="summary">
                         <div className="summary-header">
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
-                            <img src={EditIcon} alt=""></img>
+                            <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>
                         </div>
-                        <p className="summary-text" contentEditable="true">{this.props.data.summary}</p>
+                        {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.props.data.summary}</p>}
                     </div>
                     <div className="overall">
                         <div className="overall-header">
@@ -82,9 +168,9 @@ class ReportsOverview extends React.Component {
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
-                                    <img src={EditIcon} alt=""></img>
+                                    <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
                                 </div>
-                                <p className="overall-recs-text">{this.props.data.overallRecs}</p>
+                                {this.state.recsEdit?this.overallRecsForm():<p className="overall-recs-text">{this.props.data.overallRecs}</p>}
                             </div>
                         </div>
                     </div>
@@ -102,7 +188,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data.reportsData}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
