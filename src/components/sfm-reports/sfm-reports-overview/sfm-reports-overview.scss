@@ -46,6 +46,9 @@
                         margin: 0;
                         margin-right: 10px;
                     }
+                    .btn {
+                        border-radius: 25px;
+                    }
                 }
             }
         }
@@ -148,6 +151,10 @@
                                 margin: 0;
                                 margin-right: 10px;
                             }
+
+                            .btn {
+                                border-radius: 25px;
+                            }
                         }
                     }
 
@@ -172,10 +179,14 @@
 
     .overview-tab-group{
         width: 100%;
+        position: relative;
         .overview-tab-header {
+            position: absolute;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            width: 100%;
+            top: 4px;
 
             .reorder {
                 display: flex;
@@ -198,6 +209,7 @@
             outline: none;
             width: 19%;
             text-align: center;
+            border-radius: 3px;
             &.active{
                 opacity: unset;
                 outline: none;
@@ -219,13 +231,20 @@
 
             .reportview-header {
                 display: grid;
-                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-template-columns: 6.1fr 1fr 7.5fr 6fr 8fr;
                 .reportview-header-text {
-                    width: 11.7vw;
                     margin: 0;
                     font-size: 16px;
                     font-weight: bold;
                     text-align: center;
+                }
+
+                .circle {
+                    width: 16px;
+                    min-width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    margin-top: 7px;
                 }
             }
         }

@@ -14,26 +14,26 @@ class Slider extends React.Component {
         };
     }
 
-    calcAvg() {
-        var avscore = 0;
-        var avindAvg = 0; 
-        var avtarget = 0;
-        let arr = this.props.data;
-        arr.forEach((data,index)=>{
-            avscore += data.score;
-            avtarget += data.target;
-            avindAvg += data.indAvg;
-        });
+    // calcAvg() {
+    //     var avscore = 0;
+    //     var avindAvg = 0; 
+    //     var avtarget = 0;
+    //     let arr = this.props.data;
+    //     arr.forEach((data,index)=>{
+    //         avscore += data.score;
+    //         avtarget += data.target;
+    //         avindAvg += data.indAvg;
+    //     });
 
-        this.setState({
-            indAvg: (avindAvg/(arr.length)).toFixed(2),
-            score: (avscore/(arr.length)).toFixed(2),
-            target: (avtarget/(arr.length)).toFixed(2),
-            indAvgPos: this.updatePosition(avindAvg/(arr.length)),
-            scorePos: this.updatePosition(avscore/(arr.length)),
-            targetPos: this.updatePosition(avtarget/(arr.length))
-        });
-    }
+    //     this.setState({
+    //         indAvg: (avindAvg/(arr.length)).toFixed(2),
+    //         score: (avscore/(arr.length)).toFixed(2),
+    //         target: (avtarget/(arr.length)).toFixed(2),
+    //         indAvgPos: this.updatePosition(avindAvg/(arr.length)),
+    //         scorePos: this.updatePosition(avscore/(arr.length)),
+    //         targetPos: this.updatePosition(avtarget/(arr.length))
+    //     });
+    // }
 
     updatePosition(value, str) {
         // Function to update the position value for the industry avg bar, score and target circles
@@ -75,11 +75,11 @@ class Slider extends React.Component {
         // }
         // else {
             this.setState({
-                score: this.props.data.score,
-                target: this.props.data.target,
-                indAvg: this.props.data.indAvg,
-                scorePos: this.updatePosition(this.props.data.score, "score"),
-                targetPos: this.updatePosition(this.props.data.target, "target"),
+                score: Number(this.props.data.score).toFixed(1),
+                target: Number(this.props.data.target).toFixed(1),
+                indAvg: this.props.data.indAvg.toFixed(2),
+                scorePos: this.updatePosition(Number(this.props.data.score), "score"),
+                targetPos: this.updatePosition(Number(this.props.data.target), "target"),
                 indAvgPos: this.updatePosition(this.props.data.indAvg, "indAvg")
             });
         // }
@@ -99,7 +99,7 @@ class Slider extends React.Component {
         //         indAvgPos: this.updatePosition((this.props.data.indAvgFrom + this.props.data.indAvgTo)/2)
         //     });
         // }
-        let score = parseInt(this.state.score).toFixed(1);
+        // let score = this.state.score.toFixed(1);
         return ( 
             <div className="slider">
                 <p className="slider-text">Low 1</p>
@@ -113,7 +113,7 @@ class Slider extends React.Component {
                 </div>
                 <span className="ind-avg" style={{marginLeft: this.state.indAvgPos + "%"}}></span>
                 <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "%"}}>
-                    <p className="score-text">{score}</p>
+                    <p className="score-text">{this.state.score}</p>
                     <span className="slider-circle" style={{backgroundColor: "#57bb50"}}></span>
                 </div>
                 <div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "%"}}> 
@@ -123,7 +123,7 @@ class Slider extends React.Component {
                         <span className="small-line"></span>
                         <span className="small-line"></span>
                     </div> */}
-                    <p className="score-text">{parseInt(this.state.target).toFixed(1)}</p>
+                    <p className="score-text">{this.state.target}</p>
                 </div>
                 <p className="slider-text">High 7</p>
             </div>
