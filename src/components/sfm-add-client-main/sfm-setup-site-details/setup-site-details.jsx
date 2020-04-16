@@ -54,14 +54,52 @@ class AddSiteDetails extends React.Component{
         let dataForBusinessFunctions = {
             clientNames:clientNameArray
         }
-        
+        let sitedetailsJSON = this.triggerFormSubmission();
         this.props.history.push({
             pathname:'/addbusinessfunctions',
             state:{
                 dataForBusinessFunctions:dataForBusinessFunctions,
-                siteName:this.props.location.state.clientName
+                siteName:this.props.location.state.clientName,
+                sitedetailsJSON:sitedetailsJSON
             }
         })
+    }
+
+    triggerFormSubmission = ()=>{
+        let sitesJSON=[];
+        let siteDetails={
+            sites:[]
+        };
+        siteNumber.forEach((site,index)=>{
+            let indexString=String(index)
+            let siteDetailsJSON=
+                    {
+                        siteDetails:{
+                            "sitename": this.state["siteName"+indexString],
+                            "clientID": this.props.location.state.clientID,
+                            "primaryPOC": this.state["primePoc"+indexString],
+                            "primaryPOCRole": this.state["includesprimPocRole"+indexString],
+                            "sector": this.state["sector"+indexString],
+                            "archetype": this.state["includesmanfArch"+indexString],
+                            "shifts": this.state["numShifts"+index],
+                            "employees": this.state["numEmployees"+index],
+                            "assets": this.state["numAssets"+index],
+                            "siteRevenue": this.state["SiteRevenue"+index],
+                            "ebitda": this.state["SiteEBI"+index],
+                            "otif": this.state["SiteOTIF"+index],
+                            "siteOEE": this.state["SiteOEE"+index],
+                            "performanceOEE": this.state["percentSiteOEE"+index],
+                            "availabilityOEE": this.state["percentAvailable"+index],
+                            "qualityOEE": this.state["percentQuality"+index]
+                        }
+                    }
+                
+            
+            sitesJSON.push(siteDetailsJSON);
+            siteDetailsJSON={};
+        })
+        siteDetails.sites=sitesJSON;
+        return siteDetails;
     }
 
 

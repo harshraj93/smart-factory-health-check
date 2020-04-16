@@ -13,11 +13,11 @@ let businessNames=[
 
 
 
-function siteHeader(props,enableButton){
+function siteHeader(props,enableButton,handleFormSubmission){
     return(
         <div className="site-header-container">
             <span className="company-name">{props.location.state.siteName}</span>
-            <Link to="/"><FormNavigationButton labelName="Complete" buttonStatus={enableButton}/></Link>
+           <Link to = "/"><FormNavigationButton labelName="Complete" buttonStatus={enableButton} type="submit" onClick={handleFormSubmission}/></Link>
         </div>
     )
 }
@@ -138,13 +138,38 @@ class AddBusinessFunctions extends React.Component{
     }
 
 
+
+
+    handleFormSubmission = ()=>{
+        let siteDetailsJSON = this.props.location.state.sitedetailsJSON;
+        let clientNames = this.props.location.state.dataForBusinessFunctions.clientNames;
+        for(let i = 0; i<siteDetailsJSON.sites.length; i++){
+            console.log(siteDetailsJSON.sites[i].siteDetails.sitename,clientNames[i])
+            if(siteDetailsJSON.sites[i].siteDetails.sitename===clientNames[i]){
+                let functionsArray = [];
+                let clientName = this.state.cardSelectedIndexArray.filter(element=>{
+                    return element.businessName === clientNames[i];
+                })
+                clientName[0].indexArray.forEach(index=>{
+                    functionsArray.push(businessNames[index]);
+                    return functionsArray;
+                })
+                siteDetailsJSON.sites[i].businessFunctions=functionsArray;
+                functionsArray = [];
+            }
+            
+        }
+        
+    }
+
+
     render(){
        
         return(
         <div className="add-business-function">
         <Header title="Add Business Functions" props={this.props} />
-        {siteHeader(this.props,this.state.enableButton)}
-
+        {siteHeader(this.props,this.state.enableButton,this.handleFormSubmission)}
+            {/* <form id="add-business-functions" onSubmit={this.handleFormSubmission}> */}
         {this.props.location.state.dataForBusinessFunctions.clientNames.map((element,index)=>{
          return(
             <>
@@ -178,7 +203,10 @@ class AddBusinessFunctions extends React.Component{
             
             
             })}
-            <Link to="/"><FormNavigationButton labelName="Complete" buttonStatus={this.state.enableButton}/></Link>
+           <Link to="/">
+           <FormNavigationButton labelName="Complete" buttonStatus={this.state.enableButton} onClick={this.handleFormSubmission}/>
+           </Link>
+            {/* </form> */}
         </div>
         )
     }

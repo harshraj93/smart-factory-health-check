@@ -3,7 +3,7 @@ import {FormNavigationButton} from '../../../assets/sfm-button'
 import {withRouter} from 'react-router-dom';
 import DropDownMenu from '../../../assets/drop-down-input-box';
 import LabelledInputField from '../../../assets/input-field';
-import FileUpload from '../../sfm-file-upload/file-upload';
+//import FileUpload from '../../sfm-file-upload/file-upload';
 import Header from '../sfm-add-client-main';
 import addclientapi from '../../../api/addclient/addclient';
 import {apiGetHeader,apiPostHeader} from '../../../api/main/mainapistorage';
@@ -56,13 +56,13 @@ function teamInfoForm(props,handleChange,changeButtonState){
 }
 
 
-function addSupportResource(props,state,hideSupportResource){
+function addSupportResource(handleChange,index){
     return(
         <div className = "support-info-container">
         <div className="support-info">
-        <LabelledInputField placeholder={true}  labelName="Support Resource Name" />
-        <LabelledInputField placeholder={true}  labelName="Support Resource Level" />
-        <LabelledInputField placeholder={true}  labelName="Support Resource Email" />
+        <LabelledInputField placeholder={true}  labelName="Support Resource Name" name={"supResourceName"+index} onChange={handleChange}/>
+        <LabelledInputField placeholder={true}  labelName="Support Resource Level" name={"supResourceLevel"+index} onChange={handleChange}/>
+        <LabelledInputField placeholder={true}  labelName="Support Resource Email" name={"supResourceEmail"+index} onChange={handleChange}/>
         
         </div>
         </div>
@@ -106,7 +106,7 @@ class AddNewClient extends React.Component{
     
     handleSubmit = (e)=>{
         e.preventDefault();
-        this.triggerFormSubmission();
+        //this.triggerFormSubmission();
         this.props.history.push({
            pathname: '/addsitedetails',
            state:{
@@ -130,13 +130,31 @@ class AddNewClient extends React.Component{
                 "assesssites":this.state.numSites,
                 "sumofassesssite":this.state.totalSites,
                 "totalsites":40,
-                "revenue":null,
-                "ebitda":null,
+                "revenue":this.state.companyRevenue,
+                "ebitda":this.state.companyEBITDA,
                 "createdby":null,
                 "createdon":null,
                 "modifiedby":null,
-                "modifiedon":null}}
+                "modifiedon":null,
+                "deloitteResources":{
+                    "primary_owner_name":this.state.primOwnerName,
+                    "primary_owner_email":this.state.primOwnerLevel,
+                    "primary_owner_level":this.state.primOwnerEmail,
+                    "SupportResources":[{
+                    "support_resource_name":this.state.supResourceName1,
+                    "support_resource_email":this.state.supResourceEmail1,
+                    "support_resource_level":this.state.supResourceLevel1
+                    },
+                    {
+                        "support_resource_name":this.state.supResourceName2,
+                        "support_resource_email":this.state.supResourceEmail2,
+                        "support_resource_level":this.state.supResourceLevel2
+                        }
+                      ]
+            }}
     }
+        
+}
 
     setNextStepState = ()=>{
         this.setState({
@@ -157,7 +175,7 @@ class AddNewClient extends React.Component{
         if(cnt===requiredFieldNames.length){
             boolFlag=true;
         }
-        console.log(boolFlag,cnt,requiredFieldNames.length);
+        //console.log(boolFlag,cnt,requiredFieldNames.length);
         if(boolFlag){
             this.setState({
             enableButton:true
@@ -184,15 +202,15 @@ class AddNewClient extends React.Component{
        return(
             <div className='add-new-client-container'>
             <Header title="Add New Client" props={this.props}/>
-            <FileUpload props={this.props} />
+            {/* <FileUpload props={this.props} /> */}
             <form id="add-client-form" onSubmit={this.handleSubmit}>
             {clientInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}
             <div className="border-bottom"></div>
             {teamInfoForm(this.props,this.handleChange,this.setNextStepState)}
             <div className="border-bottom"></div>
-            {addSupportResource(this.props,this.state)}
+            {addSupportResource(this.handleChange,1)}
             <div className="border-bottom"></div>
-            {this.state.showSupportResource&&addSupportResource(this.props,this.state)}
+            {this.state.showSupportResource&&addSupportResource(this.handleChange,2)}
             {this.state.showSupportResource&&<span className="close-button" onClick={this.hideSupportResource}>&times;</span>}
             <button type="button" className={"add-support-resource "+this.state.showSupportResource} 
             onClick={this.showSupportResource}>
