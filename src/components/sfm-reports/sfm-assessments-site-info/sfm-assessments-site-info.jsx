@@ -148,7 +148,7 @@ class SiteInfo extends React.Component {
     render(){
         return(
              <div className='site-info-container'>
-             <form id="add-client-form" onSubmit={this.handleSubmit}>
+             <form id="site-info-form" onSubmit={this.handleSubmit}>
                 {firstForm(this.props,this.handleChange,this.setNextStepState)}
                 <div className="border-bottom"></div>
                 {secondForm(this.props,this.handleChange,this.setNextStepState)}

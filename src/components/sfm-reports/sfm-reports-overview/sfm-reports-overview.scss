@@ -46,6 +46,9 @@
                         margin: 0;
                         margin-right: 10px;
                     }
+                    .btn {
+                        border-radius: 25px;
+                    }
                 }
             }
         }
@@ -148,6 +151,10 @@
                                 margin: 0;
                                 margin-right: 10px;
                             }
+
+                            .btn {
+                                border-radius: 25px;
+                            }
                         }
                     }
 
@@ -172,10 +179,14 @@
 
     .overview-tab-group{
         width: 100%;
+        position: relative;
         .overview-tab-header {
+            position: absolute;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            width: 100%;
+            top: 4px;
 
             .reorder {
                 display: flex;

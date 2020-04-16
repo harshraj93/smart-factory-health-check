@@ -59,21 +59,39 @@
                     }
                 }
 
-                .react-switch-bg {
-                    margin-right: 20px !important;
-                }
-
                 .custom-switch.custom-control {
-                    .custom-control-input{}
+                    height: 2rem;
+                    width: 4.5rem;
+                    .custom-control-input:checked~{
+                        .custom-control-label {
+                            &:before {
+                                background-color: #161617;
+                            }
+                            &:after {
+                                background-color: #727279;
+                                transform: translateX(1.3rem);
+                            }
+                        }
+                    }
                     .custom-control-label {
                         position: relative;
                         margin-bottom: 0;
                         vertical-align: top;
                         &:before {
                             background-color: #57bb50;
+                            left: -2.25rem;
+                            width: 2.88rem;
+                            height: 1.63rem;
+                            pointer-events: all;
+                            border-radius: 1.5rem;
                         }
                         &:after {
                             background-color: #ffffff;
+                            top: calc(.25rem + 3px);
+                            left: calc(-2.25rem + 2px);
+                            width: calc(1.5rem - 4px);
+                            border-radius: 50%;
+                            height: calc(1.5rem - 4px);
                         }
                     }
                 }
@@ -133,8 +151,41 @@
                     border-top: 1px solid #232325;
                     font-weight: 600;
 
-                    .react-switch-bg {
-                        margin-right: 20px !important;
+                    .custom-switch.custom-control {
+                        height: 2rem;
+                        width: 4.5rem;
+                        .custom-control-input:checked~{
+                            .custom-control-label {
+                                &:before {
+                                    background-color: #161617;
+                                }
+                                &:after {
+                                    background-color: #727279;
+                                    transform: translateX(1.3rem);
+                                }
+                            }
+                        }
+                        .custom-control-label {
+                            position: relative;
+                            margin-bottom: 0;
+                            vertical-align: top;
+                            &:before {
+                                background-color: #57bb50;
+                                left: -2.25rem;
+                                width: 2.88rem;
+                                height: 1.63rem;
+                                pointer-events: all;
+                                border-radius: 1.5rem;
+                            }
+                            &:after {
+                                background-color: #ffffff;
+                                top: calc(.25rem + 3px);
+                                left: calc(-2.25rem + 2px);
+                                width: calc(1.5rem - 4px);
+                                border-radius: 50%;
+                                height: calc(1.5rem - 4px);
+                            }
+                        }
                     }
 
                     .child-group {

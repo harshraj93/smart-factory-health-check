@@ -126,6 +126,20 @@ class ReportsOverview extends React.Component {
         }
     }
 
+    componentDidMount() {
+        if (this.props.data.summary !== null) {
+            this.setState ({
+                summary: this.props.data.summary
+            })
+        }
+
+        if (this.props.data.overallRecs !== null) {
+            this.setState({
+                overallRecs: this.props.data.overallRecs
+            })
+        }
+    }
+
     render() {
         return (
             <div className="reports-overview">
@@ -135,7 +149,7 @@ class ReportsOverview extends React.Component {
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
                             <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>
                         </div>
-                        {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.props.data.summary}</p>}
+                        {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.state.summary}</p>}
                     </div>
                     <div className="overall">
                         <div className="overall-header">
@@ -163,7 +177,7 @@ class ReportsOverview extends React.Component {
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
                                     <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
                                 </div>
-                                {this.state.recsEdit?this.overallRecsForm():<p className="overall-recs-text">{this.props.data.overallRecs}</p>}
+                                {this.state.recsEdit?this.overallRecsForm():<p className="overall-recs-text">{this.state.overallRecs}</p>}
                             </div>
                         </div>
                     </div>

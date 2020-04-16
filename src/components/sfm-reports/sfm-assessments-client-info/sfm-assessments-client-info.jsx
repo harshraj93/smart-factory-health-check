@@ -87,7 +87,7 @@ class ClientInfo extends React.Component {
     render(){
         return(
              <div className='client-info-container'>
-             <form id="add-client-form" onSubmit={this.handleSubmit}>
+             <form id="client-info-form" onSubmit={this.handleSubmit}>
                 {clientInfo(this.props,this.handleChange,this.setNextStepState)}
              </form>
              </div>

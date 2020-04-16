@@ -75,8 +75,8 @@ class Slider extends React.Component {
         // }
         // else {
             this.setState({
-                score: Number(this.props.data.score).toFixed(2),
-                target: Number(this.props.data.target).toFixed(2),
+                score: Number(this.props.data.score).toFixed(1),
+                target: Number(this.props.data.target).toFixed(1),
                 indAvg: this.props.data.indAvg.toFixed(2),
                 scorePos: this.updatePosition(Number(this.props.data.score), "score"),
                 targetPos: this.updatePosition(Number(this.props.data.target), "target"),
@@ -99,7 +99,7 @@ class Slider extends React.Component {
         //         indAvgPos: this.updatePosition((this.props.data.indAvgFrom + this.props.data.indAvgTo)/2)
         //     });
         // }
-        let score = parseInt(this.state.score).toFixed(1);
+        // let score = this.state.score.toFixed(1);
         return ( 
             <div className="slider">
                 <p className="slider-text">Low 1</p>
@@ -113,7 +113,7 @@ class Slider extends React.Component {
                 </div>
                 <span className="ind-avg" style={{marginLeft: this.state.indAvgPos + "%"}}></span>
                 <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "%"}}>
-                    <p className="score-text">{score}</p>
+                    <p className="score-text">{this.state.score}</p>
                     <span className="slider-circle" style={{backgroundColor: "#57bb50"}}></span>
                 </div>
                 <div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "%"}}> 
@@ -123,7 +123,7 @@ class Slider extends React.Component {
                         <span className="small-line"></span>
                         <span className="small-line"></span>
                     </div> */}
-                    <p className="score-text">{parseInt(this.state.target).toFixed(1)}</p>
+                    <p className="score-text">{this.state.target}</p>
                 </div>
                 <p className="slider-text">High 7</p>
             </div>

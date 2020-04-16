@@ -32,8 +32,14 @@ class AssessmentsOverview extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    onChange = () => {
-        console.log("onChange was called!");
+    onChange = (e) => {
+        const target = e.target;
+        const id = target.id;
+        this.setState({
+            [id]: target.checked
+        });
+
+        // console.log("onChange was called!");
     };
 
     handleChange(e) {
@@ -62,7 +68,8 @@ class AssessmentsOverview extends React.Component {
                     <Card key={index} className={"card"}>                                   
                         <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
                         
-                        <Form.Switch id={data.name} label="" onChange={this.onChange} checked={true}/>
+                        <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange}/> 
+                        {/* checked={true} */}
                             <div className="assess-overview-card">
                                 <span className="area-name">{data.name}</span>
                                 {data.completed?percentComplete(data, ""):percentComplete(data, "success")}
@@ -77,7 +84,7 @@ class AssessmentsOverview extends React.Component {
                                 {data.parts.map((x,y) => {
                                     return (
                                         <div className="assess-overview-card" key={y}>
-                                            <Form.Switch id={x.name} label="" onChange={this.onChange} />
+                                            <Form.Switch id={data.name + " " + x.name} label="" onChange={this.onChange} />
                                             <div className="child-group">
                                             {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
                                             {x.active?(x.completed?<FormNavigationButton labelName="Done"/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
