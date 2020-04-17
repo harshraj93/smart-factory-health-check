@@ -55,6 +55,7 @@ class AddSiteDetails extends React.Component{
             clientNames:clientNameArray
         }
         let sitedetailsJSON = this.triggerFormSubmission();
+        console.log(sitedetailsJSON);
         this.props.history.push({
             pathname:'/addbusinessfunctions',
             state:{
@@ -76,11 +77,11 @@ class AddSiteDetails extends React.Component{
                     {
                         siteDetails:{
                             "sitename": this.state["siteName"+indexString],
-                            "clientID": this.props.location.state.clientID,
+                            "clientID": this.props.location.state.clientid,
                             "primaryPOC": this.state["primePoc"+indexString],
-                            "primaryPOCRole": this.state["includesprimPocRole"+indexString],
+                            "primaryPOCRole": this.state["primPocRole"+indexString],
                             "sector": this.state["sector"+indexString],
-                            "archetype": this.state["includesmanfArch"+indexString],
+                            "archetype": this.state["manfArch"+indexString],
                             "shifts": this.state["numShifts"+index],
                             "employees": this.state["numEmployees"+index],
                             "assets": this.state["numAssets"+index],

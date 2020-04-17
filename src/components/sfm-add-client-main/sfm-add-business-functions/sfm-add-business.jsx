@@ -4,13 +4,8 @@ import Header from '../sfm-add-client-main';
 import {Link,withRouter} from 'react-router-dom';
 import {CustomButton} from '../../../assets/sfm-button';
 import {createCardSelectedObj} from '../../../util/addbusinessfunctions'
-
-let businessNames=[
-    "Operations","Maintenance","Quality","Planning & Scheduling","Replenishment & Material Management",
-    "Procurement & Supplier Management","Engineering & R&D","Continuous Improvement","Information Technology","Human Resources"
-];
-
-
+import addclientapi from "../../../api/addclient/addclient";
+import {apiGetHeader,apiPostHeader} from '../../../api/main/mainapistorage';
 
 
 function siteHeader(props,enableButton,handleFormSubmission){
@@ -33,7 +28,8 @@ class AddBusinessFunctions extends React.Component{
         this.state={
             cardSelectedIndexArray:[...indexObjectArray],
             checked:"",
-            enableButton:"false"
+            enableButton:"false",
+            businessNames:[]
         }
         
     }
@@ -151,7 +147,7 @@ class AddBusinessFunctions extends React.Component{
                     return element.businessName === clientNames[i];
                 })
                 clientName[0].indexArray.forEach(index=>{
-                    functionsArray.push(businessNames[index]);
+                    functionsArray.push(this.state.businessNames[index]);
                     return functionsArray;
                 })
                 siteDetailsJSON.sites[i].businessFunctions=functionsArray;
@@ -159,7 +155,19 @@ class AddBusinessFunctions extends React.Component{
             }
             
         }
-        
+        apiPostHeader.body = JSON.stringify(siteDetailsJSON);
+        console.log(apiPostHeader,addclientapi.addSite)
+        fetch(addclientapi.addSite,apiPostHeader)
+            .then(resp=>resp.json())
+            .then(resp=>console.log(resp))
+            .catch(error=>console.log(error))
+    }
+
+
+    componentDidMount = async()=>{
+       let resp =  await fetch(addclientapi.getBusinessFunctions,apiGetHeader)
+       let response =   await resp.json()
+       await this.setState({businessNames:response.resultantJSON}) 
     }
 
 
@@ -187,7 +195,7 @@ class AddBusinessFunctions extends React.Component{
                 </div>
         
                 <div className="cards-container">
-                        {businessNames.map((businessNames,index)=>
+                        {this.state.businessNames.map((businessNames,index)=>
                 {   
                     return(
                         <>
