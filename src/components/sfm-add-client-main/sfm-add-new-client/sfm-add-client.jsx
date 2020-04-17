@@ -31,11 +31,11 @@ let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
         <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Primary Client Paricipation*" required={true} name="clientParticipation" onChange={handleChange}/>
         <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Primary Client Role*" required={true} name="clientRole" onChange={handleChange}/>
         <DropDownMenu placeholder={data[0].labelName+"*"} required={true} data={state.dropDownData} name="industryDropdown" onChange={handleChange}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Total Sites in Network (optional)" name="totalSites" onChange={handleChange}/>
+        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} type="number" min="1" labelName="Total Sites in Network (optional)" name="totalSites" onChange={handleChange}/>
         <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="# of Sites to Assess*" 
         required={true} name="numSites" onChange={handleChange} type="number" min="1" step="1" onKeyDown={(e)=>e.keyCode!==69}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Company Revenue (optional)" name="companyRevenue" onChange={handleChange}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Company EBITDA (optional)" name="companyEBITDA" onChange={handleChange}/>
+        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Company Revenue (optional)" min="1" type="number" name="companyRevenue" onChange={handleChange}/>
+        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Company EBITDA (optional)" min="1" type="number" name="companyEBITDA" onChange={handleChange}/>
         </div>
         </div>
     )
@@ -221,7 +221,7 @@ class AddNewClient extends React.Component{
        return(
             <div className='add-new-client-container'>
             <Header title="Add New Client" props={this.props}/>
-            {/* <FileUpload props={this.props} /> */}
+            <div className="required">* Required</div>
             <form id="add-client-form" onSubmit={this.handleSubmit}>
             {clientInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}
             <div className="border-bottom"></div>
