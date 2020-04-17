@@ -320,8 +320,8 @@ class Reports extends React.Component{
     loadingScreen() {
         return (
             <div className="loader">
-                <Spinner animation="border" variant="success" />
-                <p>Loading {this.props.location.loadComponentString.toUpperCase()} page...</p>
+                {this.props.location.loadComponentString===undefined?"":<Spinner animation="border" variant="success" />}
+                {this.props.location.loadComponentString===undefined?<p>No data. Please click on back button.</p>:<p>Loading {this.props.location.loadComponentString.toUpperCase()} page...</p>}
             </div>
         )
     }

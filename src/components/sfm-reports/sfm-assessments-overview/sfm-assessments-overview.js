@@ -65,36 +65,7 @@ class AssessmentsOverview extends React.Component {
             <Accordion className="assess-overview-accordion" defaultActiveKey={0}>
             {this.props.data.businessFunction.map((data,index)=>{
                 return (
-                    <Card key={index} className={"card"}>                                   
-                        <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
-                        
-                        <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange}/> 
-                        {/* checked={true} */}
-                            <div className="assess-overview-card">
-                                <span className="area-name">{data.name}</span>
-                                {data.business_funtion_level_status!=="Open"?percentComplete(data, ""):percentComplete(data, "success")}
-                                {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{opacity: "0.5"}}/>:<FormNavigationButton labelName="Open" style={{opacity: "0.5", backgroundColor: "#57bb50"}}/>}
-                            </div>
-                            <Accordion.Toggle as={Button} value={index} variant="link" eventKey={0} onClick={(e,value)=>this.handleClick(e,value)}>
-                                <img className="drop-down" src={DropDownImg} alt="" ></img>
-                            </Accordion.Toggle>
-                        </Card.Header>
-                        <Accordion.Collapse eventKey={0}>
-                            <div>
-                                {data.Capability.map((x,y) => {
-                                    return (
-                                        <div className="assess-overview-card" key={y}>
-                                            <Form.Switch id={data.name + " " + x.name} label="" onChange={this.onChange} />
-                                            <div className="child-group">
-                                            {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
-                                            {x.active?(x.status!=="Open"?<FormNavigationButton labelName="Done"/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
-                                            </div>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </Accordion.Collapse>
-                    </Card>
+                    data.active?this.activeCard(data, index):this.inactiveCard(data, index)
                 )
             })}
             </Accordion>
@@ -135,21 +106,29 @@ class AssessmentsOverview extends React.Component {
     activeCard = (data, index) => {
         return (
             <Card key={index} className={"card"}>                                   
-                <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
+                <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
+                
+                <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange}/> 
+                {/* checked={true} */}
                     <div className="assess-overview-card">
                         <span className="area-name">{data.name}</span>
                         {data.business_funtion_level_status!=="Open"?percentComplete(data, ""):percentComplete(data, "success")}
-                        {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{marginRight: "28px"}}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50", marginRight: "28px"}}/>}
+                        {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{opacity: "0.5"}}/>:<FormNavigationButton labelName="Open" style={{opacity: "0.5", backgroundColor: "#57bb50"}}/>}
                     </div>
-                    <img className="drop-down" src={DropDownImg} alt="" ></img>
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey={index}>
+                    <Accordion.Toggle as={Button} value={index} variant="link" eventKey={0} onClick={(e,value)=>this.handleClick(e,value)}>
+                        <img className="drop-down" src={DropDownImg} alt="" ></img>
+                    </Accordion.Toggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey={0}>
                     <div>
                         {data.Capability.map((x,y) => {
                             return (
                                 <div className="assess-overview-card" key={y}>
+                                    <Form.Switch id={data.name + "_" + x.name} label="" onChange={this.onChange} checked={!x.active}/>
+                                    <div className="child-group">
                                     {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
-                                    {x.active?(x.status!=="Open"?<FormNavigationButton labelName={<>&#10003;</>}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
+                                    {x.active?(x.status!=="Open"?<FormNavigationButton labelName="Done"/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
+                                    </div>
                                 </div>
                             )
                         })}
@@ -162,9 +141,10 @@ class AssessmentsOverview extends React.Component {
     inactiveCard = (data, index) => {
         return (
             <Card key={index} className={"card"}>
-                <Card.Header className={"card-header"} style={{opacity: "0.3"}}>
-                    <div className="assess-overview-card">
-                        <span className="area-name">{data.name}</span>
+                <Card.Header className={"card-header"} style={{backgroundColor: "#232325"}}>
+                    <div className="assess-overview-card-inactive">
+                        <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange} checked={true}/>
+                        <span className="area-name" style={{opacity: "0.3"}}>{data.name}</span>
                     </div>
                 </Card.Header>
             </Card>

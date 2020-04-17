@@ -95,6 +95,20 @@
                         }
                     }
                 }
+
+                .assess-overview-card-inactive {
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    height: 7.04vh;
+    
+                    .area-name {
+                        width: 307px;
+                        min-width: 307px;
+                        font-size: 18px;
+                        font-weight: 600;
+                    }
+                }
     
                 .assess-overview-card {
                     display: flex;

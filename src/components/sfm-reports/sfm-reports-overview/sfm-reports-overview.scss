@@ -29,14 +29,15 @@
                     background-color: #232325;
                     border-radius: 8px;
                     color: #dedede;
-                    height: 37.76vh;
+                    height: 29.1vh;
                     border: none;
                     flex: none;
                     background-clip: unset;
                 }
 
                 .input-group-append {
-                    margin-right: 10px;
+                    margin-right: 5px;
+                    margin-top: 6px;
                     justify-content: flex-end;
                     align-items: center;
 
@@ -48,6 +49,7 @@
                     }
                     .btn {
                         border-radius: 25px;
+                        width: 8vw;
                     }
                 }
             }
@@ -134,14 +136,15 @@
                             background-color: #35353b;
                             border-radius: 8px;
                             color: #dedede;
-                            height: 14.76vh;
+                            height: 8.76vh;
                             border: none;
                             flex: none;
                             background-clip: unset;
                         }
         
                         .input-group-append {
-                            margin-right: 10px;
+                            margin-right: 5px;
+                            margin-top: 6px;
                             justify-content: flex-end;
                             align-items: center;
         
@@ -151,9 +154,9 @@
                                 margin: 0;
                                 margin-right: 10px;
                             }
-
                             .btn {
                                 border-radius: 25px;
+                                width: 8vw;
                             }
                         }
                     }

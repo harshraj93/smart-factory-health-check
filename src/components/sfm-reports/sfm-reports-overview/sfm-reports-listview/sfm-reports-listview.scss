@@ -141,6 +141,10 @@
                 .form-row {
                     margin: 0;
 
+                    .form-group {
+                        margin-bottom: 0;
+                    }
+
                     .form-label {
                         font-weight: 600;
                         font-size: 14px;
@@ -167,11 +171,13 @@
 
                 .input-group-append {
                     margin-right: 80px;
+                    margin-bottom: 6px;
                     justify-content: flex-end;
                     align-items: center;
 
                     .btn {
                         border-radius: 25px;
+                        width: 8vw;
                     }
                 }
             }
