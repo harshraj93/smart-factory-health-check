@@ -15,14 +15,14 @@
         }
     }
     // #add-business-functions{
-        height: 100%;
+        
     .cards-container{
-    height:calc(100% - 500px);
+    height:calc(100% - 65%);
     padding-left:100px;
     padding-right: 100px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    //grid-auto-rows: 100%;
     .function-card{
         display: flex;
         justify-content: center;
