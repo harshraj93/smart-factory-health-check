@@ -1,7 +1,14 @@
 .add-new-client-container{  
-    max-height: 90vh;
+    max-height: 90vh !important;
     overflow-y: scroll;
           
+    .required{
+        font-size: 12px;
+        font-weight: bold;
+        position: relative;
+        left: 75%;
+        padding-top: 16px;
+    }
    
     .border-bottom{
         border-bottom: 1px solid #35353b !important;

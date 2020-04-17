@@ -76,7 +76,7 @@ class ClientInfo extends React.Component {
 
     render(){
         return(
-             <div className='client-info-container'>
+             <div className='client-info-container-main'>
              <div className = "client-info-container">
                 <div className="client-info">
                 <LabelledInputField placeholder={false}  labelName="Primary Client Name*" data={this.state.jsonData.clientname} readOnly={true} />
