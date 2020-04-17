@@ -4,7 +4,7 @@ import clientInfoApi from '../../../api/assessments/assess-clientInfo';
 import {apiGetHeader} from '../../../api/main/mainapistorage';
 import './sfm-assessments-client-info.scss';
 
-let requiredFieldNames=["location","primaryPOC","primaryPOCRole","sectorDropdown","manuArchDropdown"];
+// let requiredFieldNames=["location","primaryPOC","primaryPOCRole","sectorDropdown","manuArchDropdown"];
 
 class ClientInfo extends React.Component {
     constructor(props){

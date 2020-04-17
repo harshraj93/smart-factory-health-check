@@ -4,7 +4,7 @@ import siteInfoApi from '../../../api/assessments/assess-siteInfo';
 import {apiPostHeader} from '../../../api/main/mainapistorage';
 import './sfm-assessments-site-info.scss';
 
-let bfplist=["Operations","Quality","Information Technology","Procurement &amp; Supplier Management","Continuous Improvement","Replenishment &amp; Material Management","Maintenance","Planning &amp; Scheduling","Human Resources","Engineering &amp; R&amp;D"];
+// let bfplist=["Operations","Quality","Information Technology","Procurement &amp; Supplier Management","Continuous Improvement","Replenishment &amp; Material Management","Maintenance","Planning &amp; Scheduling","Human Resources","Engineering &amp; R&amp;D"];
 
 class SiteInfo extends React.Component{
     constructor(props){
@@ -69,21 +69,21 @@ class SiteInfo extends React.Component{
             <div className="mid-container">
                 <div className="title">Business Function Point of Contact</div>
                 <div className="client-info">
-                    {this.state.BusinessFunctionPoC.map((data,index)=>{
+                    {/* {this.state.BusinessFunctionPoC.map((data,index)=>{
                         return(
                             <LabelledInputField placeholder={false} labelName={bfplist[index]} data={data.ResourceName} readOnly={true}/>
                         )
-                    }) }
-                {/* <LabelledInputField placeholder={true}  labelName="Operations" data={this.state.BusinessFunctionPoC[0].ResourceName} />
-                <LabelledInputField placeholder={true}  labelName="Quality" data={this.state.jsonData.BusinessFunctionPoC[1].ResourceName} />
-                <LabelledInputField placeholder={true}  labelName="Information Technology" data={this.state.jsonData.BusinessFunctionPoC[2].ResourceName} />
-                <LabelledInputField placeholder={true}  labelName="Procurement &amp; Supplier Management" data={this.state.jsonData.BusinessFunctionPoC[3].ResourceName} />
-                <LabelledInputField placeholder={true}  labelName="Continuous Improvement" data={this.state.jsonData.BusinessFunctionPoC[4].ResourceName} />
-                <LabelledInputField placeholder={true}  labelName="Replenishment &amp; Material Management" data={this.state.jsonData.BusinessFunctionPoC[5].ResourceName} />
-                <LabelledInputField placeholder={true}  labelName="Maintenance" data={this.state.jsonData.BusinessFunctionPoC[6].ResourceName} />
-                <LabelledInputField placeholder={true}  labelName="Planning &amp; Scheduling" data={this.state.jsonData.BusinessFunctionPoC[7].ResourceName} />
-                <LabelledInputField placeholder={true}  labelName="Human Resources" data={this.state.jsonData.BusinessFunctionPoC[8].ResourceName} />
-                <LabelledInputField placeholder={true}  labelName="Engineering &amp; R&amp;D" data={this.state.jsonData.BusinessFunctionPoC[9].ResourceName} /> */}
+                    }) } */}
+                <LabelledInputField placeholder={false}  labelName="Operations" readOnly={false} />
+                <LabelledInputField placeholder={false}  labelName="Quality" readOnly={false} />
+                <LabelledInputField placeholder={false}  labelName="Information Technology" readOnly={false} />
+                <LabelledInputField placeholder={false}  labelName="Procurement &amp; Supplier Management" readOnly={false} />
+                <LabelledInputField placeholder={false}  labelName="Continuous Improvement" readOnly={false} />
+                <LabelledInputField placeholder={false}  labelName="Replenishment &amp; Material Management" readOnly={false} />
+                <LabelledInputField placeholder={false}  labelName="Maintenance" readOnly={false} />
+                <LabelledInputField placeholder={false}  labelName="Planning &amp; Scheduling" readOnly={false} />
+                <LabelledInputField placeholder={false}  labelName="Human Resources" readOnly={false} />
+                <LabelledInputField placeholder={false}  labelName="Engineering &amp; R&amp;D" readOnly={false} />
                 </div>
             </div>
             
