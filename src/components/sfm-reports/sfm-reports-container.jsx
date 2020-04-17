@@ -1,6 +1,7 @@
 import React from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+import Spinner from 'react-bootstrap/Spinner'
 import {CustomButton} from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import downloadIcon from '../../images/icon-small-download.svg';
@@ -13,167 +14,168 @@ import SiteInfo from './sfm-assessments-site-info/sfm-assessments-site-info';
 import ClientInfo from './sfm-assessments-client-info/sfm-assessments-client-info';
 import {withRouter} from 'react-router-dom';
 import {resultsApi} from '../../api/assessments/reports'
+import assessOverviewApi from '../../api/assessments/assess-overview';
 import {apiPostHeader} from '../../api/main/mainapistorage'
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=["Overview","Demographics"];
 
-let assessOverview = {
-    functions: [
-        {
-            name: "Operations",
-            percentComplete: "33",
-            active: true,
-            completed: false,
-            parts: [
-                {
-                    name: "Capability 1",
-                    active: true,
-                    completed: true
-                },
-                {
-                    name: "Capability 2",
-                    active: true,
-                    completed: false
-                },
-                {
-                    name: "Capability 3",
-                    active: false,
-                    completed: false
-                },
-                {
-                    name: "Capability 4",
-                    active: true,
-                    completed: true
-                },
-                {
-                    name: "Capability 5",
-                    active: true,
-                    completed: true
-                },
-                {
-                    name: "Capability 6",
-                    active: false,
-                    completed: false
-                },
-                {
-                    name: "Capability 7",
-                    active: true,
-                    completed: false
-                },
-            ]
-        },
-        {
-            name: "Procurement & Supplier Management",
-            percentComplete: "73",
-            active: true,
-            completed: false,
-            parts: [
-                {
-                    name: "Capability 1",
-                    active: true,
-                    completed: true
-                },
-                {
-                    name: "Capability 2",
-                    active: true,
-                    completed: false
-                },
-                {
-                    name: "Capability 3",
-                    active: false,
-                    completed: false
-                },
-                {
-                    name: "Capability 4",
-                    active: true,
-                    completed: true
-                },
-                {
-                    name: "Capability 5",
-                    active: true,
-                    completed: true
-                },
-                {
-                    name: "Capability 6",
-                    active: false,
-                    completed: false
-                },
-            ]
-        },
-        {
-            name: "Engineering R&D",
-            percentComplete: "",
-            active: false,
-            completed: false,
-            parts: [
-                {
-                    name: "Capability 1",
-                    active: true,
-                    completed: true
-                },
-                {
-                    name: "Capability 2",
-                    active: true,
-                    completed: false
-                },
-                {
-                    name: "Capability 3",
-                    active: false,
-                    completed: false
-                },
-                {
-                    name: "Capability 4",
-                    active: true,
-                    completed: true
-                },
-                {
-                    name: "Capability 5",
-                    active: true,
-                    completed: true
-                },
-                {
-                    name: "Capability 6",
-                    active: false,
-                    completed: false
-                },
-                {
-                    name: "Capability 7",
-                    active: true,
-                    completed: false
-                },
-            ]
-        },
-        {
-            name: "Maintenance",
-            percentComplete: "100",
-            active: true,
-            completed: true,
-            parts: [
-                {
-                    name: "Capability 1",
-                    active: true,
-                    completed: true
-                },
-                {
-                    name: "Capability 2",
-                    active: true,
-                    completed: true
-                },
-                {
-                    name: "Capability 3",
-                    active: false,
-                    completed: true
-                },
-                {
-                    name: "Capability 4",
-                    active: true,
-                    completed: true
-                },
-            ]
-        }
-    ]
-};
+// let assessOverview = {
+//     functions: [
+//         {
+//             name: "Operations",
+//             percentComplete: "33",
+//             active: true,
+//             completed: false,
+//             parts: [
+//                 {
+//                     name: "Capability 1",
+//                     active: true,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 2",
+//                     active: true,
+//                     completed: false
+//                 },
+//                 {
+//                     name: "Capability 3",
+//                     active: false,
+//                     completed: false
+//                 },
+//                 {
+//                     name: "Capability 4",
+//                     active: true,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 5",
+//                     active: true,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 6",
+//                     active: false,
+//                     completed: false
+//                 },
+//                 {
+//                     name: "Capability 7",
+//                     active: true,
+//                     completed: false
+//                 },
+//             ]
+//         },
+//         {
+//             name: "Procurement & Supplier Management",
+//             percentComplete: "73",
+//             active: true,
+//             completed: false,
+//             parts: [
+//                 {
+//                     name: "Capability 1",
+//                     active: true,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 2",
+//                     active: true,
+//                     completed: false
+//                 },
+//                 {
+//                     name: "Capability 3",
+//                     active: false,
+//                     completed: false
+//                 },
+//                 {
+//                     name: "Capability 4",
+//                     active: true,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 5",
+//                     active: true,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 6",
+//                     active: false,
+//                     completed: false
+//                 },
+//             ]
+//         },
+//         {
+//             name: "Engineering R&D",
+//             percentComplete: "",
+//             active: false,
+//             completed: false,
+//             parts: [
+//                 {
+//                     name: "Capability 1",
+//                     active: true,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 2",
+//                     active: true,
+//                     completed: false
+//                 },
+//                 {
+//                     name: "Capability 3",
+//                     active: false,
+//                     completed: false
+//                 },
+//                 {
+//                     name: "Capability 4",
+//                     active: true,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 5",
+//                     active: true,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 6",
+//                     active: false,
+//                     completed: false
+//                 },
+//                 {
+//                     name: "Capability 7",
+//                     active: true,
+//                     completed: false
+//                 },
+//             ]
+//         },
+//         {
+//             name: "Maintenance",
+//             percentComplete: "100",
+//             active: true,
+//             completed: true,
+//             parts: [
+//                 {
+//                     name: "Capability 1",
+//                     active: true,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 2",
+//                     active: true,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 3",
+//                     active: false,
+//                     completed: true
+//                 },
+//                 {
+//                     name: "Capability 4",
+//                     active: true,
+//                     completed: true
+//                 },
+//             ]
+//         }
+//     ]
+// };
 
 class Reports extends React.Component{
     constructor(props){
@@ -183,7 +185,7 @@ class Reports extends React.Component{
             companyName:"",
             locationName:"",
             reportsOverview: [],
-            assessOverview: assessOverview,
+            assessOverview: {},
             loadComponentString:"",
             data:[],
             assessData:[],
@@ -315,6 +317,31 @@ class Reports extends React.Component{
         )
     }
 
+    loadingScreen() {
+        return (
+            <div className="loader">
+                <Spinner animation="border" variant="success" />
+                <p>Loading {this.props.location.loadComponentString.toUpperCase()} page...</p>
+            </div>
+        )
+    }
+
+    fetchOverview = async()=> {
+        let body = {
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+            "sector":this.props.location.industryType
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        try{
+        const response = await fetch(assessOverviewApi.assessOverview,apiPostHeader)
+        const overviewData = await response.json();
+        return overviewData;
+        }
+        catch(err){
+            return err
+        }
+    }
 
     fetchResultsData = async()=>{
         let body = { 
@@ -355,6 +382,7 @@ class Reports extends React.Component{
     componentDidMount = async()=>{
         let resultJSON = await this.fetchResultsData();
         let demographicsData = await this.fetchDemographicsData();
+        let overviewData = await this.fetchOverview();
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
             "siteName": this.props.location.locationString,
@@ -364,14 +392,15 @@ class Reports extends React.Component{
             loadComponentString:this.props.location.loadComponentString,
             data:resultJSON.resultantJSON,
             reportsOverview:resultJSON.resultantJSON,
-            demographicsData:demographicsData
+            demographicsData:demographicsData,
+            assessOverview: overviewData
         })
     }
 
     render(){
     return(
     
-      this.state.loadComponentString==="results"?this.resultHeader():(this.state.loadComponentString==="assessments"?this.AssessmentsHeader():"")
+      this.state.loadComponentString==="results"?this.resultHeader():(this.state.loadComponentString==="assessments"?this.AssessmentsHeader():this.loadingScreen())
         
         
     )

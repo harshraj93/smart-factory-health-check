@@ -77,7 +77,7 @@ class Slider extends React.Component {
             this.setState({
                 score: Number(this.props.data.score).toFixed(1),
                 target: Number(this.props.data.target).toFixed(1),
-                indAvg: this.props.data.indAvg.toFixed(2),
+                indAvg: Number(this.props.data.indAvg).toFixed(1),
                 scorePos: this.updatePosition(Number(this.props.data.score), "score"),
                 targetPos: this.updatePosition(Number(this.props.data.target), "target"),
                 indAvgPos: this.updatePosition(this.props.data.indAvg, "indAvg")

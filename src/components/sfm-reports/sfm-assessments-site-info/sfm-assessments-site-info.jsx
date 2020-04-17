@@ -1,8 +1,7 @@
 import React from 'react';
-import DropDownMenu from '../../../assets/drop-down-input-box';
 import LabelledInputField from '../../../assets/input-field';
 import siteInfoApi from '../../../api/assessments/assess-siteInfo';
-import {apiGetHeader,apiPostHeader} from '../../../api/main/mainapistorage';
+import {apiPostHeader} from '../../../api/main/mainapistorage';
 import './sfm-assessments-site-info.scss';
 
 let bfplist=["Operations","Quality","Information Technology","Procurement &amp; Supplier Management","Continuous Improvement","Replenishment &amp; Material Management","Maintenance","Planning &amp; Scheduling","Human Resources","Engineering &amp; R&amp;D"];
@@ -19,7 +18,7 @@ class SiteInfo extends React.Component{
     }
 
     fetchSiteInfo = async()=> {
-        console.log(this.props.data);
+        // console.log(this.props.data);
         apiPostHeader.body = JSON.stringify(this.props.data);
         try{
         const response = await fetch(siteInfoApi.siteInfo,apiPostHeader)
@@ -44,35 +43,35 @@ class SiteInfo extends React.Component{
             <div className="site-info-container">
             <div className="team-info-container">
             <div className="team-info">
-            <LabelledInputField placeholder={false} labelName="Location" data={this.state.jsonData.sitename}/>
-            <LabelledInputField placeholder={false} labelName="Primary POC" data={this.state.jsonData.primarysitepocname}/>
-            <LabelledInputField placeholder={false} labelName="Primary POC Role" data={this.state.jsonData.primarysitepocrole}/>
+            <LabelledInputField placeholder={false} labelName="Location" data={this.state.jsonData.sitename} readOnly={true}/>
+            <LabelledInputField placeholder={false} labelName="Primary POC" data={this.state.jsonData.primarysitepocname} readOnly={true}/>
+            <LabelledInputField placeholder={false} labelName="Primary POC Role" data={this.state.jsonData.primarysitepocrole} readOnly={true}/>
             </div>
             </div>
             <div className="border-bottom"></div>
-            <div className="client-info-container">
+            <div className="mid-container">
             <div className="client-info">
-                <LabelledInputField placeholder={false} labelName="Sector" data={this.state.jsonData.sector}/>
-                <LabelledInputField placeholder={false} labelName="Manufacturing Archetype" data={this.state.jsonData.manufacturearchtype}/>
-                <LabelledInputField placeholder={false} labelName="# of Shifts" data={this.state.jsonData.totalshifts}/>
-                <LabelledInputField placeholder={false} labelName="# Employees" data={this.state.jsonData.totalemployees}/>
-                <LabelledInputField placeholder={false} labelName="# of Assets" data={this.state.jsonData.totalproductionassets}/>
-                <LabelledInputField placeholder={false} labelName="Site Revenue" data={this.state.jsonData.siterevenue}/>
-                <LabelledInputField placeholder={true} labelName="Site EPITDA (optional)" data={this.state.jsonData.siteebitda}/>
-                <LabelledInputField placeholder={true} labelName="OTIF % (optional)" data={this.state.jsonData.otif}/>
-                <LabelledInputField placeholder={true} labelName="Site OEE (optional)" data={this.state.jsonData.overalloee}/>
-                <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" data={this.state.jsonData.performanceoee}/>
-                <LabelledInputField placeholder={true} labelName="OEE - Availability % (optional)" data={this.state.jsonData.availabilityoee}/>
-                <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" data={this.state.jsonData.qualityoee}/>
+                <LabelledInputField placeholder={false} labelName="Sector" data={this.state.jsonData.sector} readOnly={true}/>
+                <LabelledInputField placeholder={false} labelName="Manufacturing Archetype" data={this.state.jsonData.manufacturearchtype} readOnly={true}/>
+                <LabelledInputField placeholder={false} labelName="# of Shifts" data={this.state.jsonData.totalshifts} readOnly={true}/>
+                <LabelledInputField placeholder={false} labelName="# Employees" data={this.state.jsonData.totalemployees} readOnly={true}/>
+                <LabelledInputField placeholder={false} labelName="# of Assets" data={this.state.jsonData.totalproductionassets} readOnly={true}/>
+                <LabelledInputField placeholder={false} labelName="Site Revenue" data={this.state.jsonData.siterevenue} readOnly={true}/>
+                <LabelledInputField placeholder={true} labelName="Site EPITDA (optional)" data={this.state.jsonData.siteebitda} readOnly={true}/>
+                <LabelledInputField placeholder={true} labelName="OTIF % (optional)" data={this.state.jsonData.otif} readOnly={true}/>
+                <LabelledInputField placeholder={true} labelName="Site OEE (optional)" data={this.state.jsonData.overalloee} readOnly={true}/>
+                <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" data={this.state.jsonData.performanceoee} readOnly={true}/>
+                <LabelledInputField placeholder={true} labelName="OEE - Availability % (optional)" data={this.state.jsonData.availabilityoee} readOnly={true}/>
+                <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" data={this.state.jsonData.qualityoee} readOnly={true}/>
                 </div>
             </div>
             <div className="border-bottom"></div>
-            <div className="client-info-container">
+            <div className="mid-container">
                 <div className="title">Business Function Point of Contact</div>
                 <div className="client-info">
                     {this.state.BusinessFunctionPoC.map((data,index)=>{
                         return(
-                            <LabelledInputField placeholder={true}  labelName={bfplist[index]} data={data.ResourceName} />
+                            <LabelledInputField placeholder={false} labelName={bfplist[index]} data={data.ResourceName} readOnly={true}/>
                         )
                     }) }
                 {/* <LabelledInputField placeholder={true}  labelName="Operations" data={this.state.BusinessFunctionPoC[0].ResourceName} />

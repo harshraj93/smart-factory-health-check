@@ -200,11 +200,13 @@
                 font-weight: 600;
 
                 .area-name {
-                    width: 139px;
+                    width: 307px;
+                    min-width: 307px;
                     font-size: 18px;
+                    font-weight: 600;
                 }
 
-                button.form-navigation-button {
+                .form-navigation-button {
                     margin-left:$common-margin;
                     border-radius: $border-radius-extra-large;
                     background-color: $add-site-color;
@@ -213,6 +215,7 @@
                     width: 11.75%;
                     position: unset;
                     padding: 5px !important;
+                    left: 50%;
                 }
             }
         }

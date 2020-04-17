@@ -130,18 +130,18 @@ class ReportsListView extends React.Component {
                 <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
                     <div className="assess-overview-card">
                         <span className="area-name">{data.name}</span>
-                        {data.completed?percentComplete(data, ""):percentComplete(data, "success")}
-                        {data.completed?<FormNavigationButton labelName="Done" style={{marginRight: "28px"}}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50", marginRight: "28px"}}/>}
+                        {data.business_funtion_level_status!=="Open"?percentComplete(data, ""):percentComplete(data, "success")}
+                        {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{marginRight: "28px"}}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50", marginRight: "28px"}}/>}
                     </div>
                     <img className="drop-down" src={DropDownImg} alt="" ></img>
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey={index}>
                     <div>
-                        {data.parts.map((x,y) => {
+                        {data.Capability.map((x,y) => {
                             return (
                                 <div className="assess-overview-card" key={y}>
                                     {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
-                                    {x.active?(x.completed?<FormNavigationButton labelName={<>&#10003;</>}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
+                                    {x.active?(x.status!=="Open"?<FormNavigationButton labelName={<>&#10003;</>}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
                                 </div>
                             )
                         })}
@@ -165,8 +165,8 @@ class ReportsListView extends React.Component {
 
     assessmentsCard = () => {
         return (
-            <Accordion className="listview-accordion" defaultActiveKey={0}>
-            {this.props.data.functions.map((data,index)=>{
+            <Accordion className="assess-overview-accordion" defaultActiveKey={0}>
+            {this.props.data.businessFunction.map((data,index)=>{
                 return(
                     data.active?this.activeCard(data, index):this.inactiveCard(data, index)
                 )
@@ -186,7 +186,7 @@ class ReportsListView extends React.Component {
     render(){
         
         return(
-            this.props.data.functions!==undefined?this.assessmentsCard():this.reportScoreCard()
+            this.props.data.score?this.reportScoreCard():this.assessmentsCard()
         )
     }
 }

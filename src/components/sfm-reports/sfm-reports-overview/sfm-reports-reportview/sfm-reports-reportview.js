@@ -44,7 +44,7 @@ class ReportsCardView extends React.Component {
                             <span className="circle" style={{backgroundColor: this.circleColor((data.target - data.score).toFixed(1))}}></span>
                             <p className="score">{Number(data.target).toFixed(1)}</p>
                             <p className="score">{(data.target - data.score).toFixed(1)}</p>
-                            <p className="score">{data.indAvg.toFixed(1)}</p>
+                            <p className="score">{Number(data.indAvg).toFixed(1)}</p>
                         </Accordion.Toggle>
                             <Accordion.Collapse eventKey={index}>
                                 <div>
@@ -57,7 +57,7 @@ class ReportsCardView extends React.Component {
                                                 <span className="circle" style={{backgroundColor: this.circleColor((x.target - x.score).toFixed(1))}}></span>
                                                 <p className="score">{Number(x.target).toFixed(1)}</p>
                                                 <p className="score">{(x.target - x.score).toFixed(1)}</p>
-                                                <p className="score">{x.indAvg.toFixed(1)}</p>
+                                                <p className="score">{Number(x.indAvg).toFixed(1)}</p>
                                             </div>
                                         )
                                     })}

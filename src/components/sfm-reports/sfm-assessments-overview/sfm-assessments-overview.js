@@ -4,7 +4,6 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Form from "react-bootstrap/Form";
-// import ToggleSwitch from 'react-switch';
 import DropDownImg from '../../../images/icon-small-chevron-down.svg';
 import EditIcon from '../../../images/icon-small-edit.svg';
 import {CustomButton, FormNavigationButton} from '../../../assets/sfm-button';
@@ -27,7 +26,8 @@ class AssessmentsOverview extends React.Component {
         super(props);
         this.state={
             x: true,
-            checked: false
+            checked: false,
+            jsonData: {}
         }
         this.handleChange = this.handleChange.bind(this);
     }
@@ -63,7 +63,7 @@ class AssessmentsOverview extends React.Component {
     editAssessCard = () => {
         return (
             <Accordion className="assess-overview-accordion" defaultActiveKey={0}>
-            {this.props.data.functions.map((data,index)=>{
+            {this.props.data.businessFunction.map((data,index)=>{
                 return (
                     <Card key={index} className={"card"}>                                   
                         <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
@@ -72,8 +72,8 @@ class AssessmentsOverview extends React.Component {
                         {/* checked={true} */}
                             <div className="assess-overview-card">
                                 <span className="area-name">{data.name}</span>
-                                {data.completed?percentComplete(data, ""):percentComplete(data, "success")}
-                                {data.completed?<FormNavigationButton labelName="Done"/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>}
+                                {data.business_funtion_level_status!=="Open"?percentComplete(data, ""):percentComplete(data, "success")}
+                                {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{opacity: "0.5"}}/>:<FormNavigationButton labelName="Open" style={{opacity: "0.5", backgroundColor: "#57bb50"}}/>}
                             </div>
                             <Accordion.Toggle as={Button} value={index} variant="link" eventKey={0} onClick={(e,value)=>this.handleClick(e,value)}>
                                 <img className="drop-down" src={DropDownImg} alt="" ></img>
@@ -81,13 +81,13 @@ class AssessmentsOverview extends React.Component {
                         </Card.Header>
                         <Accordion.Collapse eventKey={0}>
                             <div>
-                                {data.parts.map((x,y) => {
+                                {data.Capability.map((x,y) => {
                                     return (
                                         <div className="assess-overview-card" key={y}>
                                             <Form.Switch id={data.name + " " + x.name} label="" onChange={this.onChange} />
                                             <div className="child-group">
                                             {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
-                                            {x.active?(x.completed?<FormNavigationButton labelName="Done"/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
+                                            {x.active?(x.status!=="Open"?<FormNavigationButton labelName="Done"/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
                                             </div>
                                         </div>
                                     )
@@ -130,6 +130,79 @@ class AssessmentsOverview extends React.Component {
                 x: true
             });
         }
+    }
+
+    activeCard = (data, index) => {
+        return (
+            <Card key={index} className={"card"}>                                   
+                <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
+                    <div className="assess-overview-card">
+                        <span className="area-name">{data.name}</span>
+                        {data.business_funtion_level_status!=="Open"?percentComplete(data, ""):percentComplete(data, "success")}
+                        {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{marginRight: "28px"}}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50", marginRight: "28px"}}/>}
+                    </div>
+                    <img className="drop-down" src={DropDownImg} alt="" ></img>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey={index}>
+                    <div>
+                        {data.Capability.map((x,y) => {
+                            return (
+                                <div className="assess-overview-card" key={y}>
+                                    {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
+                                    {x.active?(x.status!=="Open"?<FormNavigationButton labelName={<>&#10003;</>}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
+                                </div>
+                            )
+                        })}
+                    </div>
+                </Accordion.Collapse>
+            </Card>
+        )
+    }
+
+    inactiveCard = (data, index) => {
+        return (
+            <Card key={index} className={"card"}>
+                <Card.Header className={"card-header"} style={{opacity: "0.3"}}>
+                    <div className="assess-overview-card">
+                        <span className="area-name">{data.name}</span>
+                    </div>
+                </Card.Header>
+            </Card>
+        )
+    }
+
+    assessmentsCard = () => {
+        return (
+            <Accordion className="listview-accordion" defaultActiveKey={0}>
+            {this.props.data.businessFunction.map((data,index)=>{
+                return(
+                    data.active?this.activeCard(data, index):this.inactiveCard(data, index)
+                )
+            })}
+            </Accordion>
+        )
+    }
+
+    // fetchOverview = async()=> {
+    //     console.log(this.props.data);
+    //     apiPostHeader.body = JSON.stringify(this.props.data);
+    //     // console.log(apiPostHeader);
+    //     try{
+    //     const response = await fetch(assessOverviewApi.assessOverview,apiPostHeader)
+    //     const overviewData = await response.json();
+    //     return overviewData;
+    //     }
+    //     catch(err){
+    //         return err
+    //     }
+    // }
+
+    componentDidMount = async()=> {
+        // let overviewData = await this.fetchOverview();
+        // await this.setState({
+        //     jsonData:overviewData
+        // })
+        // console.log(this.props.data)
     }
 
     render() {
