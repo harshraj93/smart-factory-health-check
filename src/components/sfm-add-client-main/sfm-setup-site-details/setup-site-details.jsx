@@ -14,6 +14,7 @@ let requiredFieldNames=[];
 
 
 function siteHeader(props,enableButton){
+    console.log(props);
     return(
         <div className="site-header-container">
             <span className="site-name">{props.location.state.clientName}</span>
@@ -65,6 +66,7 @@ class AddSiteDetails extends React.Component{
             }
         })
     }
+
 
     triggerFormSubmission = ()=>{
         let sitesJSON=[];

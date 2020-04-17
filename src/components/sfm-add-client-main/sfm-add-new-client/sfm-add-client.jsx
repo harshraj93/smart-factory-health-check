@@ -19,7 +19,7 @@ let data =
     dropDownData:["100-200","200-300"]
 },]
 
-let requiredFieldNames=["clientName","clientParticipation","clientRole","industryDropdown","numSites","primOwnerName","primOwnerLevel","primOwnerEmail","supResourceEmail1"]
+let requiredFieldNames=["clientName","clientParticipation","clientRole","industryDropdown","numSites","primOwnerName","primOwnerLevel","primOwnerEmail"]
 
 
 let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
@@ -56,17 +56,27 @@ function teamInfoForm(props,handleChange,changeButtonState){
 }
 
 
-function addSupportResource(handleChange,index,changeButtonState){
+function addSupportResource(handleChange,state,index,changeButtonState,hideSupportResource){
     return(
         <div className = "support-info-container">
         <div className="support-info">
         <LabelledInputField placeholder={true}  labelName="Support Resource Name" changeButtonState={changeButtonState}  name={"supResourceName"+index} onChange={handleChange}/>
         <LabelledInputField placeholder={true}  labelName="Support Resource Level" changeButtonState={changeButtonState} name={"supResourceLevel"+index} onChange={handleChange}/>
-        <LabelledInputField placeholder={true}  labelName={(index===1)?"Support Resource Email*":"Support Resource Email"} required = {index===1?true:false} changeButtonState={changeButtonState} name={"supResourceEmail"+index} onChange={handleChange}/>
+        <>
+        <LabelledInputField placeholder={true}  labelName={(supportEmailRequired(index,state))?"Support Resource Email*":"Support Resource Email"} required = {supportEmailRequired(index,state)} changeButtonState={changeButtonState} name={"supResourceEmail"+index} onChange={handleChange}/>
         
+        </>
         </div>
+        {(index===2)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
         </div>
     )
+}
+
+
+let supportEmailRequired = (index,state)=>{
+    if(index===1&&state.supResourceName1){requiredFieldNames.push("supResourceEmail1")}
+    return (index===1&&state.supResourceName1)?true:false
+    
 }
 
 
@@ -175,6 +185,8 @@ class AddNewClient extends React.Component{
        
 }
 
+
+
     setNextStepState = ()=>{
         this.setState({
             enableButton:false
@@ -227,10 +239,10 @@ class AddNewClient extends React.Component{
             <div className="border-bottom"></div>
             {teamInfoForm(this.props,this.handleChange,this.setNextStepState)}
             <div className="border-bottom"></div>
-            {addSupportResource(this.handleChange,1,this.setNextStepState)}
+            {addSupportResource(this.handleChange,this.state,1,this.setNextStepState)}
             <div className="border-bottom"></div>
-            {this.state.showSupportResource&&addSupportResource(this.handleChange,2,this.setNextStepState)}
-            {this.state.showSupportResource&&<span className="close-button" onClick={this.hideSupportResource}>&times;</span>}
+            {this.state.showSupportResource&&addSupportResource(this.handleChange,this.state,2,this.setNextStepState,this.hideSupportResource)}
+            
             <button type="button" className={"add-support-resource "+this.state.showSupportResource} 
             onClick={this.showSupportResource}>
                 <span>&#8853;</span> 

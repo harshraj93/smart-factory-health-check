@@ -1,7 +1,7 @@
 .add-new-client-container{  
     max-height: 90vh !important;
     overflow-y: scroll;
-          
+    overflow-x: hidden;
     .required{
         font-size: 12px;
         font-weight: bold;
@@ -50,6 +50,19 @@
         .support-info{
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
+            
+        }
+        .close-button{
+            cursor: pointer;
+            position: relative;
+            left: 95%;
+            top: -55px;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: #727279;
+            padding:0;
+            outline: none;
         }
     }
     .add-support-resource{

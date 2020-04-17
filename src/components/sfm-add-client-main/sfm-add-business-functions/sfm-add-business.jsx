@@ -1,7 +1,7 @@
 import React from "react"; 
 import {FormNavigationButton} from '../../../assets/sfm-button';
 import Header from '../sfm-add-client-main';
-import {Link,withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {CustomButton} from '../../../assets/sfm-button';
 import {createCardSelectedObj} from '../../../util/addbusinessfunctions'
 import addclientapi from "../../../api/addclient/addclient";
@@ -12,7 +12,7 @@ function siteHeader(props,enableButton,handleFormSubmission){
     return(
         <div className="site-header-container">
             <span className="company-name">{props.location.state.siteName}</span>
-           <Link to = "/"><FormNavigationButton labelName="Complete" buttonStatus={enableButton} type="submit" onClick={handleFormSubmission}/></Link>
+           <FormNavigationButton labelName="Complete" buttonStatus={enableButton} onClick={handleFormSubmission} />
         </div>
     )
 }
@@ -23,10 +23,9 @@ class AddBusinessFunctions extends React.Component{
     constructor(props){
         super(props);
         this.props.disableMenu(false);
-        let indexObjArray=[];
-        indexObjectArray = createCardSelectedObj(this.props.location.state.dataForBusinessFunctions.clientNames,indexObjArray)
+        
         this.state={
-            cardSelectedIndexArray:[...indexObjectArray],
+            cardSelectedIndexArray:[],
             checked:"",
             enableButton:"false",
             businessNames:[]
@@ -108,7 +107,9 @@ class AddBusinessFunctions extends React.Component{
             let businessArray = tempArray.filter(element=>{
                 return element.businessName!==siteName
             })
+            if(businessArray[0]){
             businessArray[0].indexArray=[];
+            }
             this.setState({
                 checked:false,
                 
@@ -134,13 +135,21 @@ class AddBusinessFunctions extends React.Component{
     }
 
 
+    navigate = ()=>{
+        this.props.history.push({
+            pathname:"/",
+            state:{
+                dataForBusinessFunctions:this.props.location.state.dataForBusinessFunctions,
+                siteName:this.props.location.state.clientName
+            }
+        })
+    }
 
 
     handleFormSubmission = ()=>{
         let siteDetailsJSON = this.props.location.state.sitedetailsJSON;
         let clientNames = this.props.location.state.dataForBusinessFunctions.clientNames;
         for(let i = 0; i<siteDetailsJSON.sites.length; i++){
-            console.log(siteDetailsJSON.sites[i].siteDetails.sitename,clientNames[i])
             if(siteDetailsJSON.sites[i].siteDetails.sitename===clientNames[i]){
                 let functionsArray = [];
                 let clientName = this.state.cardSelectedIndexArray.filter(element=>{
@@ -159,15 +168,26 @@ class AddBusinessFunctions extends React.Component{
         console.log(apiPostHeader,addclientapi.addSite)
         fetch(addclientapi.addSite,apiPostHeader)
             .then(resp=>resp.json())
-            .then(resp=>console.log(resp))
+            .then(resp=>{
+                if(!resp.errorMessage){
+                console.log(resp)
+                this.navigate();
+            }
+            })
             .catch(error=>console.log(error))
     }
 
 
     componentDidMount = async()=>{
+        let indexObjArray=[];
+        console.log(this.props.location);
+        indexObjectArray = await createCardSelectedObj(this.props.location.state.dataForBusinessFunctions.clientNames,indexObjArray)
        let resp =  await fetch(addclientapi.getBusinessFunctions,apiGetHeader)
        let response =   await resp.json()
-       await this.setState({businessNames:response.resultantJSON}) 
+       await this.setState({
+           businessNames:response.resultantJSON,
+           cardSelectedIndexArray:[...indexObjectArray]
+    }) 
     }
 
 
@@ -189,7 +209,7 @@ class AddBusinessFunctions extends React.Component{
                         <span className="check-box" onChange={(e)=>this.handleCheckBox(e,element)}>
                              <input type="checkbox" checked={this.state.checked} />
                             <span></span>
-                            <label>Apply Selections across all sites</label>
+                            <label style={{marginLeft:"8px"}}>Apply Selections across all sites</label>
                         </span>
                     </>:""}
                 </div>
@@ -211,9 +231,9 @@ class AddBusinessFunctions extends React.Component{
             
             
             })}
-           <Link to="/">
+           
            <FormNavigationButton labelName="Complete" buttonStatus={this.state.enableButton} onClick={this.handleFormSubmission}/>
-           </Link>
+           
             {/* </form> */}
         </div>
         )
