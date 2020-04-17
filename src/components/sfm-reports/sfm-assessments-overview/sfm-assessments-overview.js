@@ -84,7 +84,7 @@ class AssessmentsOverview extends React.Component {
                                 {data.Capability.map((x,y) => {
                                     return (
                                         <div className="assess-overview-card" key={y}>
-                                            <Form.Switch id={data.name + "_" + x.name} label="" onChange={this.onChange} checked={!x.active}/>
+                                            <Form.Switch id={data.name + " " + x.name} label="" onChange={this.onChange} />
                                             <div className="child-group">
                                             {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
                                             {x.active?(x.status!=="Open"?<FormNavigationButton labelName="Done"/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
@@ -203,16 +203,6 @@ class AssessmentsOverview extends React.Component {
         //     jsonData:overviewData
         // })
         // console.log(this.props.data)
-        this.props.data.businessFunction.map((data, index)=>{
-            this.setState({
-                [data.name]: data.active
-            })
-            data.Capability.map((x, y)=>{
-                this.setState({
-                    [data.name + "_" + x.name]: x.active
-                })
-            })
-        })
     }
 
     render() {
