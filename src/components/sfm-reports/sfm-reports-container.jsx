@@ -14,6 +14,7 @@ import SiteInfo from './sfm-assessments-site-info/sfm-assessments-site-info';
 import ClientInfo from './sfm-assessments-client-info/sfm-assessments-client-info';
 import {withRouter} from 'react-router-dom';
 import {resultsApi} from '../../api/assessments/reports'
+import assessOverviewApi from '../../api/assessments/assess-overview';
 import {apiPostHeader} from '../../api/main/mainapistorage'
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
@@ -184,7 +185,7 @@ class Reports extends React.Component{
             companyName:"",
             locationName:"",
             reportsOverview: [],
-            // assessOverview: assessOverview,
+            assessOverview: {},
             loadComponentString:"",
             data:[],
             assessData:[],
@@ -307,7 +308,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessBody}/>:(element==="Notes"?"":(element==="Site Info"?<SiteInfo data={this.state.assessBody} disableMenu={this.props.disableMenu}/>:<ClientInfo disableMenu={this.props.disableMenu}/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview}/>:(element==="Notes"?"":(element==="Site Info"?<SiteInfo data={this.state.assessBody} disableMenu={this.props.disableMenu}/>:<ClientInfo disableMenu={this.props.disableMenu}/>))}
                             </Tab>
                         )
                     })}
@@ -325,6 +326,22 @@ class Reports extends React.Component{
         )
     }
 
+    fetchOverview = async()=> {
+        let body = {
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+            "sector":this.props.location.industryType
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        try{
+        const response = await fetch(assessOverviewApi.assessOverview,apiPostHeader)
+        const overviewData = await response.json();
+        return overviewData;
+        }
+        catch(err){
+            return err
+        }
+    }
 
     fetchResultsData = async()=>{
         let body = { 
@@ -365,6 +382,7 @@ class Reports extends React.Component{
     componentDidMount = async()=>{
         let resultJSON = await this.fetchResultsData();
         let demographicsData = await this.fetchDemographicsData();
+        let overviewData = await this.fetchOverview();
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
             "siteName": this.props.location.locationString,
@@ -374,7 +392,8 @@ class Reports extends React.Component{
             loadComponentString:this.props.location.loadComponentString,
             data:resultJSON.resultantJSON,
             reportsOverview:resultJSON.resultantJSON,
-            demographicsData:demographicsData
+            demographicsData:demographicsData,
+            assessOverview: overviewData
         })
     }
 

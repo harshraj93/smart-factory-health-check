@@ -117,8 +117,8 @@
                         outline: none;
                         border: unset;
                         width: 11.75%;
+                        height: 75%;
                         position: unset;
-                        opacity: 0.5;
                     }
     
                     .percent-complete {
@@ -145,11 +145,30 @@
     
                 .assess-overview-card {
                     display: flex;
+                    justify-content: space-between;
                     align-items: center;
                     padding-top: 21px;
                     margin: 23px 23px 12px 23px;
                     border-top: 1px solid #232325;
                     font-weight: 600;
+
+                    .area-name {
+                        width: 307px;
+                        min-width: 307px;
+                        font-size: 18px;
+                        font-weight: 600;
+                    }
+
+                    .form-navigation-button {
+                        margin-left:$common-margin;
+                        border-radius: $border-radius-extra-large;
+                        background-color: $add-site-color;
+                        outline: none;
+                        border: unset;
+                        width: 11.75%;
+                        position: unset;
+                        padding: 5px !important;
+                    }
 
                     .custom-switch.custom-control {
                         height: 2rem;
@@ -195,11 +214,13 @@
                         width: 100%;
                         
                         .area-name {
-                            width: 139px;
+                            width: 307px;
+                            min-width: 307px;
                             font-size: 18px;
+                            font-weight: 600;
                         }
 
-                        button.form-navigation-button {
+                        .form-navigation-button {
                             margin-left:$common-margin;
                             border-radius: $border-radius-extra-large;
                             background-color: $add-site-color;

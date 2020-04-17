@@ -49,7 +49,7 @@ class SiteInfo extends React.Component{
             </div>
             </div>
             <div className="border-bottom"></div>
-            <div className="client-info-container">
+            <div className="mid-container">
             <div className="client-info">
                 <LabelledInputField placeholder={false} labelName="Sector" data={this.state.jsonData.sector} readOnly={true}/>
                 <LabelledInputField placeholder={false} labelName="Manufacturing Archetype" data={this.state.jsonData.manufacturearchtype} readOnly={true}/>
@@ -66,7 +66,7 @@ class SiteInfo extends React.Component{
                 </div>
             </div>
             <div className="border-bottom"></div>
-            <div className="client-info-container">
+            <div className="mid-container">
                 <div className="title">Business Function Point of Contact</div>
                 <div className="client-info">
                     {this.state.BusinessFunctionPoC.map((data,index)=>{
