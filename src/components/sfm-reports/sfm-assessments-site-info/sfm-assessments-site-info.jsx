@@ -44,25 +44,25 @@ class SiteInfo extends React.Component{
             <div className="team-info-container">
             <div className="team-info">
             <LabelledInputField placeholder={false} labelName="Location" data={this.state.jsonData.sitename} readOnly={true}/>
-            <LabelledInputField placeholder={false} labelName="Primary POC" data={this.state.jsonData.primarysitepocname} readOnly={true}/>
-            <LabelledInputField placeholder={false} labelName="Primary POC Role" data={this.state.jsonData.primarysitepocrole} readOnly={true}/>
+            <LabelledInputField placeholder={false} labelName="Primary POC" data={this.state.jsonData.primarysitepocname} readOnly={false}/>
+            <LabelledInputField placeholder={false} labelName="Primary POC Role" data={this.state.jsonData.primarysitepocrole} readOnly={false}/>
             </div>
             </div>
             <div className="border-bottom"></div>
             <div className="mid-container">
             <div className="client-info">
                 <LabelledInputField placeholder={false} labelName="Sector" data={this.state.jsonData.sector} readOnly={true}/>
-                <LabelledInputField placeholder={false} labelName="Manufacturing Archetype" data={this.state.jsonData.manufacturearchtype} readOnly={true}/>
-                <LabelledInputField placeholder={false} labelName="# of Shifts" data={this.state.jsonData.totalshifts} readOnly={true}/>
-                <LabelledInputField placeholder={false} labelName="# Employees" data={this.state.jsonData.totalemployees} readOnly={true}/>
-                <LabelledInputField placeholder={false} labelName="# of Assets" data={this.state.jsonData.totalproductionassets} readOnly={true}/>
-                <LabelledInputField placeholder={false} labelName="Site Revenue" data={this.state.jsonData.siterevenue} readOnly={true}/>
-                <LabelledInputField placeholder={true} labelName="Site EPITDA (optional)" data={this.state.jsonData.siteebitda} readOnly={true}/>
-                <LabelledInputField placeholder={true} labelName="OTIF % (optional)" data={this.state.jsonData.otif} readOnly={true}/>
-                <LabelledInputField placeholder={true} labelName="Site OEE (optional)" data={this.state.jsonData.overalloee} readOnly={true}/>
-                <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" data={this.state.jsonData.performanceoee} readOnly={true}/>
-                <LabelledInputField placeholder={true} labelName="OEE - Availability % (optional)" data={this.state.jsonData.availabilityoee} readOnly={true}/>
-                <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" data={this.state.jsonData.qualityoee} readOnly={true}/>
+                <LabelledInputField placeholder={false} labelName="Manufacturing Archetype" data={this.state.jsonData.manufacturearchtype} readOnly={false}/>
+                <LabelledInputField placeholder={false} labelName="# of Shifts" data={this.state.jsonData.totalshifts} readOnly={false}/>
+                <LabelledInputField placeholder={false} labelName="# Employees" data={this.state.jsonData.totalemployees} readOnly={false}/>
+                <LabelledInputField placeholder={false} labelName="# of Assets" data={this.state.jsonData.totalproductionassets} readOnly={false}/>
+                <LabelledInputField placeholder={false} labelName="Site Revenue" data={this.state.jsonData.siterevenue} readOnly={false}/>
+                <LabelledInputField placeholder={false} labelName="Site EPITDA (optional)" data={this.state.jsonData.siteebitda} readOnly={false}/>
+                <LabelledInputField placeholder={false} labelName="OTIF % (optional)" data={this.state.jsonData.otif} readOnly={false}/>
+                <LabelledInputField placeholder={false} labelName="Site OEE (optional)" data={this.state.jsonData.overalloee} readOnly={false}/>
+                <LabelledInputField placeholder={false} labelName="OEE - Performance % (optional)" data={this.state.jsonData.performanceoee} readOnly={false}/>
+                <LabelledInputField placeholder={false} labelName="OEE - Availability % (optional)" data={this.state.jsonData.availabilityoee} readOnly={false}/>
+                <LabelledInputField placeholder={false} labelName="OEE - Quality % (optional)" data={this.state.jsonData.qualityoee} readOnly={false}/>
                 </div>
             </div>
             <div className="border-bottom"></div>

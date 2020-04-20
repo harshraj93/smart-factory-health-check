@@ -20,163 +20,6 @@ import {apiPostHeader} from '../../api/main/mainapistorage'
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=["Overview","Demographics"];
 
-// let assessOverview = {
-//     functions: [
-//         {
-//             name: "Operations",
-//             percentComplete: "33",
-//             active: true,
-//             completed: false,
-//             parts: [
-//                 {
-//                     name: "Capability 1",
-//                     active: true,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 2",
-//                     active: true,
-//                     completed: false
-//                 },
-//                 {
-//                     name: "Capability 3",
-//                     active: false,
-//                     completed: false
-//                 },
-//                 {
-//                     name: "Capability 4",
-//                     active: true,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 5",
-//                     active: true,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 6",
-//                     active: false,
-//                     completed: false
-//                 },
-//                 {
-//                     name: "Capability 7",
-//                     active: true,
-//                     completed: false
-//                 },
-//             ]
-//         },
-//         {
-//             name: "Procurement & Supplier Management",
-//             percentComplete: "73",
-//             active: true,
-//             completed: false,
-//             parts: [
-//                 {
-//                     name: "Capability 1",
-//                     active: true,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 2",
-//                     active: true,
-//                     completed: false
-//                 },
-//                 {
-//                     name: "Capability 3",
-//                     active: false,
-//                     completed: false
-//                 },
-//                 {
-//                     name: "Capability 4",
-//                     active: true,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 5",
-//                     active: true,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 6",
-//                     active: false,
-//                     completed: false
-//                 },
-//             ]
-//         },
-//         {
-//             name: "Engineering R&D",
-//             percentComplete: "",
-//             active: false,
-//             completed: false,
-//             parts: [
-//                 {
-//                     name: "Capability 1",
-//                     active: true,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 2",
-//                     active: true,
-//                     completed: false
-//                 },
-//                 {
-//                     name: "Capability 3",
-//                     active: false,
-//                     completed: false
-//                 },
-//                 {
-//                     name: "Capability 4",
-//                     active: true,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 5",
-//                     active: true,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 6",
-//                     active: false,
-//                     completed: false
-//                 },
-//                 {
-//                     name: "Capability 7",
-//                     active: true,
-//                     completed: false
-//                 },
-//             ]
-//         },
-//         {
-//             name: "Maintenance",
-//             percentComplete: "100",
-//             active: true,
-//             completed: true,
-//             parts: [
-//                 {
-//                     name: "Capability 1",
-//                     active: true,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 2",
-//                     active: true,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 3",
-//                     active: false,
-//                     completed: true
-//                 },
-//                 {
-//                     name: "Capability 4",
-//                     active: true,
-//                     completed: true
-//                 },
-//             ]
-//         }
-//     ]
-// };
-
 class Reports extends React.Component{
     constructor(props){
         super(props);
@@ -184,7 +27,7 @@ class Reports extends React.Component{
             title:"Overview",
             companyName:"",
             locationName:"",
-            reportsOverview: [],
+            reportsOverview: {},
             assessOverview: {},
             loadComponentString:"",
             data:[],
@@ -193,9 +36,7 @@ class Reports extends React.Component{
             demographicsData:[],
             assessBody: {}
         }
-        this.props.disableMenu(false);
-        
-        
+        this.props.disableMenu(false);        
     }
 
     
@@ -388,6 +229,10 @@ class Reports extends React.Component{
             "siteName": this.props.location.locationString,
             "sector":this.props.location.industryType}
         })
+        overviewData.clientName = this.props.location.companyName;
+        overviewData.siteName = this.props.location.locationString;
+        overviewData.sector = this.props.location.industryType;
+        resultJSON.resultantJSON.siteid = this.props.location.siteid;
         await this.setState({
             loadComponentString:this.props.location.loadComponentString,
             data:resultJSON.resultantJSON,

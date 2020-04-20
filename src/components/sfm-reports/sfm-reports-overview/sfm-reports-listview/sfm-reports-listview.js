@@ -10,6 +10,8 @@ import DropDownImg from '../../../../images/icon-small-chevron-down.svg';
 import EditIcon from '../../../../images/icon-small-edit.svg';
 import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
 import {FormNavigationButton} from '../../../../assets/sfm-button';
+import {resultsApi} from '../../../../api/assessments/reports'
+import {apiPostHeader} from '../../../../api/main/mainapistorage'
 
 function percentComplete(data, str) {
     return (
@@ -27,23 +29,90 @@ class ReportsListView extends React.Component {
         super(props);
         this.state={
             arrayIndex:"0",
-            capTextEdit: false
+            capTextEdit: false,
+            keyThemes: "Enter Key Themes",
+            recs: "Enter Recommendations",
+            businessFunction: ""
         }
 
         this.editToggle = this.editToggle.bind(this);
     }
 
-    editToggle() {
+    recsChange = (e)=>{
+        this.setState({
+            recs:e.target.value
+        })
+    }
+
+    themeChange = (e)=>{
+        this.setState({
+            keyThemes:e.target.value
+        })
+    }
+
+    editToggle = (name)=> {
+        // console.log(name)
         if (this.state.capTextEdit) {
             this.setState({
-                capTextEdit: false
+                capTextEdit: false,
+                businessFunction: name
             });
         }
         else {
             this.setState({
-                capTextEdit: true
+                capTextEdit: true,
+                businessFunction: name
             });
         }
+    }
+
+    onSave = async() => {
+        let body = {
+            "businessFunction": this.state.businessFunction,
+            "recommendations": this.state.recs,
+            "keyThemes": this.state.keyThemes,
+            "siteid": this.props.data.siteid
+        }
+        console.log(body);
+        apiPostHeader.body = JSON.stringify(body);
+        let editresp;
+        try{
+            const response = await fetch(resultsApi.themesEdit,apiPostHeader)
+            editresp = await response.json();
+        }
+        catch(err){
+            editresp = err;
+        }
+        console.log(editresp)
+        this.setState ({
+            capTextEdit: false
+        });
+        // console.log(this.state.recs);
+    }
+
+    capTextBox() {
+        // if (data.keyThemes !== null) {
+        //     this.setState({
+        //         keyThemes: data.keyThemes
+        //     })
+        // }
+        // if (data.recs !== null) {
+        //     this.setState({
+        //         recs: data.recs
+        //     })
+        // }
+        return (
+            <div style={{display: "flex"}}>
+                <div className="tr-box">
+                    <span className="tr-heading">Key Themes</span>
+                    {this.textFormat(this.state.keyThemes)}
+                </div>
+                <div className="tr-box">
+                    <span className="tr-heading">Recommendations</span>
+                    {this.textFormat(this.state.recs)}
+                </div>
+            </div>
+        )
     }
 
     capTextForm() {
@@ -52,27 +121,40 @@ class ReportsListView extends React.Component {
                 <Form.Row>
                     <Form.Group as={Col} controlId="keyThemes">
                         <Form.Label>Key Themes</Form.Label>
-                        <Form.Control as={"input"} type="text" maxLength={450} placeholder="Enter key themes" />
+                        <Form.Control as={"textarea"} maxLength={450} placeholder="Enter key themes" onChange={this.themeChange} value={this.state.keyThemes}/>
                         <Form.Text className="text-muted">
-                            300/450 characters
+                            {this.state.keyThemes.length}/450 characters
                         </Form.Text>
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="recs">
                         <Form.Label>Recommendations</Form.Label>
-                        <Form.Control as={"input"} type="text" maxLength={450} placeholder="Enter recommendations" />
+                        <Form.Control as={"textarea"} maxLength={450} placeholder="Enter recommendations" onChange={this.recsChange} value={this.state.recs} />
                         <Form.Text className="text-muted">
-                            300/450 characters
+                            {this.state.recs.length}/450 characters
                         </Form.Text>
                     </Form.Group>
                 </Form.Row>
                 
                 <InputGroup.Append>
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" onClick={this.onSave}>
                         Done
                     </Button>
                 </InputGroup.Append>
             </InputGroup>
+        )
+    }
+
+    textFormat(data) {
+        let points = data.split("\n");
+        return (
+            <ul className="list">
+                {points.map((data,index)=>{
+                    return(
+                    <li className="point">{points[index]}</li>
+                    )
+                })}
+            </ul>
         )
     }
 
@@ -94,18 +176,9 @@ class ReportsListView extends React.Component {
                             <div>
                                 <div className="tr-com-box">
                                     <div className="edit">
-                                        <img src={EditIcon} alt="" onClick={this.editToggle}></img>
+                                        <img src={EditIcon} alt="" onClick={()=>this.editToggle(data.name)}></img>
                                     </div>
-                                    {this.state.capTextEdit?this.capTextForm():<div style={{display: "flex"}}>
-                                        <div className="tr-box">
-                                            <span className="tr-heading">Key Themes</span>
-                                            <p className="tr-text">{data.keyThemes}</p>
-                                        </div>
-                                        <div className="tr-box">
-                                            <span className="tr-heading">Recommendations</span>
-                                            <p className="tr-text">{data.recs}</p>
-                                        </div>
-                                    </div>}
+                                    {this.state.capTextEdit?this.capTextForm():this.capTextBox()}
                                 </div>
                                 {data.parts.map((x,y) => {
                                     return (
@@ -184,9 +257,8 @@ class ReportsListView extends React.Component {
     }
 
     render(){
-        
         return(
-            this.props.data.score?this.reportScoreCard():this.assessmentsCard()
+            this.props.data.reportsData?this.reportScoreCard():this.assessmentsCard()
         )
     }
 }
