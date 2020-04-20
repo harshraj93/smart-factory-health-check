@@ -36,7 +36,7 @@ let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
         <LabelledInputField 
         placeholder={true} 
         changeButtonState={changeButtonState} 
-        labelName="Primary Client Paricipation*" 
+        labelName="Primary Client Participation*" 
         required={true} name="clientParticipation" 
         onChange={handleChange} 
         data={(state.clientParticipation!==undefined?state.clientParticipation:"")}/>
@@ -50,7 +50,9 @@ let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
         placeholder={data[0].labelName+"*"} 
         required={true} data={state.dropDownData} 
         name="industryDropdown" 
-        onChange={handleChange}/>
+        onChange={handleChange}
+        value={(state.industryDropdown!==undefined?state.industryDropdown:"")}
+        />
         <LabelledInputField 
         placeholder={true} 
         changeButtonState={changeButtonState} 
@@ -183,7 +185,7 @@ class AddNewClient extends React.Component{
 
 
     navigate = (clientid)=>{
-        
+
         let state={
             sites:this.state.numSites,
             clientName:this.state.clientName,

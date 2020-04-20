@@ -14,7 +14,6 @@ let requiredFieldNames=[];
 
 
 function siteHeader(props,enableButton){
-    console.log(props);
     return(
         <div className="site-header-container">
             <span className="site-name">{props.location.state.clientName}</span>
@@ -138,28 +137,25 @@ class AddSiteDetails extends React.Component{
     setData = (backData,index)=>{
         this.setState({
             ["siteName"+index]: backData["sitename"],
-            ["clientID"+index]: this.props.location.state.clientid,
-            ["primePoc"+index]: this.state["primaryPOC"+index],
-            ["primPocRole"+index]: this.state["primaryPOCRole"+index],
-            ["sector"+index]: this.state["sector"+index],
-            ["manfArch"+index]: this.state["archetype"+index],
-            ["numShifts"+index]: this.state["shifts"+index],
-            ["numEmployees"+index]: this.state["numEmployees"+index],
-            ["numAssets"+index]: this.state["numAssets"+index],
-            ["SiteRevenue"+index]: this.state["SiteRevenue"+index],
-            ["SiteEBI"+index]: this.state["SiteEBI"+index],
-            ["SiteOTIF"+index]: this.state["SiteOTIF"+index],
-            ["SiteOEE"+index]: this.state["SiteOEE"+index],
-            ["percentSiteOEE"+index]: this.state["percentSiteOEE"+index],
-            ["percentAvailable"+index]: this.state["percentAvailable"+index],
-            ["percentQuality"+index]: this.state["percentQuality"+index]
+            "clientID": this.props.location.state.clientid,
+            ["primePoc"+index]: backData["primaryPOC"],
+            ["primPocRole"+index]: backData["primaryPOCRole"],
+            ["sector"+index]: backData["sector"],
+            ["manfArch"+index]: backData["archetype"],
+            ["numShifts"+index]: backData["shifts"],
+            ["numEmployees"+index]: backData["employees"],
+            ["numAssets"+index]: backData["assets"],
+            ["SiteRevenue"+index]: backData["siteRevenue"],
+            ["SiteEBI"+index]: backData["ebitda"],
+            ["SiteOTIF"+index]: backData["otif"],
+            ["SiteOEE"+index]: backData["siteOEE"],
+            ["percentSiteOEE"+index]: backData["performanceOEE"],
+            ["percentAvailable"+index]: backData["availabilityOEE"],
+            ["percentQuality"+index]: backData["qualityOEE"]
         })
     }
 
-    siteInfoForm =(siteNumber,index)=>{
-        let backData = this.props.location.state.data.sitedetailsJSON.sites[index].siteDetails;
-        console.log(backData)
-       // this.setData();
+    siteInfoForm =(siteNumber,index,backData)=>{
         
         return(
             <>
@@ -172,14 +168,14 @@ class AddSiteDetails extends React.Component{
         <div className="site-form">
        
         <LabelledInputField placeholder={true} data={backData?(this.state["siteName"+index]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"siteName"+index} required={true} labelName="Site Name*"/>
-        <LabelledInputField placeholder={true} data={backData?(this.state["primaryPOC"+index]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primePoc"+index} required={true} labelName="Primary POC*" />
-        <LabelledInputField placeholder={true} data={backData?(backData["primaryPOCRole"]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primPocRole"+index} required={true} labelName="Primary POC Role*"  />
+        <LabelledInputField placeholder={true} data={backData?(this.state["primePoc"+index]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primePoc"+index} required={true} labelName="Primary POC*" />
+        <LabelledInputField placeholder={true} data={backData?(backData["primPocRole"+index]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primPocRole"+index} required={true} labelName="Primary POC Role*"  />
         <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <DropDownMenu placeholder="Manufacturing Archetype*" required={true}  data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
         <DropDownMenu placeholder="Sector*"  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
-        <LabelledInputField placeholder={true} data={backData?(backData["shifts"]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(this.state["numShifts"+index]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["employees"]):null} labelName="# Employees (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["assets"]):null} labelName="# of Assets (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["siteRevenue"]):null} labelName="Site Revenue(optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteRevenue"+index}/>
@@ -189,7 +185,6 @@ class AddSiteDetails extends React.Component{
         <LabelledInputField placeholder={true} data={backData?(backData["performanceOEE"]):null} labelName="OEE - Performance % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentSiteOEE"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["availabilityOEE"]):null} labelName="OEE - Availability % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentAvailable"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["qualityOEE"]):null} labelName="OEE - Quality % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentQuality"+index}/>
-        
         </div>
         </div>
         </div>
@@ -216,7 +211,6 @@ class AddSiteDetails extends React.Component{
         requiredFieldNames=[]
         siteNumber = this.evaluateSiteNumber();
         this.getSectorandManufactureTypeDetails();
-        console.log(this.props.location.state);
     }
 
 
@@ -243,9 +237,16 @@ class AddSiteDetails extends React.Component{
             <form id="setup-site-details" onSubmit={this.handleSubmit}>
             {siteHeader(this.props,this.state.enableButton)}
             {siteNumber.map((number,index)=>{
+                let backData;
+                if(this.props.location.state.data){
+                backData = this.props.location.state.data.sitedetailsJSON.sites[index].siteDetails;
+                }
+                else{
+                backData = null;
+                }
                 return (
                     
-                    this.siteInfoForm(number,index)
+                    this.siteInfoForm(number,index,backData)
                     
                 )
                 })}
