@@ -115,12 +115,14 @@
                 .tr-box {
                     margin: 0 35px;
                     width: 335px;
-                    margin-bottom: 12px;                
+                    margin-bottom: 12px;
+                    color: #dedede;              
                     .tr-heading {
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
                         margin-bottom: 1.5vh;
+                        margin-left: 2vw;
                         font-weight: 600;
                         font-size: 14px;
                     }

@@ -9,7 +9,8 @@ import ReorderIcon from '../../../images/icon-small-reorder.svg';
 import Slider from './sfm-scorecard-slider/sfm-scorecard-slider';
 import ReportsListView from './sfm-reports-listview/sfm-reports-listview';
 import ReportsCardView from './sfm-reports-reportview/sfm-reports-reportview';
-
+import {resultsApi} from '../../../api/assessments/reports'
+import {apiPostHeader} from '../../../api/main/mainapistorage'
 
 let tabValues = ["List","Report Card"];
 
@@ -55,18 +56,50 @@ class ReportsOverview extends React.Component {
     handleChangeRecs = (e)=>{
         this.setState({
             overallRecs:e.target.value
-        })
+        });
+    }
+
+    saveRecs = async() => {
+        let body = {
+            "type": "recommendation",
+            "data": this.state.overallRecs,
+            "siteid": this.props.data.siteid
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        try{
+            const response = await fetch(resultsApi.textEdit,apiPostHeader)
+            const editresp = await response.json();
+        }
+        catch(err){
+            const editresp = err;
+        }
+        this.setState({
+            recsEdit: false
+        });
+    }
+
+    recsTextFormat() {
+        let points = this.state.overallRecs.split("\n");
+        return (
+            <ul className="recs-list">
+                {points.map((data,index)=>{
+                    return (
+                    <li className="overall-recs-text">{points[index]}</li>
+                    )
+                })}
+            </ul>
+        )
     }
 
     overallRecsForm() {
         return (
             <InputGroup>
-                <Form.Control type="text" maxLength={400} value={this.state.overallRecs} onChange={this.handleChangeRecs}/>
+                <Form.Control as={"textarea"} maxLength={400} value={this.state.overallRecs} onChange={this.handleChangeRecs}/>
                 <InputGroup.Append>
                     <Form.Text className="text-muted">
                         {this.state.overallRecs.length}/400 characters
                     </Form.Text>
-                    <Button variant="primary" type="submit" onClick={()=>this.editToggle("recs")}>
+                    <Button variant="primary" type="submit" onClick={this.saveRecs}>
                         Done
                     </Button>
                 </InputGroup.Append>
@@ -80,15 +113,36 @@ class ReportsOverview extends React.Component {
         })
     }
 
+    saveSummary = async() => {
+        let body = {
+            "type": "summary",
+            "data": this.state.summary,
+            "siteid": this.props.data.siteid
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        let editresp;
+        try{
+            const response = await fetch(resultsApi.textEdit,apiPostHeader)
+            editresp = await response.json();
+        }
+        catch(err){
+            editresp = err;
+        }
+        console.log(editresp)
+        this.setState({
+            summaryEdit: false
+        });
+    }
+
     summaryForm() {
         return (
             <InputGroup>
-                <Form.Control type="text" maxLength={600} value={this.state.summary} onChange={this.handleChange}/>
+                <Form.Control as={"textarea"} maxLength={600} value={this.state.summary} onChange={this.handleChange}/>
                 <InputGroup.Append>
                     <Form.Text className="text-muted">
                         {this.state.summary.length}/600 characters
                     </Form.Text>
-                    <Button variant="primary" type="submit" onClick={()=>this.editToggle("summary")}>
+                    <Button variant="primary" type="submit" onClick={this.saveSummary}>
                         Done
                     </Button>
                 </InputGroup.Append>
@@ -157,7 +211,7 @@ class ReportsOverview extends React.Component {
                             <div className="legend">
                                 <div className="legend-part">
                                     <span className="ind-avg"></span>
-                                    <p style={{margin: "0"}}>Industry Average</p>
+                                    <p style={{margin: "0"}}>Industry Range</p>
                                 </div>
                                 <div className="legend-part">
                                     <span className="score"></span>
@@ -177,7 +231,7 @@ class ReportsOverview extends React.Component {
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
                                     <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
                                 </div>
-                                {this.state.recsEdit?this.overallRecsForm():<p className="overall-recs-text">{this.state.overallRecs}</p>}
+                                {this.state.recsEdit?this.overallRecsForm():this.recsTextFormat()}
                             </div>
                         </div>
                     </div>
