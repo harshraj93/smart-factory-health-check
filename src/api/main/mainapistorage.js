@@ -1,5 +1,5 @@
-let apiUrl = "https://4n8f11s940.execute-api.us-east-1.amazonaws.com/dev";
-let xapikey = "ITEdpYmxd29yhWvXwmW07IUHyLtJaPZ1gmRDDGZ4";
+let apiUrl = "https://8qdannxm3a.execute-api.us-east-1.amazonaws.com/qa";
+let xapikey = "AnPbnvmTFI70vB1MnyJek7eNK5NXgobZ4POkMYX2";
 let apiGetHeader = {
     method:'GET',
     headers: {
