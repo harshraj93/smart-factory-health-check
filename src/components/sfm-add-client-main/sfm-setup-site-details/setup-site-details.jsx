@@ -14,6 +14,7 @@ let requiredFieldNames=[];
 
 
 function siteHeader(props,enableButton){
+    console.log(props);
     return(
         <div className="site-header-container">
             <span className="site-name">{props.location.state.clientName}</span>
@@ -55,6 +56,7 @@ class AddSiteDetails extends React.Component{
             clientNames:clientNameArray
         }
         let sitedetailsJSON = this.triggerFormSubmission();
+        console.log(sitedetailsJSON);
         this.props.history.push({
             pathname:'/addbusinessfunctions',
             state:{
@@ -64,6 +66,7 @@ class AddSiteDetails extends React.Component{
             }
         })
     }
+
 
     triggerFormSubmission = ()=>{
         let sitesJSON=[];
@@ -76,11 +79,11 @@ class AddSiteDetails extends React.Component{
                     {
                         siteDetails:{
                             "sitename": this.state["siteName"+indexString],
-                            "clientID": this.props.location.state.clientID,
+                            "clientID": this.props.location.state.clientid,
                             "primaryPOC": this.state["primePoc"+indexString],
-                            "primaryPOCRole": this.state["includesprimPocRole"+indexString],
+                            "primaryPOCRole": this.state["primPocRole"+indexString],
                             "sector": this.state["sector"+indexString],
-                            "archetype": this.state["includesmanfArch"+indexString],
+                            "archetype": this.state["manfArch"+indexString],
                             "shifts": this.state["numShifts"+index],
                             "employees": this.state["numEmployees"+index],
                             "assets": this.state["numAssets"+index],
@@ -149,16 +152,16 @@ class AddSiteDetails extends React.Component{
         <div className="bottom-border"></div>
         <DropDownMenu placeholder="Manufacturing Archetype*" required={true}  data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
         <DropDownMenu placeholder="Sector*"  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
-        <LabelledInputField placeholder={true} labelName="# of Shifts (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
-        <LabelledInputField placeholder={true} labelName="# Employees (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
-        <LabelledInputField placeholder={true} labelName="# of Assets (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
-        <LabelledInputField placeholder={true} labelName="Site Revenue(optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteRevenue"+index}/>
-        <LabelledInputField placeholder={true} labelName="Site EBITDA (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteEBI"+index}/>
-        <LabelledInputField placeholder={true} labelName="OTIF % (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteOTIF"+index}/>
-        <LabelledInputField placeholder={true} labelName="Site OEE (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteOEE"+index}/>
-        <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentSiteOEE"+index}/>
-        <LabelledInputField placeholder={true} labelName="OEE - Availability % (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentAvailable"+index}/>
-        <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentQuality"+index}/>
+        <LabelledInputField placeholder={true} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
+        <LabelledInputField placeholder={true} labelName="# Employees (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
+        <LabelledInputField placeholder={true} labelName="# of Assets (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
+        <LabelledInputField placeholder={true} labelName="Site Revenue(optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteRevenue"+index}/>
+        <LabelledInputField placeholder={true} labelName="Site EBITDA (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteEBI"+index}/>
+        <LabelledInputField placeholder={true} labelName="OTIF % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteOTIF"+index}/>
+        <LabelledInputField placeholder={true} labelName="Site OEE (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteOEE"+index}/>
+        <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentSiteOEE"+index}/>
+        <LabelledInputField placeholder={true} labelName="OEE - Availability % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentAvailable"+index}/>
+        <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentQuality"+index}/>
         
         </div>
         </div>
