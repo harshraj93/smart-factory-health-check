@@ -57,6 +57,7 @@ class AddSiteDetails extends React.Component{
         }
         let sitedetailsJSON = this.triggerFormSubmission();
         console.log(sitedetailsJSON);
+        localStorage.setItem("addsitedata",JSON.stringify({sitedetailsJSON:sitedetailsJSON}))
         this.props.history.push({
             pathname:'/addbusinessfunctions',
             state:{
@@ -102,6 +103,7 @@ class AddSiteDetails extends React.Component{
             siteDetailsJSON={};
         })
         siteDetails.sites=sitesJSON;
+
         return siteDetails;
     }
 
@@ -133,7 +135,32 @@ class AddSiteDetails extends React.Component{
     }
 
 
+    setData = (backData,index)=>{
+        this.setState({
+            ["siteName"+index]: backData["sitename"],
+            ["clientID"+index]: this.props.location.state.clientid,
+            ["primePoc"+index]: this.state["primaryPOC"+index],
+            ["primPocRole"+index]: this.state["primaryPOCRole"+index],
+            ["sector"+index]: this.state["sector"+index],
+            ["manfArch"+index]: this.state["archetype"+index],
+            ["numShifts"+index]: this.state["shifts"+index],
+            ["numEmployees"+index]: this.state["numEmployees"+index],
+            ["numAssets"+index]: this.state["numAssets"+index],
+            ["SiteRevenue"+index]: this.state["SiteRevenue"+index],
+            ["SiteEBI"+index]: this.state["SiteEBI"+index],
+            ["SiteOTIF"+index]: this.state["SiteOTIF"+index],
+            ["SiteOEE"+index]: this.state["SiteOEE"+index],
+            ["percentSiteOEE"+index]: this.state["percentSiteOEE"+index],
+            ["percentAvailable"+index]: this.state["percentAvailable"+index],
+            ["percentQuality"+index]: this.state["percentQuality"+index]
+        })
+    }
+
     siteInfoForm =(siteNumber,index)=>{
+        let backData = this.props.location.state.data.sitedetailsJSON.sites[index].siteDetails;
+        console.log(backData)
+       // this.setData();
+        
         return(
             <>
         <div className="site-form-modal" key={index}>
@@ -144,24 +171,24 @@ class AddSiteDetails extends React.Component{
         <div className="required">* Required field</div>
         <div className="site-form">
        
-        <LabelledInputField placeholder={true} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"siteName"+index} required={true} labelName="Site Name*" siteNumber={index}/>
-        <LabelledInputField placeholder={true} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primePoc"+index} required={true} labelName="Primary POC*" siteNumber={index}/>
-        <LabelledInputField placeholder={true} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primPocRole"+index} required={true} labelName="Primary POC Role*" siteNumber={index} />
+        <LabelledInputField placeholder={true} data={backData?(this.state["siteName"+index]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"siteName"+index} required={true} labelName="Site Name*"/>
+        <LabelledInputField placeholder={true} data={backData?(this.state["primaryPOC"+index]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primePoc"+index} required={true} labelName="Primary POC*" />
+        <LabelledInputField placeholder={true} data={backData?(backData["primaryPOCRole"]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primPocRole"+index} required={true} labelName="Primary POC Role*"  />
         <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <DropDownMenu placeholder="Manufacturing Archetype*" required={true}  data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
         <DropDownMenu placeholder="Sector*"  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
-        <LabelledInputField placeholder={true} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
-        <LabelledInputField placeholder={true} labelName="# Employees (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
-        <LabelledInputField placeholder={true} labelName="# of Assets (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
-        <LabelledInputField placeholder={true} labelName="Site Revenue(optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteRevenue"+index}/>
-        <LabelledInputField placeholder={true} labelName="Site EBITDA (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteEBI"+index}/>
-        <LabelledInputField placeholder={true} labelName="OTIF % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteOTIF"+index}/>
-        <LabelledInputField placeholder={true} labelName="Site OEE (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteOEE"+index}/>
-        <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentSiteOEE"+index}/>
-        <LabelledInputField placeholder={true} labelName="OEE - Availability % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentAvailable"+index}/>
-        <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentQuality"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(backData["shifts"]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(backData["employees"]):null} labelName="# Employees (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(backData["assets"]):null} labelName="# of Assets (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(backData["siteRevenue"]):null} labelName="Site Revenue(optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteRevenue"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(backData["ebitda"]):null} labelName="Site EBITDA (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteEBI"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(backData["otif"]):null} labelName="OTIF % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteOTIF"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(backData["siteOEE"]):null} labelName="Site OEE (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteOEE"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(backData["performanceOEE"]):null} labelName="OEE - Performance % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentSiteOEE"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(backData["availabilityOEE"]):null} labelName="OEE - Availability % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentAvailable"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(backData["qualityOEE"]):null} labelName="OEE - Quality % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentQuality"+index}/>
         
         </div>
         </div>
@@ -189,6 +216,7 @@ class AddSiteDetails extends React.Component{
         requiredFieldNames=[]
         siteNumber = this.evaluateSiteNumber();
         this.getSectorandManufactureTypeDetails();
+        console.log(this.props.location.state);
     }
 
 

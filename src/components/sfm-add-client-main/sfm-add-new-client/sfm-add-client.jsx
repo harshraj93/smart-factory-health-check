@@ -23,33 +23,78 @@ let requiredFieldNames=["clientName","clientParticipation","clientRole","industr
 
 
 let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
+
     return(
         <div className = "client-info-container">
         <div className="title">Client Information</div>
         <div className="client-info">
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Client Name*" required={true} name="clientName" onChange={handleChange}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Primary Client Paricipation*" required={true} name="clientParticipation" onChange={handleChange}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Primary Client Role*" required={true} name="clientRole" onChange={handleChange}/>
-        <DropDownMenu placeholder={data[0].labelName+"*"} required={true} data={state.dropDownData} name="industryDropdown" onChange={handleChange}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} type="number" min="1" labelName="Total Sites in Network (optional)" name="totalSites" onChange={handleChange}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="# of Sites to Assess*" 
-        required={true} name="numSites" onChange={handleChange} type="number" min="1" step="1" onKeyDown={(e)=>e.keyCode!==69}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Company Revenue (optional)" min="1" type="number" name="companyRevenue" onChange={handleChange}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} labelName="Company EBITDA (optional)" min="1" type="number" name="companyEBITDA" onChange={handleChange}/>
+        <LabelledInputField placeholder={true} 
+        changeButtonState={changeButtonState} 
+        labelName="Client Name*" required={true} 
+        name="clientName" onChange={handleChange} 
+        data={(state.clientName!==undefined?state.clientName:"")}/>
+        <LabelledInputField 
+        placeholder={true} 
+        changeButtonState={changeButtonState} 
+        labelName="Primary Client Paricipation*" 
+        required={true} name="clientParticipation" 
+        onChange={handleChange} 
+        data={(state.clientParticipation!==undefined?state.clientParticipation:"")}/>
+        <LabelledInputField placeholder={true} 
+        changeButtonState={changeButtonState} 
+        labelName="Primary Client Role*" 
+        required={true} name="clientRole" 
+        onChange={handleChange} 
+        data={(state.clientRole!==undefined?state.clientRole:"")}/>
+        <DropDownMenu 
+        placeholder={data[0].labelName+"*"} 
+        required={true} data={state.dropDownData} 
+        name="industryDropdown" 
+        onChange={handleChange}/>
+        <LabelledInputField 
+        placeholder={true} 
+        changeButtonState={changeButtonState} 
+        type="number" min="1" 
+        labelName="Total Sites in Network (optional)" 
+        name="totalSites" onChange={handleChange} 
+        data={(state.totalSites!==undefined?state.totalSites:"")}/>
+        <LabelledInputField 
+        placeholder={true} 
+        changeButtonState={changeButtonState} 
+        labelName="# of Sites to Assess*" 
+        required={true} name="numSites" 
+        onChange={handleChange} type="number" min="1" step="1" onKeyDown={(e)=>e.keyCode!==69} 
+        data={(state.numSites!==undefined?state.numSites:"")}/>
+        <LabelledInputField 
+        placeholder={true} changeButtonState={changeButtonState} 
+        labelName="Company Revenue (optional)" min="1" type="number" 
+        name="companyRevenue" onChange={handleChange} 
+        data={state.backData.companyRevenue!==undefined?state.backData.companyRevenue:""}/>
+        <LabelledInputField 
+        placeholder={true} changeButtonState={changeButtonState} 
+        labelName="Company EBITDA (optional)" min="1" type="number" 
+        name="companyEBITDA" onChange={handleChange} 
+        data={(state.companyEBITDA!==undefined?state.backData.companyEBITDA:"")}/>
         </div>
         </div>
     )
 }
 
 
-function teamInfoForm(props,handleChange,changeButtonState){
+function teamInfoForm(props,state,handleChange,changeButtonState){
     return(
         <div className = "team-info-container">
         <div className="team-info-title">Deloitte Team Information</div>
         <div className="team-info">
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} labelName="Primary Owner Name*" name="primOwnerName" onChange={handleChange}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} labelName="Primary Owner Level*" name="primOwnerLevel" onChange={handleChange}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} labelName="Primary Owner Email*" name="primOwnerEmail" onChange={handleChange}/>
+        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} 
+        labelName="Primary Owner Name*" name="primOwnerName" onChange={handleChange} 
+        data={(state.primOwnerName!==undefined?state.primOwnerName:"")}/>
+        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} 
+        labelName="Primary Owner Level*" name="primOwnerLevel" onChange={handleChange} 
+        data={(state.primOwnerLevel!==undefined?state.primOwnerLevel:"")}/>
+        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} 
+        labelName="Primary Owner Email*" name="primOwnerEmail" onChange={handleChange} 
+        data={(state.primOwnerEmail!==undefined?state.primOwnerEmail:"")}/>
         </div>
         </div>
     )
@@ -57,14 +102,27 @@ function teamInfoForm(props,handleChange,changeButtonState){
 
 
 function addSupportResource(handleChange,state,index,changeButtonState,hideSupportResource){
+    
     return(
         <div className = "support-info-container">
         <div className="support-info">
-        <LabelledInputField placeholder={true}  labelName="Support Resource Name" changeButtonState={changeButtonState}  name={"supResourceName"+index} onChange={handleChange}/>
-        <LabelledInputField placeholder={true}  labelName="Support Resource Level" changeButtonState={changeButtonState} name={"supResourceLevel"+index} onChange={handleChange}/>
+        <LabelledInputField placeholder={true}  
+        labelName="Support Resource Name" changeButtonState={changeButtonState} 
+         name={"supResourceName"+index} onChange={handleChange}
+         data={(state["supResourceName"+index])!==undefined?(state["supResourceName"+index]):""}
+         />
+        <LabelledInputField placeholder={true}  
+        labelName="Support Resource Level" changeButtonState={changeButtonState} 
+        name={"supResourceLevel"+index} onChange={handleChange}
+        data={(state.backData["supResourceLevel"+index])!==undefined?(state.backData["supResourceLevel"+index]):""}
+        />
         <>
-        <LabelledInputField placeholder={true}  labelName={(supportEmailRequired(index,state))?"Support Resource Email*":"Support Resource Email"} required = {supportEmailRequired(index,state)} changeButtonState={changeButtonState} name={"supResourceEmail"+index} onChange={handleChange}/>
-        
+        <LabelledInputField placeholder={true}  
+        labelName={(supportEmailRequired(index,state))?"Support Resource Email*":"Support Resource Email"} 
+        required = {supportEmailRequired(index,state)} changeButtonState={changeButtonState}
+         name={"supResourceEmail"+index} onChange={handleChange}
+         data={(state.backData["supResourceEmail"+index])!==undefined?state.backData["supResourceEmail"+index]:""}
+         />
         </>
         </div>
         {(index===2)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
@@ -74,9 +132,12 @@ function addSupportResource(handleChange,state,index,changeButtonState,hideSuppo
 
 
 let supportEmailRequired = (index,state)=>{
-    if(index===1&&state.supResourceName1){requiredFieldNames.push("supResourceEmail1")}
-    return (index===1&&state.supResourceName1)?true:false
-    
+    if(index===1&&state.supResourceName1)
+    {
+        requiredFieldNames.push("supResourceEmail1")
+        return true
+    }
+    return false 
 }
 
 
@@ -86,7 +147,8 @@ class AddNewClient extends React.Component{
         this.state={
             showSupportResource:false,
             enableButton:"false",
-            dropDownData:[]
+            dropDownData:[],
+            backData:{}
         }
         this.props.disableMenu(false);
     }
@@ -121,17 +183,25 @@ class AddNewClient extends React.Component{
 
 
     navigate = (clientid)=>{
+        
+        let state={
+            sites:this.state.numSites,
+            clientName:this.state.clientName,
+            industry:this.state.industryDropdown,
+            industryList:this.state.dropDownData,
+            clientid:clientid
+         }
+
+        localStorage.setItem("sitedetailsstate",JSON.stringify({
+            state:state
+        }))
+
         this.props.history.push({
             pathname: '/addsitedetails',
-            state:{
-                sites:this.state.numSites,
-                clientName:this.state.clientName,
-                industry:this.state.industryDropdown,
-                industryList:this.state.dropDownData,
-                clientid:clientid
-             }
+            state:state
          })
     }
+
 
     triggerFormSubmission = ()=>{
         let clientid;
@@ -169,23 +239,41 @@ class AddNewClient extends React.Component{
         }
         let body = addClientJSON;
         apiPostHeader.body = JSON.stringify(body);
-        console.log(JSON.stringify(addClientJSON));
         fetch(addclientapi.addClient,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{
             clientid=resp.clientid;
-            console.log(JSON.stringify(resp),clientid)
            if(!resp.errorMessage){
                 this.navigate(clientid);
+                this.setData();
            }
         })
             .catch(err=>console.log(err))
 
-            
-       
-}
+        }
 
-
+    
+    setData = ()=>{
+        localStorage.setItem("addnewclient",JSON.stringify({
+            "clientName":this.state.clientName,
+            "industryDropdown":this.state.industryDropdown,
+            "clientRole": this.state.clientRole,
+            "clientParticipation":this.state.clientParticipation,
+            "numSites":this.state.numSites,
+            "totalSites":this.state.totalSites,
+            "companyRevenue":this.state.companyRevenue,
+            "companyEBITDA":this.state.companyEBITDA,
+            "primOwnerName":this.state.primOwnerName,
+            "primOwnerEmail":this.state.primOwnerEmail,
+            "primOwnerLevel":this.state.primOwnerLevel,
+            "supResourceName1":this.state.supResourceName1,
+            "supResourceEmail1":this.state.supResourceEmail1,
+            "supResourceLevel1":this.state.supResourceLevel1,
+            "supResourceName2":this.state.supResourceName2,
+            "supResourceEmail2":this.state.supResourceEmail2,
+            "supResourceLevel2":this.state.supResourceLevel2
+        }))
+    }
 
     setNextStepState = ()=>{
         this.setState({
@@ -212,7 +300,30 @@ class AddNewClient extends React.Component{
             enableButton:true
         })
         }
-    }   
+    }  
+    
+    checkRequiredBack = (state)=>{
+        let cnt=0;
+        let boolFlag;
+        if(this.state.backData){
+        requiredFieldNames.forEach(element=>{
+
+            if(this.state[element]){
+                cnt++;
+            }
+        console.log(this.state[element])
+        })
+        if(cnt>=requiredFieldNames.length){
+            boolFlag=true;
+        }
+        console.log(boolFlag,cnt,requiredFieldNames.length);
+        if(boolFlag){
+            this.setState({
+            enableButton:true
+        })
+        }
+    }
+    }
 
 
     getIndustryList = ()=>{
@@ -224,8 +335,33 @@ class AddNewClient extends React.Component{
     }
 
 
-    componentDidMount = ()=>{
+    componentDidMount = async()=>{
         this.getIndustryList();
+        let backData = this.props.location.data;
+        if(backData){
+        await this.setState({
+            clientName:backData.clientName,
+            industryDropdown:backData.industryDropdown,
+            clientRole: backData.clientRole,
+            clientParticipation:backData.clientParticipation,
+            numSites:backData.numSites,
+            "totalSites":backData.totalSites,
+            "companyRevenue":backData.companyRevenue,
+            "companyEBITDA":backData.companyEBITDA,
+            "primOwnerName":backData.primOwnerName,
+            "primOwnerEmail":backData.primOwnerEmail,
+            "primOwnerLevel":backData.primOwnerLevel,
+            "supResourceName1":backData.supResourceName1,
+            "supResourceEmail1":backData.supResourceEmail1,
+            "supResourceLevel1":backData.supResourceLevel1,
+            "supResourceName2":backData.supResourceName2,
+            "supResourceEmail2":backData.supResourceEmail2,
+            "supResourceLevel2":backData.supResourceLevel2
+
+        })
+        console.log(this.state.backData);
+        this.checkRequiredBack()
+    }
     }
 
 
@@ -237,7 +373,7 @@ class AddNewClient extends React.Component{
             <form id="add-client-form" onSubmit={this.handleSubmit}>
             {clientInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}
             <div className="border-bottom"></div>
-            {teamInfoForm(this.props,this.handleChange,this.setNextStepState)}
+            {teamInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}
             <div className="border-bottom"></div>
             {addSupportResource(this.handleChange,this.state,1,this.setNextStepState)}
             <div className="border-bottom"></div>
