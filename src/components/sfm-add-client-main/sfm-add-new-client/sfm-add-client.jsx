@@ -313,7 +313,6 @@ class AddNewClient extends React.Component{
             if(this.state[element]){
                 cnt++;
             }
-        console.log(this.state[element])
         })
         if(cnt>=requiredFieldNames.length){
             boolFlag=true;
