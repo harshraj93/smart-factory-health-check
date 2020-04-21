@@ -78,6 +78,7 @@ class AssessmentsOverview extends React.Component {
             jsonData: overviewData
         });
         this.editAssessCard();
+        this.sendData();
     }
 
     onChange = (e) => {
@@ -298,9 +299,18 @@ class AssessmentsOverview extends React.Component {
     //     }
     // }
 
+    sendData = async() => {
+        if (this.state.jsonData === {}) {
+            return ""
+        }
+        else {
+            return this.state.jsonData
+        }
+    }
+
     componentDidMount = async()=> {
         // let overviewData = await this.fetchOverview();
-        this.setState({
+        await this.setState({
             jsonData:this.props.data,
             clientName: this.props.data.clientName, 
             siteName: this.props.data.siteName,
@@ -313,7 +323,7 @@ class AssessmentsOverview extends React.Component {
         return(
             <div className="assess-overview">
                 {this.state.x?this.editBar():this.applyChanges()}
-                {this.state.x?<ReportsListView data={this.props.data}/>:this.editAssessCard()}
+                {this.state.x?<ReportsListView data={this.props.data} updatedData={this.sendData()}/>:this.editAssessCard()}
             </div>
         );
     }

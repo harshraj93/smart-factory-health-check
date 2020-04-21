@@ -237,15 +237,30 @@ class ReportsListView extends React.Component {
     }
 
     assessmentsCard = () => {
-        return (
-            <Accordion className="assess-overview-accordion" defaultActiveKey={0}>
-            {this.props.data.businessFunction.map((data,index)=>{
-                return(
-                    data.active?this.activeCard(data, index):this.inactiveCard(data, index)
-                )
-            })}
-            </Accordion>
-        )
+        // console.log(this.props.updatedData);
+        if (this.props.updatedData.businessFunction===undefined) {
+            return (
+                <Accordion className="assess-overview-accordion" defaultActiveKey={0}>
+                {this.props.data.businessFunction.map((data,index)=>{
+                    return(
+                        data.active?this.activeCard(data, index):this.inactiveCard(data, index)
+                    )
+                })}
+                </Accordion>
+            )
+        }
+        else {
+            console.log(this.props.updatedData);
+            return (
+                <Accordion className="assess-overview-accordion" defaultActiveKey={0}>
+                {this.props.updatedData.businessFunction.map((data,index)=>{
+                    return(
+                        data.active?this.activeCard(data, index):this.inactiveCard(data, index)
+                    )
+                })}
+                </Accordion>
+            )
+        }
     }
 
     handleClick = (e)=>{

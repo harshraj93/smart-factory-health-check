@@ -221,18 +221,26 @@ class Reports extends React.Component{
 
 
     componentDidMount = async()=>{
-        let resultJSON = await this.fetchResultsData();
-        let demographicsData = await this.fetchDemographicsData();
-        let overviewData = await this.fetchOverview();
+        let resultJSON = {};
+        let demographicsData = {}; 
+        let overviewData = {};
+        if (this.props.location.loadComponentString === "results") {
+            resultJSON = await this.fetchResultsData();
+            demographicsData = await this.fetchDemographicsData();
+            resultJSON.resultantJSON.siteid = this.props.location.siteid;
+        }
+        else {
+            overviewData = await this.fetchOverview();
+            overviewData.clientName = this.props.location.companyName;
+            overviewData.siteName = this.props.location.locationString;
+            overviewData.sector = this.props.location.industryType;
+        }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
             "siteName": this.props.location.locationString,
             "sector":this.props.location.industryType}
         })
-        overviewData.clientName = this.props.location.companyName;
-        overviewData.siteName = this.props.location.locationString;
-        overviewData.sector = this.props.location.industryType;
-        resultJSON.resultantJSON.siteid = this.props.location.siteid;
+        
         await this.setState({
             loadComponentString:this.props.location.loadComponentString,
             data:resultJSON.resultantJSON,
