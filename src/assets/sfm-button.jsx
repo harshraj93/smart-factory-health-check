@@ -25,9 +25,17 @@ function DownloadButton(props){
     )
 }
 
+
+function QuestionnaireNavigation(props){
+    return(
+        <button className={"navigation-questionnaire "+props.customClass}>{props.labelName}</button>
+    )
+}
+
 export {
     CustomButton,
     FormNavigationButton,
-    DownloadButton
+    DownloadButton,
+    QuestionnaireNavigation
 }
 
