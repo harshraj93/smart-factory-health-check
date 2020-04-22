@@ -149,7 +149,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview}/>:(element==="Notes"?"":(element==="Site Info"?<SiteInfo data={this.state.assessBody} disableMenu={this.props.disableMenu}/>:<ClientInfo disableMenu={this.props.disableMenu}/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?"":(element==="Site Info"?<SiteInfo data={this.state.assessBody} disableMenu={this.props.disableMenu}/>:<ClientInfo disableMenu={this.props.disableMenu}/>))}
                             </Tab>
                         )
                     })}
@@ -165,6 +165,17 @@ class Reports extends React.Component{
                 {this.props.location.loadComponentString===undefined?<p>No data. Please click on back button.</p>:<p>Loading {this.props.location.loadComponentString.toUpperCase()} page...</p>}
             </div>
         )
+    }
+
+    overviewRefresh = async() => {
+        let overviewData = await this.fetchOverview();
+        overviewData.clientName = this.props.location.companyName;
+        overviewData.siteName = this.props.location.locationString;
+        overviewData.sector = this.props.location.industryType;
+
+        await this.setState({
+            assessOverview: overviewData
+        })
     }
 
     fetchOverview = async()=> {
