@@ -2,8 +2,9 @@
     overflow-y: scroll;
     max-height: 90vh;
 .header-container{
+    padding-left: 100px;
+    padding-right: 100px;
     background-color: #232325;
-    padding-left:40px;
     padding-top: 24px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -70,6 +71,8 @@
 }
 
 .navigation-button-group{
+    padding-left: 100px;
+    padding-right: 100px;
     text-align: center;
     margin-top: 32px;
     margin-bottom: 35px;
@@ -79,14 +82,19 @@
 }
 
 .questions-and-targets{
+    padding-left: 100px;
+    padding-right: 100px;
     height: 40%;
-    padding-left:40px;
     display: grid;
     grid-template-columns: 40% 60%;
+    .targets{
+        margin-left: 54px;
+    }
 }
 
 .bottom-border{
-    
+    padding-left: 100px;
+    padding-right: 100px;
     margin-left: 40px;
     margin-right: 40px;
     border-top: 1px solid  #727279;
@@ -95,8 +103,8 @@
 }
 
 .scoring{
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 100px;
+    padding-right: 100px;
     margin-bottom: 16px;
     margin-top: 32px;
     .scoring-text-main{
@@ -128,7 +136,9 @@
 }
 }
 .notes-container{
-    margin: 32px 0 16px 40px;
+    margin: 32px 0 16px 0;
+    padding-left: 100px;
+    padding-right: 100px;
     .notes-title{
         font-size: 20px;
         font-weight: bold;
@@ -149,6 +159,15 @@
                 
             }
         }
+    }
+    .targets{
+        .button-group{
+            margin-top: 60px;
+        .form-navigation-button{
+            width: 22%;
+           
+        }
+    }
     }
 
 }

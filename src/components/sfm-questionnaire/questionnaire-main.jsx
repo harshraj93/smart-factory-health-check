@@ -1,13 +1,13 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import ProgressBar from 'react-bootstrap/ProgressBar'
-import {QuestionnaireNavigation,FormNavigationButton} from '../../assets/sfm-button';
+import {QuestionnaireNavigation,SaveandExitButton,FormNavigationButton} from '../../assets/sfm-button';
 import GeneralQuestions from './general-questions';
 import flagIcon from '../../images/icon-small-flagged-outline.svg';
 import {CustomButton} from '../../assets/sfm-button';
 import addIcon from '../../images/icon-small-add-black.svg';
 import TextEditor from './text-editor-component';
-
+import TargetSelect from './target-select';
 let scoring = {
             "Low (2)":"Limited and independent data leveraged to identify areas of improvement at high level. No detailed system analysis performed to prioritize and track/monitor improvements.",
             "Medium (4)":"Improvement projects are launched based on data-driven, quantitative analysis of key business drivers. High level system based tracking and analysis of progress in place",
@@ -53,8 +53,11 @@ function QuestionnaireHeader(props){
 class QuestionnairePage extends React.Component{
     constructor(props){
         super(props);
+        this.textInput = React.createRef();
         this.state={
-            showTextEditor:false
+            showTextEditor:false,
+            targetValue:"",
+            currentValue:""
         }
         this.props.disableMenu(false);
     }
@@ -63,7 +66,42 @@ class QuestionnairePage extends React.Component{
         this.setState({
             showTextEditor:true
         })
+        
     }
+    
+
+    setCurrentValue = currentValue =>{
+        this.setState({
+            currentValue:currentValue
+        })
+    }
+
+
+    setTargetValue = targetValue=>{
+        this.setState({
+            targetValue:targetValue
+        })
+    }
+
+
+    getSubCapability = ()=>{
+        
+    }
+
+
+    focusInput = async()=>{
+        console.log(this.textInput);
+        await this.setState({
+            showTextEditor:true
+        })
+        document.getElementById("mui-rte-editor").focus();
+    }
+
+
+    componentDidMount = ()=>{
+        this.getSubCapability();
+    }
+
 
     render(){
         return(
@@ -73,16 +111,22 @@ class QuestionnairePage extends React.Component{
             <QuestionnaireNavigation labelName="Previous" customClass="prev"/><QuestionnaireNavigation labelName="Skip Question" />
             </div>
             <div className="questions-and-targets">
-                <GeneralQuestions/>
-                <span className="targets"></span>
+                <GeneralQuestions flagQuestions={this.focusInput}/>
+                <span className="targets">
+                <TargetSelect setCurrentValue={this.setCurrentValue} setTargetValue={this.setTargetValue}/>
+                <div className="button-group">
+                <FormNavigationButton labelName="Continue" />
+                <SaveandExitButton labelName="Save and Exit" />
+                </div>
+                </span>
             </div>
             <div className="bottom-border"></div>
             <div className="scoring">
                 <div className="scoring-text-main">Scoring</div>
                 <div className="scoring-text-main-container">
-                {Object.keys(scoring).map(element=>{
+                {Object.keys(scoring).map((element,index)=>{
                     return(
-                    <div className="scoring-text-container">
+                    <div className="scoring-text-container" key={index}>
                     <div className="scoring-range">
                         {element}
                         <span className="flag-button"><CustomButton imgSrc={flagIcon} /></span>
@@ -99,8 +143,8 @@ class QuestionnairePage extends React.Component{
             <div className = "notes-container">
                 <div className="notes-title">Notes</div>
                 <div className="text-area">
-                   {!this.state.showTextEditor&&<CustomButton imgSrc={addIcon} clickFunction={this.showTextEditor}/>}
-                    {this.state.showTextEditor&&<TextEditor />}
+                   {!this.state.showTextEditor&&<CustomButton  imgSrc={addIcon} clickFunction={this.showTextEditor}/>}
+                    {this.state.showTextEditor&&<TextEditor inputRef={this.textInput}/>}
                 </div>
                 
             </div>

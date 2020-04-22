@@ -21,14 +21,20 @@ function FormNavigationButton(props){
 
 function DownloadButton(props){
     return(
-        <button type="submit" className="download-button" value={props.labelName}>{props.labelName}</button>
+        <button type="submit" className="download-button" value={props.labelName} onClick={props.onClick}>{props.labelName}</button>
     )
 }
 
 
 function QuestionnaireNavigation(props){
     return(
-        <button className={"navigation-questionnaire "+props.customClass}>{props.labelName}</button>
+        <button className={"navigation-questionnaire "+props.customClass} onClick={props.onClick}>{props.labelName}</button>
+    )
+}
+
+function SaveandExitButton(props){
+    return(
+        <button className="save-and-exit" onClick={props.onClick}>{props.labelName}</button>
     )
 }
 
@@ -36,6 +42,7 @@ export {
     CustomButton,
     FormNavigationButton,
     DownloadButton,
-    QuestionnaireNavigation
+    QuestionnaireNavigation,
+    SaveandExitButton
 }
 

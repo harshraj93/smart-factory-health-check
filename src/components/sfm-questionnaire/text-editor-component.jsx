@@ -3,16 +3,20 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import MUIRichTextEditor from 'mui-rte'
 import './text-editor-component.scss';
 
+
 export default class TextEditor extends React.Component{
     constructor(props){
         super(props);
+       
         this.state={
 
         }
     }
 
     
+    
     render(){
+        console.log(this.props)
         const defaultTheme = createMuiTheme()
 
 Object.assign(defaultTheme, {
@@ -36,6 +40,7 @@ Object.assign(defaultTheme, {
             <MuiThemeProvider theme={defaultTheme}>
             <MUIRichTextEditor 
                 label="Type something here..."
+                inputRef={this.props.inputRef}
             />
         </MuiThemeProvider>
         )
