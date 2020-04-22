@@ -7,7 +7,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 
 import './target-select.scss';
 
-let ratings = [1,2,3,4,5,6,7]
+// let ratings = [1,2,3,4,5,6,7]
 export default function TargetSelect(props) {
 
     const [selectedValue1, setSelectedValue1] = React.useState("a");

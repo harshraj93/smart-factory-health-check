@@ -90,11 +90,11 @@ class QuestionnairePage extends React.Component{
 
 
     focusInput = async()=>{
-        console.log(this.textInput);
         await this.setState({
             showTextEditor:true
         })
-        document.getElementById("mui-rte-editor").focus();
+        document.getElementsByClassName("MUIRichTextEditor-editorContainer-98")[0].scrollIntoView({behaviour:"smooth"});
+        document.getElementsByClassName("MUIRichTextEditor-editorContainer-98")[0].click();
     }
 
 
@@ -129,7 +129,7 @@ class QuestionnairePage extends React.Component{
                     <div className="scoring-text-container" key={index}>
                     <div className="scoring-range">
                         {element}
-                        <span className="flag-button"><CustomButton imgSrc={flagIcon} /></span>
+                        <span className="flag-button"><CustomButton imgSrc={flagIcon} clickFunction={this.focusInput}/></span>
                     </div>
                     <div className="scoring-info">
                         {scoring[element]}
@@ -144,7 +144,7 @@ class QuestionnairePage extends React.Component{
                 <div className="notes-title">Notes</div>
                 <div className="text-area">
                    {!this.state.showTextEditor&&<CustomButton  imgSrc={addIcon} clickFunction={this.showTextEditor}/>}
-                    {this.state.showTextEditor&&<TextEditor inputRef={this.textInput}/>}
+                    {this.state.showTextEditor&&<TextEditor/>}
                 </div>
                 
             </div>

@@ -17,7 +17,6 @@ export default class TextEditor extends React.Component{
     
     
     render(){
-        console.log(this.props)
         const defaultTheme = createMuiTheme()
 
 Object.assign(defaultTheme, {
@@ -54,7 +53,6 @@ Object.assign(defaultTheme, {
             <MuiThemeProvider theme={defaultTheme}>
             <MUIRichTextEditor controls={options} maxLength={1000}
                 label="Type something here..."
-                inputRef={this.props.inputRef}
             />
         </MuiThemeProvider>
         )
