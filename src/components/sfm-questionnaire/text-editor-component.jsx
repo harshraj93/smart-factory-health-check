@@ -1,5 +1,6 @@
 import React from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
+import FlagImg from '../../images/icon-small-flagged-outline.svg';
 import MUIRichTextEditor from 'mui-rte'
 import './text-editor-component.scss';
 
@@ -13,7 +14,24 @@ export default class TextEditor extends React.Component{
         }
     }
 
-    
+    notesCards() {
+        return(
+            <div className="notes-card">
+                <div className="notes-card-header">
+                    {this.props.data.flag!==null?<img src={FlagImg} alt="" style={{marginTop: "2.5px", marginRight: "10px"}}></img>:""}
+                    <div className="header-block">
+                        <span className="user-name">{this.props.data.userName}</span>
+                        <div className="date-time">
+                            <p>11:28AM</p>
+                            <p>02/01/2020</p>
+                        </div>
+                    </div>
+                </div>
+                <p className="notes-card-content">{this.props.data.text}</p>
+            </div>
+        )
+    }
+
     render(){
         const defaultTheme = createMuiTheme()
 
@@ -48,6 +66,7 @@ Object.assign(defaultTheme, {
     }
 })
         return(
+            this.props.data?this.notesCards():
             <MuiThemeProvider theme={defaultTheme}>
             <MUIRichTextEditor controls={options} maxLength={1000}
                 label="Type something here..."

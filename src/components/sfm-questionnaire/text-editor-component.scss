@@ -1,3 +1,35 @@
 .MuiIconButton-root{
     color:unset !important;
 }
+
+.notes-card {
+    margin-top: 20px;
+    .notes-card-header {
+        display: flex;
+        align-items: flex-start;
+
+        .header-block {
+            .user-name {
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            .date-time {
+                color: #dedede;
+                font-size: 12px;
+                display: flex;
+                p {
+                    margin-right: 13px;
+                }
+            }
+        }
+    }
+    .notes-card-content {
+        border-radius: 8px;
+        background-color: #35353b;
+        color: #fefefe;
+        font-size: 14px;
+        padding: 24px;
+        width: 63.78vw;
+    }
+}

@@ -14,6 +14,27 @@ let scoring = {
             "High (6)":"Improvement projects are identified and launched based on system based data-driven, quantitative analysis of key business drivers. Detailed system based tracking and analysis of project progress in place, feedback loop in place. Existence of a Digital Agenda to guide ongoing digital projects. Use of a Digital Foundry to drive multi-disciplinary solution and application approach."
             };
 
+let notesData = [
+    {
+        "type": "LOW",
+        "text": "Notes by user.",
+        "userId": "2019",
+        "userName": "Brian Takayama"
+    },
+    {
+        "type": null,
+        "text": "Notes by user.",
+        "userId": "2019",
+        "userName": "Brian Takayama"
+    },
+    {
+        "type": "GENERAL",
+        "text": "This General Question has been flagged because it doesnt make sense in context to the Business function and capability. This is just placeholder copy, but allows for the flag to have a specific note to provide a reason for the flag. ",
+        "userId": "2019",
+        "userName": "Brian Takayama"
+    }
+  ]
+
 
 function QuestionnaireHeader(props){
     
@@ -102,7 +123,11 @@ class QuestionnairePage extends React.Component{
                    {!this.state.showTextEditor&&<CustomButton imgSrc={addIcon} clickFunction={this.showTextEditor}/>}
                     {this.state.showTextEditor&&<TextEditor />}
                 </div>
-                
+                {notesData.map((data, index) => {
+                    return(
+                        <TextEditor data={data}/>
+                    )
+                })}
             </div>
             </div>
         )
