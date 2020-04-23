@@ -8,12 +8,20 @@ import {CustomButton} from '../../assets/sfm-button';
 import addIcon from '../../images/icon-small-add-black.svg';
 import TextEditor from './text-editor-component';
 import TargetSelect from './target-select';
+import NotesComponent from './notes-component';
 let scoring = {
             "Low (2)":"Limited and independent data leveraged to identify areas of improvement at high level. No detailed system analysis performed to prioritize and track/monitor improvements.",
             "Medium (4)":"Improvement projects are launched based on data-driven, quantitative analysis of key business drivers. High level system based tracking and analysis of progress in place",
             "High (6)":"Improvement projects are identified and launched based on system based data-driven, quantitative analysis of key business drivers. Detailed system based tracking and analysis of project progress in place, feedback loop in place. Existence of a Digital Agenda to guide ongoing digital projects. Use of a Digital Foundry to drive multi-disciplinary solution and application approach."
             };
 
+let questions=["What data is used to identify areas of improvement?", 
+
+"What systems and analysis are leveraged to priorities and assess improvement projects?",
+
+"How our CI systems integrated with production systems?",
+
+"How long is data kept available (e.g., not archived)?"]
 
 function QuestionnaireHeader(props){
     
@@ -57,10 +65,15 @@ class QuestionnairePage extends React.Component{
         this.state={
             showTextEditor:false,
             targetValue:"",
-            currentValue:""
+            currentValue:"",
+            showNotes:true,
+            textEditorData:"",
+            characterCount:"",
+           
         }
         this.props.disableMenu(false);
     }
+
 
     showTextEditor = ()=>{
         this.setState({
@@ -69,6 +82,20 @@ class QuestionnairePage extends React.Component{
         
     }
     
+    setWrapperRef = (node) => {
+        this.wrapperRef = node;
+    }
+
+
+    handleClickOutside = (event) =>{
+        if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+          this.setState({
+              showTextEditor:false,
+              showNotes:true
+          })
+        }
+      }
+
 
     setCurrentValue = currentValue =>{
         this.setState({
@@ -89,17 +116,47 @@ class QuestionnairePage extends React.Component{
     }
 
 
+    submitNotes = ()=>{
+        this.setState({
+            showTextEditor:false,
+            showNotes:true
+        })
+    }
+
+
     focusInput = async()=>{
         await this.setState({
             showTextEditor:true
         })
-        document.getElementsByClassName("MUIRichTextEditor-editorContainer-98")[0].scrollIntoView({behaviour:"smooth"});
-        document.getElementsByClassName("MUIRichTextEditor-editorContainer-98")[0].click();
+        document.getElementsByClassName("notes-editor-area")[0].scrollIntoView({behaviour:"smooth"});
+        document.getElementsByClassName("notes-editor-area")[0].click();
     }
 
 
+    textAreaClick = (e)=>{
+        let textAreaText = e.target.innerHTML;
+        this.setState({
+            showTextEditor:true,
+            textEditorData:(textAreaText),
+            showNotes:false
+        })
+
+    }
+
+    textAreaValue = (e)=>{
+        this.setState({
+            textAreaNotesValue : e.target.value
+        })
+    }
+
     componentDidMount = ()=>{
         this.getSubCapability();
+        document.addEventListener('mousedown', this.handleClickOutside);
+    }
+
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
     }
 
 
@@ -113,10 +170,11 @@ class QuestionnairePage extends React.Component{
             <div className="questions-and-targets">
                 <GeneralQuestions flagQuestions={this.focusInput}/>
                 <span className="targets">
-                <TargetSelect setCurrentValue={this.setCurrentValue} setTargetValue={this.setTargetValue}/>
+                <TargetSelect current={"current3"} target={"target2"} setCurrentValue={this.setCurrentValue} setTargetValue={this.setTargetValue}/>
                 <div className="button-group">
-                <FormNavigationButton labelName="Continue" />
                 <SaveandExitButton labelName="Save and Exit" />
+                <FormNavigationButton labelName="Continue" />
+                
                 </div>
                 </span>
             </div>
@@ -142,12 +200,16 @@ class QuestionnairePage extends React.Component{
             <div className="bottom-border"></div>
             <div className = "notes-container">
                 <div className="notes-title">Notes</div>
-                <div className="text-area">
+                <div className="text-area" ref={this.setWrapperRef}>
                    {!this.state.showTextEditor&&<CustomButton  imgSrc={addIcon} clickFunction={this.showTextEditor}/>}
-                    {this.state.showTextEditor&&<TextEditor/>}
+                    {this.state.showTextEditor&&<TextEditor  textAreaValue={this.textAreaValue} value={this.state.textEditorData}/>}
                 </div>
-                
+                <div className="character-count-submit">
+                {this.state.showTextEditor&&<div className="character-count">{}/3000 characters</div>}
+                {this.state.showTextEditor&&<FormNavigationButton labelName="Submit" onClick={this.submitNotes}/>}
+                </div>
             </div>
+                {this.state.showNotes&&<NotesComponent textAreaClick={this.textAreaClick}/>}
             </div>
         )
     }

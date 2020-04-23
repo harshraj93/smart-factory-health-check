@@ -10,8 +10,8 @@ import './target-select.scss';
 // let ratings = [1,2,3,4,5,6,7]
 export default function TargetSelect(props) {
 
-    const [selectedValue1, setSelectedValue1] = React.useState("a");
-    const [selectedValue, setSelectedValue] = React.useState("a");
+    const [selectedValue1, setSelectedValue1] = React.useState(props.current);
+    const [selectedValue, setSelectedValue] = React.useState(props.target);
     const handleChangeCurrent = (event) => {
         let value = event.target.value;
         value = value[value.length-1];
@@ -24,14 +24,12 @@ export default function TargetSelect(props) {
         setSelectedValue(event.target.value);
         selectedValue?props.setTargetValue(value):props.setTargetValue("")
       };
-
-    
     return (
       <>
 
       <FormControl component="currentfieldset">
         <FormLabel component="legend" color="">Current</FormLabel>
-        <RadioGroup row aria-label="current" name="current"  onChange={handleChangeCurrent}>
+        <RadioGroup row aria-label="current" name="current" defaultChecked={props.current}  onChange={handleChangeCurrent}>
             <FormControlLabel
             checked={selectedValue1 === "current1"}
             value="current1"
@@ -96,7 +94,7 @@ export default function TargetSelect(props) {
         </FormControl>
         <FormControl component="targetfieldset">
         <FormLabel component="legend" style={{marginTop:"45px"}}>Target</FormLabel>
-        <RadioGroup row aria-label="Target" name="Target" onChange={handleChangeTarget}>
+        <RadioGroup row aria-label="Target" name="Target" value={props.target} onChange={handleChangeTarget}>
           <FormControlLabel
             checked={selectedValue === "target1"}
             value="target1"
