@@ -64,6 +64,47 @@ let data = [
                         ]
                     }
                 ]
+            },
+            {
+                name: "Capability 2",
+                noOfNotes: 3,
+                subCapabilities:[ 
+                    {
+                        name: "Sub-capability 1",
+                        current: 4,
+                        target: 6,
+                        notes: [
+                            {
+                                flag: false,
+                                userName: "Bryan Takayama",
+                                time: "11:35AM",
+                                date: "12/02/2019",
+                                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna. "
+                            }
+                        ]
+                    },
+                    {
+                        name: "Sub-Capability 2",
+                        current: 5,
+                        target: 6,
+                        notes: [
+                            {
+                                flag: false,
+                                userName: "Laura Sofía Ureña",
+                                time: "11:35AM",
+                                date: "12/02/2019",
+                                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna. "
+                            },
+                            {
+                                flag: false,
+                                userName: "Emelda Scandroot",
+                                time: "11:35AM",
+                                date: "12/02/2019",
+                                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna. "
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }
@@ -114,54 +155,59 @@ class Notes extends React.Component {
                                         <Accordion.Toggle as={Card.Header} className={"cap-card-header "+(this.state.arrayIndexCap===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleCapClick(e,value)}>
                                             <div className="capability-card" key={y}>
                                                 <span className="area-name">{x.name}</span>
-                                                <span className="number-tag">{x.noOfNotes} notes</span>
+                                                <span className="number-tag">{x.noOfNotes} Notes</span>
                                             </div>
                                             <img className="drop-down" src={DropDownImg} alt="" ></img>
                                         </Accordion.Toggle>
                                         <Accordion.Collapse eventKey={y}>
-                                            <div className="sub-cap">
-                                                <span className="sub-cap-header">{x.name}</span>
-                                                <div className="sub-cap-content">
-                                                    <div className="scores">
-                                                        <div className="score-block">
-                                                            <p className="score-number">{x.current}</p>
-                                                            <p className="score-text">Current</p>
+                                            <div>
+                                            {x.subCapabilities.map((i,j) => {
+                                                return(
+                                                <div className="sub-cap">
+                                                    <span className="sub-cap-header">{i.name}</span>
+                                                    <div className="sub-cap-content">
+                                                        <div className="scores">
+                                                            <div className="score-block">
+                                                                <p className="score-number">{i.current}</p>
+                                                                <p className="score-text">Current</p>
+                                                            </div>
+                                                            <span className="verti-line"></span>
+                                                            <div className="score-block">
+                                                                <p className="score-number">{i.target}</p>
+                                                                <p className="score-text">Target</p>
+                                                            </div>
                                                         </div>
-                                                        <span className="verti-line"></span>
-                                                        <div className="score-block">
-                                                            <p className="score-number">{x.target}</p>
-                                                            <p className="score-text">Target</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="notes">
-                                                        {x.subCapabilities.map((i, j) => {
-                                                            return(
-                                                                <div>
-                                                                    <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                                                                        <div className="notes-block">
-                                                                            <div className="notes-header">
-                                                                                <div className="context">
-                                                                                    {i.flag?<img src={FlagImg} alt=""/>:""}
-                                                                                    <span className="user-name">{i.userName}</span>
+                                                        <div className="notes">
+                                                            {i.notes.map((m, n) => {
+                                                                return(
+                                                                    <div>
+                                                                        <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                                                            <div className="notes-block">
+                                                                                <div className="notes-header">
+                                                                                    <div className="context">
+                                                                                        {m.flag?<img src={FlagImg} alt="" style={{marginRight: "10px"}}/>:""}
+                                                                                        <span className="user-name">{m.userName}</span>
+                                                                                    </div>
+                                                                                    <div className="date-time">
+                                                                                        <p>{m.time}</p>
+                                                                                        <p>{m.date}</p>
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div className="date-time">
-                                                                                    <p>{i.time}</p>
-                                                                                    <p>{i.date}</p>
+                                                                                <div className="notes-content">
+                                                                                    <p>{m.text}</p>
                                                                                 </div>
                                                                             </div>
-                                                                            <div className="notes-content">
-                                                                                <p>{i.text}</p>
-                                                                            </div>
+                                                                            <img className="right-arrow" src={DropDownImg} alt="" ></img>
                                                                         </div>
-                                                                        <img className="right-arrow" src={DropDownImg} alt="" ></img>
+                                                                        {n<i.notes.length-1?<span className="notes-bottom-line"></span>:""}
                                                                     </div>
-                                                                    {j<x.subCapabilities.length-1?<span className="notes-bottom-line"></span>:""}
-                                                                </div>
-                                                            )
-                                                        })}
+                                                                )
+                                                            })}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                {y<data.capabilities.length-1?<span className="subCap-bottom-line"></span>:""}
+                                                    {j<x.subCapabilities.length-1?<span className="subCap-bottom-line"></span>:""}
+                                                </div>)
+                                            })}
                                             </div>
                                         </Accordion.Collapse>
                                     </Card>
