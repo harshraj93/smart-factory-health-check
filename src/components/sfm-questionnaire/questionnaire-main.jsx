@@ -22,6 +22,27 @@ let questions=["What data is used to identify areas of improvement?",
 "How our CI systems integrated with production systems?",
 
 "How long is data kept available (e.g., not archived)?"]
+let notesData = [
+    {
+        "type": "LOW",
+        "text": "Notes by user.",
+        "userId": "2019",
+        "userName": "Brian Takayama"
+    },
+    {
+        "type": null,
+        "text": "Notes by user.",
+        "userId": "2019",
+        "userName": "Brian Takayama"
+    },
+    {
+        "type": "GENERAL",
+        "text": "This General Question has been flagged because it doesnt make sense in context to the Business function and capability. This is just placeholder copy, but allows for the flag to have a specific note to provide a reason for the flag. ",
+        "userId": "2019",
+        "userName": "Brian Takayama"
+    }
+  ]
+
 
 function QuestionnaireHeader(props){
     
@@ -208,6 +229,11 @@ class QuestionnairePage extends React.Component{
                 {this.state.showTextEditor&&<div className="character-count">{}/3000 characters</div>}
                 {this.state.showTextEditor&&<FormNavigationButton labelName="Submit" onClick={this.submitNotes}/>}
                 </div>
+                {notesData.map((data, index) => {
+                    return(
+                        <TextEditor data={data}/>
+                    )
+                })}
             </div>
                 {this.state.showNotes&&<NotesComponent textAreaClick={this.textAreaClick}/>}
             </div>

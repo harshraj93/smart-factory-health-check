@@ -1,0 +1,188 @@
+@import '../../../SCSS/config';
+
+.notes-accordion {
+    width: 100%;
+    height: 100%;
+    padding: 5%;
+    padding-top: 2.6%;
+    .card {
+        background-color:none;
+        border: unset;
+        width: 100%;
+        margin-bottom: 0px !important;
+        border-bottom: solid 1px #35353b;
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-top: $common-margin !important;
+            border-radius:$border-radius ;
+            width: 100%;
+            padding: 16px 32px;
+
+            &.true {
+                .drop-down{
+                    transform:rotate(180deg);
+                    transition-duration: 0.3s;
+                    transition-timing-function: linear;
+                }
+            }
+
+            .notes-top-card {
+                display: flex;
+                align-items: center;
+
+                .area-name {
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin: 0;
+                }
+
+                .btn.btn-link{
+                    position: unset;
+                    // left: 95%;
+                    .dropdown-icon{
+                        font-size: $font-least-fontSize;
+                    }
+                }
+            }
+        }
+
+        .collapse,.collapsing,.collapse-show {
+            .card {
+                border-radius: $border-radius !important;
+                background-color:unset;
+                border: unset;
+                width: 100%;
+                margin-bottom: 0px !important;
+                .cap-card-header {
+                    display: flex;
+                    align-items: center;
+                    margin-top: $common-margin !important;
+                    border-radius:$border-radius ;
+                    width: 100%;
+                    .capability-card {
+                        display: flex;
+                        align-items: center;
+                        background-color: $accordion-dark-background;
+
+                        .area-name {
+                            width: 139px;
+                            font-size: 18px;
+                            font-weight: 600;
+                        }
+
+                        .number-tag {
+                            font-size: 12px;
+                            padding: 3px 6px;
+                            border-radius: 4px;
+                            background-color: #232325;
+                        }
+                    }
+
+                    .btn.btn-link{
+                        position: unset;
+                        // left: 95%;
+                        .dropdown-icon{
+                            font-size: $font-least-fontSize;
+                        }
+                    }
+                }
+
+                .collapse,.collapsing,.collapse-show {
+                    .sub-cap {
+                        background-color: #232325;
+                        border-bottom: solid 1px #dedede;
+                        padding: 20px 24px;
+                        .sub-cap-header {
+                            font-size: 18px;
+                            font-weight: 600;
+                            color: #ffffff;
+                            margin-bottom: 24px;
+                        }
+                        .sub-cap-content {
+                            display: flex;
+
+                            .scores {
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                background-color: #161617;
+                                border-radius: 4px;
+                                padding: 12px 24px;
+                                margin-right: 32px;
+                                .score-block {
+                                    .score-number {
+                                        font-size: 24px;
+                                        font-weight: bold;
+                                        margin-bottom: 5px;
+                                    }
+
+                                    .score-text {
+                                        font-size: 24px;
+                                    }
+                                }
+
+                                .verti-line {
+                                    background-color: #35353b;
+                                    width: 1px;
+                                    height: 100%;
+                                    // margin: 0 24px;
+                                }
+                            }
+
+                            .notes {
+                                .notes-block {
+                                    // border-bottom: solid 1px #35353b;
+                                    width: 60.85vw;
+                                    .notes-header {
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                        .context {
+                                            display: flex;
+                                            align-items: center;
+                                            .user-name {
+                                                font-size: 14px;
+                                                font-weight: bold;
+                                            }
+                                        }
+
+                                        .date-time {
+                                            display: flex;
+                                            color: #dedede;
+                                            font-size: 12px;
+                                            p {
+                                                margin-right: 13px;
+                                            }
+                                        }
+                                    }
+
+                                    .notes-content {
+                                        font-size: 14px;
+                                        height: 60px;
+                                        width: 100%;
+                                    }
+                                }
+
+                                .right-arrow {
+                                    transform: rotate(-90deg);
+                                }
+
+                                .notes-bottom-line {
+                                    background-color: #35353b;
+                                    height: 1px;
+                                    width: 60.85vw;
+                                }
+                            }
+                        }
+
+                        .subCap-bottom-line {
+                            background-color: #35353b;
+                            height: 1px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

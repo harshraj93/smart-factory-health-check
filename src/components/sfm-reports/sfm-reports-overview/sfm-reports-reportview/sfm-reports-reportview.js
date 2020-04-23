@@ -50,14 +50,18 @@ class ReportsCardView extends React.Component {
                                 <div>
                                     {data.parts.map((x,y) => {
                                         return (
-                                            <div className="reportview-card" key={y}>
-                                                <span className="area-name">{x.name}</span>
-                                                <span className="circle" style={{backgroundColor: "#35353b"}}></span>
-                                                <p className="score">{Number(x.score).toFixed(1)}</p>
-                                                <span className="circle" style={{backgroundColor: this.circleColor((x.target - x.score).toFixed(1))}}></span>
-                                                <p className="score">{Number(x.target).toFixed(1)}</p>
-                                                <p className="score">{(x.target - x.score).toFixed(1)}</p>
-                                                <p className="score">{Number(x.indAvg).toFixed(1)}</p>
+                                            <div>
+                                                <div className="reportview-card" key={y}>
+                                                    <span className="area-name">{x.name}</span>
+                                                    <span className="circle" style={{backgroundColor: "#35353b"}}></span>
+                                                    <span className="vertical-line"></span>
+                                                    <p className="score">{Number(x.score).toFixed(1)}</p>
+                                                    <span className="circle" style={{backgroundColor: this.circleColor((x.target - x.score).toFixed(1))}}></span>
+                                                    <p className="score">{Number(x.target).toFixed(1)}</p>
+                                                    <p className="score">{(x.target - x.score).toFixed(1)}</p>
+                                                    <p className="score">{Number(x.indAvg).toFixed(1)}</p>
+                                                </div>
+                                                {y<data.parts.length-1?<span className="repCard-bottom-line"></span>:""}
                                             </div>
                                         )
                                     })}

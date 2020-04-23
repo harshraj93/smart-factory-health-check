@@ -10,6 +10,7 @@ import DeleteIcon from '../../images/combined-shape.svg';
 import ReportsOverview from './sfm-reports-overview/sfm-reports-overview';
 import DemographicsForm from './sfm-reports-demographics/demographics-form';
 import AssessmentsOverview from './sfm-assessments-overview/sfm-assessments-overview';
+import Notes from './sfm-notes/sfm-notes';
 import SiteInfo from './sfm-assessments-site-info/sfm-assessments-site-info';
 import ClientInfo from './sfm-assessments-client-info/sfm-assessments-client-info';
 import {withRouter} from 'react-router-dom';
@@ -149,7 +150,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?"":(element==="Site Info"?<SiteInfo data={this.state.assessBody} disableMenu={this.props.disableMenu}/>:<ClientInfo disableMenu={this.props.disableMenu}/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes/>:(element==="Site Info"?<SiteInfo data={this.state.assessBody} disableMenu={this.props.disableMenu}/>:<ClientInfo disableMenu={this.props.disableMenu}/>))}
                             </Tab>
                         )
                     })}
@@ -245,6 +246,7 @@ class Reports extends React.Component{
             overviewData.clientName = this.props.location.companyName;
             overviewData.siteName = this.props.location.locationString;
             overviewData.sector = this.props.location.industryType;
+            overviewData.siteid = this.props.location.siteid;
         }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
