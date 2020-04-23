@@ -18,7 +18,7 @@ export default class TextEditor extends React.Component{
         return(
             <div className="notes-card">
                 <div className="notes-card-header">
-                    {this.props.data.flag!==null?<img src={FlagImg} alt="" style={{marginTop: "2.5px", marginRight: "10px"}}></img>:""}
+                    {this.props.data.type!==null?<img src={FlagImg} alt="" style={{marginTop: "2.5px", marginRight: "10px"}}></img>:""}
                     <div className="header-block">
                         <span className="user-name">{this.props.data.userName}</span>
                         <div className="date-time">
