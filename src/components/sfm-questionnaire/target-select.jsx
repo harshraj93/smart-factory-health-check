@@ -9,9 +9,10 @@ import './target-select.scss';
 
 // let ratings = [1,2,3,4,5,6,7]
 export default function TargetSelect(props) {
-
+    console.log(props);
     const [selectedValue1, setSelectedValue1] = React.useState(props.current);
     const [selectedValue, setSelectedValue] = React.useState(props.target);
+    
     const handleChangeCurrent = (event) => {
         let value = event.target.value;
         value = value[value.length-1];
@@ -24,12 +25,13 @@ export default function TargetSelect(props) {
         setSelectedValue(event.target.value);
         selectedValue?props.setTargetValue(value):props.setTargetValue("")
       };
+      console.log(selectedValue,selectedValue1);
     return (
       <>
 
       <FormControl component="currentfieldset">
         <FormLabel component="legend" color="">Current</FormLabel>
-        <RadioGroup row aria-label="current" name="current" defaultChecked={props.current}  onChange={handleChangeCurrent}>
+        <RadioGroup row aria-label="current" name="current" value={props.current}  onChange={handleChangeCurrent}>
             <FormControlLabel
             checked={selectedValue1 === "current1"}
             value="current1"

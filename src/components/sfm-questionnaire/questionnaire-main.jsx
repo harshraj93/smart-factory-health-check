@@ -17,13 +17,7 @@ let scoring = {
             "High (6)":"Improvement projects are identified and launched based on system based data-driven, quantitative analysis of key business drivers. Detailed system based tracking and analysis of project progress in place, feedback loop in place. Existence of a Digital Agenda to guide ongoing digital projects. Use of a Digital Foundry to drive multi-disciplinary solution and application approach."
             };
 
-// let questions=["What data is used to identify areas of improvement?", 
 
-// "What systems and analysis are leveraged to priorities and assess improvement projects?",
-
-// "How our CI systems integrated with production systems?",
-
-// "How long is data kept available (e.g., not archived)?"]
 
 let subCapabilitiesArray = [];
 // let notesData = [
@@ -54,10 +48,10 @@ function QuestionnaireHeader(props){
             <div className="header-container">
                 <div className="questionnaire-column">
                 <div className="questionnaire-title">
-                    {props.title}
+                    {props.data.title}
                 </div>
-                <div className="capabilities-text">Capabilities</div>
-                <div className="sub-capabilities-text">Sub Capabilities (2 of 7)</div>
+                <div className="capabilities-text">{props.data.Capabilities}</div>
+                <div className="sub-capabilities-text">{props.data.subCapabilities} ({props.data.subCapabilityNum} of {subCapabilitiesArray.length})</div>
                 </div>
                 <div className="progress-bar-column">
                 <div className="progress-bar">
@@ -66,11 +60,11 @@ function QuestionnaireHeader(props){
                 </div>
                 <div className="impact-area">
                     <span className="impact-area-text">OEE Impact Area:</span>
-                    <span className="number-text">All 3</span>
+                    <span className="number-text">{props.data.oeeAddressArea}</span>
                 </div>
                 <div className="degree-impact-area">
                     <span className="oee-impact-area-text">Degree of OEE impact:</span>
-                    <span className="number-text">Uncertain</span>
+                    <span className="number-text">{props.data.oeeImpact}</span>
                 </div>
              </div>
              </div>
@@ -94,9 +88,10 @@ class QuestionnairePage extends React.Component{
             characterCount:"",
             headerValues:{},
             checkBoxValues:{},
-            questions:{},
+            questions:[],
             scoringDetails:{},
-            notesDetails:{}
+            notesDetails:[],
+            arrayIndex:0
         }
         this.props.disableMenu(false);
     }
@@ -139,79 +134,63 @@ class QuestionnairePage extends React.Component{
         })
     }
 
+    parseQuestionnaire = async(questionnaireResponse)=>{
+        console.log(questionnaireResponse);
+        let headerValues={
+            title:subCapabilitiesArray[this.state.arrayIndex].businessFunctionName,
+            Capabilities:subCapabilitiesArray[this.state.arrayIndex].capabilityName,
+            subCapabilities:subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
+            subCapabilityNum:this.state.arrayIndex+1,
+            progress:"",
+            oeeAddressArea:subCapabilitiesArray[this.state.arrayIndex].oeeAddressArea,
+            oeeImpact:subCapabilitiesArray[this.state.arrayIndex].oeeImpact
+        };
+
+        let checkBoxValues={
+            targetChecked:questionnaireResponse.targetLevel,
+            currentChecked:questionnaireResponse.currentLevel
+        };
+
+    
+         let questionsArray=questionnaireResponse.questions
+        
+
+        let scoringDetails={
+            "Low(2)":questionnaireResponse.low,
+            "Medium(4)":questionnaireResponse.medium,
+            "High(6)":questionnaireResponse.high
+        };
+
+        let notesDetails=questionnaireResponse.Notes
+
+        console.log(checkBoxValues,questionsArray);  
+        await this.setState(function(prevState,props){
+            
+            return{
+            headerValues:headerValues,
+            checkBoxValues:checkBoxValues,
+            questions:questionsArray,
+            scoringDetails:scoringDetails,
+            notesDetails:notesDetails,
+            }
+        })
+    }
 
     getQuestionnaire = async()=>{
+        
         fetch(
-            questionnaire.getQuestionnaire+`?clientAssessmentId=${subCapabilitiesArray[this.state.arrayIndex].assessmentId}`,
+            questionnaire.getQuestionnaire+`?clientAssessmentId=${subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId}`,
             apiGetHeader
             )
             .then(resp=>resp.json())
-            .then(resp=>console.log(resp))
-
-        let headerValues={
-            title:"",
-            Capabilities:"",
-            subCapabilities:"",
-            progress:"",
-            oeeAddressArea:"",
-            oeeImpact:""
-        };
-        let checkBoxValues={
-            targetChecked:"",
-            currentChecked:""
-        };
-        let questions={
-            questionsArray:[]
-        };
-        let scoringDetails={
-            "Low(2)":"",
-            "Medium(4)":"",
-            "High(6)":""
-
-        };
-        let notesDetails=
-            [
-                    {
-                        "type": "LOW",
-                        "text": "Notes by user.",
-                        "userId": "2019",
-                        "userName": "Brian Takayama"
-                    },
-                    {
-                        "type": null,
-                        "text": "Notes by user.",
-                        "userId": "2019",
-                        "userName": "Brian Takayama"
-                    },
-                    {
-                        "type": "GENERAL",
-                        "text": "This General Question has been flagged because it doesnt make sense in context to the Business function and capability. This is just placeholder copy, but allows for the flag to have a specific note to provide a reason for the flag. ",
-                        "userId": "2019",
-                        "userName": "Brian Takayama"
-                    }
-                  ];
-        
-        await this.setState({
-            headerValues:headerValues,
-            checkBoxValues:checkBoxValues,
-            questions:questions,
-            scoringDetails:scoringDetails,
-            notesDetails:notesDetails,
-            arrayIndex:0
-        })
-        
-
-    }
+            .then(resp=>this.parseQuestionnaire(resp))
+}
 
 
     parseSubCapabilities = (resp)=>{
-        resp.forEach(subCapabilities=>{
-            subCapabilitiesArray.push({
-                "assessmentId": subCapabilities.assessmentId,
-                "subcapabilityName": subCapabilities.subcapabilityName,
-            })
-        })
-    // this.getQuestionnaire()
+        subCapabilitiesArray = resp;
+        
+     this.getQuestionnaire()
     }
 
 
@@ -223,11 +202,29 @@ class QuestionnairePage extends React.Component{
 
 
     submitNotes = ()=>{
-        this.setState({
-            showTextEditor:false,
-            showNotes:true,
-            textEditorData:""
-        })
+        let notesSubmission =  {
+            "clientAssessmentId": subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId,
+            "resourceId": "RES_1",
+            "note": this.state.textEditorData,
+            "timestamp": Date.now(),
+            "flagType": "Low"
+        }
+        apiPostHeader.body = JSON.stringify(notesSubmission);
+        fetch(questionnaire.addAssessmentNote,apiPostHeader)
+            .fetch(resp=>resp.json())
+            .fetch(resp=>{
+                if(resp.resultantJSON.successMsg){
+                    this.setState({
+                        showTextEditor:false,
+                        showNotes:true,
+                        textEditorData:""
+                    })
+                }
+                else{
+                    console.log("errored out notes")
+                }
+            })   
+        
     }
 
 
@@ -274,21 +271,26 @@ class QuestionnairePage extends React.Component{
             "currentLevel":this.state.currentValue?this.state.currentValue:-1,
             "targetLevel":this.state.targetValue?this.state.targetValue:-1,
             "subCapability":subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
-            //"siteid":this.props.location.
+            "siteid":"ST_49"
             }
         apiPostHeader.body = JSON.stringify(saveAssessment);
+        
         fetch(questionnaire.saveAssessment,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{
-                if(resp.success){
+                console.log(resp)
+                if(resp.successMsg){
                     this.setState(function(prevState,props){
                         return{arrayIndex:prevState.arrayIndex+1}
                     })
+                    
+                    this.getQuestionnaire()
                 }
                 else{
                     console.log("errored out")
                 }
             })
+            
      }
 
 
@@ -305,7 +307,7 @@ class QuestionnairePage extends React.Component{
             .then(resp=>{
                 if(resp.success){
                     this.history.push({
-                        pathname:"reports",
+                        pathname:"/reports",
                         state:{
                             locationString:"assessments"
                         }
@@ -344,7 +346,7 @@ class QuestionnairePage extends React.Component{
             <div className="scoring">
                 <div className="scoring-text-main">Scoring</div>
                 <div className="scoring-text-main-container">
-                {Object.keys(scoring).map((element,index)=>{
+                {Object.keys(this.state.scoringDetails).map((element,index)=>{
                     return(
                     <div className="scoring-text-container" key={index}>
                     <div className="scoring-range">
@@ -352,7 +354,7 @@ class QuestionnairePage extends React.Component{
                         <span className="flag-button"><CustomButton imgSrc={flagIcon} clickFunction={this.focusInput}/></span>
                     </div>
                     <div className="scoring-info">
-                        {scoring[element]}
+                        {this.state.scoringDetails[element]}
                     </div>
                     </div>
                     )
@@ -363,8 +365,8 @@ class QuestionnairePage extends React.Component{
             <div className = "notes-container">
                 <div className="notes-title">Notes</div>
                 <div className="text-area" ref={this.setWrapperRef}>
-                   {!this.state.showTextEditor&&<CustomButton  imgSrc={addIcon} clickFunction={this.showTextEditor}/>}
-                    {this.state.showTextEditor&&<TextEditor  textAreaValue={this.textAreaValue} value={this.state.textEditorData}/>}
+                   {!this.state.showTextEditor&&<CustomButton imgSrc={addIcon} clickFunction={this.showTextEditor}/>}
+                    {this.state.showTextEditor&&<TextEditor textAreaValue={this.textAreaValue} value={this.state.textEditorData}/>}
                 </div>
                 <div className="character-count-submit">
                 {this.state.showTextEditor&&<div className="character-count">{this.state.textArealength}/3000 characters</div>}
@@ -376,7 +378,11 @@ class QuestionnairePage extends React.Component{
                     )
                 })} */}
             </div>
-                {this.state.showNotes&&<NotesComponent textAreaClick={this.textAreaClick}/>}
+                {this.state.notesDetails?this.state.showNotes&&this.state.notesDetails.map(element=>{
+                    return(
+                    <NotesComponent data={element} textAreaClick={this.textAreaClick}/>
+                    )
+                }):""}
             </div>
         )
     }

@@ -7,15 +7,22 @@ export default class NotesComponent extends React.Component{
 
         }
     }
+    parseDateTime = (dateData)=>{
 
+        let date=new Date(dateData);
+        console.log(date)
+        return date.toISOString().substring(0, 10);
+        
+    }
 
     render(){
+        console.log(this.props.data)
         return(
             <div className="notes-container">
             {/* {this.props.data.flag!==null?<img src={FlagImg} alt="" style={{marginTop: "2.5px", marginRight: "10px"}}></img>:""} */}
-                <div className="name">Bryan Takayama</div>
-                <div className="date-time"><span className="time">11:40</span><span className="date">02/01/2020</span></div>
-                <div className="text-area-notes" onClick={this.props.textAreaClick}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna. </div>
+                <div className="name">{this.props.data.resourceName}</div>
+                <div className="date-time"><span className="time">11:40</span><span className="date">{this.parseDateTime(this.props.data.timestamp)}</span></div>
+                <div className="text-area-notes" onClick={this.props.textAreaClick}>{this.props.data.notes}</div>
             </div>
         )
     }
