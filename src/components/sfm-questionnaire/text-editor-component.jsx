@@ -73,7 +73,7 @@ export default class TextEditor extends React.Component{
             //     value={JSON.parse(this.props.value)}
             // />
             // </MuiThemeProvider>
-            <textarea className="notes-editor-area" onChange={(e)=>this.props.textAreaValue(e)} placeholder="Type Something Here" defaultValue={this.props.value}></textarea>
+            <textarea className="notes-editor-area" placeholder={"Type Something Here...."} onChange={(e)=>this.props.textAreaValue(e)} defaultValue={this.props.value}></textarea>
            
             
         )

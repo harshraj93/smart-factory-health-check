@@ -9,6 +9,8 @@ import addIcon from '../../images/icon-small-add-black.svg';
 import TextEditor from './text-editor-component';
 import TargetSelect from './target-select';
 import NotesComponent from './notes-component';
+import questionnaire from '../../api/questionnaire/questionnaire';
+import {apiGetHeader,apiPostHeader} from '../../api/main/mainapistorage';
 let scoring = {
             "Low (2)":"Limited and independent data leveraged to identify areas of improvement at high level. No detailed system analysis performed to prioritize and track/monitor improvements.",
             "Medium (4)":"Improvement projects are launched based on data-driven, quantitative analysis of key business drivers. High level system based tracking and analysis of progress in place",
@@ -22,6 +24,8 @@ let scoring = {
 // "How our CI systems integrated with production systems?",
 
 // "How long is data kept available (e.g., not archived)?"]
+
+let subCapabilitiesArray = [];
 // let notesData = [
 //     {
 //         "type": "LOW",
@@ -77,8 +81,6 @@ function QuestionnaireHeader(props){
 }
 
 
-
-
 class QuestionnairePage extends React.Component{
     constructor(props){
         super(props);
@@ -90,7 +92,11 @@ class QuestionnairePage extends React.Component{
             showNotes:true,
             textEditorData:"",
             characterCount:"",
-           
+            headerValues:{},
+            checkBoxValues:{},
+            questions:{},
+            scoringDetails:{},
+            notesDetails:{}
         }
         this.props.disableMenu(false);
     }
@@ -103,7 +109,8 @@ class QuestionnairePage extends React.Component{
         })
         
     }
-    
+
+
     setWrapperRef = (node) => {
         this.wrapperRef = node;
     }
@@ -133,8 +140,85 @@ class QuestionnairePage extends React.Component{
     }
 
 
-    getSubCapability = ()=>{
+    getQuestionnaire = async()=>{
+        fetch(
+            questionnaire.getQuestionnaire+`?clientAssessmentId=${subCapabilitiesArray[this.state.arrayIndex].assessmentId}`,
+            apiGetHeader
+            )
+            .then(resp=>resp.json())
+            .then(resp=>console.log(resp))
+
+        let headerValues={
+            title:"",
+            Capabilities:"",
+            subCapabilities:"",
+            progress:"",
+            oeeAddressArea:"",
+            oeeImpact:""
+        };
+        let checkBoxValues={
+            targetChecked:"",
+            currentChecked:""
+        };
+        let questions={
+            questionsArray:[]
+        };
+        let scoringDetails={
+            "Low(2)":"",
+            "Medium(4)":"",
+            "High(6)":""
+
+        };
+        let notesDetails=
+            [
+                    {
+                        "type": "LOW",
+                        "text": "Notes by user.",
+                        "userId": "2019",
+                        "userName": "Brian Takayama"
+                    },
+                    {
+                        "type": null,
+                        "text": "Notes by user.",
+                        "userId": "2019",
+                        "userName": "Brian Takayama"
+                    },
+                    {
+                        "type": "GENERAL",
+                        "text": "This General Question has been flagged because it doesnt make sense in context to the Business function and capability. This is just placeholder copy, but allows for the flag to have a specific note to provide a reason for the flag. ",
+                        "userId": "2019",
+                        "userName": "Brian Takayama"
+                    }
+                  ];
         
+        await this.setState({
+            headerValues:headerValues,
+            checkBoxValues:checkBoxValues,
+            questions:questions,
+            scoringDetails:scoringDetails,
+            notesDetails:notesDetails,
+            arrayIndex:0
+        })
+        
+
+    }
+
+
+    parseSubCapabilities = (resp)=>{
+        resp.forEach(subCapabilities=>{
+            subCapabilitiesArray.push({
+                "assessmentId": subCapabilities.assessmentId,
+                "subcapabilityName": subCapabilities.subcapabilityName,
+            })
+        })
+    // this.getQuestionnaire()
+    }
+
+
+    getSubCapability = ()=>{
+        fetch(questionnaire.getCapabilities+"?siteId=ST_49&businessfunctionId=Continuous Improvement&capabilityId=Manage CI",apiGetHeader)
+        .then(resp=>resp.json())
+        .then(resp=>this.parseSubCapabilities(resp))
     }
 
 
@@ -167,8 +251,10 @@ class QuestionnairePage extends React.Component{
     }
 
     textAreaValue = (e)=>{
+       
         this.setState({
-            textAreaNotesValue : e.target.value
+            textAreaNotesValue : e.target.value,
+            textArealength:e.target.value.length
         })
     }
 
@@ -183,20 +269,73 @@ class QuestionnairePage extends React.Component{
     }
 
 
+    continueNav = ()=>{
+        let saveAssessment = {
+            "currentLevel":this.state.currentValue?this.state.currentValue:-1,
+            "targetLevel":this.state.targetValue?this.state.targetValue:-1,
+            "subCapability":subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
+            //"siteid":this.props.location.
+            }
+        apiPostHeader.body = JSON.stringify(saveAssessment);
+        fetch(questionnaire.saveAssessment,apiPostHeader)
+            .then(resp=>resp.json())
+            .then(resp=>{
+                if(resp.success){
+                    this.setState(function(prevState,props){
+                        return{arrayIndex:prevState.arrayIndex+1}
+                    })
+                }
+                else{
+                    console.log("errored out")
+                }
+            })
+     }
+
+
+    saveAndExit = ()=>{
+        let saveAssessment = {
+            "currentLevel":this.state.currentValue?this.state.currentValue:-1,
+            "targetLevel":this.state.targetValue?this.state.targetValue:-1,
+            "subCapability":subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
+            //"siteid":this.props.location.
+            }
+        apiPostHeader.body = JSON.stringify(saveAssessment);
+        fetch(questionnaire.saveAssessment,apiPostHeader)
+            .then(resp=>resp.json())
+            .then(resp=>{
+                if(resp.success){
+                    this.history.push({
+                        pathname:"reports",
+                        state:{
+                            locationString:"assessments"
+                        }
+                    })
+                }
+                else{
+                    console.log("errored out at save and exit")
+                }
+            })
+    }
+
+
     render(){
         return(
             <div className = "questionnaire-main-container">
-            <QuestionnaireHeader title="Business Functions"/>
+            <QuestionnaireHeader data={this.state.headerValues}/>
             <div className="navigation-button-group">
             <QuestionnaireNavigation labelName="Previous" customClass="prev"/><QuestionnaireNavigation labelName="Skip Question" />
             </div>
             <div className="questions-and-targets">
-                <GeneralQuestions flagQuestions={this.focusInput}/>
+                <GeneralQuestions data={this.state.questions} flagQuestions={this.focusInput}/>
                 <span className="targets">
-                <TargetSelect current={"current3"} target={"target2"} setCurrentValue={this.setCurrentValue} setTargetValue={this.setTargetValue}/>
+                <TargetSelect 
+                current={"current"+this.state.checkBoxValues.currentChecked} 
+                target={"target"+this.state.checkBoxValues.targetChecked} 
+                setCurrentValue={this.setCurrentValue} 
+                setTargetValue={this.setTargetValue}/>
                 <div className="button-group">
-                <SaveandExitButton labelName="Save and Exit" />
-                <FormNavigationButton labelName="Continue" />
+                <SaveandExitButton labelName="Save and Exit" onClick={this.saveAndExit}/>
+                <FormNavigationButton labelName="Continue" onClick={this.continueNav}/>
                 
                 </div>
                 </span>
@@ -228,7 +367,7 @@ class QuestionnairePage extends React.Component{
                     {this.state.showTextEditor&&<TextEditor  textAreaValue={this.textAreaValue} value={this.state.textEditorData}/>}
                 </div>
                 <div className="character-count-submit">
-                {this.state.showTextEditor&&<div className="character-count">{}/3000 characters</div>}
+                {this.state.showTextEditor&&<div className="character-count">{this.state.textArealength}/3000 characters</div>}
                 {this.state.showTextEditor&&<FormNavigationButton labelName="Submit" onClick={this.submitNotes}/>}
                 </div>
                 {/* {notesData.map((data, index) => {
