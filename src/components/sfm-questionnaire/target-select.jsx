@@ -11,7 +11,7 @@ import './target-select.scss';
 export default function TargetSelect(props) {
     const [selectedValue1, setSelectedValue1] = React.useState(props.current);
     const [selectedValue, setSelectedValue] = React.useState(props.target);
-    
+    //selectedValue1 = props.current;
     const handleChangeCurrent = (event) => {
         let value = event.target.value;
         value = value[value.length-1];

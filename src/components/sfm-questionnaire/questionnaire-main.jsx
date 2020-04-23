@@ -43,7 +43,6 @@ let subCapabilitiesArray = [];
 
 
 function QuestionnaireHeader(props){
-        console.log(props);
         return(
             <div className="header-container">
                 <div className="questionnaire-column">
