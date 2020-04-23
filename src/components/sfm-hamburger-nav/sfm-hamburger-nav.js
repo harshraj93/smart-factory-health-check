@@ -68,7 +68,7 @@ class HamburgerNav extends React.Component {
           }
         };
     
-        fetch('https://smartfactoryfabric-dev.auth.us-east-1.amazoncognito.com/oauth2/userInfo', obj)
+        fetch('https://sfhc.auth.us-east-1.amazoncognito.com/oauth2/userInfo', obj)
           .then(resp => resp.json())
           .then(
             (result) => {
@@ -86,7 +86,9 @@ class HamburgerNav extends React.Component {
             console.log(err)
         })
       }
-    
+    componentDidMount(){
+        this.triggerUserNameAndPassword();
+    }
     render() {
         return (
             
