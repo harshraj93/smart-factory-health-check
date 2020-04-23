@@ -26,7 +26,7 @@ export default function GeneralQuestions(props){
                 )
                 }
             </div>
-            <div className="flag-button"><CustomButton imgSrc={flagIcon} /></div>
+            <div className="flag-button"><CustomButton imgSrc={flagIcon} clickFunction={props.flagQuestions}/></div>
         </div>
     )
 }

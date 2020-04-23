@@ -1,0 +1,24 @@
+.notes-container{
+    .name{
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .date-time{
+        font-size: 12px;
+        font-weight: normal;
+        color: #dedede; 
+        .time{
+            margin-right: 16px;
+        }
+        
+    }
+    .text-area-notes{
+        background-color: #35353b;
+        padding: 24px 31px 24px 24px;
+        width: 50%;
+        background-color: #232325;
+        text-align: right;
+        border-radius: 8px;
+        margin-top: 16px;
+    }
+}

@@ -1,0 +1,55 @@
+.MuiFormControl-root{
+    width: 100% !important;
+    
+}
+.MuiFormLabel-root{
+    font-size: 18px !important;
+    font-weight: bold !important;
+    color: white !important;
+    padding-left: 8px;
+    margin-bottom: 16px;
+    font-size: 24px !important;
+    font-weight: bold !important;
+}
+.MuiTypography-body1{
+    font-size: 24px !important;
+    font-weight: bold !important;
+}
+.PrivateRadioButtonIcon-root-42{
+    color:#35353b !important;
+    &.PrivateRadioButtonIcon-checked-44{
+        color: green !important;
+    }
+}
+.MuiFormGroup-row{
+    width: 100% !important;
+}
+
+.MuiIconButton-label{
+.PrivateSwitchBase-input-29{
+   background-color: white;
+   //position: relative;
+   width: 100% !important;
+   z-index: 1;
+}
+
+.PrivateSwitchBase-input-29:after {
+    content: '';
+    border-bottom: 4px solid #ccc;
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate(0, -100%);
+    z-index: -1;
+}
+}
+
+.MuiFormControlLabel-labelPlacementTop{
+    margin-left: unset !important;
+    //margin-left: 20px !important;
+}
+.MuiFormControlLabel-root{
+    margin-left: unset !important;
+}

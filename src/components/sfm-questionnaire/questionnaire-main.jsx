@@ -1,13 +1,14 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import ProgressBar from 'react-bootstrap/ProgressBar'
-import {QuestionnaireNavigation,FormNavigationButton} from '../../assets/sfm-button';
+import {QuestionnaireNavigation,SaveandExitButton,FormNavigationButton} from '../../assets/sfm-button';
 import GeneralQuestions from './general-questions';
 import flagIcon from '../../images/icon-small-flagged-outline.svg';
 import {CustomButton} from '../../assets/sfm-button';
 import addIcon from '../../images/icon-small-add-black.svg';
 import TextEditor from './text-editor-component';
-
+import TargetSelect from './target-select';
+import NotesComponent from './notes-component';
 let scoring = {
             "Low (2)":"Limited and independent data leveraged to identify areas of improvement at high level. No detailed system analysis performed to prioritize and track/monitor improvements.",
             "Medium (4)":"Improvement projects are launched based on data-driven, quantitative analysis of key business drivers. High level system based tracking and analysis of progress in place",
@@ -19,22 +20,29 @@ let notesData = [
         "type": "LOW",
         "text": "Notes by user.",
         "userId": "2019",
-        "userName": "Brian Takayama"
+        "userName": "Bryan Takayama"
     },
     {
         "type": null,
         "text": "Notes by user.",
         "userId": "2019",
-        "userName": "Brian Takayama"
+        "userName": "Bryan Takayama"
     },
     {
         "type": "GENERAL",
         "text": "This General Question has been flagged because it doesnt make sense in context to the Business function and capability. This is just placeholder copy, but allows for the flag to have a specific note to provide a reason for the flag. ",
         "userId": "2019",
-        "userName": "Brian Takayama"
+        "userName": "Bryan Takayama"
     }
   ]
 
+let questions=["What data is used to identify areas of improvement?", 
+
+"What systems and analysis are leveraged to priorities and assess improvement projects?",
+
+"How our CI systems integrated with production systems?",
+
+"How long is data kept available (e.g., not archived)?"]
 
 function QuestionnaireHeader(props){
     
@@ -74,17 +82,104 @@ function QuestionnaireHeader(props){
 class QuestionnairePage extends React.Component{
     constructor(props){
         super(props);
+        this.textInput = React.createRef();
         this.state={
-            showTextEditor:false
+            showTextEditor:false,
+            targetValue:"",
+            currentValue:"",
+            showNotes:true,
+            textEditorData:"",
+            characterCount:"",
+           
         }
         this.props.disableMenu(false);
     }
+
 
     showTextEditor = ()=>{
         this.setState({
             showTextEditor:true
         })
+        
     }
+    
+    setWrapperRef = (node) => {
+        this.wrapperRef = node;
+    }
+
+
+    handleClickOutside = (event) =>{
+        if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+          this.setState({
+              showTextEditor:false,
+              showNotes:true
+          })
+        }
+      }
+
+
+    setCurrentValue = currentValue =>{
+        this.setState({
+            currentValue:currentValue
+        })
+    }
+
+
+    setTargetValue = targetValue=>{
+        this.setState({
+            targetValue:targetValue
+        })
+    }
+
+
+    getSubCapability = ()=>{
+        
+    }
+
+
+    submitNotes = ()=>{
+        this.setState({
+            showTextEditor:false,
+            showNotes:true
+        })
+    }
+
+
+    focusInput = async()=>{
+        await this.setState({
+            showTextEditor:true
+        })
+        document.getElementsByClassName("notes-editor-area")[0].scrollIntoView({behaviour:"smooth"});
+        document.getElementsByClassName("notes-editor-area")[0].click();
+    }
+
+
+    textAreaClick = (e)=>{
+        let textAreaText = e.target.innerHTML;
+        this.setState({
+            showTextEditor:true,
+            textEditorData:(textAreaText),
+            showNotes:false
+        })
+
+    }
+
+    textAreaValue = (e)=>{
+        this.setState({
+            textAreaNotesValue : e.target.value
+        })
+    }
+
+    componentDidMount = ()=>{
+        this.getSubCapability();
+        document.addEventListener('mousedown', this.handleClickOutside);
+    }
+
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
+
 
     render(){
         return(
@@ -94,19 +189,26 @@ class QuestionnairePage extends React.Component{
             <QuestionnaireNavigation labelName="Previous" customClass="prev"/><QuestionnaireNavigation labelName="Skip Question" />
             </div>
             <div className="questions-and-targets">
-                <GeneralQuestions/>
-                <span className="targets"></span>
+                <GeneralQuestions flagQuestions={this.focusInput}/>
+                <span className="targets">
+                <TargetSelect current={"current3"} target={"target2"} setCurrentValue={this.setCurrentValue} setTargetValue={this.setTargetValue}/>
+                <div className="button-group">
+                <SaveandExitButton labelName="Save and Exit" />
+                <FormNavigationButton labelName="Continue" />
+                
+                </div>
+                </span>
             </div>
             <div className="bottom-border"></div>
             <div className="scoring">
                 <div className="scoring-text-main">Scoring</div>
                 <div className="scoring-text-main-container">
-                {Object.keys(scoring).map(element=>{
+                {Object.keys(scoring).map((element,index)=>{
                     return(
-                    <div className="scoring-text-container">
+                    <div className="scoring-text-container" key={index}>
                     <div className="scoring-range">
                         {element}
-                        <span className="flag-button"><CustomButton imgSrc={flagIcon} /></span>
+                        <span className="flag-button"><CustomButton imgSrc={flagIcon} clickFunction={this.focusInput}/></span>
                     </div>
                     <div className="scoring-info">
                         {scoring[element]}
@@ -119,9 +221,13 @@ class QuestionnairePage extends React.Component{
             <div className="bottom-border"></div>
             <div className = "notes-container">
                 <div className="notes-title">Notes</div>
-                <div className="text-area">
-                   {!this.state.showTextEditor&&<CustomButton imgSrc={addIcon} clickFunction={this.showTextEditor}/>}
-                    {this.state.showTextEditor&&<TextEditor />}
+                <div className="text-area" ref={this.setWrapperRef}>
+                   {!this.state.showTextEditor&&<CustomButton  imgSrc={addIcon} clickFunction={this.showTextEditor}/>}
+                    {this.state.showTextEditor&&<TextEditor  textAreaValue={this.textAreaValue} value={this.state.textEditorData}/>}
+                </div>
+                <div className="character-count-submit">
+                {this.state.showTextEditor&&<div className="character-count">{}/3000 characters</div>}
+                {this.state.showTextEditor&&<FormNavigationButton labelName="Submit" onClick={this.submitNotes}/>}
                 </div>
                 {notesData.map((data, index) => {
                     return(
@@ -129,6 +235,7 @@ class QuestionnairePage extends React.Component{
                     )
                 })}
             </div>
+                {this.state.showNotes&&<NotesComponent textAreaClick={this.textAreaClick}/>}
             </div>
         )
     }
