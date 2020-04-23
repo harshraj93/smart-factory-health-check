@@ -7,6 +7,7 @@ import leftIcon from '../../images/icon-small-chevron-left.svg';
 import downloadIcon from '../../images/icon-small-download.svg';
 import linkIcon from '../../images/icon-small-link.svg';
 import DeleteIcon from '../../images/combined-shape.svg';
+import DropDownImg from '../../images/icon-small-chevron-down.svg';
 import ReportsOverview from './sfm-reports-overview/sfm-reports-overview';
 import DemographicsForm from './sfm-reports-demographics/demographics-form';
 import AssessmentsOverview from './sfm-assessments-overview/sfm-assessments-overview';
@@ -16,6 +17,7 @@ import ClientInfo from './sfm-assessments-client-info/sfm-assessments-client-inf
 import {withRouter} from 'react-router-dom';
 import {resultsApi} from '../../api/assessments/reports'
 import assessOverviewApi from '../../api/assessments/assess-overview';
+import assessNotesApi from '../../api/assessments/assess-notes';
 import {apiPostHeader} from '../../api/main/mainapistorage'
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
@@ -35,7 +37,8 @@ class Reports extends React.Component{
             assessData:[],
             x: false,
             demographicsData:[],
-            assessBody: {}
+            assessBody: {},
+            notesData: {}
         }
         this.props.disableMenu(false);        
     }
@@ -146,11 +149,16 @@ class Reports extends React.Component{
                 </h2>
                     
                 <h5 className="company-name">{this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}</h5>
+
+                <div className="goToResults">
+                    <span className="text">Go to Results</span>
+                    <img src={DropDownImg} alt="" className="right-arrow"></img>
+                </div>
                 <Tabs className="tab-group">
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes/>:(element==="Site Info"?<SiteInfo data={this.state.assessBody}/>:<ClientInfo/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.assessBody}/>:<ClientInfo/>))}
                             </Tab>
                         )
                     })}
@@ -190,6 +198,23 @@ class Reports extends React.Component{
         const response = await fetch(assessOverviewApi.assessOverview,apiPostHeader)
         const overviewData = await response.json();
         return overviewData;
+        }
+        catch(err){
+            return err
+        }
+    }
+
+    fetchNotes = async()=> {
+        let body = {
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+            "sector":this.props.location.industryType
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        try{
+        const response = await fetch(assessNotesApi.assessNotes,apiPostHeader)
+        const notesData = await response.json();
+        return notesData;
         }
         catch(err){
             return err
@@ -236,6 +261,7 @@ class Reports extends React.Component{
         let resultJSON = {};
         let demographicsData = {}; 
         let overviewData = {};
+        let notesData = {}
         if (this.props.location.loadComponentString === "results") {
             resultJSON = await this.fetchResultsData();
             demographicsData = await this.fetchDemographicsData();
@@ -243,6 +269,7 @@ class Reports extends React.Component{
         }
         else {
             overviewData = await this.fetchOverview();
+            notesData = await this.fetchNotes();
             overviewData.clientName = this.props.location.companyName;
             overviewData.siteName = this.props.location.locationString;
             overviewData.sector = this.props.location.industryType;
@@ -259,7 +286,8 @@ class Reports extends React.Component{
             data:resultJSON.resultantJSON,
             reportsOverview:resultJSON.resultantJSON,
             demographicsData:demographicsData,
-            assessOverview: overviewData
+            assessOverview: overviewData,
+            notesData: notesData.resultantJSON
         })
     }
 

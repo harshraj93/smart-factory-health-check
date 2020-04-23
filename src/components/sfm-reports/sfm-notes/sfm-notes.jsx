@@ -4,119 +4,32 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import DropDownImg from '../../../images/icon-small-chevron-down.svg';
 import FlagImg from '../../../images/icon-small-flagged-outline.svg';
+import assessNotesApi from '../../../api/assessments/assess-notes.js';
+import {apiPostHeader} from '../../../api/main/mainapistorage';
 import './sfm-notes.scss';
-
-let data = [
-    {
-        name: "Operations",
-        capabilities: [
-            {
-                name: "Capability 1",
-                noOfNotes: 5,
-                subCapabilities:[ 
-                    {
-                        name: "Sub-capability 1",
-                        current: 4,
-                        target: 6,
-                        notes: [
-                            {
-                                flag: false,
-                                userName: "Bryan Takayama",
-                                time: "11:35AM",
-                                date: "12/02/2019",
-                                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna. "
-                            },
-                            {
-                                flag: false,
-                                userName: "Pedro Amorim",
-                                time: "11:35AM",
-                                date: "12/02/2019",
-                                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna. "
-                            },
-                            {
-                                flag: true,
-                                userName: "Pedro Amorim",
-                                time: "11:35AM",
-                                date: "12/02/2019",
-                                text: "This General Question has been flagged because it doesnt make sense in context to the Business function and capability. This is just placeholder copy, but allows for the flag to have a specific note to provide a reason for the flag. "
-                            }
-                        ]
-                    },
-                    {
-                        name: "Sub-Capability 2",
-                        current: 5,
-                        target: 6,
-                        notes: [
-                            {
-                                flag: false,
-                                userName: "Laura Sofía Ureña",
-                                time: "11:35AM",
-                                date: "12/02/2019",
-                                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna. "
-                            },
-                            {
-                                flag: false,
-                                userName: "Emelda Scandroot",
-                                time: "11:35AM",
-                                date: "12/02/2019",
-                                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna. "
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                name: "Capability 2",
-                noOfNotes: 3,
-                subCapabilities:[ 
-                    {
-                        name: "Sub-capability 1",
-                        current: 4,
-                        target: 6,
-                        notes: [
-                            {
-                                flag: false,
-                                userName: "Bryan Takayama",
-                                time: "11:35AM",
-                                date: "12/02/2019",
-                                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna. "
-                            }
-                        ]
-                    },
-                    {
-                        name: "Sub-Capability 2",
-                        current: 5,
-                        target: 6,
-                        notes: [
-                            {
-                                flag: false,
-                                userName: "Laura Sofía Ureña",
-                                time: "11:35AM",
-                                date: "12/02/2019",
-                                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna. "
-                            },
-                            {
-                                flag: false,
-                                userName: "Emelda Scandroot",
-                                time: "11:35AM",
-                                date: "12/02/2019",
-                                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer velit metus, scelerisque sit amet placerat nec, commodo sit amet velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin mattis commodo magna. "
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
-]
 
 class Notes extends React.Component {
     constructor(props){
         super(props);
         this.state={
             arrayIndex: false,
-            arrayIndexCap: false
+            arrayIndexCap: false,
+            jsonData: {}
         }
+    }
+
+    getTime(value) {
+        var time;
+        var arr = value.split("-");
+        time = arr[2].substring(3,8);
+        return time;
+    }
+
+    getDate(value) {
+        var date;
+        var arr = value.split("-");
+        date = arr[1] +"/"+ arr[2].substring(0,2) +"/"+ arr[0];
+        return date;
     }
 
     handleClick = (e)=>{
@@ -138,7 +51,7 @@ class Notes extends React.Component {
     accordions() {
         return (
             <Accordion className="notes-accordion" defaultActiveKey={0}>
-            {data.map((data,index)=>{
+            {this.props.data.businessFunctions.map((data,index)=>{
                 return(
                     <Card key={index} className={"card"}>                                   
                         <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
@@ -148,32 +61,32 @@ class Notes extends React.Component {
                             </div>
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey={index}>
-                            <Accordion className="cap-notes-accordion">
+                            <Accordion className="cap-notes-accordion" defaultActiveKey={0}>
                             {data.capabilities.map((x,y) => {
                                 return (
-                                    <Card key={y} className="card">
-                                        <Accordion.Toggle as={Card.Header} className={"cap-card-header "+(this.state.arrayIndexCap===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleCapClick(e,value)}>
-                                            <div className="capability-card" key={y}>
+                                    <Card key={y} className="cap-card">
+                                        <Accordion.Toggle as={Card.Header} className={"cap-card-header "+(this.state.arrayIndexCap===String(y))} value={y} variant="link" eventKey={y} onClick={(e,value)=>this.handleCapClick(e,value)}>
+                                            <div className="capability-card">
                                                 <span className="area-name">{x.name}</span>
-                                                <span className="number-tag">{x.noOfNotes} Notes</span>
+                                                {x.subcapabilities.length?<span className="number-tag">{x.subcapabilities.length} Notes</span>:""}
                                             </div>
                                             <img className="drop-down" src={DropDownImg} alt="" ></img>
                                         </Accordion.Toggle>
                                         <Accordion.Collapse eventKey={y}>
                                             <div>
-                                            {x.subCapabilities.map((i,j) => {
+                                            {x.subcapabilities.map((i,j) => {
                                                 return(
                                                 <div className="sub-cap">
                                                     <span className="sub-cap-header">{i.name}</span>
                                                     <div className="sub-cap-content">
                                                         <div className="scores">
                                                             <div className="score-block">
-                                                                <p className="score-number">{i.current}</p>
+                                                                <p className="score-number">{i.currentLevel}</p>
                                                                 <p className="score-text">Current</p>
                                                             </div>
                                                             <span className="verti-line"></span>
                                                             <div className="score-block">
-                                                                <p className="score-number">{i.target}</p>
+                                                                <p className="score-number">{i.targetLevel}</p>
                                                                 <p className="score-text">Target</p>
                                                             </div>
                                                         </div>
@@ -185,16 +98,16 @@ class Notes extends React.Component {
                                                                             <div className="notes-block">
                                                                                 <div className="notes-header">
                                                                                     <div className="context">
-                                                                                        {m.flag?<img src={FlagImg} alt="" style={{marginRight: "10px"}}/>:""}
-                                                                                        <span className="user-name">{m.userName}</span>
+                                                                                        {m.flagType!==null?<img src={FlagImg} alt="" style={{marginRight: "10px"}}/>:""}
+                                                                                        <span className="user-name">{m.username}</span>
                                                                                     </div>
                                                                                     <div className="date-time">
-                                                                                        <p>{m.time}</p>
-                                                                                        <p>{m.date}</p>
+                                                                                        <p>{this.getTime(m.timestamp)}</p>
+                                                                                        <p>{this.getDate(m.timestamp)}</p>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div className="notes-content">
-                                                                                    <p>{m.text}</p>
+                                                                                    <p>{m.note}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <img className="right-arrow" src={DropDownImg} alt="" ></img>
@@ -205,7 +118,7 @@ class Notes extends React.Component {
                                                             })}
                                                         </div>
                                                     </div>
-                                                    {j<x.subCapabilities.length-1?<span className="subCap-bottom-line"></span>:""}
+                                                    {/* {j<x.subcapabilities.length-1?<span className="subCap-bottom-line"></span>:""} */}
                                                 </div>)
                                             })}
                                             </div>
@@ -222,7 +135,29 @@ class Notes extends React.Component {
         )
     }
 
+    // fetchSiteInfo = async()=> {
+    //     // console.log(this.props.data);
+    //     apiPostHeader.body = JSON.stringify(this.props.data);
+    //     try{
+    //     const response = await fetch(assessNotesApi.assessNotes,apiPostHeader)
+    //     const notesData = await response.json();
+    //     return notesData;
+    //     }
+    //     catch(err){
+    //         return err
+    //     }
+    // }
+
+    // componentDidMount = async()=> {
+    //     let notesData = await this.fetchSiteInfo();
+    //     console.log(notesData);
+    //     await this.setState({
+    //         jsonData:notesData.resultantJSON
+    //     })
+    // }
+
     render() {
+        // console.log(this.state.jsonData)
         return (
             <div className="notes-container">
                 {this.accordions()}
