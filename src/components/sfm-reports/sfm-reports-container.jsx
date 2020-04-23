@@ -246,6 +246,7 @@ class Reports extends React.Component{
             overviewData.clientName = this.props.location.companyName;
             overviewData.siteName = this.props.location.locationString;
             overviewData.sector = this.props.location.industryType;
+            overviewData.siteid = this.props.location.siteid;
         }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 

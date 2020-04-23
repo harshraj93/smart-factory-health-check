@@ -4,7 +4,6 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import DropDownImg from '../../../images/icon-small-chevron-down.svg';
 import FlagImg from '../../../images/icon-small-flagged-outline.svg';
-import {FormNavigationButton} from '../../../assets/sfm-button';
 import './sfm-notes.scss';
 
 let data = [
