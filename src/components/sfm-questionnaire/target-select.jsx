@@ -9,7 +9,6 @@ import './target-select.scss';
 
 // let ratings = [1,2,3,4,5,6,7]
 export default function TargetSelect(props) {
-    console.log(props);
     const [selectedValue1, setSelectedValue1] = React.useState(props.current);
     const [selectedValue, setSelectedValue] = React.useState(props.target);
     
@@ -25,7 +24,6 @@ export default function TargetSelect(props) {
         setSelectedValue(event.target.value);
         selectedValue?props.setTargetValue(value):props.setTargetValue("")
       };
-      console.log(selectedValue,selectedValue1);
     return (
       <>
 
@@ -76,6 +74,7 @@ export default function TargetSelect(props) {
             labelPlacement="top"
             inputProps={{ 'aria-label': "1"}}
           />
+          <div className="right-line"></div>
           <FormControlLabel
           checked={selectedValue1 === "current6"}
             value="current6"
@@ -84,6 +83,7 @@ export default function TargetSelect(props) {
             labelPlacement="top"
             inputProps={{ 'aria-label': "1"}}
           />
+          <div className="right-line"></div>
           <FormControlLabel
           checked={selectedValue1 === "current7"}
             value="current7"
@@ -132,6 +132,7 @@ export default function TargetSelect(props) {
             labelPlacement="top"
             inputProps={{ 'aria-label': "4"}}
           />
+          <div className="right-line"></div>
           <FormControlLabel
           checked={selectedValue === "target5"}
             value="target5"
@@ -140,6 +141,7 @@ export default function TargetSelect(props) {
             labelPlacement="top"
             inputProps={{ 'aria-label': "5"}}
           />
+          <div className="right-line"></div>
           <FormControlLabel
           checked={selectedValue === "target6"}
             value="target6"
@@ -148,6 +150,7 @@ export default function TargetSelect(props) {
             labelPlacement="top"
             inputProps={{ 'aria-label': "6"}}
           />
+          <div className="right-line"></div>
           <FormControlLabel
           checked={selectedValue === "target7"}
             value="target7"
@@ -156,7 +159,7 @@ export default function TargetSelect(props) {
             labelPlacement="top"
             inputProps={{ 'aria-label': "7"}}
           />
-          <div className="right-line"></div>
+          
             
             
         

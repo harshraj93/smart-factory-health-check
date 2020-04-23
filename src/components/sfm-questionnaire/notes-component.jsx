@@ -10,13 +10,11 @@ export default class NotesComponent extends React.Component{
     parseDateTime = (dateData)=>{
 
         let date=new Date(dateData);
-        console.log(date)
         return date.toISOString().substring(0, 10);
         
     }
 
     render(){
-        console.log(this.props.data)
         return(
             <div className="notes-container">
             {/* {this.props.data.flag!==null?<img src={FlagImg} alt="" style={{marginTop: "2.5px", marginRight: "10px"}}></img>:""} */}

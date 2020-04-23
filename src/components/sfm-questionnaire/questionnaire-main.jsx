@@ -43,7 +43,7 @@ let subCapabilitiesArray = [];
 
 
 function QuestionnaireHeader(props){
-    
+        console.log(props);
         return(
             <div className="header-container">
                 <div className="questionnaire-column">
@@ -55,8 +55,8 @@ function QuestionnaireHeader(props){
                 </div>
                 <div className="progress-bar-column">
                 <div className="progress-bar">
-                    <ProgressBar now={33} variant="success"/>
-                    <span className="progress-status">33% complete</span>
+                    <ProgressBar now={props.data.progress} variant="success"/>
+                    <span className="progress-status">{props.data.progress} complete</span>
                 </div>
                 <div className="impact-area">
                     <span className="impact-area-text">OEE Impact Area:</span>
@@ -91,7 +91,8 @@ class QuestionnairePage extends React.Component{
             questions:[],
             scoringDetails:{},
             notesDetails:[],
-            arrayIndex:0
+            arrayIndex:0,
+            progress:""
         }
         this.props.disableMenu(false);
     }
@@ -136,12 +137,17 @@ class QuestionnairePage extends React.Component{
 
     parseQuestionnaire = async(questionnaireResponse)=>{
         console.log(questionnaireResponse);
+        let progress;
+        fetch(questionnaire.getProgress+`?siteId=${this.props.location.siteid}&businessfunctionId=${this.props.location.businessFunctionName}&capabilityId=${this.props.location.capabilityName}`,apiGetHeader)
+            .then(resp=>resp.json())
+            .then(resp=>{
+                
         let headerValues={
             title:subCapabilitiesArray[this.state.arrayIndex].businessFunctionName,
             Capabilities:subCapabilitiesArray[this.state.arrayIndex].capabilityName,
             subCapabilities:subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
             subCapabilityNum:this.state.arrayIndex+1,
-            progress:"",
+            progress:resp.progress,
             oeeAddressArea:subCapabilitiesArray[this.state.arrayIndex].oeeAddressArea,
             oeeImpact:subCapabilitiesArray[this.state.arrayIndex].oeeImpact
         };
@@ -164,7 +170,7 @@ class QuestionnairePage extends React.Component{
         let notesDetails=questionnaireResponse.Notes
 
         console.log(checkBoxValues,questionsArray);  
-        await this.setState(function(prevState,props){
+         this.setState(function(prevState,props){
             
             return{
             headerValues:headerValues,
@@ -174,7 +180,9 @@ class QuestionnairePage extends React.Component{
             notesDetails:notesDetails,
             }
         })
+    });
     }
+    
 
     getQuestionnaire = async()=>{
         
@@ -195,30 +203,41 @@ class QuestionnairePage extends React.Component{
 
 
     getSubCapability = ()=>{
-        fetch(questionnaire.getCapabilities+"?siteId=ST_49&businessfunctionId=Continuous Improvement&capabilityId=Manage CI",apiGetHeader)
+        console.log(this.props.location)
+        fetch(questionnaire.getCapabilities+`?siteId=${this.props.location.siteid}&businessfunctionId=${this.props.location.businessFunctionName}&capabilityId=${this.props.location.capabilityName}`,apiGetHeader)
         .then(resp=>resp.json())
         .then(resp=>this.parseSubCapabilities(resp))
     }
 
 
     submitNotes = ()=>{
+        var date = new Date();
+        var Str = 
+            date.getFullYear()+"-"+("00" + (date.getMonth() + 1)).slice(-2) 
+                + "-" + ("00" + date.getDate()).slice(-2) 
+                 + " " 
+                + ("00" + date.getHours()).slice(-2) + ":" 
+                + ("00" + date.getMinutes()).slice(-2) 
+                + ":" + ("00" + date.getSeconds()).slice(-2); 
         let notesSubmission =  {
             "clientAssessmentId": subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId,
             "resourceId": "RES_1",
-            "note": this.state.textEditorData,
-            "timestamp": Date.now(),
-            "flagType": "Low"
+            "note": this.state.textAreaNotesValue,
+            "timestamp": Str,
+            "flagType": "High"
         }
         apiPostHeader.body = JSON.stringify(notesSubmission);
         fetch(questionnaire.addAssessmentNote,apiPostHeader)
-            .fetch(resp=>resp.json())
-            .fetch(resp=>{
+            .then(resp=>resp.json())
+            .then(resp=>{
+                console.log(resp);
                 if(resp.resultantJSON.successMsg){
-                    this.setState({
-                        showTextEditor:false,
-                        showNotes:true,
-                        textEditorData:""
-                    })
+                    // this.setState({
+                    //     showTextEditor:false,
+                    //     showNotes:true,
+                    //     textEditorData:""
+                    // })
+                    console.log(resp);
                 }
                 else{
                     console.log("errored out notes")
@@ -244,7 +263,6 @@ class QuestionnairePage extends React.Component{
             textEditorData:(textAreaText),
             showNotes:false
         })
-
     }
 
     textAreaValue = (e)=>{
@@ -271,7 +289,7 @@ class QuestionnairePage extends React.Component{
             "currentLevel":this.state.currentValue?this.state.currentValue:-1,
             "targetLevel":this.state.targetValue?this.state.targetValue:-1,
             "subCapability":subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
-            "siteid":"ST_49"
+            "siteid":this.props.location.siteid
             }
         apiPostHeader.body = JSON.stringify(saveAssessment);
         
@@ -299,14 +317,14 @@ class QuestionnairePage extends React.Component{
             "currentLevel":this.state.currentValue?this.state.currentValue:-1,
             "targetLevel":this.state.targetValue?this.state.targetValue:-1,
             "subCapability":subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
-            //"siteid":this.props.location.
+            "siteid":this.props.location.siteid
             }
         apiPostHeader.body = JSON.stringify(saveAssessment);
         fetch(questionnaire.saveAssessment,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{
-                if(resp.success){
-                    this.history.push({
+                if(resp.successMsg){
+                    this.props.history.push({
                         pathname:"/reports",
                         state:{
                             locationString:"assessments"
@@ -337,7 +355,7 @@ class QuestionnairePage extends React.Component{
                 setTargetValue={this.setTargetValue}/>
                 <div className="button-group">
                 <SaveandExitButton labelName="Save and Exit" onClick={this.saveAndExit}/>
-                <FormNavigationButton labelName="Continue" onClick={this.continueNav}/>
+                {this.state.arrayIndex!==subCapabilitiesArray.length-1&&<FormNavigationButton labelName="Continue" onClick={this.continueNav}/>}
                 
                 </div>
                 </span>
@@ -364,7 +382,7 @@ class QuestionnairePage extends React.Component{
             <div className="bottom-border"></div>
             <div className = "notes-container">
                 <div className="notes-title">Notes</div>
-                <div className="text-area" ref={this.setWrapperRef}>
+                <div className="text-area" >
                    {!this.state.showTextEditor&&<CustomButton imgSrc={addIcon} clickFunction={this.showTextEditor}/>}
                     {this.state.showTextEditor&&<TextEditor textAreaValue={this.textAreaValue} value={this.state.textEditorData}/>}
                 </div>
