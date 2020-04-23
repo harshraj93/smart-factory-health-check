@@ -56,7 +56,37 @@ class HamburgerNav extends React.Component {
         var nameArray = this.state.username.split(" ");
         return nameArray[0].charAt(0) + nameArray[1].charAt(0);
     }
+    triggerUserNameAndPassword = () => {
 
+        let accessTokenActual = (document.cookie);
+        let accessArr = accessTokenActual.split(':');
+        accessTokenActual = accessArr[1];
+        let obj = {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + accessTokenActual
+          }
+        };
+    
+        fetch('https://smartfactoryfabric-dev.auth.us-east-1.amazoncognito.com/oauth2/userInfo', obj)
+          .then(resp => resp.json())
+          .then(
+            (result) => {
+              if (result.error) {
+                this.setState({
+                  userName: "Error"
+                });
+              } else {
+                this.setState({
+                  userName: result.username
+                });
+              }
+            }
+          ).catch(err => {
+            console.log(err)
+        })
+      }
+    
     render() {
         return (
             
