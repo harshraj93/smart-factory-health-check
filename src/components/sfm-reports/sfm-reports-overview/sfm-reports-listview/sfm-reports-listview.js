@@ -237,6 +237,7 @@ class ReportsListView extends React.Component {
     }
 
     assessmentsCard = () => {
+        // console.log(this.props.updatedData);
         return (
             <Accordion className="assess-overview-accordion" defaultActiveKey={0}>
             {this.props.data.businessFunction.map((data,index)=>{

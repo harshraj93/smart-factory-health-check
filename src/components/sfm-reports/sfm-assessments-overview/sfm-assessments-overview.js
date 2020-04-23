@@ -78,6 +78,7 @@ class AssessmentsOverview extends React.Component {
             jsonData: overviewData
         });
         this.editAssessCard();
+        // this.sendData();
     }
 
     onChange = (e) => {
@@ -132,10 +133,11 @@ class AssessmentsOverview extends React.Component {
         });
     }
 
-    saveBtn = () => {
+    saveBtn = async() => {
         // this.assessmentsCard();
-        this.setState({
-            x:false
+        this.props.overviewRefresh();
+        await this.setState({
+            x:true
         });
     }
 
@@ -167,7 +169,7 @@ class AssessmentsOverview extends React.Component {
         return (
             <div className="edit-bar">
                 <CustomButton labelName="Cancel" style={{backgroundColor: "#161617", boxShadow: "0 0 0 2px inset #616161"}} clickFunction={this.editToggle}/>
-                <CustomButton labelName="Apply Changes" clickFunction={this.editToggle}/>
+                <CustomButton labelName="Apply Changes" clickFunction={this.saveBtn}/>
             </div>
         )
     }
@@ -284,23 +286,9 @@ class AssessmentsOverview extends React.Component {
         )
     }
 
-    // fetchOverview = async()=> {
-    //     console.log(this.props.data);
-    //     apiPostHeader.body = JSON.stringify(this.props.data);
-    //     // console.log(apiPostHeader);
-    //     try{
-    //     const response = await fetch(assessOverviewApi.assessOverview,apiPostHeader)
-    //     const overviewData = await response.json();
-    //     return overviewData;
-    //     }
-    //     catch(err){
-    //         return err
-    //     }
-    // }
-
     componentDidMount = async()=> {
         // let overviewData = await this.fetchOverview();
-        this.setState({
+        await this.setState({
             jsonData:this.props.data,
             clientName: this.props.data.clientName, 
             siteName: this.props.data.siteName,

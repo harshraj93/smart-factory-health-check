@@ -149,7 +149,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview}/>:(element==="Notes"?"":(element==="Site Info"?<SiteInfo data={this.state.assessBody} disableMenu={this.props.disableMenu}/>:<ClientInfo disableMenu={this.props.disableMenu}/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?"":(element==="Site Info"?<SiteInfo data={this.state.assessBody} disableMenu={this.props.disableMenu}/>:<ClientInfo disableMenu={this.props.disableMenu}/>))}
                             </Tab>
                         )
                     })}
@@ -165,6 +165,17 @@ class Reports extends React.Component{
                 {this.props.location.loadComponentString===undefined?<p>No data. Please click on back button.</p>:<p>Loading {this.props.location.loadComponentString.toUpperCase()} page...</p>}
             </div>
         )
+    }
+
+    overviewRefresh = async() => {
+        let overviewData = await this.fetchOverview();
+        overviewData.clientName = this.props.location.companyName;
+        overviewData.siteName = this.props.location.locationString;
+        overviewData.sector = this.props.location.industryType;
+
+        await this.setState({
+            assessOverview: overviewData
+        })
     }
 
     fetchOverview = async()=> {
@@ -221,18 +232,26 @@ class Reports extends React.Component{
 
 
     componentDidMount = async()=>{
-        let resultJSON = await this.fetchResultsData();
-        let demographicsData = await this.fetchDemographicsData();
-        let overviewData = await this.fetchOverview();
+        let resultJSON = {};
+        let demographicsData = {}; 
+        let overviewData = {};
+        if (this.props.location.loadComponentString === "results") {
+            resultJSON = await this.fetchResultsData();
+            demographicsData = await this.fetchDemographicsData();
+            resultJSON.resultantJSON.siteid = this.props.location.siteid;
+        }
+        else {
+            overviewData = await this.fetchOverview();
+            overviewData.clientName = this.props.location.companyName;
+            overviewData.siteName = this.props.location.locationString;
+            overviewData.sector = this.props.location.industryType;
+        }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
             "siteName": this.props.location.locationString,
             "sector":this.props.location.industryType}
         })
-        overviewData.clientName = this.props.location.companyName;
-        overviewData.siteName = this.props.location.locationString;
-        overviewData.sector = this.props.location.industryType;
-        resultJSON.resultantJSON.siteid = this.props.location.siteid;
+        
         await this.setState({
             loadComponentString:this.props.location.loadComponentString,
             data:resultJSON.resultantJSON,
