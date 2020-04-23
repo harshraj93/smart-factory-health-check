@@ -107,6 +107,7 @@ class Notes extends React.Component {
                             </div>
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey={index}>
+                            <Accordion className="cap-notes-accordion">
                             {data.capabilities.map((x,y) => {
                                 return (
                                     <Card key={y} className="card">
@@ -166,6 +167,7 @@ class Notes extends React.Component {
                                     </Card>
                                 )
                             })}
+                            </Accordion>
                         </Accordion.Collapse>
                     </Card>
                 )

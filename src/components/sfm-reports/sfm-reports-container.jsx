@@ -150,7 +150,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes/>:(element==="Site Info"?<SiteInfo data={this.state.assessBody} disableMenu={this.props.disableMenu}/>:<ClientInfo disableMenu={this.props.disableMenu}/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes/>:(element==="Site Info"?<SiteInfo data={this.state.assessBody}/>:<ClientInfo/>))}
                             </Tab>
                         )
                     })}

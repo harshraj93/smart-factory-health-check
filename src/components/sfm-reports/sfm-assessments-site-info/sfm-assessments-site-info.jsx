@@ -17,7 +17,7 @@ class SiteInfo extends React.Component{
             BusinessFunctionPoC: [],
             dropdown: []
         }
-        this.props.disableMenu(false);
+        // this.props.disableMenu(false);
     }
 
     handleChange = async (e)=>{
