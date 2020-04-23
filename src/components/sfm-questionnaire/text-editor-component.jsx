@@ -1,9 +1,9 @@
 import React from 'react';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
+//import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import FlagImg from '../../images/icon-small-flagged-outline.svg';
-import MUIRichTextEditor from 'mui-rte'
-import './text-editor-component.scss';
-let options = ["bold", "italic", "underline", "strikethrough", "bulletList", "numberList", "highlight", "save"];
+//import MUIRichTextEditor from 'mui-rte'
+//import './text-editor-component.scss';
+//let options = ["bold", "italic", "underline", "strikethrough", "bulletList", "numberList", "highlight", "save"];
 
 export default class TextEditor extends React.Component{
     constructor(props){

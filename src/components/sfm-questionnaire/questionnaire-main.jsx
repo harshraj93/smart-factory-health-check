@@ -15,33 +15,33 @@ let scoring = {
             "High (6)":"Improvement projects are identified and launched based on system based data-driven, quantitative analysis of key business drivers. Detailed system based tracking and analysis of project progress in place, feedback loop in place. Existence of a Digital Agenda to guide ongoing digital projects. Use of a Digital Foundry to drive multi-disciplinary solution and application approach."
             };
 
-let questions=["What data is used to identify areas of improvement?", 
+// let questions=["What data is used to identify areas of improvement?", 
 
-"What systems and analysis are leveraged to priorities and assess improvement projects?",
+// "What systems and analysis are leveraged to priorities and assess improvement projects?",
 
-"How our CI systems integrated with production systems?",
+// "How our CI systems integrated with production systems?",
 
-"How long is data kept available (e.g., not archived)?"]
-let notesData = [
-    {
-        "type": "LOW",
-        "text": "Notes by user.",
-        "userId": "2019",
-        "userName": "Brian Takayama"
-    },
-    {
-        "type": null,
-        "text": "Notes by user.",
-        "userId": "2019",
-        "userName": "Brian Takayama"
-    },
-    {
-        "type": "GENERAL",
-        "text": "This General Question has been flagged because it doesnt make sense in context to the Business function and capability. This is just placeholder copy, but allows for the flag to have a specific note to provide a reason for the flag. ",
-        "userId": "2019",
-        "userName": "Brian Takayama"
-    }
-  ]
+// "How long is data kept available (e.g., not archived)?"]
+// let notesData = [
+//     {
+//         "type": "LOW",
+//         "text": "Notes by user.",
+//         "userId": "2019",
+//         "userName": "Brian Takayama"
+//     },
+//     {
+//         "type": null,
+//         "text": "Notes by user.",
+//         "userId": "2019",
+//         "userName": "Brian Takayama"
+//     },
+//     {
+//         "type": "GENERAL",
+//         "text": "This General Question has been flagged because it doesnt make sense in context to the Business function and capability. This is just placeholder copy, but allows for the flag to have a specific note to provide a reason for the flag. ",
+//         "userId": "2019",
+//         "userName": "Brian Takayama"
+//     }
+//   ]
 
 
 function QuestionnaireHeader(props){
