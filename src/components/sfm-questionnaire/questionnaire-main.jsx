@@ -8,7 +8,7 @@ import {CustomButton} from '../../assets/sfm-button';
 import addIcon from '../../images/icon-small-add-black.svg';
 import TextEditor from './text-editor-component';
 import TargetSelect from './target-select';
-// import NotesComponent from './notes-component';
+import NotesComponent from './notes-component';
 let scoring = {
             "Low (2)":"Limited and independent data leveraged to identify areas of improvement at high level. No detailed system analysis performed to prioritize and track/monitor improvements.",
             "Medium (4)":"Improvement projects are launched based on data-driven, quantitative analysis of key business drivers. High level system based tracking and analysis of progress in place",
@@ -98,7 +98,8 @@ class QuestionnairePage extends React.Component{
 
     showTextEditor = ()=>{
         this.setState({
-            showTextEditor:true
+            showTextEditor:true,
+            textEditorData:""
         })
         
     }
@@ -140,7 +141,8 @@ class QuestionnairePage extends React.Component{
     submitNotes = ()=>{
         this.setState({
             showTextEditor:false,
-            showNotes:true
+            showNotes:true,
+            textEditorData:""
         })
     }
 
@@ -229,13 +231,13 @@ class QuestionnairePage extends React.Component{
                 {this.state.showTextEditor&&<div className="character-count">{}/3000 characters</div>}
                 {this.state.showTextEditor&&<FormNavigationButton labelName="Submit" onClick={this.submitNotes}/>}
                 </div>
-                {notesData.map((data, index) => {
+                {/* {notesData.map((data, index) => {
                     return(
                         <TextEditor data={data}/>
                     )
-                })}
+                })} */}
             </div>
-                {/* {this.state.showNotes&&<NotesComponent textAreaClick={this.textAreaClick}/>} */}
+                {this.state.showNotes&&<NotesComponent textAreaClick={this.textAreaClick}/>}
             </div>
         )
     }

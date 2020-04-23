@@ -248,19 +248,21 @@ class Reports extends React.Component{
             overviewData.sector = this.props.location.industryType;
             overviewData.siteid = this.props.location.siteid;
         }
-        this.setState({
-            assessBody: {"clientName": this.props.location.companyName, 
-            "siteName": this.props.location.locationString,
-            "sector":this.props.location.industryType}
-        })
-        
         await this.setState({
+            assessBody: 
+            {
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+            "sector":this.props.location.industryType
+            },
             loadComponentString:this.props.location.loadComponentString,
             data:resultJSON.resultantJSON,
             reportsOverview:resultJSON.resultantJSON,
             demographicsData:demographicsData,
             assessOverview: overviewData
         })
+        
+        
     }
 
     render(){
