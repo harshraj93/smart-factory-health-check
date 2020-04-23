@@ -56,7 +56,7 @@ function QuestionnaireHeader(props){
                 <div className="progress-bar-column">
                 <div className="progress-bar">
                     <ProgressBar now={props.data.progress} variant="success"/>
-                    <span className="progress-status">{props.data.progress} complete</span>
+                    <span className="progress-status">{props.data.progress}% complete</span>
                 </div>
                 <div className="impact-area">
                     <span className="impact-area-text">OEE Impact Area:</span>
@@ -147,7 +147,7 @@ class QuestionnairePage extends React.Component{
             Capabilities:subCapabilitiesArray[this.state.arrayIndex].capabilityName,
             subCapabilities:subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
             subCapabilityNum:this.state.arrayIndex+1,
-            progress:resp.progress,
+            progress:Math.round(resp.progress,4),
             oeeAddressArea:subCapabilitiesArray[this.state.arrayIndex].oeeAddressArea,
             oeeImpact:subCapabilitiesArray[this.state.arrayIndex].oeeImpact
         };
@@ -185,13 +185,17 @@ class QuestionnairePage extends React.Component{
     
 
     getQuestionnaire = async()=>{
-        
+        if(subCapabilitiesArray.length>0){
         fetch(
             questionnaire.getQuestionnaire+`?clientAssessmentId=${subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId}`,
             apiGetHeader
             )
             .then(resp=>resp.json())
             .then(resp=>this.parseQuestionnaire(resp))
+        }
+        else{
+            return(console.log("No data"));
+        }
 }
 
 
@@ -218,7 +222,7 @@ class QuestionnairePage extends React.Component{
                  + " " 
                 + ("00" + date.getHours()).slice(-2) + ":" 
                 + ("00" + date.getMinutes()).slice(-2) 
-                + ":" + ("00" + date.getSeconds()).slice(-2); 
+                + ":" + ("00" + date.getSeconds()).slice(-2) + "-"+("00" + date.getMilliseconds()).slice(-2); 
         let notesSubmission =  {
             "clientAssessmentId": subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId,
             "resourceId": "RES_1",
@@ -319,6 +323,7 @@ class QuestionnairePage extends React.Component{
             "subCapability":subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
             "siteid":this.props.location.siteid
             }
+            console.log(this.props.history.location)
         apiPostHeader.body = JSON.stringify(saveAssessment);
         fetch(questionnaire.saveAssessment,apiPostHeader)
             .then(resp=>resp.json())
@@ -326,9 +331,11 @@ class QuestionnairePage extends React.Component{
                 if(resp.successMsg){
                     this.props.history.push({
                         pathname:"/reports",
-                        state:{
-                            locationString:"assessments"
-                        }
+                        // clientName:this.props.history.location.clientName,
+                        // siteName:this.props.history.location.siteName,
+                        // sector:this.props.history.location.sector,
+                        // loadComponentString:"assessments"
+                        
                     })
                 }
                 else{
