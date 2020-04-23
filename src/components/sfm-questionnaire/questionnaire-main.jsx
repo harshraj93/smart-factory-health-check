@@ -229,11 +229,11 @@ class QuestionnairePage extends React.Component{
                 {this.state.showTextEditor&&<div className="character-count">{}/3000 characters</div>}
                 {this.state.showTextEditor&&<FormNavigationButton labelName="Submit" onClick={this.submitNotes}/>}
                 </div>
-                {notesData.map((data, index) => {
+                {/* {notesData.map((data, index) => {
                     return(
                         <TextEditor data={data}/>
                     )
-                })}
+                })} */}
             </div>
                 {this.state.showNotes&&<NotesComponent textAreaClick={this.textAreaClick}/>}
             </div>
