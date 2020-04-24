@@ -11,6 +11,7 @@ import TargetSelect from './target-select';
 import NotesComponent from './notes-component';
 import questionnaire from '../../api/questionnaire/questionnaire';
 import {apiGetHeader,apiPostHeader} from '../../api/main/mainapistorage';
+
 let scoring = {
             "Low (2)":"Limited and independent data leveraged to identify areas of improvement at high level. No detailed system analysis performed to prioritize and track/monitor improvements.",
             "Medium (4)":"Improvement projects are launched based on data-driven, quantitative analysis of key business drivers. High level system based tracking and analysis of progress in place",
@@ -94,7 +95,10 @@ class QuestionnairePage extends React.Component{
             arrayIndex:0,
             progress:"",
             capabilitiesArrayIndex:0,
-            showContinue:""
+            showContinue:"",
+            textArealength: 0,
+            flagType: null
+            
         }
         this.props.disableMenu(false);
     }
@@ -141,7 +145,7 @@ class QuestionnairePage extends React.Component{
     parseQuestionnaire = async(questionnaireResponse)=>{
         console.log(this.state.capabilitiesArrayIndex);
         let progress;
-        fetch(questionnaire.getProgress+`?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}&capabilityId=${localStorage.getItem("capabilityName")}`,apiGetHeader)
+        fetch(questionnaire.getProgress+`?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}&capabilityId=${capabilitiesArray[this.state.capabilitiesArrayIndex].capabilityName}`,apiGetHeader)
             .then(resp=>resp.json())
             .then(resp=>{
                 
@@ -212,26 +216,38 @@ class QuestionnairePage extends React.Component{
     let subCapabilityNameArray,capabilityArrayIndex,subCapabilityName=[];
     if(this.props.location.capabilityName){
         localStorage.setItem("capabilityName",this.props.location.capabilityName)
+        console.log(this.props.location.capabilityName);
     subCapabilityNameArray = capabilitiesArray.filter(element=>{
         return element.capabilityName===this.props.location.capabilityName
     })
+    console.log(subCapabilityNameArray);
     // subCapabilityName = subCapabilityNameArray[0].subcapabilities.filter(subcapability=>{
     //     return subcapability.isIncomplete===true
     // })
     }
     else{
     subCapabilityNameArray = capabilitiesArray.filter(element=>{
-       return element.isIncomplete===true
+       if(element.isIncomplete===true){
+           return element
+       }
+       else{
+           return capabilitiesArray[0]
+       }
     })
     }
     subCapabilityName = subCapabilityNameArray[0].subcapabilities.filter(subcapability=>{
-        return subcapability.isIncomplete===true
+        if(subcapability.isIncomplete===true){
+            return subcapability
+        }
+        else{
+            return subcapability[0]
+        }
     })
+    console.log(subCapabilityName);
     capabilityArrayIndex = capabilitiesArray.indexOf(subCapabilityNameArray[0])
         await this.setState(function(prevState,props){
             return {capabilitiesArrayIndex:capabilityArrayIndex}
     })
-
     if(subCapabilityNameArray.length>0){
     
     subCapabilitiesArray = subCapabilityNameArray[0].subcapabilities
@@ -268,28 +284,35 @@ class QuestionnairePage extends React.Component{
                  + " " 
                 + ("00" + date.getHours()).slice(-2) + ":" 
                 + ("00" + date.getMinutes()).slice(-2) 
-                + ":" + ("00" + date.getSeconds()).slice(-2) + "-"+("00" + date.getMilliseconds()).slice(-2); 
+                + ":" + ("00" + date.getSeconds()).slice(-2); 
         let notesSubmission =  {
             "clientAssessmentId": subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId,
-            "resourceId": "RES_1",
+            "resourceEmailId": "harshraj@deloitte.com",
             "note": this.state.textAreaNotesValue,
             "timestamp": Str,
-            "flagType": "High"
+            "flagType": this.state.flagType
         }
+        console.log(notesSubmission);
         apiPostHeader.body = JSON.stringify(notesSubmission);
         fetch(questionnaire.addAssessmentNote,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{
                 console.log(resp);
                 if(resp.resultantJSON.successMsg){
-                    // this.setState({
-                    //     showTextEditor:false,
-                    //     showNotes:true,
-                    //     textEditorData:""
-                    // })
+                    this.setState({
+                        showTextEditor:false,
+                        showNotes:true,
+                        textEditorData:""
+                    })
                     console.log(resp);
+                    this.getSubCapability();
                 }
                 else{
+                    this.setState({
+                        showTextEditor:false,
+                        showNotes:true,
+                        textEditorData:""
+                    })
                     console.log("errored out notes")
                 }
             })   
@@ -299,7 +322,8 @@ class QuestionnairePage extends React.Component{
 
     focusInput = async()=>{
         await this.setState({
-            showTextEditor:true
+            showTextEditor:true,
+            flagType: "Low"
         })
         document.getElementsByClassName("notes-editor-area")[0].scrollIntoView({behaviour:"smooth"});
         document.getElementsByClassName("notes-editor-area")[0].click();
@@ -354,7 +378,7 @@ class QuestionnairePage extends React.Component{
                     
                     this.setState(function(prevState,props){
                         if(this.state.arrayIndex+1===subCapabilitiesArray.length){
-                            this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex+1)
+                            if(capabilitiesArray.length!==this.state.capabilitiesArrayIndex+1){this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex+1)}
                             return{
                                 capabilitiesArrayIndex:prevState.capabilitiesArrayIndex+1,
                                 arrayIndex:0
@@ -418,11 +442,10 @@ class QuestionnairePage extends React.Component{
                 if(resp.successMsg){
                     this.props.history.push({
                         pathname:"/reports",
-                        // clientName:this.props.history.location.clientName,
-                        // siteName:this.props.history.location.siteName,
-                        // sector:this.props.history.location.sector,
-                        // loadComponentString:"assessments"
-                        
+                        companyName:this.props.history.location.clientName,
+                        locationString:this.props.history.location.siteName,
+                        industryType:this.props.history.location.sector,
+                        loadComponentString:"assessments" 
                     })
                 }
                 else{
@@ -432,7 +455,6 @@ class QuestionnairePage extends React.Component{
     }
 
     showContinue = async()=>{
-        console.log(this.state.arrayIndex,subCapabilitiesArray.length-1,this.state.capabilitiesArrayIndex,capabilitiesArray.length-1)
         if(this.state.capabilitiesArrayIndex!==capabilitiesArray.length-1){
             if(this.state.arrayIndex!==subCapabilitiesArray.length-1){
                 await this.setState({
@@ -478,7 +500,7 @@ class QuestionnairePage extends React.Component{
                     <div className="scoring-text-container" key={index}>
                     <div className="scoring-range">
                         {element}
-                        <span className="flag-button"><CustomButton imgSrc={flagIcon} clickFunction={this.focusInput}/></span>
+                        <span className="flag-button"><CustomButton imgSrc={flagIcon} clickFunction={(element)=>this.focusInput(element)}/></span>
                     </div>
                     <div className="scoring-info">
                         {this.state.scoringDetails[element]}
