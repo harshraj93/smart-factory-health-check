@@ -18,6 +18,14 @@ class Notes extends React.Component {
         }
     }
 
+    noOfNotes (data) {
+        var count = 0;
+        data.subcapabilities.map((x, y)=>{
+            count += x.notes.length;
+        });
+        return count;
+    }
+
     getTime(value) {
         var time;
         var arr = value.split("-");
@@ -68,13 +76,14 @@ class Notes extends React.Component {
                                         <Accordion.Toggle as={Card.Header} className={"cap-card-header "+(this.state.arrayIndexCap===String(y))} value={y} variant="link" eventKey={y} onClick={(e,value)=>this.handleCapClick(e,value)}>
                                             <div className="capability-card">
                                                 <span className="area-name">{x.name}</span>
-                                                {x.subcapabilities.length?<span className="number-tag">{x.subcapabilities.length} Notes</span>:""}
+                                                {x.subcapabilities.length?<span className="number-tag">{x.noteCount} Notes</span>:""}
                                             </div>
                                             <img className="drop-down" src={DropDownImg} alt="" ></img>
                                         </Accordion.Toggle>
                                         <Accordion.Collapse eventKey={y}>
                                             <div>
                                             {x.subcapabilities.map((i,j) => {
+                                                if (i.notes.length > 0) {
                                                 return(
                                                 <div className="sub-cap">
                                                     <span className="sub-cap-header">{i.name}</span>
@@ -119,7 +128,7 @@ class Notes extends React.Component {
                                                         </div>
                                                     </div>
                                                     {/* {j<x.subcapabilities.length-1?<span className="subCap-bottom-line"></span>:""} */}
-                                                </div>)
+                                                </div>)}
                                             })}
                                             </div>
                                         </Accordion.Collapse>

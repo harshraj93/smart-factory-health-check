@@ -45,7 +45,7 @@ class DropDownMenu extends React.Component{
                     {this.props.data.map((element,index)=>{
                         return(
                             
-                            <option style={{backgroundColor:"white"}} key={index} value={element}>{element}</option>
+                            <option style={{backgroundColor:"#35353b"}} key={index} value={element}>{element}</option>
                             
                         )
                         })}

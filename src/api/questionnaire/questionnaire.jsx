@@ -4,7 +4,7 @@ let  questionnaire = {
     getCapabilities:apiUrl+'/site/getSubCapabilities',
     saveAssessment:apiUrl+'/site/saveAssessment',
     getQuestionnaire:apiUrl+'/site/getQuestionaireDetails',
-    addAssessmentNote:apiUrl+'/site/addAssessmentNote',
+    addAssessmentNote:apiUrl+'/users/addAssessmentNote',
     getProgress:apiUrl+'/site/getQuestionaireProgress'
 }
 

@@ -131,6 +131,12 @@ class Reports extends React.Component{
         )
     }
 
+    goToResults() {
+        this.setState({
+            loadComponentString: "results"
+        })
+    }
+
     AssessmentsHeader(){
         return(
             <div className="reports-container">
@@ -150,7 +156,7 @@ class Reports extends React.Component{
                     
                 <h5 className="company-name">{this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}</h5>
 
-                <div className="goToResults">
+                <div className="goToResults" onClick={this.goToResults}>
                     <span className="text">Go to Results</span>
                     <img src={DropDownImg} alt="" className="right-arrow"></img>
                 </div>

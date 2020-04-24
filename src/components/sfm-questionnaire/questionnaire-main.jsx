@@ -91,7 +91,8 @@ class QuestionnairePage extends React.Component{
             scoringDetails:{},
             notesDetails:[],
             arrayIndex:0,
-            progress:""
+            progress:"",
+            textArealength: 0
         }
         this.props.disableMenu(false);
     }
@@ -229,6 +230,7 @@ class QuestionnairePage extends React.Component{
             "timestamp": Str,
             "flagType": "High"
         }
+        console.log(notesSubmission);
         apiPostHeader.body = JSON.stringify(notesSubmission);
         fetch(questionnaire.addAssessmentNote,apiPostHeader)
             .then(resp=>resp.json())
@@ -269,7 +271,7 @@ class QuestionnairePage extends React.Component{
     }
 
     textAreaValue = (e)=>{
-       
+        
         this.setState({
             textAreaNotesValue : e.target.value,
             textArealength:e.target.value.length
