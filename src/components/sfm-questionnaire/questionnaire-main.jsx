@@ -273,7 +273,7 @@ class QuestionnairePage extends React.Component{
                 + ":" + ("00" + date.getSeconds()).slice(-2) + "-"+("00" + date.getMilliseconds()).slice(-2); 
         let notesSubmission =  {
             "clientAssessmentId": subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId,
-            "resourceEmailId": "RES_1",
+            "resourceEmailId": localStorage.getItem("userName"),
             "note": this.state.textAreaNotesValue,
             "timestamp": Str,
             "flagType": "High"
@@ -291,8 +291,14 @@ class QuestionnairePage extends React.Component{
                         textEditorData:""
                     })
                     console.log(resp);
+                    this.getSubCapability();
                 }
                 else{
+                    this.setState({
+                        showTextEditor:false,
+                        showNotes:true,
+                        textEditorData:""
+                    })
                     console.log("errored out notes")
                 }
             })   

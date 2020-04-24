@@ -20,7 +20,7 @@ class HamburgerNav extends React.Component {
 
         this.navbar = this.navbar.bind(this);
         this.getNick = this.getNick.bind(this);
-        localStorage.setItem("pageName", "assessments");
+        
     }
 
     navbar() {
@@ -84,6 +84,8 @@ class HamburgerNav extends React.Component {
                   userName: result.username,
                   email: result.email
                 });
+                localStorage.setItem("userName", result.username);
+                localStorage.setItem("userEmail", result.email);
               }
             }
           ).catch(err => {
