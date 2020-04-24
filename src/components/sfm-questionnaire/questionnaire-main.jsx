@@ -18,8 +18,9 @@ let scoring = {
             };
 
 
-
+let capabilitiesArray=[];
 let subCapabilitiesArray = [];
+
 // let notesData = [
 //     {
 //         "type": "LOW",
@@ -92,7 +93,8 @@ class QuestionnairePage extends React.Component{
             notesDetails:[],
             arrayIndex:0,
             progress:"",
-            textArealength: 0
+            textArealength: 0,
+            capabilitiesArrayIndex:0
         }
         this.props.disableMenu(false);
     }
@@ -135,6 +137,7 @@ class QuestionnairePage extends React.Component{
         })
     }
 
+
     parseQuestionnaire = async(questionnaireResponse)=>{
         console.log(questionnaireResponse);
         let progress;
@@ -169,7 +172,6 @@ class QuestionnairePage extends React.Component{
 
         let notesDetails=questionnaireResponse.Notes
 
-        console.log(checkBoxValues,questionsArray);  
          this.setState(function(prevState,props){
             
             return{
@@ -185,9 +187,14 @@ class QuestionnairePage extends React.Component{
     
 
     getQuestionnaire = async()=>{
+        if(subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId){
+            localStorage.setItem("clientId",subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId);
+            
+        }
+        console.log(localStorage.getItem("clientId"))
         if(subCapabilitiesArray.length>0){
         fetch(
-            questionnaire.getQuestionnaire+`?clientAssessmentId=${subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId}`,
+            questionnaire.getQuestionnaire+`?clientAssessmentId=${localStorage.getItem("clientId")}`,
             apiGetHeader
             )
             .then(resp=>resp.json())
@@ -199,16 +206,54 @@ class QuestionnairePage extends React.Component{
 }
 
 
-    parseSubCapabilities = (resp)=>{
-        subCapabilitiesArray = resp;
+    parseSubCapabilities = async(resp)=>{
+       
+    capabilitiesArray = resp;
+    let subCapabilityNameArray,capabilityArrayIndex,subCapabilityName=[];
+    if(this.props.location.capabilityName){
+    subCapabilityNameArray = capabilitiesArray.filter(element=>{
+        return element.capabilityName===this.props.location.capabilityName
+    })
+    // subCapabilityName = subCapabilityNameArray[0].subcapabilities.filter(subcapability=>{
+    //     return subcapability.isIncomplete===true
+    // })
+    }
+    else{
+    subCapabilityNameArray = capabilitiesArray.filter(element=>{
+       return element.isIncomplete===true
+    })
+    }
+    subCapabilityName = subCapabilityNameArray[0].subcapabilities.filter(subcapability=>{
+        return subcapability.isIncomplete===true
+    })
+    capabilityArrayIndex = capabilitiesArray.indexOf(subCapabilityNameArray[0])
+        await this.setState(function(prevState,props){
+            return {capabilityArrayIndex:capabilityArrayIndex}
+    })
+
+    if(subCapabilityNameArray.length>0){
+    
+    subCapabilitiesArray = subCapabilityNameArray[0].subcapabilities
+    console.log(subCapabilitiesArray,capabilitiesArray);
+    if(subCapabilityName.length>0){
+        console.log(subCapabilityName,subCapabilitiesArray,capabilityArrayIndex);
         
-     this.getQuestionnaire()
+    await this.setState({
+        arrayIndex:subCapabilitiesArray.indexOf(subCapabilityName[0])
+    })    
+    }
+    }
+    this.getQuestionnaire()
+
     }
 
 
     getSubCapability = ()=>{
-        console.log(this.props.location)
-        fetch(questionnaire.getCapabilities+`?siteId=${this.props.location.siteid}&businessfunctionId=${this.props.location.businessFunctionName}&capabilityId=${this.props.location.capabilityName}`,apiGetHeader)
+        if(this.props.location.siteid){
+        localStorage.setItem("siteId",this.props.location.siteid);
+        localStorage.setItem("businessfunctionId",this.props.location.businessFunctionName);
+    }
+    fetch(questionnaire.getCapabilities+`?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}`,apiGetHeader)
         .then(resp=>resp.json())
         .then(resp=>this.parseSubCapabilities(resp))
     }
@@ -271,7 +316,6 @@ class QuestionnairePage extends React.Component{
     }
 
     textAreaValue = (e)=>{
-        
         this.setState({
             textAreaNotesValue : e.target.value,
             textArealength:e.target.value.length
@@ -289,6 +333,10 @@ class QuestionnairePage extends React.Component{
     }
 
 
+    replaceSubCapabilitiesArray = (arrayIndex)=>{
+        subCapabilitiesArray = capabilitiesArray[arrayIndex].subcapabilities;
+    }
+
     continueNav = ()=>{
         let saveAssessment = {
             "currentLevel":this.state.currentValue?this.state.currentValue:-1,
@@ -303,8 +351,18 @@ class QuestionnairePage extends React.Component{
             .then(resp=>{
                 console.log(resp)
                 if(resp.successMsg){
+                    
                     this.setState(function(prevState,props){
+                        if(this.state.arrayIndex+1===subCapabilitiesArray.length){
+                            this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex+1)
+                            return{
+                                capabilitiesArrayIndex:prevState.capabilitiesArrayIndex+1,
+                                arrayIndex:0
+                            }
+                        }
+                        else{
                         return{arrayIndex:prevState.arrayIndex+1}
+                    }
                     })
                     
                     this.getQuestionnaire()
@@ -316,6 +374,33 @@ class QuestionnairePage extends React.Component{
             
      }
 
+
+    previousSubCapability = async()=>{
+        
+        if(this.state.arrayIndex>0){
+
+            await this.setState(function(prevState,props){
+                return{arrayIndex:prevState.arrayIndex-1}
+            })
+
+            this.getQuestionnaire();
+        }
+        else {
+            if(this.state.capabilitiesArrayIndex>0){
+                
+                await this.setState(function(prevState,props){
+                    console.log(this.state.capabilitiesArrayIndex,subCapabilitiesArray);
+                    return{
+                        capabilitiesArrayIndex:prevState.capabilitiesArrayIndex-1,
+                        arrayIndex:0
+                    }
+                })
+            }
+            this.replaceSubCapabilitiesArray(this.state.capabilitiesArrayIndex)
+            
+            this.getQuestionnaire();
+        }
+    }
 
     saveAndExit = ()=>{
         let saveAssessment = {
@@ -345,13 +430,23 @@ class QuestionnairePage extends React.Component{
             })
     }
 
+    showContinue = ()=>{
+        if(this.state.capabilitiesArrayIndex!==capabilitiesArray.length-1){
+            if(this.state.arrayIndex!==subCapabilitiesArray.length-1){
+                return true
+            }
+        }
+        else{
+            return false
+        }
+    }
 
     render(){
         return(
             <div className = "questionnaire-main-container">
             <QuestionnaireHeader data={this.state.headerValues}/>
             <div className="navigation-button-group">
-            <QuestionnaireNavigation labelName="Previous" customClass="prev"/><QuestionnaireNavigation labelName="Skip Question" />
+            <QuestionnaireNavigation labelName="Previous" customClass="prev" onClick={this.previousSubCapability}/><QuestionnaireNavigation labelName="Skip Question" />
             </div>
             <div className="questions-and-targets">
                 <GeneralQuestions data={this.state.questions} flagQuestions={this.focusInput}/>
@@ -363,7 +458,7 @@ class QuestionnairePage extends React.Component{
                 setTargetValue={this.setTargetValue}/>
                 <div className="button-group">
                 <SaveandExitButton labelName="Save and Exit" onClick={this.saveAndExit}/>
-                {this.state.arrayIndex!==subCapabilitiesArray.length-1&&<FormNavigationButton labelName="Continue" onClick={this.continueNav}/>}
+                {this.showContinue&&<FormNavigationButton labelName="Continue" onClick={this.continueNav}/>}
                 
                 </div>
                 </span>

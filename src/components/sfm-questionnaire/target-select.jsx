@@ -8,30 +8,54 @@ import FormLabel from '@material-ui/core/FormLabel';
 import './target-select.scss';
 
 // let ratings = [1,2,3,4,5,6,7]
-export default function TargetSelect(props) {
-    const [selectedValue1, setSelectedValue1] = React.useState(props.current);
-    const [selectedValue, setSelectedValue] = React.useState(props.target);
+export default class TargetSelect extends React.Component {
+
+        constructor(props){
+          super(props);
+          this.state={
+            targetSelected:this.props.target,
+            currentSelected:this.props.current
+          }
+        }
     //selectedValue1 = props.current;
-    const handleChangeCurrent = (event) => {
-        let value = event.target.value;
-        value = value[value.length-1];
-        setSelectedValue1(event.target.value);
-        selectedValue1?props.setCurrentValue(value):props.setCurrentValue("")
-      };
-      const handleChangeTarget = (event) => {
-        let value = event.target.value;
-        value = value[value.length-1];
-        setSelectedValue(event.target.value);
-        selectedValue?props.setTargetValue(value):props.setTargetValue("")
-      };
+    // const handleChangeCurrent = (event) => {
+    //     let value = event.target.value;
+    //     value = value[value.length-1];
+    //     setSelectedValue1(event.target.value);
+    //     selectedValue1?props.setCurrentValue(value):props.setCurrentValue("")
+    //   };
+    //   const handleChangeTarget = (event) => {
+    //     let value = event.target.value;
+    //     value = value[value.length-1];
+    //     setSelectedValue(event.target.value);
+    //     selectedValue?props.setTargetValue(value):props.setTargetValue("")
+    //   };
+    handleChangeCurrent = async(e)=>{
+      console.log(e.target.value);
+      await this.setState({
+        currentSelected:e.target.value
+      })
+      this.state.currentSelected?this.props.setCurrentValue(this.state.currentSelected):this.props.setCurrentValue("")
+    }
+    static getDerivedStateFromProps = (nextProps, prevState)=>{
+      if(nextProps.current!==prevState.current){
+        return { currentSelected: nextProps.current};
+     }
+     else return null;
+   }
+   componentWillUpdate = (prevProps,prevState)=>{
+    
+   }
+    render(){
+      console.log(this.props,this.state)
     return (
       <>
 
       <FormControl component="currentfieldset">
         <FormLabel component="legend" color="">Current</FormLabel>
-        <RadioGroup row aria-label="current" name="current" value={props.current}  onChange={handleChangeCurrent}>
+        <RadioGroup row aria-label="current" name="current" value={this.state.currentSelected} onChange={this.handleChangeCurrent}>
             <FormControlLabel
-            checked={selectedValue1 === "current1"}
+            checked={this.state.currentSelected==="current1"}
             value="current1"
             control={<Radio color="default" />}
             label="1"
@@ -40,7 +64,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue1 === "current2"}
+            checked={this.state.currentSelected==="current2"}
             value="current2"
             control={<Radio color="default" />}
             label="2"
@@ -49,7 +73,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue1 === "current3"}
+            checked={this.state.currentSelected==="current3"}
             value="current3"
             control={<Radio color="default" />}
             label="3"
@@ -58,7 +82,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue1 === "current4"}
+            checked={this.state.currentSelected==="current4"}
             value="current4"
             control={<Radio color="default" />}
             label="4"
@@ -67,7 +91,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue1 === "current5"}
+            checked={this.state.currentSelected==="current5"}
             value="current5"
             control={<Radio color="default" />}
             label="5"
@@ -76,7 +100,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue1 === "current6"}
+            checked={this.state.currentSelected==="current6"}
             value="current6"
             control={<Radio color="default" />}
             label="6"
@@ -85,7 +109,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue1 === "current7"}
+            checked={this.state.currentSelected==="current7"}
             value="current7"
             control={<Radio color="default" />}
             label="7"
@@ -96,9 +120,9 @@ export default function TargetSelect(props) {
         </FormControl>
         <FormControl component="targetfieldset">
         <FormLabel component="legend" style={{marginTop:"45px"}}>Target</FormLabel>
-        <RadioGroup row aria-label="Target" name="Target" value={props.target} onChange={handleChangeTarget}>
+        <RadioGroup row aria-label="Target" name="Target" value={this.props.target} >
           <FormControlLabel
-            checked={selectedValue === "target1"}
+            
             value="target1"
             control={<Radio color="default" />}
             label="1"
@@ -107,7 +131,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue === "target2"}
+          
             value="target2"
             control={<Radio color="default" />}
             label="2"
@@ -116,7 +140,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue === "target3"}
+          
             value="target3"
             control={<Radio color="default" />}
             label="3"
@@ -125,7 +149,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue === "target4"}
+         
             value="target4"
             control={<Radio color="default" />}
             label="4"
@@ -134,7 +158,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue === "target5"}
+          
             value="target5"
             control={<Radio color="default" />}
             label="5"
@@ -143,7 +167,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue === "target6"}
+         
             value="target6"
             control={<Radio color="default" />}
             label="6"
@@ -152,7 +176,7 @@ export default function TargetSelect(props) {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          checked={selectedValue === "target7"}
+          
             value="target7"
             control={<Radio color="default" />}
             label="7"
@@ -169,7 +193,7 @@ export default function TargetSelect(props) {
         
       </>
     );
-    
+  }
   }
   
 
