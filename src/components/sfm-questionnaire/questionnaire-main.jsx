@@ -93,7 +93,8 @@ class QuestionnairePage extends React.Component{
             notesDetails:[],
             arrayIndex:0,
             progress:"",
-            capabilitiesArrayIndex:0
+            capabilitiesArrayIndex:0,
+            showContinue:""
         }
         this.props.disableMenu(false);
     }
@@ -138,15 +139,15 @@ class QuestionnairePage extends React.Component{
 
 
     parseQuestionnaire = async(questionnaireResponse)=>{
-        console.log(questionnaireResponse);
+        console.log(questionnaireResponse,subCapabilitiesArray,capabilitiesArray,this.props.location.capabilityName);
         let progress;
-        fetch(questionnaire.getProgress+`?siteId=${this.props.location.siteid}&businessfunctionId=${this.props.location.businessFunctionName}&capabilityId=${this.props.location.capabilityName}`,apiGetHeader)
+        fetch(questionnaire.getProgress+`?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}&capabilityId=${localStorage.getItem("capabilityName")}`,apiGetHeader)
             .then(resp=>resp.json())
             .then(resp=>{
                 
         let headerValues={
             title:subCapabilitiesArray[this.state.arrayIndex].businessFunctionName,
-            Capabilities:subCapabilitiesArray[this.state.arrayIndex].capabilityName,
+            Capabilities:capabilitiesArray[this.state.capabilitiesArrayIndex].capabilityName,
             subCapabilities:subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
             subCapabilityNum:this.state.arrayIndex+1,
             progress:Math.round(resp.progress,4),
@@ -170,7 +171,7 @@ class QuestionnairePage extends React.Component{
         };
 
         let notesDetails=questionnaireResponse.Notes
-
+        console.log(headerValues)
          this.setState(function(prevState,props){
             
             return{
@@ -188,7 +189,7 @@ class QuestionnairePage extends React.Component{
     getQuestionnaire = async()=>{
         if(subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId){
             localStorage.setItem("clientId",subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId);
-            
+
         }
         console.log(localStorage.getItem("clientId"))
         if(subCapabilitiesArray.length>0){
@@ -210,6 +211,7 @@ class QuestionnairePage extends React.Component{
     capabilitiesArray = resp;
     let subCapabilityNameArray,capabilityArrayIndex,subCapabilityName=[];
     if(this.props.location.capabilityName){
+        localStorage.setItem("capabilityName",this.props.location.capabilityName)
     subCapabilityNameArray = capabilitiesArray.filter(element=>{
         return element.capabilityName===this.props.location.capabilityName
     })
@@ -340,7 +342,7 @@ class QuestionnairePage extends React.Component{
             "currentLevel":this.state.currentValue?this.state.currentValue:-1,
             "targetLevel":this.state.targetValue?this.state.targetValue:-1,
             "subCapability":subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
-            "siteid":this.props.location.siteid
+            "siteid":localStorage.getItem("siteId")
             }
         apiPostHeader.body = JSON.stringify(saveAssessment);
         
@@ -364,6 +366,7 @@ class QuestionnairePage extends React.Component{
                     })
                     
                     this.getQuestionnaire()
+                    this.showContinue();
                 }
                 else{
                     console.log("errored out")
@@ -405,7 +408,7 @@ class QuestionnairePage extends React.Component{
             "currentLevel":this.state.currentValue?this.state.currentValue:-1,
             "targetLevel":this.state.targetValue?this.state.targetValue:-1,
             "subCapability":subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
-            "siteid":this.props.location.siteid
+            "siteid":localStorage.getItem("siteId")
             }
             console.log(this.props.history.location)
         apiPostHeader.body = JSON.stringify(saveAssessment);
@@ -428,14 +431,19 @@ class QuestionnairePage extends React.Component{
             })
     }
 
-    showContinue = ()=>{
+    showContinue = async()=>{
+        console.log(this.state.arrayIndex,subCapabilitiesArray.length-1,this.state.capabilitiesArrayIndex,capabilitiesArray.length-1)
         if(this.state.capabilitiesArrayIndex!==capabilitiesArray.length-1){
             if(this.state.arrayIndex!==subCapabilitiesArray.length-1){
-                return true
+                await this.setState({
+                    showContinue:true
+                })
             }
         }
         else{
-            return false
+            await this.setState({
+                showContinue:false
+            })
         }
     }
 
@@ -456,7 +464,7 @@ class QuestionnairePage extends React.Component{
                 setTargetValue={this.setTargetValue}/>
                 <div className="button-group">
                 <SaveandExitButton labelName="Save and Exit" onClick={this.saveAndExit}/>
-                {this.showContinue&&<FormNavigationButton labelName="Continue" onClick={this.continueNav}/>}
+                {<FormNavigationButton labelName="Continue" onClick={this.continueNav}/>}
                 
                 </div>
                 </span>
