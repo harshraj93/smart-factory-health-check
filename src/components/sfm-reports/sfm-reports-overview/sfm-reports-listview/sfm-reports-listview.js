@@ -10,8 +10,9 @@ import DropDownImg from '../../../../images/icon-small-chevron-down.svg';
 import EditIcon from '../../../../images/icon-small-edit.svg';
 import Slider from '../sfm-scorecard-slider/sfm-scorecard-slider';
 import {FormNavigationButton} from '../../../../assets/sfm-button';
-import {resultsApi} from '../../../../api/assessments/reports'
-import {apiPostHeader} from '../../../../api/main/mainapistorage'
+import {resultsApi} from '../../../../api/assessments/reports';
+import {apiPostHeader} from '../../../../api/main/mainapistorage';
+import {Link,withRouter} from 'react-router-dom';
 
 function percentComplete(data, str) {
     return (
@@ -204,7 +205,17 @@ class ReportsListView extends React.Component {
                     <div className="assess-overview-card">
                         <span className="area-name">{data.name}</span>
                         {data.business_funtion_level_status!=="Open"?percentComplete(data, ""):percentComplete(data, "success")}
-                        {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{marginRight: "28px"}}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50", marginRight: "28px"}}/>}
+                        {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{marginRight: "28px"}}/>:
+                            <Link to={{
+                                pathname:'/questionnaire', 
+                                siteid: this.props.data.siteid, 
+                                clientName: this.props.data.clientName, 
+                                siteName: this.props.data.siteName, 
+                                sector:this.props.data.sector, 
+                                businessFunctionName: data.name, 
+                                capabilityName: null}}>
+                                    <FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50", marginRight: "28px"}}/>
+                            </Link>}
                     </div>
                     <img className="drop-down" src={DropDownImg} alt="" ></img>
                 </Accordion.Toggle>
@@ -214,7 +225,17 @@ class ReportsListView extends React.Component {
                             return (
                                 <div className="assess-overview-card" key={y}>
                                     {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
-                                    {x.active?(x.status!=="Open"?<FormNavigationButton labelName={<>&#10003;</>}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
+                                    {x.active?(x.status!=="Open"?<FormNavigationButton labelName={<>&#10003;</>}/>:
+                                            <Link to={{
+                                                pathname:'/questionnaire', 
+                                                siteid: this.props.data.siteid, 
+                                                clientName: this.props.data.clientName, 
+                                                siteName: this.props.data.siteName, 
+                                                sector:this.props.data.sector, 
+                                                businessFunctionName: data.name, 
+                                                capabilityName: x.name}}>
+                                                    <FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>
+                                            </Link>):""}
                                 </div>
                             )
                         })}
@@ -264,4 +285,4 @@ class ReportsListView extends React.Component {
     }
 }
 
-export default ReportsListView;
+export default withRouter(ReportsListView);

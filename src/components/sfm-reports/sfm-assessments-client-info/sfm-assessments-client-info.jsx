@@ -12,7 +12,7 @@ class ClientInfo extends React.Component {
             enableButton:"false",
             jsonData: {}
         }
-        this.props.disableMenu(false);
+        // this.props.disableMenu(false);
     }
 
     // handleChange = async (e)=>{

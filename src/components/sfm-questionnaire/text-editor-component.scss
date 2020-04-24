@@ -1,25 +1,45 @@
 .MuiIconButton-root{
     color:unset !important;
 }
-.MUIRichTextEditor-editorContainer-98.MUIRichTextEditor-placeHolder-102{
-    height: 220px;
-    //width: 50%;
-}
-.public-DraftStyleDefault-block.public-DraftStyleDefault-ltr{
-    height: 220px;
-    //width: 50%;
-}
-.MUIRichTextEditor-root-94{
-    width: 100% !important;
-}
-#mui-rte-editor{
-    border-bottom: unset;
+
+.notes-card {
+    margin-top: 20px;
+    .notes-card-header {
+        display: flex;
+        align-items: flex-start;
+
+        .header-block {
+            .user-name {
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            .date-time {
+                color: #dedede;
+                font-size: 12px;
+                display: flex;
+                p {
+                    margin-right: 13px;
+                }
+            }
+        }
+    }
+    .notes-card-content {
+        border-radius: 8px;
+        background-color: #35353b;
+        color: #fefefe;
+        font-size: 14px;
+        padding: 24px;
+        width: 63.78vw;
+    }
 }
 
-textarea{
-    height: 300px;
-    width: 100%;
-    background-color: inherit;
-    border: unset;
-    color: white;
+.notes-editor-area{
+        width: 100%;
+        height: 300px;
+        background-color: #232325;
+        border-radius: 8px;
+        margin-top: 16px;
+        border: unset;
+        color: white;
 }

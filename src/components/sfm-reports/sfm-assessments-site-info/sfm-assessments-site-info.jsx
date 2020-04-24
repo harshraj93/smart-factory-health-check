@@ -17,7 +17,7 @@ class SiteInfo extends React.Component{
             BusinessFunctionPoC: [],
             dropdown: []
         }
-        this.props.disableMenu(false);
+        // this.props.disableMenu(false);
     }
 
     handleChange = async (e)=>{
@@ -44,8 +44,8 @@ class SiteInfo extends React.Component{
         let siteInfoData = await this.fetchSiteInfo();
         await this.setState({
             jsonData:siteInfoData.resultantJSON,
-            BusinessFunctionPoC: siteInfoData.resultantJSON.BusinessFunctionPoC,
-            dropdown: siteInfoData.resultantJSON.manufactureArchList
+            // BusinessFunctionPoC: siteInfoData.resultantJSON.BusinessFunctionPoC,
+            // dropdown: siteInfoData.resultantJSON.manufactureArchList
         })
     }
 
