@@ -268,19 +268,19 @@ class Reports extends React.Component{
         let demographicsData = {}; 
         let overviewData = {};
         let notesData = {}
-        if (this.props.location.loadComponentString === "results") {
+        // if (this.props.location.loadComponentString === "results") {
             resultJSON = await this.fetchResultsData();
             demographicsData = await this.fetchDemographicsData();
             resultJSON.resultantJSON.siteid = this.props.location.siteid;
-        }
-        else {
+        // }
+        // else {
             overviewData = await this.fetchOverview();
             notesData = await this.fetchNotes();
             overviewData.clientName = this.props.location.companyName;
             overviewData.siteName = this.props.location.locationString;
             overviewData.sector = this.props.location.industryType;
             overviewData.siteid = this.props.location.siteid;
-        }
+        // }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
             "siteName": this.props.location.locationString,
