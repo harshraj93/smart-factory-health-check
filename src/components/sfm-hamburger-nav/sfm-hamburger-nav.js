@@ -14,7 +14,8 @@ class HamburgerNav extends React.Component {
             divId: "",
             toggleSidebar: "block",
             username: "Bryan Takayama",
-            showNav:""
+            showNav:"",
+            email:""
         };
 
         this.navbar = this.navbar.bind(this);
@@ -53,8 +54,10 @@ class HamburgerNav extends React.Component {
     }
 
     getNick() {
-        var nameArray = this.state.username.split(" ");
-        return nameArray[0].charAt(0) + nameArray[1].charAt(0);
+        let nameArray = this.state.username.split(" ");
+        let nickName = nameArray.length > 0 ? nameArray[0].charAt(0) + nameArray[1].charAt(0) :  nameArray[0].charAt(0);
+      
+        return nickName;
     }
     triggerUserNameAndPassword = () => {
 
@@ -78,7 +81,8 @@ class HamburgerNav extends React.Component {
                 });
               } else {
                 this.setState({
-                  userName: result.username
+                  userName: result.username,
+                  email: result.email
                 });
               }
             }
