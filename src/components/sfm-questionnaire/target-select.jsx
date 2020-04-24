@@ -39,13 +39,14 @@ export default class TargetSelect extends React.Component {
       })
       this.state.currentSelected?this.props.setCurrentValue(value):this.props.setCurrentValue("")
     }
-    handleTargetCurrent = async(e)=>{
+    handleTargetChange= async(e)=>{
       let value = e.target.value;
       value = value[value.length-1];
+      console.log(value);
       await this.setState({
         targetSelected:e.target.value
       })
-      this.state.targetSelected?this.props.setCurrentValue(value):this.props.setCurrentValue("")
+      this.state.targetSelected?this.props.setTargetValue(value):this.props.setTargetValue("")
     }
       
   //  componentDidUpdate = (prevProps,prevState)=>{

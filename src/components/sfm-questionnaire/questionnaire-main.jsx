@@ -11,6 +11,7 @@ import TargetSelect from './target-select';
 import NotesComponent from './notes-component';
 import questionnaire from '../../api/questionnaire/questionnaire';
 import {apiGetHeader,apiPostHeader} from '../../api/main/mainapistorage';
+
 let scoring = {
             "Low (2)":"Limited and independent data leveraged to identify areas of improvement at high level. No detailed system analysis performed to prioritize and track/monitor improvements.",
             "Medium (4)":"Improvement projects are launched based on data-driven, quantitative analysis of key business drivers. High level system based tracking and analysis of progress in place",
@@ -141,9 +142,9 @@ class QuestionnairePage extends React.Component{
 
 
     parseQuestionnaire = async(questionnaireResponse)=>{
-        console.log(questionnaireResponse,subCapabilitiesArray,capabilitiesArray,this.props.location.capabilityName);
+        console.log(questionnaireResponse,subCapabilitiesArray,capabilitiesArray,this.props.location);
         let progress;
-        fetch(questionnaire.getProgress+`?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}&capabilityId=${localStorage.getItem("capabilityName")}`,apiGetHeader)
+        fetch(questionnaire.getProgress+`?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}&capabilityId=${capabilitiesArray[this.state.capabilitiesArrayIndex].capabilityName}`,apiGetHeader)
             .then(resp=>resp.json())
             .then(resp=>{
                 
@@ -214,26 +215,38 @@ class QuestionnairePage extends React.Component{
     let subCapabilityNameArray,capabilityArrayIndex,subCapabilityName=[];
     if(this.props.location.capabilityName){
         localStorage.setItem("capabilityName",this.props.location.capabilityName)
+        console.log(this.props.location.capabilityName);
     subCapabilityNameArray = capabilitiesArray.filter(element=>{
         return element.capabilityName===this.props.location.capabilityName
     })
+    console.log(subCapabilityNameArray);
     // subCapabilityName = subCapabilityNameArray[0].subcapabilities.filter(subcapability=>{
     //     return subcapability.isIncomplete===true
     // })
     }
     else{
     subCapabilityNameArray = capabilitiesArray.filter(element=>{
-       return element.isIncomplete===true
+       if(element.isIncomplete===true){
+           return element
+       }
+       else{
+           return capabilitiesArray[0]
+       }
     })
     }
     subCapabilityName = subCapabilityNameArray[0].subcapabilities.filter(subcapability=>{
-        return subcapability.isIncomplete===true
+        if(subcapability.isIncomplete===true){
+            return subcapability
+        }
+        else{
+            return subcapability[0]
+        }
     })
+    console.log(subCapabilityName);
     capabilityArrayIndex = capabilitiesArray.indexOf(subCapabilityNameArray[0])
         await this.setState(function(prevState,props){
             return {capabilityArrayIndex:capabilityArrayIndex}
     })
-
     if(subCapabilityNameArray.length>0){
     
     subCapabilitiesArray = subCapabilityNameArray[0].subcapabilities
@@ -421,11 +434,10 @@ class QuestionnairePage extends React.Component{
                 if(resp.successMsg){
                     this.props.history.push({
                         pathname:"/reports",
-                        // clientName:this.props.history.location.clientName,
-                        // siteName:this.props.history.location.siteName,
-                        // sector:this.props.history.location.sector,
-                        // loadComponentString:"assessments"
-                        
+                        companyName:this.props.history.location.clientName,
+                        locationString:this.props.history.location.siteName,
+                        industryType:this.props.history.location.sector,
+                        loadComponentString:"assessments" 
                     })
                 }
                 else{
@@ -435,7 +447,6 @@ class QuestionnairePage extends React.Component{
     }
 
     showContinue = async()=>{
-        console.log(this.state.arrayIndex,subCapabilitiesArray.length-1,this.state.capabilitiesArrayIndex,capabilitiesArray.length-1)
         if(this.state.capabilitiesArrayIndex!==capabilitiesArray.length-1){
             if(this.state.arrayIndex!==subCapabilitiesArray.length-1){
                 await this.setState({
