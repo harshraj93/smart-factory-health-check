@@ -17,9 +17,13 @@ export default class NotesComponent extends React.Component{
     render(){
         return(
             <div className="notes-container">
-            {/* {this.props.data.flag!==null?<img src={FlagImg} alt="" style={{marginTop: "2.5px", marginRight: "10px"}}></img>:""} */}
-                <div className="name">{this.props.data.resourceName}</div>
-                <div className="date-time"><span className="time">11:40</span><span className="date">{this.parseDateTime(this.props.data.timestamp)}</span></div>
+                <div className="notes-card-header">
+                    {this.props.data.flag!==null?<img src={FlagImg} alt="" style={{marginTop: "2.5px", marginRight: "10px"}}></img>:""}
+                    <div className="header-block">
+                        <div className="name">{this.props.data.resourceName}</div>
+                        <div className="date-time"><span className="time">11:40</span><span className="date">{this.parseDateTime(this.props.data.timestamp)}</span></div>
+                    </div>
+                </div>
                 <div className="text-area-notes" onClick={this.props.textAreaClick}>{this.props.data.notes}</div>
             </div>
         )
