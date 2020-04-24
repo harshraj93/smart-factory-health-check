@@ -15,8 +15,22 @@ export default class TargetSelect extends React.Component {
           this.state={
             targetSelected:"",
             currentSelected:"",
-            
+            current1:"",
+            current2:"",
+            current3:"",
+            current4:"",
+            current5:"",
+            current6:"",
+            current7:"",
+            target1:"",
+            target2:"",
+            target3:"",
+            target4:"",
+            target5:"",
+            target6:"",
+            target7:"",
           }
+          
         }
     //selectedValue1 = props.current;
     // const handleChangeCurrent = (event) => {
@@ -48,14 +62,88 @@ export default class TargetSelect extends React.Component {
       })
       this.state.targetSelected?this.props.setTargetValue(value):this.props.setTargetValue("")
     }
-      
-  //  componentDidUpdate = (prevProps,prevState)=>{
-  //   if (prevState.currentSelected !== this.state.currentSelected) {
-      
-  //     this.setState({currentSelected:});
-      
-  //   }
-  //  }
+    setRadioButtonValue=(value1,value2)=>{
+      console.log(value1,value2);
+      switch (value1){
+        case "current1":
+          this.setState({
+            current1:"checked"
+          })
+          break;
+        case "current2":
+          this.setState({
+            current2:"checked"
+          })
+          break;
+        case "current3":
+          this.setState({
+            current3:"checked"
+          })
+          break;
+        case "current4":
+          this.setState({
+            current4:"checked"
+          })
+          break;
+        case "current5":
+          this.setState({
+            current5:"checked"
+          })
+          break;
+        case "current6":
+          this.setState({
+            current6:"checked"
+          })
+          break;
+          case "current7":
+            this.setState({
+              current7:"checked"
+          })
+          default:
+
+          
+      }
+      switch(value2){
+        case "target1":
+          this.setState({
+            target1:"checked"
+          })
+          break;
+        case "target2":
+          this.setState({
+            target2:"checked"
+          })
+          break;
+        case "target3":
+          this.setState({
+            target3:"checked"
+          })
+          break;
+        case "target4":
+          this.setState({
+            target4:"checked"
+          })
+          break;
+        case "target5":
+          this.setState({
+            target5:"checked"
+          })
+          break;
+        case "target6":
+          this.setState({
+            target6:"checked"
+          })
+          break;
+          case "target7":
+            this.setState({
+              target7:"checked"
+          })
+          default:
+      }
+    }
+   componentDidMount = ()=>{
+    //this.setRadioButtonValue(this.props.current,this.props.target)
+   }
     render(){
     
     return (
@@ -63,18 +151,19 @@ export default class TargetSelect extends React.Component {
 
       <FormControl component="currentfieldset">
         <FormLabel component="legend" color="">Current</FormLabel>
-        <RadioGroup row aria-label="current" name="current" onChange={this.handleChangeCurrent}>
+        <RadioGroup row aria-label="current" name="current"  onChange={this.handleChangeCurrent}>
             <FormControlLabel
-            // checked={this.state.currentSelected==="current1"}
+            //checked={this.state.current1}
             value="current1"
             control={<Radio color="default" />}
             label="1"
             labelPlacement="top"
             inputProps={{ 'aria-label': "1"  }}
+            
           />
           <div className="right-line"></div>
           <FormControlLabel
-            // checked={this.state.currentSelected==="current2"}
+            //checked={this.state.current2}
             value="current2"
             control={<Radio color="default" />}
             label="2"
@@ -83,7 +172,7 @@ export default class TargetSelect extends React.Component {
           />
           <div className="right-line"></div>
           <FormControlLabel
-            // checked={this.state.currentSelected==="current3"}
+            //checked={this.state.current3}
             value="current3"
             control={<Radio color="default" />}
             label="3"
@@ -92,7 +181,7 @@ export default class TargetSelect extends React.Component {
           />
           <div className="right-line"></div>
           <FormControlLabel
-            // checked={this.state.currentSelected==="current4"}
+            //checked={this.state.current4}
             value="current4"
             control={<Radio color="default" />}
             label="4"
@@ -101,7 +190,7 @@ export default class TargetSelect extends React.Component {
           />
           <div className="right-line"></div>
           <FormControlLabel
-            //checked={this.state.currentSelected==="current5"}
+            //checked={this.state.current5}
             value="current5"
             control={<Radio color="default" />}
             label="5"
@@ -110,7 +199,7 @@ export default class TargetSelect extends React.Component {
           />
           <div className="right-line"></div>
           <FormControlLabel
-            //checked={this.props.currentSelected==="current6"}
+            //checked={this.state.current6}
             value="current6"
             control={<Radio color="default" />}
             label="6"
@@ -119,7 +208,7 @@ export default class TargetSelect extends React.Component {
           />
           <div className="right-line"></div>
           <FormControlLabel
-            //checked={this.props.currentSelected==="current7"}
+            //checked={this.state.current7}
             value="current7"
             control={<Radio color="default" />}
             label="7"
@@ -130,9 +219,9 @@ export default class TargetSelect extends React.Component {
         </FormControl>
         <FormControl component="targetfieldset">
         <FormLabel component="legend" style={{marginTop:"45px"}}>Target</FormLabel>
-        <RadioGroup row aria-label="Target" name="Target" defaultValue={this.props.targetSelected}  onChange={this.handleTargetChange}>
+        <RadioGroup row aria-label="Target" name="Target" onChange={this.handleTargetChange}>
           <FormControlLabel
-            
+            //checked={this.state.target1}
             value="target1"
             control={<Radio color="default" />}
             label="1"
@@ -141,7 +230,7 @@ export default class TargetSelect extends React.Component {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          
+            //checked={this.state.target2}
             value="target2"
             control={<Radio color="default" />}
             label="2"
@@ -150,7 +239,7 @@ export default class TargetSelect extends React.Component {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          
+            //checked={this.state.target3}
             value="target3"
             control={<Radio color="default" />}
             label="3"
@@ -159,7 +248,7 @@ export default class TargetSelect extends React.Component {
           />
           <div className="right-line"></div>
           <FormControlLabel
-         
+            //checked={this.state.target4}
             value="target4"
             control={<Radio color="default" />}
             label="4"
@@ -168,7 +257,7 @@ export default class TargetSelect extends React.Component {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          
+            //checked={this.state.target5}
             value="target5"
             control={<Radio color="default" />}
             label="5"
@@ -177,7 +266,7 @@ export default class TargetSelect extends React.Component {
           />
           <div className="right-line"></div>
           <FormControlLabel
-         
+            //checked={this.state.target6}
             value="target6"
             control={<Radio color="default" />}
             label="6"
@@ -186,7 +275,7 @@ export default class TargetSelect extends React.Component {
           />
           <div className="right-line"></div>
           <FormControlLabel
-          
+            //checked={this.state.target7}
             value="target7"
             control={<Radio color="default" />}
             label="7"

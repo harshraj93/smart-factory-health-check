@@ -131,8 +131,8 @@ class Reports extends React.Component{
         )
     }
 
-    goToResults() {
-        this.setState({
+    goToResults = async()=> {
+        await this.setState({
             loadComponentString: "results"
         })
     }
