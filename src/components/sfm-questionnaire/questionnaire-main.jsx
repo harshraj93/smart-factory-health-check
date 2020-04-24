@@ -94,7 +94,9 @@ class QuestionnairePage extends React.Component{
             arrayIndex:0,
             progress:"",
             capabilitiesArrayIndex:0,
-            showContinue:""
+            showContinue:"",
+            textArealength: 0,
+            
         }
         this.props.disableMenu(false);
     }
@@ -271,22 +273,23 @@ class QuestionnairePage extends React.Component{
                 + ":" + ("00" + date.getSeconds()).slice(-2) + "-"+("00" + date.getMilliseconds()).slice(-2); 
         let notesSubmission =  {
             "clientAssessmentId": subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId,
-            "resourceId": "RES_1",
+            "resourceEmailId": "RES_1",
             "note": this.state.textAreaNotesValue,
             "timestamp": Str,
             "flagType": "High"
         }
+        console.log(notesSubmission);
         apiPostHeader.body = JSON.stringify(notesSubmission);
         fetch(questionnaire.addAssessmentNote,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{
                 console.log(resp);
                 if(resp.resultantJSON.successMsg){
-                    // this.setState({
-                    //     showTextEditor:false,
-                    //     showNotes:true,
-                    //     textEditorData:""
-                    // })
+                    this.setState({
+                        showTextEditor:false,
+                        showNotes:true,
+                        textEditorData:""
+                    })
                     console.log(resp);
                 }
                 else{

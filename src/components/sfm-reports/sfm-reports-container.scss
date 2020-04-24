@@ -22,6 +22,7 @@
         overflow: auto;
         // padding: 16px 16px 0px 48px;
         background-color: #232325;
+        position: relative;
         .delete-modal {
             position: fixed;
             z-index: 1;
@@ -129,6 +130,26 @@
             padding-top: 8px;
             margin-bottom: 30px;
             
+        }
+
+        .goToResults {
+            position: absolute;
+            display: flex;
+            left: 81.5%;
+            align-items: center;
+            top: 26%;
+
+            .text {
+                font-size: 18px;
+                color: #ffffff;
+                opacity: 0.5;
+            }
+
+            .right-arrow {
+                transform: rotate(-90deg);
+                height: 10px;
+                margin-left: 15px;
+            }
         }
         
        

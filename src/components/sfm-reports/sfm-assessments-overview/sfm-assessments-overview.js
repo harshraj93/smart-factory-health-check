@@ -158,8 +158,8 @@ class AssessmentsOverview extends React.Component {
         //     jsonData:this.props.data
         // });
         return(
-            <div className="edit-bar" onClick={this.editToggle}>
-                <img src={EditIcon} alt=""></img>
+            <div className="edit-bar">
+                <img src={EditIcon} alt="" onClick={this.editToggle} style={{cursor: "pointer"}}></img>
                 <p style={{margin: "0", marginLeft: "10px"}}>Edit</p>
             </div>
         )
