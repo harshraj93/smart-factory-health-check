@@ -1,16 +1,22 @@
 .notes-container{
-    .name{
-        font-size: 14px;
-        font-weight: bold;
-    }
-    .date-time{
-        font-size: 12px;
-        font-weight: normal;
-        color: #dedede; 
-        .time{
-            margin-right: 16px;
+    .notes-card-header {
+        display: flex;
+        align-items: flex-start;
+
+        .header-block {
+            .name{
+                font-size: 14px;
+                font-weight: bold;
+            }
+            .date-time{
+                font-size: 12px;
+                font-weight: normal;
+                color: #dedede; 
+                .time{
+                    margin-right: 16px;
+                }
+            }
         }
-        
     }
     .text-area-notes{
         background-color: #35353b;

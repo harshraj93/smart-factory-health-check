@@ -97,6 +97,7 @@ class QuestionnairePage extends React.Component{
             capabilitiesArrayIndex:0,
             showContinue:"",
             textArealength: 0,
+            flagType: null
             
         }
         this.props.disableMenu(false);
@@ -286,10 +287,10 @@ class QuestionnairePage extends React.Component{
                 + ":" + ("00" + date.getSeconds()).slice(-2) + "-"+("00" + date.getMilliseconds()).slice(-2); 
         let notesSubmission =  {
             "clientAssessmentId": subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId,
-            "resourceEmailId": "RES_1",
+            "resourceEmailId": localStorage.getItem("userName"),
             "note": this.state.textAreaNotesValue,
             "timestamp": Str,
-            "flagType": "High"
+            "flagType": this.state.flagType
         }
         console.log(notesSubmission);
         apiPostHeader.body = JSON.stringify(notesSubmission);
@@ -304,8 +305,14 @@ class QuestionnairePage extends React.Component{
                         textEditorData:""
                     })
                     console.log(resp);
+                    this.getSubCapability();
                 }
                 else{
+                    this.setState({
+                        showTextEditor:false,
+                        showNotes:true,
+                        textEditorData:""
+                    })
                     console.log("errored out notes")
                 }
             })   
@@ -315,7 +322,8 @@ class QuestionnairePage extends React.Component{
 
     focusInput = async()=>{
         await this.setState({
-            showTextEditor:true
+            showTextEditor:true,
+            flagType: "Low"
         })
         document.getElementsByClassName("notes-editor-area")[0].scrollIntoView({behaviour:"smooth"});
         document.getElementsByClassName("notes-editor-area")[0].click();
@@ -492,7 +500,7 @@ class QuestionnairePage extends React.Component{
                     <div className="scoring-text-container" key={index}>
                     <div className="scoring-range">
                         {element}
-                        <span className="flag-button"><CustomButton imgSrc={flagIcon} clickFunction={this.focusInput}/></span>
+                        <span className="flag-button"><CustomButton imgSrc={flagIcon} clickFunction={(element)=>this.focusInput(element)}/></span>
                     </div>
                     <div className="scoring-info">
                         {this.state.scoringDetails[element]}
