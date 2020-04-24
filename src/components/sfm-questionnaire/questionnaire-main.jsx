@@ -143,7 +143,7 @@ class QuestionnairePage extends React.Component{
 
 
     parseQuestionnaire = async(questionnaireResponse)=>{
-        console.log(questionnaireResponse,subCapabilitiesArray,capabilitiesArray,this.props.location);
+        console.log(this.state.capabilitiesArrayIndex);
         let progress;
         fetch(questionnaire.getProgress+`?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}&capabilityId=${capabilitiesArray[this.state.capabilitiesArrayIndex].capabilityName}`,apiGetHeader)
             .then(resp=>resp.json())
@@ -246,7 +246,7 @@ class QuestionnairePage extends React.Component{
     console.log(subCapabilityName);
     capabilityArrayIndex = capabilitiesArray.indexOf(subCapabilityNameArray[0])
         await this.setState(function(prevState,props){
-            return {capabilityArrayIndex:capabilityArrayIndex}
+            return {capabilitiesArrayIndex:capabilityArrayIndex}
     })
     if(subCapabilityNameArray.length>0){
     
