@@ -459,6 +459,7 @@ class QuestionnairePage extends React.Component {
     }
 
     handleTargetChange = async (e) => {
+        console.log(e)
         let value;
         if (e.target) {
             value = e.target.value;
@@ -486,7 +487,7 @@ class QuestionnairePage extends React.Component {
                             handleChangeCurrent={this.handleChangeCurrent}
                             handleTargetChange={this.handleTargetChange}
                             currentvalue={this.state.currentSelected}
-                            targetValue={this.state.targetValue} />
+                            targetvalue={this.state.targetSelected} />
                         <div className="button-group">
                             <SaveandExitButton labelName="Save and Exit" onClick={this.saveAndExit} />
                             {<FormNavigationButton labelName="Continue" onClick={this.continueNav} />}
