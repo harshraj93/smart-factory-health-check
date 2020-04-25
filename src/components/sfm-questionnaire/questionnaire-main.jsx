@@ -459,7 +459,6 @@ class QuestionnairePage extends React.Component {
     }
 
     handleTargetChange = async (e) => {
-        console.log(e)
         let value;
         if (e.target) {
             value = e.target.value;
