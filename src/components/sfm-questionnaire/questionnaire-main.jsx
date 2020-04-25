@@ -371,6 +371,10 @@ class QuestionnairePage extends React.Component {
                     console.log("errored out")
                 }
             })
+            this.setState({
+                currentSelected:"",
+                targetSelected:""
+            })
 
     }
 
