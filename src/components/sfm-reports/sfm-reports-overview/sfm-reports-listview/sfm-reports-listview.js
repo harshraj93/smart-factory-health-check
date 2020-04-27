@@ -165,14 +165,16 @@ class ReportsListView extends React.Component {
             {this.props.data.reportsData.map((data,index)=>{
                 return(
                     <Card key={index} className={"card"}>                                   
-                        <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
+                        <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
                             <div className="listview-card">
                                 <span className="area-name">{data.name}</span>
                                 <Slider data={data}/>
                             </div>
                             <p style={{margin: "0px 12px 0px 15px", fontSize: "14px"}}>Breakdown</p>
-                            <img className="drop-down" src={DropDownImg} alt="" ></img>
-                        </Accordion.Toggle>
+                            <Accordion.Toggle as={Button} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
+                                <img className="drop-down" src={DropDownImg} alt="" ></img>
+                            </Accordion.Toggle>
+                        </Card.Header>
                         <Accordion.Collapse eventKey={index}>
                             <div>
                                 <div className="tr-com-box">
@@ -201,11 +203,10 @@ class ReportsListView extends React.Component {
     activeCard = (data, index) => {
         return (
             <Card key={index} className={"card"}>                                   
-                <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
+                <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
                     <div className="assess-overview-card">
                         <span className="area-name">{data.name}</span>
                         {data.business_funtion_level_status!=="Open"?percentComplete(data, ""):percentComplete(data, "success")}
-                        {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{marginRight: "28px"}}/>:
                             <Link to={{
                                 pathname:'/questionnaire', 
                                 siteid: this.props.data.siteid, 
@@ -214,18 +215,30 @@ class ReportsListView extends React.Component {
                                 sector:this.props.data.sector, 
                                 businessFunctionName: data.name, 
                                 capabilityName: null}}>
-                                    <FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50", marginRight: "28px"}}/>
-                            </Link>}
+                                    {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{marginRight: "28px"}}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50", marginRight: "28px"}}/>}
+                            </Link>
                     </div>
-                    <img className="drop-down" src={DropDownImg} alt="" ></img>
-                </Accordion.Toggle>
+                    <Accordion.Toggle as={Button} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
+                        <img className="drop-down" src={DropDownImg} alt="" ></img>
+                    </Accordion.Toggle>
+                </Card.Header>
                 <Accordion.Collapse eventKey={index}>
                     <div>
                         {data.Capability.map((x,y) => {
                             return (
                                 <div className="assess-overview-card" key={y}>
                                     {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
-                                    {x.active?(x.status!=="Open"?<FormNavigationButton labelName={<>&#10003;</>}/>:
+                                    {x.active?(x.status!=="Open"?
+                                            <Link to={{
+                                                pathname:'/questionnaire', 
+                                                siteid: this.props.data.siteid, 
+                                                clientName: this.props.data.clientName, 
+                                                siteName: this.props.data.siteName, 
+                                                sector:this.props.data.sector, 
+                                                businessFunctionName: data.name, 
+                                                capabilityName: x.name}}>
+                                                    <FormNavigationButton labelName={<>&#10003;</>}/>
+                                            </Link>:
                                             <Link to={{
                                                 pathname:'/questionnaire', 
                                                 siteid: this.props.data.siteid, 
