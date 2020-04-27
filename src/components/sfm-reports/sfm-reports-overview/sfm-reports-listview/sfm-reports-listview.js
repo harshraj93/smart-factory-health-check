@@ -74,7 +74,6 @@ class ReportsListView extends React.Component {
             "keyThemes": this.state.keyThemes,
             "siteid": this.props.data.siteid
         }
-        console.log(body);
         apiPostHeader.body = JSON.stringify(body);
         let editresp;
         try{
@@ -84,7 +83,6 @@ class ReportsListView extends React.Component {
         catch(err){
             editresp = err;
         }
-        console.log(editresp)
         this.setState ({
             capTextEdit: false
         });
@@ -199,6 +197,9 @@ class ReportsListView extends React.Component {
     }
 
     activeCard = (data, index) => {
+        if(this.props.data.siteid){
+            localStorage.setItem("siteidOverview",this.props.data.siteid)
+        }
         return (
             <Card key={index} className={"card"}>                                   
                 <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
@@ -208,7 +209,7 @@ class ReportsListView extends React.Component {
                         {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{marginRight: "28px"}}/>:
                             <Link to={{
                                 pathname:'/questionnaire', 
-                                siteid: this.props.data.siteid, 
+                                siteid: localStorage.getItem("siteidOverview"), 
                                 clientName: this.props.data.clientName, 
                                 siteName: this.props.data.siteName, 
                                 sector:this.props.data.sector, 
@@ -228,7 +229,7 @@ class ReportsListView extends React.Component {
                                     {x.active?(x.status!=="Open"?<FormNavigationButton labelName={<>&#10003;</>}/>:
                                             <Link to={{
                                                 pathname:'/questionnaire', 
-                                                siteid: this.props.data.siteid, 
+                                                siteid: localStorage.getItem("siteidOverview"), 
                                                 clientName: this.props.data.clientName, 
                                                 siteName: this.props.data.siteName, 
                                                 sector:this.props.data.sector, 
