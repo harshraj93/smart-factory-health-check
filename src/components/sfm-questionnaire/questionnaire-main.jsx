@@ -11,7 +11,7 @@ import TargetSelect from './target-select';
 import NotesComponent from './notes-component';
 import questionnaire from '../../api/questionnaire/questionnaire';
 import { apiGetHeader, apiPostHeader } from '../../api/main/mainapistorage';
-
+import Spinner from 'react-bootstrap/Spinner';
 
 
 let capabilitiesArray = [];
@@ -72,7 +72,8 @@ class QuestionnairePage extends React.Component {
             textArealength: 0,
             flagType: null,
             currentSelected: "",
-            targetSelected: ""
+            targetSelected: "",
+            showLoader:""
 
         }
         this.props.disableMenu(false);
@@ -208,6 +209,7 @@ class QuestionnairePage extends React.Component {
                         questions: questionsArray,
                         scoringDetails: scoringDetails,
                         notesDetails: notesDetails,
+                        showLoader:false
                     }
                 })
             });
@@ -221,12 +223,13 @@ class QuestionnairePage extends React.Component {
         }
         console.log(localStorage.getItem("clientId"))
         if (subCapabilitiesArray.length > 0) {
-            fetch(
+            this.setState({showLoader:true},()=> fetch(
                 questionnaire.getQuestionnaire + `?clientAssessmentId=${localStorage.getItem("clientId")}`,
                 apiGetHeader
             )
                 .then(resp => resp.json())
-                .then(resp => this.parseQuestionnaire(resp))
+                .then(resp => this.parseQuestionnaire(resp)))
+           
         }
 
         else {
@@ -512,6 +515,15 @@ class QuestionnairePage extends React.Component {
     }
 
 
+    loadingScreen() {
+        return (
+            <div className="loader">
+                <Spinner animation="border" variant="success" />
+                <p>Loading page...</p>
+            </div>
+        )
+    }
+
     handleTargetChange = async (e) => {
         let value;
         if (e.target) {
@@ -531,6 +543,7 @@ class QuestionnairePage extends React.Component {
     render() {
         return (
             <div className="questionnaire-main-container">
+                {this.state.showLoader&&this.loadingScreen()}
                 <QuestionnaireHeader data={this.state.headerValues} />
                 <div className="navigation-button-group">
                     <QuestionnaireNavigation labelName="Previous" customClass="prev" onClick={this.previousSubCapability} /><QuestionnaireNavigation labelName="Skip Question" onClick={this.skipFlag}/>
