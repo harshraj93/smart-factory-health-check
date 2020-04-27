@@ -132,7 +132,13 @@ class Reports extends React.Component{
     }
 
     goToResults = async()=> {
+        let resultJSON = await this.fetchResultsData();
+        let demographicsData = await this.fetchDemographicsData();
+        resultJSON.resultantJSON.siteid = this.props.location.siteid;
         await this.setState({
+            data:resultJSON.resultantJSON,
+            reportsOverview:resultJSON.resultantJSON,
+            demographicsData:demographicsData,
             loadComponentString: "results"
         })
     }
