@@ -19,7 +19,7 @@ function percentComplete(data, str) {
         <>
         <div className="percent-complete">
             <ProgressBar now={data.percentComplete} variant={str}/>
-            <p style={{margin: "0", fontSize: "14px", float: "right", marginRight: "5px"}}>{data.percentComplete}% Complete</p>
+            <p style={{margin: "0", fontSize: "14px", float: "right", marginRight: "5px"}}>{Math.ceil(Number(data.percentComplete))}% Complete</p>
         </div>
         </>
     )
