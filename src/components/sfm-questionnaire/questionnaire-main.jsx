@@ -128,20 +128,30 @@ class QuestionnairePage extends React.Component {
             .then(resp=>{
                 if (resp.successMsg) {
 
-                this.setState(function (prevState, props) {
-                    if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
-                        this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex + 1)
-                        return {
-                            capabilitiesArrayIndex: prevState.capabilitiesArrayIndex + 1,
-                            arrayIndex: 0
-                        }
-                    }
-                    else {
-                        return { arrayIndex: prevState.arrayIndex + 1 }
-                    }
-                })
+                
+                    this.setState(function (prevState, props) {
+                        if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
+                            if(prevState.capabilitiesArrayIndex+1 === capabilitiesArray.length){
+                                this.setState({
+                                    showContinue:false
+                                })
+                            }
+                            else{
+                                this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex + 1)
+                                return {
+                                    capabilitiesArrayIndex: prevState.capabilitiesArrayIndex + 1,
+                                    arrayIndex: 0
+                                }
+                                }
+                            
 
-                this.getQuestionnaire()
+                        }
+                        else {
+                            return { arrayIndex: prevState.arrayIndex + 1 }
+                        }
+                    })
+
+                    this.getQuestionnaire()
             }
             else {
                 console.log("errored out")
@@ -218,6 +228,7 @@ class QuestionnairePage extends React.Component {
                 .then(resp => resp.json())
                 .then(resp => this.parseQuestionnaire(resp))
         }
+
         else {
             return (console.log("No data"));
         }
@@ -456,6 +467,7 @@ class QuestionnairePage extends React.Component {
         }
     }
 
+
     saveAndExit = () => {
         let saveAssessment = {
             "currentLevel": this.state.currentValue ? this.state.currentValue : -1,
@@ -499,6 +511,7 @@ class QuestionnairePage extends React.Component {
         this.state.currentSelected ? this.setCurrentValue(value) : this.setCurrentValue("")
     }
 
+
     handleTargetChange = async (e) => {
         let value;
         if (e.target) {
@@ -513,12 +526,14 @@ class QuestionnairePage extends React.Component {
         })
         this.state.targetSelected ? this.setTargetValue(value) : this.setTargetValue("")
     }
+
+
     render() {
         return (
             <div className="questionnaire-main-container">
                 <QuestionnaireHeader data={this.state.headerValues} />
                 <div className="navigation-button-group">
-                    <QuestionnaireNavigation labelName="Previous" customClass="prev" onClick={this.previousSubCapability} /><QuestionnaireNavigation labelName="Skip Question" />
+                    <QuestionnaireNavigation labelName="Previous" customClass="prev" onClick={this.previousSubCapability} /><QuestionnaireNavigation labelName="Skip Question" onClick={this.skipFlag}/>
                 </div>
                 <div className="questions-and-targets">
                     <GeneralQuestions data={this.state.questions} flagQuestions={this.focusInput} />

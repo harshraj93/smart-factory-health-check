@@ -57,13 +57,18 @@ class Reports extends React.Component{
         }
     }
 
+    navigateBack = ()=>{
+        this.props.history.push({
+            pathname:""
+        })
+    }
     
     resultHeader = ()=>{
         return(
             <div className="reports-container">
             <div className="assessment-title">
             <div className="assessment-overview-title">
-                <CustomButton imgSrc={leftIcon} clickFunction={this.props.history.goBack}/>
+                <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
                 <span className="title-text">
                     {"Results "+this.state.title}
                 </span>
@@ -142,7 +147,7 @@ class Reports extends React.Component{
             <div className="reports-container">
                 {this.state.x?this.deleteModal():""}
                 <div className="assessment-overview-title">
-                    <CustomButton imgSrc={leftIcon} clickFunction={this.props.history.goBack}/>
+                    <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
                     <span className="title-text">
                         Assessment Overview
                     </span>
@@ -264,7 +269,9 @@ class Reports extends React.Component{
 
 
     componentDidMount = async()=>{
+        
         let resultJSON = {};
+
         let demographicsData = {}; 
         let overviewData = {};
         let notesData = {}
@@ -298,6 +305,7 @@ class Reports extends React.Component{
     }
 
     render(){
+        
     return(
     
       this.state.loadComponentString==="results"?this.resultHeader():(this.state.loadComponentString==="assessments"?this.AssessmentsHeader():this.loadingScreen())
