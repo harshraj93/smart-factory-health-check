@@ -16,9 +16,9 @@
             display: flex;
             align-items: center;
             background-color: #161617;
-            margin-top: $common-margin !important;
             width: 100%;
-            padding: 16px 3px;
+            padding: 24px 3px;
+            border-bottom: solid 1.5px #35353b;
 
             .drop-down{
                 transition-duration: 0.3s;
@@ -58,7 +58,7 @@
         }
 
         .cap-notes-accordion.accordion {
-            .card {
+            .cap-card {
                 // border-radius: $border-radius !important;
                 background-color:unset;
                 border: unset;
@@ -69,7 +69,7 @@
                     align-items: center;
                     justify-content: space-between;
                     background-color: $accordion-dark-background;
-                    margin-top: $common-margin !important;
+                    margin-bottom: 1px;
                     width: 100%;
                     padding: 16px 24px;
 
@@ -103,7 +103,7 @@
                 .collapse,.collapsing,.collapse-show {
                     .sub-cap {
                         background-color: #232325;
-                        // border-bottom: solid 1px #dedede;
+                        border-bottom: solid 1px #35353b;
                         padding: 20px 24px;
                         .sub-cap-header {
                             font-size: 18px;
@@ -123,7 +123,7 @@
                                 padding: 12px 24px;
                                 margin-right: 32px;
                                 height: 12.5vh;
-                                width: 24vw;
+                                width: 20.6vw;
 
                                 .score-block {
                                     display: flex;

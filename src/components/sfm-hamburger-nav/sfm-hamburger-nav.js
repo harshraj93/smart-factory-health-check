@@ -14,12 +14,13 @@ class HamburgerNav extends React.Component {
             divId: "",
             toggleSidebar: "block",
             username: "Bryan Takayama",
-            showNav:""
+            showNav:"",
+            email:""
         };
 
         this.navbar = this.navbar.bind(this);
         this.getNick = this.getNick.bind(this);
-        localStorage.setItem("pageName", "assessments");
+        
     }
 
     navbar() {
@@ -53,10 +54,47 @@ class HamburgerNav extends React.Component {
     }
 
     getNick() {
-        var nameArray = this.state.username.split(" ");
-        return nameArray[0].charAt(0) + nameArray[1].charAt(0);
+        let nameArray = this.state.username.split(" ");
+        let nickName = nameArray.length > 0 ? nameArray[0].charAt(0) + nameArray[1].charAt(0) :  nameArray[0].charAt(0);
+      
+        return nickName;
     }
+    triggerUserNameAndPassword = () => {
 
+        let accessTokenActual = (document.cookie);
+        let accessArr = accessTokenActual.split(':');
+        accessTokenActual = accessArr[1];
+        let obj = {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + accessTokenActual
+          }
+        };
+    
+        fetch('https://sfhc.auth.us-east-1.amazoncognito.com/oauth2/userInfo', obj)
+          .then(resp => resp.json())
+          .then(
+            (result) => {
+              if (result.error) {
+                this.setState({
+                  userName: "Error"
+                });
+              } else {
+                this.setState({
+                  userName: result.username,
+                  email: result.email
+                });
+                localStorage.setItem("userName", result.username);
+                localStorage.setItem("userEmail", result.email);
+              }
+            }
+          ).catch(err => {
+            console.log(err)
+        })
+      }
+    componentDidMount(){
+        this.triggerUserNameAndPassword();
+    }
     render() {
         return (
             
