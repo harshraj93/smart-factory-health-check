@@ -282,6 +282,7 @@ class QuestionnairePage extends React.Component {
 
     getSubCapability = () => {
         let businessFunctionName;
+        console.log(this.props.location.businessFunctionName,this.props.location.siteid)
          if (this.props.location.siteid) {
              localStorage.setItem("businessfunctionId", this.props.location.businessFunctionName);
              localStorage.setItem("siteId", this.props.location.siteid);

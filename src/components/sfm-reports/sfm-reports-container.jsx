@@ -68,7 +68,7 @@ class Reports extends React.Component{
             <div className="reports-container">
             <div className="assessment-title">
             <div className="assessment-overview-title">
-                <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
+                <CustomButton imgSrc={leftIcon} clickFunction={this.props.history.goBack}/>
                 <span className="title-text">
                     {"Results "+this.state.title}
                 </span>
@@ -153,7 +153,7 @@ class Reports extends React.Component{
             <div className="reports-container">
                 {this.state.x?this.deleteModal():""}
                 <div className="assessment-overview-title">
-                    <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
+                    <CustomButton imgSrc={leftIcon} clickFunction={this.props.history.goBack}/>
                     <span className="title-text">
                         Assessment Overview
                     </span>

@@ -202,6 +202,7 @@ class ReportsListView extends React.Component {
         if(this.props.data.siteid){
             localStorage.setItem("siteidOverview",this.props.data.siteid)
         }
+        console.log(localStorage.getItem("siteidOverview"))
         return (
             <Card key={index} className={"card"}>                                   
                 <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
@@ -232,7 +233,7 @@ class ReportsListView extends React.Component {
                                     {x.active?(x.status!=="Open"?
                                             <Link to={{
                                                 pathname:'/questionnaire', 
-                                                siteid: this.props.data.siteid, 
+                                                siteid: localStorage.getItem("siteidOverview"), 
                                                 clientName: this.props.data.clientName, 
                                                 siteName: this.props.data.siteName, 
                                                 sector:this.props.data.sector, 
