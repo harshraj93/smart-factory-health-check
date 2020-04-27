@@ -76,7 +76,7 @@ class Notes extends React.Component {
                                         <Accordion.Toggle as={Card.Header} className={"cap-card-header "+(this.state.arrayIndexCap===String(y))} value={y} variant="link" eventKey={y} onClick={(e,value)=>this.handleCapClick(e,value)}>
                                             <div className="capability-card">
                                                 <span className="area-name">{x.name}</span>
-                                                {x.subcapabilities.length?<span className="number-tag">{x.noteCount} Notes</span>:""}
+                                                <span className="number-tag">{x.noteCount} Notes</span>
                                             </div>
                                             <img className="drop-down" src={DropDownImg} alt="" ></img>
                                         </Accordion.Toggle>
