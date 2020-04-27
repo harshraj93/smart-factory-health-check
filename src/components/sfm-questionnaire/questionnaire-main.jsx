@@ -209,7 +209,7 @@ class QuestionnairePage extends React.Component {
                         questions: questionsArray,
                         scoringDetails: scoringDetails,
                         notesDetails: notesDetails,
-                        showLoader:false
+                        //showLoader:false
                     }
                 })
             });
@@ -223,12 +223,12 @@ class QuestionnairePage extends React.Component {
         }
         console.log(localStorage.getItem("clientId"))
         if (subCapabilitiesArray.length > 0) {
-            this.setState({showLoader:true},()=> fetch(
+             fetch(
                 questionnaire.getQuestionnaire + `?clientAssessmentId=${localStorage.getItem("clientId")}`,
                 apiGetHeader
             )
                 .then(resp => resp.json())
-                .then(resp => this.parseQuestionnaire(resp)))
+                .then(resp => this.parseQuestionnaire(resp))
            
         }
 
@@ -254,9 +254,10 @@ class QuestionnairePage extends React.Component {
                 return (element.isIncomplete?element:"")
             })
             if(subCapabilityNameArray.length==0){
-                subCapabilityNameArray = capabilitiesArray[0]
+                subCapabilityNameArray = [capabilitiesArray[0]]
             }
         }
+        console.log(subCapabilityNameArray);
         subCapabilityName = subCapabilityNameArray[0].subcapabilities.filter(subcapability => {
             return (subcapability.isIncomplete?subcapability:subcapability[0]) 
         })
@@ -543,7 +544,7 @@ class QuestionnairePage extends React.Component {
     render() {
         return (
             <div className="questionnaire-main-container">
-                {this.state.showLoader&&this.loadingScreen()}
+                {/* {this.state.showLoader&&this.loadingScreen()} */}
                 <QuestionnaireHeader data={this.state.headerValues} />
                 <div className="navigation-button-group">
                     <QuestionnaireNavigation labelName="Previous" customClass="prev" onClick={this.previousSubCapability} /><QuestionnaireNavigation labelName="Skip Question" onClick={this.skipFlag}/>
