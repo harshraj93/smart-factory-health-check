@@ -64,13 +64,19 @@ class Reports extends React.Component{
             pathname:"/"
         })
     }
+
+    navigateBackFromResults = async() => {
+        await this.setState({
+            loadComponentString: "assessments"
+        })
+    }
     
     resultHeader = ()=>{
         return(
             <div className="reports-container">
             <div className="assessment-title">
             <div className="assessment-overview-title">
-                <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
+                <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBackFromResults}/>
                 <span className="title-text">
                     {"Results "+this.state.title}
                 </span>
