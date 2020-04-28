@@ -202,7 +202,7 @@ class ReportsListView extends React.Component {
         if(this.props.data.siteid){
             localStorage.setItem("siteidOverview",this.props.data.siteid)
         }
-        console.log(localStorage.getItem("siteidOverview"))
+        // console.log(localStorage.getItem("siteidOverview"))
         return (
             <Card key={index} className={"card"}>                                   
                 <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>

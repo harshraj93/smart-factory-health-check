@@ -18,6 +18,7 @@ import {withRouter} from 'react-router-dom';
 import {resultsApi} from '../../api/assessments/reports'
 import assessOverviewApi from '../../api/assessments/assess-overview';
 import assessNotesApi from '../../api/assessments/assess-notes';
+import siteInfoApi from '../../api/assessments/assess-siteInfo';
 import {apiPostHeader} from '../../api/main/mainapistorage'
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
@@ -38,7 +39,8 @@ class Reports extends React.Component{
             x: false,
             demographicsData:[],
             assessBody: {},
-            notesData: {}
+            notesData: {},
+            siteInfoData: {}
         }
         this.props.disableMenu(false);        
     }
@@ -175,7 +177,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.assessBody}/>:<ClientInfo/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData}/>:<ClientInfo/>))}
                             </Tab>
                         )
                     })}
@@ -238,6 +240,23 @@ class Reports extends React.Component{
         }
     }
 
+    fetchSiteInfo = async()=> {
+        let body = {
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+            "sector":this.props.location.industryType
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        try{
+        const response = await fetch(siteInfoApi.siteInfo,apiPostHeader)
+        const siteInfoData = await response.json();
+        return siteInfoData;
+        }
+        catch(err){
+            return err
+        }
+    }
+
     fetchResultsData = async()=>{
         let body = { 
             "clientName": this.props.location.companyName, 
@@ -280,20 +299,24 @@ class Reports extends React.Component{
 
         let demographicsData = {}; 
         let overviewData = {};
-        let notesData = {}
-        // if (this.props.location.loadComponentString === "results") {
+        let notesData = {};
+        let siteInfoData={};
+        if (this.props.location.loadComponentString === "results" || this.state.loadComponentString === "results") {
             resultJSON = await this.fetchResultsData();
             demographicsData = await this.fetchDemographicsData();
             resultJSON.resultantJSON.siteid = this.props.location.siteid;
-        // }
-        // else {
+        }
+        else {
             overviewData = await this.fetchOverview();
             notesData = await this.fetchNotes();
+            siteInfoData = await this.fetchSiteInfo();
             overviewData.clientName = this.props.location.companyName;
             overviewData.siteName = this.props.location.locationString;
             overviewData.sector = this.props.location.industryType;
             overviewData.siteid = this.props.location.siteid;
-        // }
+            siteInfoData.resultantJSON.siteId = this.props.location.siteid;
+            siteInfoData.resultantJSON.clientName = this.props.location.companyName;
+        }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
             "siteName": this.props.location.locationString,
@@ -306,7 +329,8 @@ class Reports extends React.Component{
             reportsOverview:resultJSON.resultantJSON,
             demographicsData:demographicsData,
             assessOverview: overviewData,
-            notesData: notesData.resultantJSON
+            notesData: notesData.resultantJSON,
+            siteInfoData: siteInfoData.resultantJSON
         })
     }
 

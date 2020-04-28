@@ -115,7 +115,7 @@
                     min-width: 16px;
                     height: 16px;
                     border-radius: 50%;
-                    margin-top: 7px;
+                    margin-top: 1.5px;
                 }
     
                 .area-name {
@@ -124,14 +124,14 @@
                 }
 
                 .vertical-line {
-                    width: 1px;
+                    width: 2px;
                     background-color: #232325;
                     height: 100%;
                 }
             }
 
             .repCard-bottom-line {
-                height: 1px;
+                height: 2px;
                 background-color: #232325;
                 display: flex;
             }
