@@ -1,5 +1,4 @@
 .demographics-form{
-    height: 75vh;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -10,6 +9,24 @@
     background-color: #161617;
     .bottom-border{
         border-bottom: 1px solid white;
-        
+    }
+}
+.title-name-demographics{
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+.business-poc-demographics{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    // margin: 0px 24px 24px 24px;
+    // padding: 0px 24px 24px 24px;
+    padding-left: 5%;
+    padding-right: 5%;
+    background-color: #161617;
+    .bottom-border{
+        border-bottom: 1px solid white;
     }
 }

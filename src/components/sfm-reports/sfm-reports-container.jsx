@@ -2,7 +2,7 @@ import React from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import Spinner from 'react-bootstrap/Spinner'
-import {CustomButton} from '../../assets/sfm-button';
+import {CustomButton,FormNavigationButton} from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import downloadIcon from '../../images/icon-small-download.svg';
 import linkIcon from '../../images/icon-small-link.svg';
@@ -59,7 +59,7 @@ class Reports extends React.Component{
 
     navigateBack = ()=>{
         this.props.history.push({
-            pathname:""
+            pathname:"/"
         })
     }
     
@@ -68,7 +68,7 @@ class Reports extends React.Component{
             <div className="reports-container">
             <div className="assessment-title">
             <div className="assessment-overview-title">
-                <CustomButton imgSrc={leftIcon} clickFunction={this.props.history.goBack}/>
+                <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
                 <span className="title-text">
                     {"Results "+this.state.title}
                 </span>
@@ -79,26 +79,29 @@ class Reports extends React.Component{
             </div>
             <h2 className="location-name">
             {this.props.location.locationString!==undefined?this.props.location.locationString:"Bristol"}
-            <span className="share-link">Share Link
-                    <CustomButton className="share-link-button" imgSrc={linkIcon} />
-                    Download PDF
-                    <CustomButton className="share-link-button" imgSrc={downloadIcon} />
-            </span>
+            
             </h2>
                 
             <h5 className="company-name">
             {this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}
             </h5>
+            <span className="share-link">
+                        <FormNavigationButton labelName="Publish" />
+            </span>
+            
             <Tabs className="tab-group" onSelect={this.selectTab}>
+            
                 {resultsList.map((element,index)=>{
                     return(
+                        
                         <Tab key={index} eventKey={index} title={element} >
                             {element==="Demographics"?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview}/>}
+
                         </Tab>
                     )
                 })}
             </Tabs>
-            
+           
             </div>
             </div>
         )
@@ -153,7 +156,7 @@ class Reports extends React.Component{
             <div className="reports-container">
                 {this.state.x?this.deleteModal():""}
                 <div className="assessment-overview-title">
-                    <CustomButton imgSrc={leftIcon} clickFunction={this.props.history.goBack}/>
+                    <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
                     <span className="title-text">
                         Assessment Overview
                     </span>
