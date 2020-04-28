@@ -200,7 +200,6 @@ class QuestionnairePage extends React.Component {
                 };
 
                 let notesDetails = questionnaireResponse.Notes
-                console.log(headerValues)
                 this.setState(function (prevState, props) {
 
                     return {
@@ -221,7 +220,6 @@ class QuestionnairePage extends React.Component {
             localStorage.setItem("clientId", subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId);
 
         }
-        console.log(localStorage.getItem("clientId"))
         if (subCapabilitiesArray.length > 0) {
              fetch(
                 questionnaire.getQuestionnaire + `?clientAssessmentId=${localStorage.getItem("clientId")}`,
@@ -244,7 +242,6 @@ class QuestionnairePage extends React.Component {
         let subCapabilityNameArray, capabilityArrayIndex, subCapabilityName = [];
         if (this.props.location.capabilityName) {
             localStorage.setItem("capabilityName", this.props.location.capabilityName)
-            console.log(this.props.location.capabilityName);
             subCapabilityNameArray = capabilitiesArray.filter(element => {
                 return element.capabilityName === this.props.location.capabilityName
             })
@@ -257,11 +254,9 @@ class QuestionnairePage extends React.Component {
                 subCapabilityNameArray = [capabilitiesArray[0]]
             }
         }
-        console.log(subCapabilityNameArray);
         subCapabilityName = subCapabilityNameArray[0].subcapabilities.filter(subcapability => {
             return (subcapability.isIncomplete?subcapability:subcapability[0]) 
         })
-        console.log(subCapabilityName);
         capabilityArrayIndex = capabilitiesArray.indexOf(subCapabilityNameArray[0])
         await this.setState(function (prevState, props) {
             return { capabilitiesArrayIndex: capabilityArrayIndex }
@@ -282,7 +277,6 @@ class QuestionnairePage extends React.Component {
 
     getSubCapability = () => {
         let businessFunctionName;
-        console.log(this.props.location.businessFunctionName,this.props.location.siteid)
          if (this.props.location.siteid) {
              localStorage.setItem("businessfunctionId", this.props.location.businessFunctionName);
              localStorage.setItem("siteId", this.props.location.siteid);
@@ -297,7 +291,7 @@ class QuestionnairePage extends React.Component {
         }
         fetch(questionnaire.getCapabilities + `?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${businessFunctionName}`, apiGetHeader)
             .then(resp => resp.json())
-            .then(resp => {console.log(resp); this.parseSubCapabilities(resp)})
+            .then(resp => this.parseSubCapabilities(resp))
         //  fetch(questionnaire.getCapabilities + `?siteId=ST_002&businessfunctionId=Procurement %26 Supplier Management`, apiGetHeader)
         //     .then(resp => resp.json())
         //     .then(resp => {console.log(resp); this.parseSubCapabilities(resp)})
@@ -324,14 +318,12 @@ class QuestionnairePage extends React.Component {
         fetch(questionnaire.addAssessmentNote, apiPostHeader)
             .then(resp => resp.json())
             .then(resp => {
-                console.log(resp);
                 if (resp.resultantJSON.successMsg) {
                     this.setState({
                         showTextEditor: false,
                         showNotes: true,
                         textEditorData: ""
                     })
-                    console.log(resp);
                     this.getSubCapability();
                 }
                 else {
@@ -403,7 +395,6 @@ class QuestionnairePage extends React.Component {
         fetch(questionnaire.saveAssessment, apiPostHeader)
             .then(resp => resp.json())
             .then(resp => {
-                console.log(resp)
                 if (resp.successMsg) {
 
                     this.setState(function (prevState, props) {
@@ -458,7 +449,6 @@ class QuestionnairePage extends React.Component {
             if (this.state.capabilitiesArrayIndex > 0) {
 
                 await this.setState(function (prevState, props) {
-                    console.log(this.state.capabilitiesArrayIndex, subCapabilitiesArray);
                     return {
                         capabilitiesArrayIndex: prevState.capabilitiesArrayIndex - 1,
                         arrayIndex: 0,
@@ -480,7 +470,6 @@ class QuestionnairePage extends React.Component {
             "subCapability": subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
             "siteid": localStorage.getItem("siteId")
         }
-        console.log(this.props.history.location)
         apiPostHeader.body = JSON.stringify(saveAssessment);
         fetch(questionnaire.saveAssessment, apiPostHeader)
             .then(resp => resp.json())
