@@ -17,6 +17,46 @@ class App extends React.Component {
       showMenu:showFlag
     })
   }
+  triggerUserNameAndPassword = () => {
+
+    let accessTokenActual = (document.cookie);
+    let accessArr = accessTokenActual.split(':');
+    accessTokenActual = accessArr[1];
+    let obj = {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + accessTokenActual
+      }
+    };
+
+  fetch('https://sfhc-dev.auth.us-east-1.amazoncognito.com/oauth2/userInfo', obj)
+      .then(resp => resp.json())
+      .then(
+        (result) => {
+          
+          if (result.error) {
+            this.setState({
+              userName: "Error"
+            });
+          } else {
+            this.setState({
+              userName: result.username,
+              email: result.email,
+              profile:result.profile
+            });
+            localStorage.setItem("userName", result.username);
+            localStorage.setItem("userEmail", result.email);
+            localStorage.setItem("userProfile",result.profile)
+          }
+        }
+      ).catch(err => {
+        console.log(err)
+    })
+  }
+
+componentDidMount(){
+    this.triggerUserNameAndPassword();
+}
 
   render(){
   return (

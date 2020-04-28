@@ -20,7 +20,7 @@ export default class LabelledInputField extends React.Component{
         this.setState({
             showRequired:true
         })
-        this.props.changeButtonState();
+        if(this.props.changeButtonState){this.props.changeButtonState()}
         }
         else{
             if(e.target.name.includes("Email")){
@@ -28,7 +28,7 @@ export default class LabelledInputField extends React.Component{
                     this.setState({
                         showEmailError:true
                     })
-                this.props.changeButtonState();
+                if(this.props.changeButtonState){this.props.changeButtonState()}
                 }
                 else{
                     this.setState({

@@ -5,6 +5,7 @@ import LabelledInputField from '../../../assets/input-field';
 export default function DemographicsForm(props){
     let jsonData = props.formData.resultantJSON;
     return(
+        <>
         <div className="demographics-form">
        
         <LabelledInputField placeholder={false} labelName="Location" data={jsonData.sitename} readOnly={true}/>
@@ -24,5 +25,20 @@ export default function DemographicsForm(props){
         <LabelledInputField placeholder={true} labelName="OEE - Quality % (optional)" data={jsonData.qualityoee} readOnly={true}/>
         
         </div>
+        <div className="bottom-border"></div>
+        <div className="title-name-demographics">Business Function Point of Contact</div>
+        <div className="business-poc-demographics">
+        <LabelledInputField placeholder={false} labelName="Operations" />
+        <LabelledInputField placeholder={false} labelName="Quality" />
+        <LabelledInputField placeholder={false} labelName="Information Technology" />
+        <LabelledInputField placeholder={false} labelName="Procurement & Supplier Management" />
+        <LabelledInputField placeholder={false} labelName="Continuous Improvement" />
+        <LabelledInputField placeholder={false} labelName="Replenishment & Material Management"/>
+        <LabelledInputField placeholder={false} labelName="Maintenance"/>
+        <LabelledInputField placeholder={false} labelName="Planning & Scheduling"/>
+        <LabelledInputField placeholder={false} labelName="Human Resources" />
+        <LabelledInputField placeholder={false} labelName="Engineering & R&D"/>
+        </div>
+        </>
     )
 }

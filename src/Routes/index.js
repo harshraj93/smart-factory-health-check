@@ -11,6 +11,15 @@ import AddBusinessFunctions from '../components/sfm-add-client-main/sfm-add-busi
 import QuestionnairePage from '../components/sfm-questionnaire/questionnaire-main';
 
 export default function Routes(props){
+    let profile = props.userProfile;
+    if(profile==="Client"){
+        return(
+            <Switch>
+            <Route exact path="/"> <Reports disableMenu={props.disableMenu}/> </Route>
+            </Switch>
+        )
+    }
+    else{
     return(
     <Switch>
         <Route exact path="/"> <Assessments disableMenu={props.disableMenu}/> </Route>
@@ -24,6 +33,7 @@ export default function Routes(props){
         <Route exact path="/questionnaire"><QuestionnairePage disableMenu={props.disableMenu} /></Route>
     </Switch>
     );
+}
 
 
 }
