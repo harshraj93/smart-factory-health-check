@@ -71,7 +71,7 @@ class HamburgerNav extends React.Component {
           }
         };
     
-        fetch('https://sfhc.auth.us-east-1.amazoncognito.com/oauth2/userInfo', obj)
+        fetch('https://sfhc-dev.auth.us-east-1.amazoncognito.com/oath2/userinfo', obj)
           .then(resp => resp.json())
           .then(
             (result) => {
