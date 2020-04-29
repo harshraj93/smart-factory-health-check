@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import DropDownImg from '../../../images/icon-small-chevron-down.svg';
 import FlagImg from '../../../images/icon-small-flagged-outline.svg';
+import DownloadIcon from '../../../images/icon-small-download.svg';
 import assessNotesApi from '../../../api/assessments/assess-notes.js';
 import {apiPostHeader} from '../../../api/main/mainapistorage';
 import './sfm-notes.scss';
@@ -165,10 +166,31 @@ class Notes extends React.Component {
     //     })
     // }
 
+    downloadNotes = async() => {
+        let msg;
+        let body = {
+            "siteId": this.props.data.siteId
+        }
+        // console.log(body)
+        apiPostHeader.body = JSON.stringify(body);
+        try{
+        const response = await fetch(assessNotesApi.downloadNotes,apiPostHeader)
+        msg = await response.json();
+        console.log(msg);
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
     render() {
         // console.log(this.state.jsonData)
         return (
             <div className="notes-container">
+                <div className="download" onClick={this.downloadNotes}>
+                    <img src={DownloadIcon} alt=""/>
+                    <span className="text">Download Notes</span>
+                </div>
                 {this.accordions()}
             </div>
         )
