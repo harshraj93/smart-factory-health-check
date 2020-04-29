@@ -79,7 +79,8 @@ class Reports extends React.Component{
     
     navigateToBusinessPOC = async() => {
         await this.setState({
-            loadComponentString: "assessments"
+            loadComponentString: "assessments",
+            businessContactModal:false
         })
         document.getElementsByClassName("nav-item nav-link")[2].click();
         document.getElementById("Continuous Improvement").scrollIntoView();
