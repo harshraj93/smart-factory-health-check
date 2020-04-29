@@ -24,7 +24,9 @@ import Modal from "react-bootstrap/Modal";
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=["Overview","Demographics"];
-
+const pocList = ["operations","quality","informationTechnology","procurement","continuousImprovement","replenishment",
+                "maintenance","planning","hr","r&d"];
+let allPoc = false;
 class Reports extends React.Component{
     constructor(props){
         super(props);
@@ -75,6 +77,15 @@ class Reports extends React.Component{
         })
     }
     
+    navigateToBusinessPOC = async() => {
+        await this.setState({
+            loadComponentString: "assessments"
+        })
+        document.getElementsByClassName("nav-item nav-link")[2].click();
+        document.getElementById("Continuous Improvement").scrollIntoView();
+        document.getElementById("Continuous Improvement").click();
+    }
+
 
     closePublishPopup = ()=>{
         this.setState({
@@ -105,6 +116,7 @@ class Reports extends React.Component{
       </div>
       )
     }
+
 
     shareResultsModal = ()=>{
         return(
@@ -153,7 +165,6 @@ class Reports extends React.Component{
                 businessContactModal:true
             })
         }
-
     }
 
 
@@ -175,7 +186,7 @@ class Reports extends React.Component{
         <Modal.Footer>
           <div className="publish-business-poc">
               <span className="text">In order to publish you must first fill out the Point of Contacts section.</span>
-              <FormNavigationButton labelName="Complete"></FormNavigationButton>
+              <FormNavigationButton labelName="Complete" onClick={this.navigateToBusinessPOC}></FormNavigationButton>
           </div>
         </Modal.Footer>
     </Modal>
@@ -207,7 +218,7 @@ class Reports extends React.Component{
             {this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}
             </h5>
             <span className="share-link">
-                        <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,"publishResults")}/>
+                        <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>
             </span>
             {this.state.publishResults&&this.publishModal()}
             {this.state.businessContactModal&&this.publishBusinessContactModal()}
@@ -399,6 +410,21 @@ class Reports extends React.Component{
     }
 
 
+    checkPOCs = (data)=>{
+        let flag;
+        pocList.forEach(poc=>{
+            if(Object.keys(data).poc===poc){
+                flag = true;
+            }
+            flag=false;
+        })
+        
+        if(flag){
+            allPoc=true
+        }
+    }
+
+
     fetchDemographicsData = async()=>{
         let body = {
             "clientName": this.props.location.companyName, 
@@ -409,6 +435,7 @@ class Reports extends React.Component{
         try{
         const response = await fetch(resultsApi.demographics,apiPostHeader)
         const demographicsData = await response.json();
+        this.checkPOCs(demographicsData);
         return demographicsData;
         }
         catch(err){

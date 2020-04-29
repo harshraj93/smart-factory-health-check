@@ -182,7 +182,7 @@
 
 }
 .modal-dialog{
-    
+    max-width: 600px;
     .modal-content{
         background-color: #232325;
         .modal-header{
@@ -255,7 +255,7 @@
                 font-weight: 600;
                 color: #dedede;
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 70% 25%;
                 margin:40px;
                 border-radius: 8px;
                 border: solid 2px #c02424;
@@ -283,3 +283,7 @@
         }
     }
 }
+
+    .modal.show.modal-dialog{
+        max-width: 600px;
+    }
