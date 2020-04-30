@@ -16,7 +16,7 @@ function industryCard (props){
         <div className="industry-name-number">
             <span className="company-name">
                 {props["companyName"]?props["companyName"] :props["sector"]}
-                {props["sector"]?<CustomButton imgSrc={UploadImg} alt=""/>:null}
+
             </span>
     
              <span className="number-open">

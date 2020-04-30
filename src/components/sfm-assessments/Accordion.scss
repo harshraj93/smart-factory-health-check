@@ -51,10 +51,13 @@
             }
             .number-open{
                 text-align: right;
-                margin-right:$common-margin;
+                font-size: 24px;
+                margin-right: 13px;
             }
             .number-completed{
                 text-align: center;
+                font-size: 24px;
+                margin-right: 27px;
             }
         }
 
@@ -66,11 +69,14 @@
             opacity: 0.6;
             .open-text{
                text-align: right;
+               margin-right: 4px;
             }
             .completed-text{
                 text-align: center;
+                margin-right: 27px;
             }
         }
+        
 
         .btn.btn-link{
             position: relative;
@@ -104,8 +110,54 @@
                      } 
                 }
 
-            .industry-name-number{
-                font-size:18px;
+                .industry-name-number{
+                    font-size: $font-normal-fontSize;
+                    padding: 0px 10px 10px 0px;
+                    display: grid;
+                    grid-template-columns: 3fr 1fr 1fr;
+                    font-weight:$bold;
+                    .company-name{
+                       .custom-button{
+                            position: absolute;
+                            top: 15px;
+                           margin-left: $common-margin;
+                           width: 24px;
+                           height: 24px;
+                           border-radius: 50%;
+                           background-color: #727279;
+                           padding: 0px;
+                           img{
+                           padding-bottom: 8px;
+                        }
+                       } 
+                    }
+                    .number-open{
+                        text-align: right;
+                        margin-right:$common-margin;
+                        font-size: 24px;
+                        margin-right: 5px !important;
+                    }
+                    .number-completed{
+                        text-align: center;
+                        font-size: 24px;
+                        margin-right: 5px !important;
+                    }
+                }
+        
+                .industry-text-info{
+                    font-size: $font-least-fontSize;
+                    padding: 0px 10px 10px 0px;
+                    display: grid;
+                    grid-template-columns:3fr 1fr 1fr;
+                    opacity: 0.6;
+                    .open-text{
+                       text-align: right;
+                       margin-right: -6px !important;
+                    }
+                    .completed-text{
+                        text-align: center;
+                        margin-right: 5px !important;
+                    }
                 }
             
             

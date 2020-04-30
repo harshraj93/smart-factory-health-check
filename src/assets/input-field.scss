@@ -1,7 +1,7 @@
 .labelled-input-field{
-    margin-top: 40px;
+    margin-top: 28px;
     display: grid;
-    grid-template-rows:1fr 1fr;
+    grid-template-rows:20px 20px;
     label{
         font-size:12px;
         opacity: 0.5;
@@ -12,7 +12,7 @@
         border: unset;
         border-bottom: 1px solid #ffffff;
         color: white;
-        width: 80%;
+        width: 91%;
         &.true{
             border-bottom: 1px solid red !important;
         }

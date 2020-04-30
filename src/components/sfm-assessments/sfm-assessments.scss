@@ -24,9 +24,11 @@
         .custom-button{
             margin-left:$common-margin;
             border-radius: $border-radius-extra-large;
-            background-color: $add-site-color;
+            background-color: #549ad7;
             outline: none;
             border: unset;
+            width: 129px;
+            height: 48px;
         }
     }
     }
@@ -43,12 +45,15 @@
             color: white;
             opacity: 0.5;
             outline: none;
-            width: $tab-width;
+            width: 96px;
+            height: 35px;
             text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: 500;
             &.active{
                 opacity: unset;
                 outline: none;
-                width: $tab-width;
                 text-align: center;
                 color: #35353b;
                 background-color: #fefefe

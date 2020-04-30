@@ -59,8 +59,8 @@ export default class LabelledInputField extends React.Component{
     }
 
 
-    misc=(e)=>{
-        changeBorder(e);
+    misc=(e,placeholder)=>{
+        changeBorder(e,placeholder);
     }
 
 
@@ -68,7 +68,7 @@ export default class LabelledInputField extends React.Component{
     render(){
     return(
         <div className="labelled-input-field">
-            {this.props.placeholder?"":<label htmlFor="input">{this.props.labelName.toUpperCase()}</label>}
+            {this.props.placeholder?<label></label>:<label htmlFor="input">{this.props.labelName.toUpperCase()}</label>}
             <input 
             type={this.props.type==="number"?"number":"text"}
             min={this.props.min}
@@ -80,13 +80,13 @@ export default class LabelledInputField extends React.Component{
             onChange={this.props.onChange} 
             required={this.props.required}
             id={this.props.labelName}
-            onInput={(e)=>this.misc(e)}
+            onInput={(e)=>this.misc(e,this.props.labelName)}
             name={this.props.name}
             onBlur={(e)=>this.addRequired(e)}
             readOnly={this.props.readOnly}
             >
             </input>
-            {this.state.showRequired&&this.props.required&&!this.state.value&&<div className="required-text">! Required Field</div>}
+            {(this.state.showRequired&&this.props.required&&!this.state.value)?<div className="required-text">! Required Field</div>:<div />}
             {this.state.showEmailError&&<div className="required-text">! Invalid Email</div>}
         </div>
     )
@@ -95,10 +95,12 @@ export default class LabelledInputField extends React.Component{
 
 
 
-function changeBorder(e){
+function changeBorder(e,placeholder){
+   
     let id = e.target.id;
     let element = document.getElementById(id).style;
     e.target.value.length>0?element.borderColor="#727279":element.borderColor="#ffffff";
+    document.getElementById(id).nextSibling.parentElement.childNodes[0].innerHTML=placeholder.toUpperCase();
 }
 
 

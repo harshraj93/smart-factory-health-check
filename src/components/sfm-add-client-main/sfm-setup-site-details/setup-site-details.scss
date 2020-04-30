@@ -48,19 +48,23 @@
                 font-size: 12px;
                 font-weight: bold;
                 position: relative;
-                left: 93%;
+                left: 85%;
                 padding-top: 16px;
             }
         .site-form{
             
             display:grid;
             grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-            
-            .bottom-border{
-                border-top: 1px solid #161617 !important;
-                margin-top: 56px;
-                width: 100%;
+            grid-template-rows: 80px 80px 80px 80px 80px 80px;
+          
+            .dropdown label{
+                border-top: 1px solid #161617;
+            }
+            :nth-child(6){
+                label{
+                border-top: 1px solid #161617;
+                width: 91%;
+            }
             }
         }
     }
