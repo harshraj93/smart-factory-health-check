@@ -363,7 +363,7 @@ class Reports extends React.Component{
             <div className="reports-container">
             <div className="assessment-title">
             <div className="assessment-overview-title">
-            {localStorage.getItem("userProfile")!=="Client"?<CustomButton imgSrc={leftIcon} clickFunction={this.navigateBackFromResults}/>:""}
+            <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBackFromResults}/>
                 <span className="title-text">
                     {"Results "+this.state.title}
                 </span>
