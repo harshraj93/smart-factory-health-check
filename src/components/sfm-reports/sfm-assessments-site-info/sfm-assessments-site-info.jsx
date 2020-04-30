@@ -6,13 +6,13 @@ import siteInfoApi from '../../../api/assessments/assess-siteInfo';
 import {apiPostHeader} from '../../../api/main/mainapistorage';
 import './sfm-assessments-site-info.scss';
 
-let requiredFieldNames=["Location", "Primary POC", "Primary POC Role", "Sector", "Manufacturing Archetype"];
+let requiredFieldNames=["location", "primaryPoc", "primaryPocRole", "sector", "manuArchtype","informationtechnology", "continuousimprovement", "replenishmentmaterialmanagement", "operations", "quality", "maintenance", "procurementsuppliermanagement", "planningscheduling"];
 
 class SiteInfo extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            enableButton:"true",
+            enableButton: "true",
             jsonData: {},
             BusinessFunctionPoC: [],
             dropdown: []
@@ -66,7 +66,10 @@ class SiteInfo extends React.Component{
          this.setState({
             [name]:e.target.value
         })
-        this.checkRequiredFields();
+        // this.checkRequiredFields();
+        this.setState({
+            enableButton:true
+        })
     }
 
     checkRequiredFields = ()=>{
@@ -81,7 +84,7 @@ class SiteInfo extends React.Component{
         if(cnt>=requiredFieldNames.length){
             boolFlag=true;
         }
-        //console.log(boolFlag,cnt,requiredFieldNames.length);
+        console.log(boolFlag,cnt,requiredFieldNames.length);
         if(boolFlag){
             this.setState({
             enableButton:true
@@ -100,38 +103,33 @@ class SiteInfo extends React.Component{
     handleSubmit = (e)=>{
         e.preventDefault();
         this.saveForm();
+        this.setState({
+            enableButton: false
+        })
     }
 
     saveForm = async() => {
-        let clientid;
         let siteInfoJSON=  {
-            "siteInfo": {
+            "siteDetails": {
+                "siteId": this.props.data.siteId,
                 "clientName" : this.props.data.clientName,
                 "siteName":this.props.data.sitename,
+                "sector":this.props.data.sector,
                 "primarySitePocName":this.state.primaryPoc?this.state.primaryPoc:this.props.data.primarysitepocname,
                 "primarySitePocRole": this.state.primaryPocRole?this.state.primaryPocRole:this.props.data.primarysitepocrole,
-                "sector":this.props.data.sector,
                 "manufactureArchType":this.state.manuArchtype?this.state.manuArchtype:this.props.data.manufacturearchtype,
-                "totalShifts":Number(this.state.noShifts)?Number(this.state.noShifts):this.props.data.totalshifts,
                 "totalEmployees":Number(this.state.noEmps)?Number(this.state.noEmps):this.props.data.totalemployees,
                 "totalProductionAssets":Number(this.state.noAssets)?Number(this.state.noAssets):this.props.data.totalproductionassets,
-                "siteRevenue":Number(this.state.siteRevenue)?Number(this.state.siteRevenue):this.props.data.siterevenue,
+                "totalShifts":Number(this.state.noShifts)?Number(this.state.noShifts):this.props.data.totalshifts,
                 "siteebitda":Number(this.state.epitda)?Number(this.state.epitda):this.props.data.siteebitda,
-                "otif":Number(this.state.otif)?Number(this.state.otif):this.props.data.otif,
                 "overalloee":Number(this.state.oeeSite)?Number(this.state.oeeSite):this.props.data.overalloee,
                 "performanceoee":Number(this.state.oeePerf)?Number(this.state.oeePerf):this.props.data.performanceoee,
                 "availabilityoee":Number(this.state.oeeAvail)?Number(this.state.oeeAvail):this.props.data.availabilityoee,
                 "qualityoee":Number(this.state.oeeQuality)?Number(this.state.oeeQuality):this.props.data.qualityoee,
+                "otif":Number(this.state.otif)?Number(this.state.otif):this.props.data.otif,
+                "siteRevenue":Number(this.state.siteRevenue)?Number(this.state.siteRevenue):this.props.data.siterevenue,
             },
             "businessFunctionPoC":[
-                {
-                    "businessFunction":"Operations",
-                    "resourceName":this.state.operations?this.state.operations:null,
-                },
-                {
-                    "businessFunction":"Quality",
-                    "resourceName":this.state.quality?this.state.quality:null,
-                },
                 {
                     "businessFunction":"Information Technology",
                     "resourceName":this.state.informationtechnology?this.state.informationtechnology:null,
@@ -143,6 +141,14 @@ class SiteInfo extends React.Component{
                 {
                     "businessFunction":"Replenishment & Material Management",
                     "resourceName":this.state.replenishmentmaterialmanagement?this.state.replenishmentmaterialmanagement:null,
+                },
+                {
+                    "businessFunction":"Operations",
+                    "resourceName":this.state.operations?this.state.operations:null,
+                },
+                {
+                    "businessFunction":"Quality",
+                    "resourceName":this.state.quality?this.state.quality:null,
                 },
                 {
                     "businessFunction":"Maintenance",
@@ -159,7 +165,7 @@ class SiteInfo extends React.Component{
             ]
         }
 
-        console.log(siteInfoJSON);
+        // console.log(siteInfoJSON);
 
         apiPostHeader.body = JSON.stringify(siteInfoJSON);
         try{
@@ -170,40 +176,6 @@ class SiteInfo extends React.Component{
         catch(err){
             return err
         }
-    }
-
-    emptyField = () => {
-        return (
-            <div className="client-info">
-                <LabelledInputField placeholder={false} name="operations" labelName="Operations" readOnly={false} onChange={this.onChange}/>
-                <LabelledInputField placeholder={false} name="quality" labelName="Quality" readOnly={false} onChange={this.onChange}/>
-                <LabelledInputField placeholder={false} name="it" labelName="Information Technology" readOnly={false} />
-                <LabelledInputField placeholder={false} name="procurement" labelName="Procurement &amp; Supplier Management" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="ci" labelName="Continuous Improvement" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="replenishment" labelName="Replenishment &amp; Material Management" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="maintenance" labelName="Maintenance" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="planning" labelName="Planning &amp; Scheduling" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="hr" labelName="Human Resources" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="rnd" labelName="Engineering &amp; R&amp;D" readOnly={false} onChange={this.onChange} />
-            </div>
-        )
-    }
-
-    filledField = () => {
-        return (
-            <div className="client-info">
-                <LabelledInputField placeholder={false} name="operations" labelName="Operations" readOnly={false} onChange={this.onChange}/>
-                <LabelledInputField placeholder={false} name="quality" labelName="Quality" readOnly={false} onChange={this.onChange}/>
-                <LabelledInputField placeholder={false} name="it" labelName="Information Technology" readOnly={false} />
-                <LabelledInputField placeholder={false} name="procurement" labelName="Procurement &amp; Supplier Management" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="ci" labelName="Continuous Improvement" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="replenishment" labelName="Replenishment &amp; Material Management" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="maintenance" labelName="Maintenance" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="planning" labelName="Planning &amp; Scheduling" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="hr" labelName="Human Resources" readOnly={false} onChange={this.onChange} />
-                <LabelledInputField placeholder={false} name="rnd" labelName="Engineering &amp; R&amp;D" readOnly={false} onChange={this.onChange} />
-            </div>
-        )
     }
 
     render() {
@@ -221,8 +193,8 @@ class SiteInfo extends React.Component{
                     <div className="mid-container">
                         <div className="client-info">
                             <LabelledInputField placeholder={false} name="sector" labelName="Sector*" data={this.props.data.sector} readOnly={true}/>
-                            {/* <DropDownMenu placeholder={false} data={this.getdata()} name="manufacturingArchtype" onChange={this.handleChange} value={(this.state.dropdown!==undefined?this.state.dropdown:"-")}/> */}
-                            <LabelledInputField placeholder={false} name="manuArchtype" labelName="Manufacturing Archetype*" data={this.props.data.manufacturearchtype} readOnly={false} onChange={this.onChange}/>
+                            <DropDownMenu placeholder={false} data={this.props.data.manufactureArchList} labelName="Manufacturing Archetype*" name="manuArchtype" onChange={this.handleChange} value={(this.props.data.manufacturearchtype!==undefined?this.props.data.manufacturearchtype:"-")}/>
+                            {/* <LabelledInputField placeholder={false} name="manuArchtype" labelName="Manufacturing Archetype*" data={this.props.data.manufacturearchtype} readOnly={false} onChange={this.onChange}/> */}
                             <LabelledInputField placeholder={false} name="noShifts" labelName="# of Shifts" data={this.props.data.totalshifts} readOnly={false} onChange={this.onChange}/>
                             <LabelledInputField placeholder={false} name="noEmps" labelName="# Employees" data={this.props.data.totalemployees} readOnly={false} onChange={this.onChange}/>
                             <LabelledInputField placeholder={false} name="noAssets" labelName="# of Assets" data={this.props.data.totalproductionassets} readOnly={false} onChange={this.onChange}/>
@@ -241,7 +213,7 @@ class SiteInfo extends React.Component{
                         <div className="client-info">
                             {this.props.data.BusinessFunctionPoC.map((data,index) => {
                                 return (
-                                    <LabelledInputField placeholder={false} name={this.variableName(data.BusinessFunction)} labelName={data.BusinessFunction} data={data.ResourceName!==null?data.ResourceName:""} readOnly={false} onChange={this.onChange}/>
+                                    <LabelledInputField placeholder={false} name={this.variableName(data.BusinessFunction)} labelName={data.BusinessFunction} data={data.ResourceName!==null?data.ResourceName:""} required={true} readOnly={false} onChange={this.onChange}/>
                                 )
                             })}
                         </div>
