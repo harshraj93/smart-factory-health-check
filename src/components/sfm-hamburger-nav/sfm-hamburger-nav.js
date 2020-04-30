@@ -53,14 +53,14 @@ class HamburgerNav extends React.Component {
         }); 
     }
 
-    getNick() {
-        if(localStorage.getItem("userName")){
-        let nameArray = localStorage.getItem("userName").split(" ");
-        let nickName = nameArray.length > 0 ? nameArray[0].charAt(0) + nameArray[1].charAt(0) :  nameArray[0].charAt(0);
+    // getNick() {
+    //     if(localStorage.getItem("userName")){
+    //     let nameArray = localStorage.getItem("userName").split(" ");
+    //     let nickName = nameArray.length > 0 ? nameArray[0].charAt(0) + nameArray[1].charAt(0) :  nameArray[0].charAt(0);
       
-        return nickName;
-    }
-    }
+    //     return nickName;
+    // }
+    // }
     
     render() {
         return (
