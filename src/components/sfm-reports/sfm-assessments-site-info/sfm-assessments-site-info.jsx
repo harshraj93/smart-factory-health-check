@@ -118,16 +118,16 @@ class SiteInfo extends React.Component{
                 "primarySitePocName":this.state.primaryPoc?this.state.primaryPoc:this.props.data.primarysitepocname,
                 "primarySitePocRole": this.state.primaryPocRole?this.state.primaryPocRole:this.props.data.primarysitepocrole,
                 "manufactureArchType":this.state.manuArchtype?this.state.manuArchtype:this.props.data.manufacturearchtype,
-                "totalEmployees":Number(this.state.noEmps)?Number(this.state.noEmps):this.props.data.totalemployees,
-                "totalProductionAssets":Number(this.state.noAssets)?Number(this.state.noAssets):this.props.data.totalproductionassets,
-                "totalShifts":Number(this.state.noShifts)?Number(this.state.noShifts):this.props.data.totalshifts,
-                "siteebitda":Number(this.state.epitda)?Number(this.state.epitda):this.props.data.siteebitda,
-                "overalloee":Number(this.state.oeeSite)?Number(this.state.oeeSite):this.props.data.overalloee,
-                "performanceoee":Number(this.state.oeePerf)?Number(this.state.oeePerf):this.props.data.performanceoee,
-                "availabilityoee":Number(this.state.oeeAvail)?Number(this.state.oeeAvail):this.props.data.availabilityoee,
-                "qualityoee":Number(this.state.oeeQuality)?Number(this.state.oeeQuality):this.props.data.qualityoee,
-                "otif":Number(this.state.otif)?Number(this.state.otif):this.props.data.otif,
-                "siteRevenue":Number(this.state.siteRevenue)?Number(this.state.siteRevenue):this.props.data.siterevenue,
+                "totalEmployees":Number(this.state.noEmps)>=0?Number(this.state.noEmps):this.props.data.totalemployees,
+                "totalProductionAssets":Number(this.state.noAssets)>=0?Number(this.state.noAssets):this.props.data.totalproductionassets,
+                "totalShifts":Number(this.state.noShifts)>=0?Number(this.state.noShifts):this.props.data.totalshifts,
+                "siteebitda":Number(this.state.epitda)>=0?Number(this.state.epitda):this.props.data.siteebitda,
+                "overalloee":Number(this.state.oeeSite)>=0?Number(this.state.oeeSite):this.props.data.overalloee,
+                "performanceoee":Number(this.state.oeePerf)>=0?Number(this.state.oeePerf):this.props.data.performanceoee,
+                "availabilityoee":Number(this.state.oeeAvail)>=0?Number(this.state.oeeAvail):this.props.data.availabilityoee,
+                "qualityoee":Number(this.state.oeeQuality)>=0?Number(this.state.oeeQuality):this.props.data.qualityoee,
+                "otif":Number(this.state.otif)>=0?Number(this.state.otif):this.props.data.otif,
+                "siteRevenue":Number(this.state.siteRevenue)>=0?Number(this.state.siteRevenue):this.props.data.siterevenue,
             },
             "businessFunctionPoC":[
                 {
@@ -213,7 +213,7 @@ class SiteInfo extends React.Component{
                         <div className="client-info">
                             {this.props.data.BusinessFunctionPoC.map((data,index) => {
                                 return (
-                                    <LabelledInputField placeholder={false} name={this.variableName(data.BusinessFunction)} labelName={data.BusinessFunction} data={data.ResourceName!==null?data.ResourceName:""} required={true} readOnly={false} onChange={this.onChange}/>
+                                    <LabelledInputField placeholder={false} name={this.variableName(data.BusinessFunction)} labelName={data.BusinessFunction} data={data.ResourceName!==null&&data.ResourceName!=="null"?data.ResourceName:""} required={true} readOnly={false} onChange={this.onChange}/>
                                 )
                             })}
                         </div>

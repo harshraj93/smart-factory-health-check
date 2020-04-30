@@ -24,6 +24,165 @@ import {apiPostHeader} from '../../api/main/mainapistorage'
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=["Overview","Demographics"];
 
+let networkOverview = {
+    summary: "sample summary.",
+    overallRecs: "hi this a good recommendation",
+    sites: [
+        {
+            name: "Bristol",
+            score: 3.2,
+            target: 4.0,
+            indAvg: 4.8
+        },
+        {
+            name: "Edinburgh",
+            score: 5.3,
+            target: 6.0,
+            indAvg: 4.8
+        },
+        {
+            name: "Odessa",
+            score: 3.3,
+            target: 5.0,
+            indAvg: 4.8
+        }
+    ],
+    businessFunction: [
+        {
+            name: "Operations",
+            score: 3.9,
+            target: null,
+            indAvg: 4.8,
+            sites: [
+                {
+                    name: "Bristol",
+                    score: 3.2,
+                    target: 4.0,
+                    indAvg: 4.8
+                },
+                {
+                    name: "Edinburgh",
+                    score: 5.3,
+                    target: 6.0,
+                    indAvg: 4.8
+                },
+                {
+                    name: "Odessa",
+                    score: 3.3,
+                    target: 5.0,
+                    indAvg: 4.8
+                }
+            ],
+            capabilities: [
+                {
+                    name: "Capability 1",
+                    score: 4.0,
+                    target: 5.2,
+                    indAvg: 4.5,
+                    sites: [
+                        {
+                            name: "Bristol",
+                            score: 3.2,
+                            target: 4.0,
+                            indAvg: 4.8
+                        },
+                        {
+                            name: "Edinburgh",
+                            score: 5.3,
+                            target: 6.0,
+                            indAvg: 4.8
+                        },
+                        {
+                            name: "Odessa",
+                            score: 3.3,
+                            target: 5.0,
+                            indAvg: 4.8
+                        }
+                    ]
+                },
+                {
+                    name: "Capability 2",
+                    score: 4.0,
+                    target: 5.2,
+                    indAvg: 4.5,
+                    sites: [
+                        {
+                            name: "Bristol",
+                            score: 3.2,
+                            target: 4.0,
+                            indAvg: 4.8
+                        },
+                        {
+                            name: "Edinburgh",
+                            score: 5.3,
+                            target: 6.0,
+                            indAvg: 4.8
+                        },
+                        {
+                            name: "Odessa",
+                            score: 3.3,
+                            target: 5.0,
+                            indAvg: 4.8
+                        }
+                    ]
+                },
+                {
+                    name: "Capability 3",
+                    score: 4.0,
+                    target: 5.2,
+                    indAvg: 4.5,
+                    sites: [
+                        {
+                            name: "Bristol",
+                            score: 3.2,
+                            target: 4.0,
+                            indAvg: 4.8
+                        },
+                        {
+                            name: "Edinburgh",
+                            score: 5.3,
+                            target: 6.0,
+                            indAvg: 4.8
+                        },
+                        {
+                            name: "Odessa",
+                            score: 3.3,
+                            target: 5.0,
+                            indAvg: 4.8
+                        }
+                    ]
+                },
+                {
+                    name: "Capability 4",
+                    score: 4.0,
+                    target: 5.2,
+                    indAvg: 4.5,
+                    sites: [
+                        {
+                            name: "Bristol",
+                            score: 3.2,
+                            target: 4.0,
+                            indAvg: 4.8
+                        },
+                        {
+                            name: "Edinburgh",
+                            score: 5.3,
+                            target: 6.0,
+                            indAvg: 4.8
+                        },
+                        {
+                            name: "Odessa",
+                            score: 3.3,
+                            target: 5.0,
+                            indAvg: 4.8
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
 class Reports extends React.Component{
     constructor(props){
         super(props);
@@ -40,7 +199,8 @@ class Reports extends React.Component{
             demographicsData:[],
             assessBody: {},
             notesData: {},
-            siteInfoData: {}
+            siteInfoData: {},
+            clientOverview: networkOverview
         }
         this.props.disableMenu(false);        
     }
@@ -104,6 +264,42 @@ class Reports extends React.Component{
                         
                         <Tab key={index} eventKey={index} title={element} >
                             {element==="Demographics"?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview}/>}
+
+                        </Tab>
+                    )
+                })}
+            </Tabs>
+           
+            </div>
+            </div>
+        )
+    }
+
+    networkHeader = () => {
+        return(
+            <div className="reports-container">
+            <div className="assessment-title">
+            <div className="assessment-overview-title">
+                <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
+                <span className="title-text">
+                    {this.props.location.sector+" Network"}
+                </span>
+            </div>
+            <h2 className="location-name">
+            {this.props.location.clientName!==undefined?this.props.location.clientName:""}
+            
+            </h2>
+            <span className="share-link">
+                    <FormNavigationButton labelName="Publish" />
+            </span>
+            
+            <Tabs className="tab-group" onSelect={this.selectTab}>
+            
+                {resultsList.map((element,index)=>{
+                    return(
+                        
+                        <Tab key={index} eventKey={index} title={element} >
+                            {element==="Demographics"?"":<ReportsOverview data={this.state.clientOverview}/>}
 
                         </Tab>
                     )
@@ -315,7 +511,7 @@ class Reports extends React.Component{
             demographicsData = await this.fetchDemographicsData();
             resultJSON.resultantJSON.siteid = this.props.location.siteid;
         }
-        else {
+        else if (this.props.location.loadComponentString === "assessments" || this.state.loadComponentString === "assessments") {
             overviewData = await this.fetchOverview();
             notesData = await this.fetchNotes();
             siteInfoData = await this.fetchSiteInfo();
@@ -323,6 +519,7 @@ class Reports extends React.Component{
             overviewData.siteName = this.props.location.locationString;
             overviewData.sector = this.props.location.industryType;
             overviewData.siteid = this.props.location.siteid;
+            notesData.resultantJSON.siteId = this.props.location.siteid;
             siteInfoData.resultantJSON.siteId = this.props.location.siteid;
             siteInfoData.resultantJSON.clientName = this.props.location.companyName;
         }
@@ -347,7 +544,7 @@ class Reports extends React.Component{
         
     return(
     
-      this.state.loadComponentString==="results"?this.resultHeader():(this.state.loadComponentString==="assessments"?this.AssessmentsHeader():this.loadingScreen())
+      this.props.location.clientName?this.networkHeader():(this.state.loadComponentString==="results"?this.resultHeader():(this.state.loadComponentString==="assessments"?this.AssessmentsHeader():this.loadingScreen()))
         
         
     )

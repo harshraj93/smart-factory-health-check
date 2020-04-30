@@ -295,7 +295,7 @@ class ReportsListView extends React.Component {
 
     render(){
         return(
-            this.props.data.reportsData?this.reportScoreCard():this.assessmentsCard()
+            this.props.data.sites?"":(this.props.data.reportsData?this.reportScoreCard():this.assessmentsCard())
         )
     }
 }
