@@ -3,7 +3,8 @@ import LabelledInputField from '../../../assets/input-field';
 
 
 export default function DemographicsForm(props){
-    let jsonData = props.formData.resultantJSON;
+    let jsonData = props.formData.resultantJSON.demographicDetails;
+    let pocDetails = props.formData.resultantJSON.pocDetails;
     return(
         <>
         <div className="demographics-form">

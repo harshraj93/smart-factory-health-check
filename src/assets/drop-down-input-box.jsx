@@ -41,7 +41,7 @@ class DropDownMenu extends React.Component{
         return(
             <div className="dropdown">
                 
-                {this.props.placeholder?<label htmlFor="dropdown-select">{this.props.data.labelName.toUpperCase()}</label>:""}
+                {this.props.placeholder?<label></label>:<label htmlFor="dropdown-select">{this.props.data.labelName?this.props.data.labelNametoUpperCase():""}</label>}
                 <select className="dropdown-select" value={this.props.value} id={this.props.name} required={this.props.required} onChange={this.props.onChange} name={this.props.name}>
                 {this.props.placeholder&&<option value="" disabled selected style={{fontWeight:"100"}}>{this.props.placeholder}</option>}
                     {this.props.data.map((element,index)=>{
@@ -52,7 +52,7 @@ class DropDownMenu extends React.Component{
                         )
                         })}
                 </select>
-                <div />
+                
             </div>
         )
     }

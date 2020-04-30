@@ -59,42 +59,7 @@ class HamburgerNav extends React.Component {
       
         return nickName;
     }
-    triggerUserNameAndPassword = () => {
-
-        let accessTokenActual = (document.cookie);
-        let accessArr = accessTokenActual.split(':');
-        accessTokenActual = accessArr[1];
-        let obj = {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Bearer ' + accessTokenActual
-          }
-        };
     
-        fetch('https://sfhc-dev.auth.us-east-1.amazoncognito.com/oauth2/userInfo', obj)
-          .then(resp => resp.json())
-          .then(
-            (result) => {
-              if (result.error) {
-                this.setState({
-                  userName: "Error"
-                });
-              } else {
-                this.setState({
-                  userName: result.username,
-                  email: result.email
-                });
-                localStorage.setItem("userName", result.username);
-                localStorage.setItem("userEmail", result.email);
-              }
-            }
-          ).catch(err => {
-            console.log(err)
-        })
-      }
-    componentDidMount(){
-        this.triggerUserNameAndPassword();
-    }
     render() {
         return (
             
@@ -129,7 +94,7 @@ class HamburgerNav extends React.Component {
                     <div className="logout">
                         <span className="name-circle">{this.getNick()}</span>
                         <div className="user-info">
-                            <p className="username">{this.state.username}</p>
+                            <p className="username">{localStorage.getItem("userName")}</p>
                             <p className="logout-text">LOGOUT</p>
                         </div>
                         <img src={DropDownImg} alt="" className="logout-down-arrow"/>

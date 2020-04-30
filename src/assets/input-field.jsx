@@ -68,7 +68,7 @@ export default class LabelledInputField extends React.Component{
     render(){
     return(
         <div className="labelled-input-field">
-            {this.props.placeholder?<label></label>:<label htmlFor="input">{this.props.labelName.toUpperCase()}</label>}
+            {this.props.placeholder?<label>{(this.props.data||this.props.data===0)?this.props.labelName.toUpperCase():""}</label>:<label htmlFor="input">{this.props.labelName.toUpperCase()}</label>}
             <input 
             type={this.props.type==="number"?"number":"text"}
             min={this.props.min}
