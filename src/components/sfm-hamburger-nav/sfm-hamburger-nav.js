@@ -55,9 +55,9 @@ class HamburgerNav extends React.Component {
 
     getNick(user) {
         if(user && user !== null && user!==""){
-        let nameArray = localStorage.getItem("userName").split(" ");
-        let nickName = nameArray.length > 0 ? nameArray[0].charAt(0) + nameArray[1].charAt(0) :  nameArray[0].charAt(0);
-      
+        let nameArray = user.split(" ");
+        console.log(nameArray[0])
+        let nickName = nameArray[0];
         return nickName;
     }
     }
