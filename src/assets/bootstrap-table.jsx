@@ -15,9 +15,16 @@ function addSiteRow (props){
     return (
     <div className="add-site">
         
+        <Link to={{
+            pathname:'/reports',
+            clientName:props.companyName,
+            sector : props.industryType,
+        }}
+        >
         <div className="view-plant">
             View {props.industryType} Network <span className="plant-navigate">></span>
         </div>
+        </Link>
     </div>
     )
 }
