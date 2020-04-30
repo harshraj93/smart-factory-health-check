@@ -413,22 +413,22 @@ class Reports extends React.Component{
 
     checkPOCs = (data)=>{
         let pocDetails = data.resultantJSON.pocDetails;
-        let flag;
+        let flag=true;
         pocDetails.forEach(element=>{
             if(pocList.includes(element.BusinessFunction)){
-                console.log(typeof element.ResourceName)
-                if(element.ResourceName!=="null"||element.ResourceName!==null){
-                    console.log(element)
-                    flag=flag&true;
+                if(element.ResourceName!=="null"){
+                    flag=true
                 }
                 else{
-                    flag=flag&false;
+                    flag=false
                 }      
             }
         })
+        
         if(flag){
             allPoc = true;
         }
+        
     }
 
 

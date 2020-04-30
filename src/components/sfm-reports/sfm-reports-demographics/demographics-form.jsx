@@ -29,16 +29,16 @@ export default function DemographicsForm(props){
         <div className="bottom-border"></div>
         <div className="title-name-demographics">Business Function Point of Contact</div>
         <div className="business-poc-demographics">
-        <LabelledInputField placeholder={true} labelName="Operations" />
-        <LabelledInputField placeholder={true} labelName="Quality" />
-        <LabelledInputField placeholder={true} labelName="Information Technology" />
-        <LabelledInputField placeholder={true} labelName="Procurement & Supplier Management" />
-        <LabelledInputField placeholder={true} labelName="Continuous Improvement" />
-        <LabelledInputField placeholder={true} labelName="Replenishment & Material Management"/>
-        <LabelledInputField placeholder={true} labelName="Maintenance"/>
-        <LabelledInputField placeholder={true} labelName="Planning & Scheduling"/>
-        <LabelledInputField placeholder={true} labelName="Human Resources" />
-        <LabelledInputField placeholder={true} labelName="Engineering & R&D"/>
+        <LabelledInputField placeholder={true} labelName="Operations" data={pocDetails[3].ResourceName} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Quality" data={pocDetails[4].ResourceName} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Information Technology" data={pocDetails[0].ResourceName} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Procurement & Supplier Management" data={pocDetails[7].ResourceName} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Continuous Improvement" data={pocDetails[1].ResourceName} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Replenishment & Material Management" data={pocDetails[2].ResourceName} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Maintenance" data={pocDetails[6].ResourceName} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Planning & Scheduling" data={pocDetails[8].ResourceName} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Human Resources" data={pocDetails[0].ResourceName} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Engineering & R&D" data={pocDetails[0].ResourceName} readOnly={true}/>
         </div>
         </>
     )
