@@ -201,7 +201,7 @@ class ReportsOverview extends React.Component {
                     <div className="summary">
                         <div className="summary-header">
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
-                            {localStorage.getItem("userProfile")!=="Client"?<img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>:""}
+                            <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>
                         </div>
                         {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.state.summary}</p>}
                     </div>
@@ -229,7 +229,7 @@ class ReportsOverview extends React.Component {
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
-                                    {localStorage.getItem("userProfile")!=="Client"?<img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>:""}
+                                    <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
                                 </div>
                                 {this.state.recsEdit?this.overallRecsForm():this.recsTextFormat()}
                             </div>
