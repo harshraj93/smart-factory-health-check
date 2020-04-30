@@ -19,7 +19,7 @@ import {resultsApi} from '../../api/assessments/reports'
 import assessOverviewApi from '../../api/assessments/assess-overview';
 import assessNotesApi from '../../api/assessments/assess-notes';
 import siteInfoApi from '../../api/assessments/assess-siteInfo';
-import {apiPostHeader} from '../../api/main/mainapistorage'
+import {apiPostHeader, apiGetHeader} from '../../api/main/mainapistorage'
 import Modal from "react-bootstrap/Modal";
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
@@ -381,7 +381,7 @@ class Reports extends React.Component{
             {this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}
             </h5>
             <span className="share-link">
-                        {localStorage.getItem("userProfile")!=="Client"?<FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>:""}
+                <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>
             </span>
             {this.state.publishResults&&this.publishModal()}
             {this.state.businessContactModal&&this.publishBusinessContactModal()}
@@ -613,14 +613,13 @@ class Reports extends React.Component{
         let pocDetails = data.resultantJSON.pocDetails;
         let flag=true;
         pocDetails.forEach(element=>{
-            if(pocList.includes(element.BusinessFunction)){
                 if(element.ResourceName!=="null"){
                     flag=true
                 }
                 else{
                     flag=false
                 }      
-            }
+            
         })
         
         if(flag){
@@ -648,8 +647,11 @@ class Reports extends React.Component{
         }   
     }
 
-    clientUserProfile = ()=>{
-
+    clientUserProfile = async(userProfile)=>{
+        let pocName = resultsApi.reportOnly+`?pocName=${userProfile}`
+        const response = await fetch(pocName,apiGetHeader)
+        const demo = await response.json()
+        return demo;
     }
 
     componentDidMount = async()=>{
@@ -657,12 +659,15 @@ class Reports extends React.Component{
         let resultJSON = {};
         let userProfile=localStorage.getItem("userProfile")
         let userName=localStorage.getItem("userName");
-        if(userProfile==="client"){
-            this.clientUserProfile()
-            this.setState({
-                loadComponentString:"results",
-            })
-        }
+        // if(userProfile==="Client"){
+        //     let resultsJSON = await this.clientUserProfile(userName)
+        //     this.setState({
+        //         loadComponentString:"results",
+        //         data:resultsJSON.resultantJSON,
+        //         reportsOverview:resultsJSON.resultantJSON,
+        //     })
+        // }
+        // else{
         let demographicsData = {}; 
         let overviewData = {};
         let notesData = {};
@@ -699,6 +704,7 @@ class Reports extends React.Component{
             notesData: notesData.resultantJSON,
             siteInfoData: siteInfoData.resultantJSON
         })
+    // }
     }
 
     render(){
