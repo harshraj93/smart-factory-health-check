@@ -176,6 +176,7 @@ class Notes extends React.Component {
         try{
         const response = await fetch(assessNotesApi.downloadNotes,apiPostHeader)
         msg = await response.json();
+        window.open(msg.resultantJSON.exportUrl);
         console.log(msg);
         }
         catch(err){
