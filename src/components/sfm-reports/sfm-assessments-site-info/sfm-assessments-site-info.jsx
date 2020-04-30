@@ -7,6 +7,7 @@ import {apiPostHeader} from '../../../api/main/mainapistorage';
 import './sfm-assessments-site-info.scss';
 
 let requiredFieldNames=["location", "primaryPoc", "primaryPocRole", "sector", "manuArchtype","informationtechnology", "continuousimprovement", "replenishmentmaterialmanagement", "operations", "quality", "maintenance", "procurementsuppliermanagement", "planningscheduling"];
+let bizFuncPoc = [];
 
 class SiteInfo extends React.Component{
     constructor(props){
@@ -108,6 +109,13 @@ class SiteInfo extends React.Component{
         })
     }
 
+    componentDidMount = () => {
+        this.props.data.BusinessFunctionPoC.map((data, index) => {
+            bizFuncPoc.push(data.ResourceName);
+        })
+        // console.log(bizFuncPoc)
+    }
+
     saveForm = async() => {
         let siteInfoJSON=  {
             "siteDetails": {
@@ -131,36 +139,36 @@ class SiteInfo extends React.Component{
             },
             "businessFunctionPoC":[
                 {
-                    "businessFunction":"Information Technology",
-                    "resourceName":this.state.informationtechnology?this.state.informationtechnology:null,
+                    "businessFunction":"Continuous Improvement",
+                    "resourceName":this.state.continuousimprovement?this.state.continuousimprovement:bizFuncPoc[0],
                 },
                 {
-                    "businessFunction":"Continuous Improvement",
-                    "resourceName":this.state.continuousimprovement?this.state.continuousimprovement:null,
+                    "businessFunction":"Information Technology",
+                    "resourceName":this.state.informationtechnology?this.state.informationtechnology:bizFuncPoc[1],
                 },
                 {
                     "businessFunction":"Replenishment & Material Management",
-                    "resourceName":this.state.replenishmentmaterialmanagement?this.state.replenishmentmaterialmanagement:null,
+                    "resourceName":this.state.replenishmentmaterialmanagement?this.state.replenishmentmaterialmanagement:bizFuncPoc[2],
                 },
                 {
                     "businessFunction":"Operations",
-                    "resourceName":this.state.operations?this.state.operations:null,
+                    "resourceName":this.state.operations?this.state.operations:bizFuncPoc[3],
                 },
                 {
                     "businessFunction":"Quality",
-                    "resourceName":this.state.quality?this.state.quality:null,
+                    "resourceName":this.state.quality?this.state.quality:bizFuncPoc[4],
                 },
                 {
                     "businessFunction":"Maintenance",
-                    "resourceName":this.state.maintenance?this.state.maintenance:null,
+                    "resourceName":this.state.maintenance?this.state.maintenance:bizFuncPoc[5],
                 },
                 {
                     "businessFunction":"Procurement & Supplier Management",
-                    "resourceName":this.state.procurementsuppliermanagement?this.state.procurementsuppliermanagement:null,
+                    "resourceName":this.state.procurementsuppliermanagement?this.state.procurementsuppliermanagement:bizFuncPoc[6],
                 },
                 {
                     "businessFunction":"Planning & Scheduling",
-                    "resourceName":this.state.planningscheduling?this.state.planningscheduling:null,
+                    "resourceName":this.state.planningscheduling?this.state.planningscheduling:bizFuncPoc[7],
                 },
             ]
         }
@@ -212,8 +220,9 @@ class SiteInfo extends React.Component{
                         <div className="title">Business Function Point of Contact</div>
                         <div className="client-info">
                             {this.props.data.BusinessFunctionPoC.map((data,index) => {
+
                                 return (
-                                    <LabelledInputField placeholder={false} name={this.variableName(data.BusinessFunction)} labelName={data.BusinessFunction} data={data.ResourceName!==null&&data.ResourceName!=="null"?data.ResourceName:""} required={true} readOnly={false} onChange={this.onChange}/>
+                                    <LabelledInputField placeholder={false} name={this.variableName(data.BusinessFunction)} labelName={data.BusinessFunction} data={data.ResourceName!==null&&data.ResourceName!=="null"?data.ResourceName:""} required={false} readOnly={false} onChange={this.onChange}/>
                                 )
                             })}
                         </div>
