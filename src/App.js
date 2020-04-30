@@ -64,7 +64,7 @@ componentDidMount(){
       <Router>
       {this.state.showMenu&&<HamburgerNav/>}
         <div className="main">
-          <Routes disableMenu={this.disableMenu}/>
+          <Routes disableMenu={this.disableMenu} userProfile = {this.state.profile}/>
         </div>
       </Router>
     </div> 

@@ -284,6 +284,6 @@
     }
 }
 
-    .modal.show.modal-dialog{
-        max-width: 600px;
-    }
+ .modal-dialog.modal-dialog-centered{
+     max-width: 600px !important;
+ }

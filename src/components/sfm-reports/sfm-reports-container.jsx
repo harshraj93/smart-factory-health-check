@@ -24,8 +24,8 @@ import Modal from "react-bootstrap/Modal";
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=["Overview","Demographics"];
-const pocList = ["operations","quality","informationTechnology","procurement","continuousImprovement","replenishment",
-                "maintenance","planning","hr","r&d"];
+const pocList = ["Operations","Quality","Information Technology","Procurement & Supplier Management","Continuous Improvement","Replenishment & Material Management",
+                "Maintenance","Planning & Scheduling"];
 let allPoc = false;
 class Reports extends React.Component{
     constructor(props){
@@ -412,16 +412,22 @@ class Reports extends React.Component{
 
 
     checkPOCs = (data)=>{
+        let pocDetails = data.resultantJSON.pocDetails;
         let flag;
-        pocList.forEach(poc=>{
-            if(Object.keys(data).poc===poc){
-                flag = true;
+        pocDetails.forEach(element=>{
+            if(pocList.includes(element.BusinessFunction)){
+                console.log(typeof element.ResourceName)
+                if(element.ResourceName!=="null"||element.ResourceName!==null){
+                    console.log(element)
+                    flag=flag&true;
+                }
+                else{
+                    flag=flag&false;
+                }      
             }
-            flag=false;
         })
-        
         if(flag){
-            allPoc=true
+            allPoc = true;
         }
     }
 
