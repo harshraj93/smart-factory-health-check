@@ -53,8 +53,8 @@ class HamburgerNav extends React.Component {
         }); 
     }
 
-    getNick() {
-        if(localStorage.getItem("userName")){
+    getNick(user) {
+        if(user && user !== null && user!==""){
         let nameArray = localStorage.getItem("userName").split(" ");
         let nickName = nameArray.length > 0 ? nameArray[0].charAt(0) + nameArray[1].charAt(0) :  nameArray[0].charAt(0);
       
@@ -94,9 +94,9 @@ class HamburgerNav extends React.Component {
                     </Link>
                     </div>
                     <div className="logout">
-                        <span className="name-circle">{this.getNick()}</span>
+                        <span className="name-circle">{this.getNick(this.props.user)}</span>
                         <div className="user-info">
-                            <p className="username">{localStorage.getItem("userName")}</p>
+                            <p className="username">{this.props.user}</p>
                             <p className="logout-text">LOGOUT</p>
                         </div>
                         <img src={DropDownImg} alt="" className="logout-down-arrow"/>
