@@ -46,7 +46,8 @@ class Reports extends React.Component{
             siteInfoData: {},
             publishResults:false,
             businessContactModal:false,
-            shareResults:false
+            shareResults:false,
+            userProfile:true
         }
         this.props.disableMenu(false);        
     }
@@ -219,7 +220,7 @@ class Reports extends React.Component{
             {this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}
             </h5>
             <span className="share-link">
-                        <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>
+                        {localStorage.getItem("userProfile")!=="Client"?<FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>:""}
             </span>
             {this.state.publishResults&&this.publishModal()}
             {this.state.businessContactModal&&this.publishBusinessContactModal()}
@@ -450,11 +451,21 @@ class Reports extends React.Component{
         }   
     }
 
+    clientUserProfile = ()=>{
+
+    }
 
     componentDidMount = async()=>{
         
         let resultJSON = {};
-
+        let userProfile=localStorage.getItem("userProfile")
+        let userName=localStorage.getItem("userName");
+        if(userProfile==="client"){
+            this.clientUserProfile()
+            this.setState({
+                loadComponentString:"results",
+            })
+        }
         let demographicsData = {}; 
         let overviewData = {};
         let notesData = {};
