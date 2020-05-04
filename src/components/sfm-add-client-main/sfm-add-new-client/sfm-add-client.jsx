@@ -20,7 +20,7 @@ let data =
 },]
 
 let requiredFieldNames=["clientName","clientParticipation","clientRole","industryDropdown","numSites","primOwnerName","primOwnerLevel","primOwnerEmail"]
-
+let indexArray = [];
 
 let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
 
@@ -127,16 +127,16 @@ function addSupportResource(handleChange,state,index,changeButtonState,hideSuppo
          />
         </>
         </div>
-        {(index===2)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
+        {(index!=0)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
         </div>
     )
 }
 
 
 let supportEmailRequired = (index,state)=>{
-    if(index===1&&state.supResourceName1)
+    if(state["supResourceName"+index])
     {
-        requiredFieldNames.push("supResourceEmail1")
+        requiredFieldNames.push("supResourceEmail"+index)
         return true
     }
     return false 
@@ -150,29 +150,41 @@ class AddNewClient extends React.Component{
             showSupportResource:false,
             enableButton:"false",
             dropDownData:[],
-            backData:{}
+            backData:{},
+            showSupportIndex:0,
+            indexArray:[]
         }
         this.props.disableMenu(false);
     }
 
   
     showSupportResource = ()=>{
-        this.setState({
-            showSupportResource:true,
+        indexArray.push(this.state.showSupportIndex+1);
+        this.setState(function(prevState,prevProps){
+            
+           return{showSupportIndex:prevState.showSupportIndex+1,
+            showSupportResource:prevState.showSupportIndex+1===5?true:false,
+            indexArray:[...indexArray]}
         })
+      
     }
 
     hideSupportResource = ()=>{
-        this.setState({
-            showSupportResource:false,
+        indexArray.pop();
+        this.setState(function(prevState,prevProps){
+            return{showSupportIndex:prevState.showSupportIndex-1,
+                indexArray:[...indexArray]}
         })
     }
 
 
     handleChange = async (e)=>{
-        let name = e.target.name;
-        await this.setState({
+        let name = e.currentTarget.getAttribute("name");
+        e.target.value?await this.setState({
             [name]:e.target.value
+        }):
+        await this.setState({
+            [name]:e.target.getAttribute("value")
         })
         this.checkRequiredFields();
     }
@@ -235,7 +247,20 @@ class AddNewClient extends React.Component{
                         "support_resource_name":this.state.supResourceName2,
                         "support_resource_email":this.state.supResourceEmail2,
                         "support_resource_level":this.state.supResourceLevel2
-                        }:""
+                        }:"",
+                        this.state.supResourceName3?{
+                            "support_resource_name":this.state.supResourceName3,
+                            "support_resource_email":this.state.supResourceEmail3,
+                            "support_resource_level":this.state.supResourceLevel3
+                            }:"",this.state.supResourceName4?{
+                                "support_resource_name":this.state.supResourceName4,
+                                "support_resource_email":this.state.supResourceEmail4,
+                                "support_resource_level":this.state.supResourceLevel4
+                                }:"",this.state.supResourceName5?{
+                                    "support_resource_name":this.state.supResourceName5,
+                                    "support_resource_email":this.state.supResourceEmail5,
+                                    "support_resource_level":this.state.supResourceLevel5
+                                    }:"",
                       ]:[]
             }
         }
@@ -360,7 +385,6 @@ class AddNewClient extends React.Component{
             "supResourceLevel2":backData.supResourceLevel2
 
         })
-        console.log(this.state.backData);
         this.checkRequiredBack()
     }
     }
@@ -376,9 +400,14 @@ class AddNewClient extends React.Component{
             <div className="border-bottom"></div>
             {teamInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}
             <div className="border-bottom"></div>
-            {addSupportResource(this.handleChange,this.state,1,this.setNextStepState)}
+            {addSupportResource(this.handleChange,this.state,0)}
             <div className="border-bottom"></div>
-            {this.state.showSupportResource&&addSupportResource(this.handleChange,this.state,2,this.setNextStepState,this.hideSupportResource)}
+            {this.state.indexArray.map((element,index)=>{
+                return(
+                this.state.showSupportIndex<6&&addSupportResource(this.handleChange,this.state,index+1,this.setNextStepState,this.hideSupportResource)
+                )
+            })}
+            {/* {this.state.showSupportIndex>0&&this.state.showSupportIndex!=5&&addSupportResource(this.handleChange,this.state,2,this.setNextStepState,this.hideSupportResource)} */}
             
             <button type="button" className={"add-support-resource "+this.state.showSupportResource} 
             onClick={this.showSupportResource}>
