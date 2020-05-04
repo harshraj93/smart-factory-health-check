@@ -1,4 +1,12 @@
-
+.dropdown-container{
+    margin-top: 16px;
+    display: grid;
+    grid-template-rows: 20px 40px;
+    label{
+        font-size:12px;
+        opacity: 0.5;
+        font-size: 12px;
+    }
 .tkey-dropdown{
     background-color:inherit;
     font-size: 18px;
@@ -9,7 +17,6 @@
     z-index: 1000;
     width: 240px;
     height: 44px;
-    margin-top: 40px;
   }
 .tkey-dropdown .dropdown-options-container{
     display: none;
@@ -48,7 +55,7 @@
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
-
+}
 // .dropdown{
    
 //     margin-top: 16px;

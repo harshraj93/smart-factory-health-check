@@ -12,10 +12,11 @@ import QuestionnairePage from '../components/sfm-questionnaire/questionnaire-mai
 
 export default function Routes(props){
     let profile = props.userProfile;
+    console.log(props)
     if(profile==="Client"){
         return(
             <Switch>
-            <Route exact path="/"> <Reports disableMenu={props.disableMenu}/> </Route>
+            <Route exact path="/"> <Reports disableMenu={props.disableMenu} profile={props.userProfile} username={props.username}/> </Route>
             </Switch>
         )
     }
@@ -26,7 +27,7 @@ export default function Routes(props){
         <Route exact path="/analytics"> <Analytics/> </Route>
         <Route exact path="/utilization"> <UtilSum/> </Route>
         <Route exact path="/overview"></Route>
-        <Route exact path='/reports'><Reports disableMenu={props.disableMenu}/></Route>
+        <Route exact path='/reports'><Reports disableMenu={props.disableMenu} /></Route>
         <Route exact path="/addnewclient"><AddNewClient disableMenu={props.disableMenu}/></Route>
         <Route exact path="/addsitedetails"><AddSiteDetails disableMenu={props.disableMenu}/></Route>
         <Route exact path="/addbusinessfunctions"><AddBusinessFunctions disableMenu={props.disableMenu}/></Route>

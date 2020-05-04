@@ -30,8 +30,8 @@ function QuestionnaireHeader(props) {
             </div>
             <div className="progress-bar-column">
                 <div className="progress-bar">
-                    <ProgressBar now={props.data.progress} variant="success" />
-                    <span className="progress-status">{props.data.progress}% complete</span>
+                    <ProgressBar now={props.progressValue} variant="success" />
+                    <span className="progress-status">{props.progressValue}% complete</span>
                 </div>
                 <div className="impact-area">
                     <span className="impact-area-text">OEE Impact Area:</span>
@@ -76,7 +76,8 @@ class QuestionnairePage extends React.Component {
             targetSelected: "",
             showLoader:"",
             skipFlag:"",
-            showSkipped:""
+            showSkipped:"",
+            progressValue:""
 
         }
         this.props.disableMenu(false);
@@ -170,13 +171,16 @@ class QuestionnairePage extends React.Component {
         fetch(questionnaire.getProgress + `?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}&capabilityId=${capabilitiesArray[this.state.capabilitiesArrayIndex].capabilityName}`, apiGetHeader)
             .then(resp => resp.json())
             .then(resp => {
+                this.setState({
+                    progressValue:Math.round(resp.progress, 4)
+                })
+             });
 
                 let headerValues = {
                     title: subCapabilitiesArray[this.state.arrayIndex].businessFunctionName,
                     Capabilities: capabilitiesArray[this.state.capabilitiesArrayIndex].capabilityName,
                     subCapabilities: subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
                     subCapabilityNum: this.state.arrayIndex + 1,
-                    progress: Math.round(resp.progress, 4),
                     oeeAddressArea: subCapabilitiesArray[this.state.arrayIndex].oeeAddressArea,
                     oeeImpact: subCapabilitiesArray[this.state.arrayIndex].oeeImpact
                 };
@@ -214,7 +218,7 @@ class QuestionnairePage extends React.Component {
                         showSkipped: subCapabilitiesArray[prevState.arrayIndex].skipQuestionFlag
                     }
                 })
-            });
+           
     }
 
 
@@ -397,38 +401,31 @@ class QuestionnairePage extends React.Component {
 
         fetch(questionnaire.saveAssessment, apiPostHeader)
             .then(resp => resp.json())
-            .then(resp => {
-                if (resp.successMsg) {
-
-                    this.setState(function (prevState, props) {
-                        if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
-                            if(prevState.capabilitiesArrayIndex+1 === capabilitiesArray.length){
-                                this.setState({
-                                    showContinue:false
-                                })
-                            }
-                            else{
-                                this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex + 1)
-                                return {
-                                    capabilitiesArrayIndex: prevState.capabilitiesArrayIndex + 1,
-                                    arrayIndex: 0
-                                }
-                                }
-                            
-
+            .then(resp => { 
+            })
+            this.setState(function (prevState, props) {
+                if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
+                    if(prevState.capabilitiesArrayIndex+1 === capabilitiesArray.length){
+                        this.setState({
+                            showContinue:false
+                        })
+                    }
+                    else{
+                        this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex + 1)
+                        return {
+                            capabilitiesArrayIndex: prevState.capabilitiesArrayIndex + 1,
+                            arrayIndex: 0
                         }
-                        else {
-                            return { arrayIndex: prevState.arrayIndex + 1 }
                         }
-                    })
-
-                    this.getQuestionnaire()
                     
+
                 }
                 else {
-                    console.log("errored out")
+                    return { arrayIndex: prevState.arrayIndex + 1 }
                 }
             })
+
+            this.getQuestionnaire();
             this.setState({
                 currentSelected:"",
                 targetSelected:""
@@ -445,12 +442,9 @@ class QuestionnairePage extends React.Component {
                 return { arrayIndex: prevState.arrayIndex - 1,
                         showContinue:true }
             })
-
-            this.getQuestionnaire();
         }
         else {
             if (this.state.capabilitiesArrayIndex > 0) {
-
                 await this.setState(function (prevState, props) {
                     return {
                         capabilitiesArrayIndex: prevState.capabilitiesArrayIndex - 1,
@@ -460,9 +454,8 @@ class QuestionnairePage extends React.Component {
                 })
             }
             this.replaceSubCapabilitiesArray(this.state.capabilitiesArrayIndex)
-
-            this.getQuestionnaire();
         }
+        this.getQuestionnaire();
     }
 
 
@@ -557,8 +550,8 @@ class QuestionnairePage extends React.Component {
         this.state.targetSelected ? this.setTargetValue(value) : this.setTargetValue("")
     }
 
-    showskipPopup = ()=>{
 
+    showskipPopup = ()=>{
         this.setState({
             skipFlag:true
         })
@@ -568,9 +561,9 @@ class QuestionnairePage extends React.Component {
     render() {
         return (
             <div className="questionnaire-main-container">
-                 {this.state.showLoader&&this.loadingScreen()}
+                 {/* {this.state.showLoader&&this.loadingScreen()} */}
                 
-                <QuestionnaireHeader data={this.state.headerValues} />
+                <QuestionnaireHeader data={this.state.headerValues} progressValue={this.state.progressValue}/>
                 {this.state.showSkipped&&<div className="skipped-question">This question has previously been skipped</div>}
                 <div className="navigation-button-group">
                     <QuestionnaireNavigation labelName="Previous" customClass="prev" onClick={this.previousSubCapability} /><QuestionnaireNavigation labelName="Skip Question" onClick={this.showskipPopup}/>

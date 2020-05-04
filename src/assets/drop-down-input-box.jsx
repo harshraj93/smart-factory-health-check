@@ -1,6 +1,6 @@
 import React from 'react';
 import arrowIcon from '../images/icon-small-dropdown.svg';
-let data = ["A","B"]
+let data = ["A","B","C","D","E"]
 class DropDownMenu extends React.Component{
 
       
@@ -63,15 +63,23 @@ class DropDownMenu extends React.Component{
         changeValue = (e)=>{
             this.toggleDropdown(e);
             this.props.onChange(e);
+            this.changePlaceholder(e)
         }
 
+        changePlaceholder = (e)=>{
+            if(this.props.placeholder){
+          document.getElementsByClassName("tkey-dropdown")[0].parentElement.childNodes[0].innerHTML = this.props.placeholder.toUpperCase();
+        }
+        }
         render(){
         return(
+            <div className = "dropdown-container">
+            <label></label>
         <div className="tkey-dropdown"> 
+            
             <span className="toggle" name={this.props.name} onClick={this.changeValue}><span>{this.state.value}</span><img src={arrowIcon} /></span>
             <div className={"dropdown-options-container "+ this.state.showDropdown } onClick={this.changeValue}  name={this.props.name}> 
-                {data.map((item,index) => {
-                    
+                {this.props.data.map((item,index) => {
                     return (
                     <>
                     <div className="dropdown-options" key={index} value={item} onClick={(e)=> this.setDropdownSelectedValue(e)}> 
@@ -80,21 +88,8 @@ class DropDownMenu extends React.Component{
                 </>)})}
             </div>
         </div>
-            // {/* <div className="dropdown">
-                
-            //     {this.props.placeholder?<label></label>:<label htmlFor="dropdown-select">{this.props.data.labelName?this.props.data.labelNametoUpperCase():""}</label>}
-            //     <select className="dropdown-select" value={this.props.value} id={this.props.name} required={this.props.required} onChange={this.props.onChange} name={this.props.name}>
-            //     {this.props.placeholder&&<option value="" disabled selected style={{fontWeight:"100"}}>{this.props.placeholder}</option>}
-            //         {this.props.data.map((element,index)=>{
-            //             return(
-                            
-            //                 <option style={{backgroundColor:"#35353b"}} key={index} value={element}>{element}</option>
-                            
-            //             )
-            //             })}
-            //     </select>
-                
-            // </div> */}
+           </div>
+
         )
     }
 }
