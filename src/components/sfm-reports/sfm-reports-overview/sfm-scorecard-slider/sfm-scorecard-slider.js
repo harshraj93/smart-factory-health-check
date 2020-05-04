@@ -14,27 +14,6 @@ class Slider extends React.Component {
         };
     }
 
-    // calcAvg() {
-    //     var avscore = 0;
-    //     var avindAvg = 0; 
-    //     var avtarget = 0;
-    //     let arr = this.props.data;
-    //     arr.forEach((data,index)=>{
-    //         avscore += data.score;
-    //         avtarget += data.target;
-    //         avindAvg += data.indAvg;
-    //     });
-
-    //     this.setState({
-    //         indAvg: (avindAvg/(arr.length)).toFixed(2),
-    //         score: (avscore/(arr.length)).toFixed(2),
-    //         target: (avtarget/(arr.length)).toFixed(2),
-    //         indAvgPos: this.updatePosition(avindAvg/(arr.length)),
-    //         scorePos: this.updatePosition(avscore/(arr.length)),
-    //         targetPos: this.updatePosition(avtarget/(arr.length))
-    //     });
-    // }
-
     updatePosition(value, str) {
         // Function to update the position value for the industry avg bar, score and target circles
         var x = 0;
@@ -69,38 +48,8 @@ class Slider extends React.Component {
         return ((x/532.469)*100).toFixed(2);
     }
 
-    componentDidMount() {
-        // if (Array.isArray(this.props.data)) {
-        //     this.calcAvg();
-        // }
-        // else {
-            this.setState({
-                score: Number(this.props.data.score).toFixed(1),
-                target: Number(this.props.data.target).toFixed(1),
-                indAvg: Number(this.props.data.indAvg).toFixed(1),
-                scorePos: this.updatePosition(Number(this.props.data.score), "score"),
-                targetPos: this.updatePosition(Number(this.props.data.target), "target"),
-                indAvgPos: this.updatePosition(this.props.data.indAvg, "indAvg")
-            });
-        // }
-    }
-
-    render() {
-        // if (Array.isArray(this.props.data)) {
-        //     this.calcAvg();
-        // }
-        // else {
-        //     this.setState({
-        //         score: this.props.data.score,
-        //         target: this.props.data.target,
-        //         indAvg: (this.props.data.indAvgFrom + this.props.data.indAvgTo)/2,
-        //         scorePos: this.updatePosition(this.props.data.score),
-        //         targetPos: this.updatePosition(this.props.data.target),
-        //         indAvgPos: this.updatePosition((this.props.data.indAvgFrom + this.props.data.indAvgTo)/2)
-        //     });
-        // }
-        // let score = this.state.score.toFixed(1);
-        return ( 
+    siteLevel() {
+        return (
             <div className="slider">
                 <p className="slider-text">Low 1</p>
                 <span className="slider-line"></span>
@@ -127,6 +76,35 @@ class Slider extends React.Component {
                 </div>
                 <p className="slider-text">High 7</p>
             </div>
+        )
+    }
+
+    clientLevel(){
+        return (
+            <div className="slider"></div>
+        )
+    }
+
+    componentDidMount() {
+        if (this.props.data.sites !== undefined) {
+            console.log("sites");
+        }
+        else {
+            this.setState({
+                score: Number(this.props.data.score).toFixed(1),
+                target: Number(this.props.data.target).toFixed(1),
+                indAvg: Number(this.props.data.indAvg).toFixed(1),
+                scorePos: this.updatePosition(Number(this.props.data.score), "score"),
+                targetPos: this.updatePosition(Number(this.props.data.target), "target"),
+                indAvgPos: this.updatePosition(Number(this.props.data.indAvg), "indAvg")
+            });
+        }
+    }
+
+    render() {
+        // let score = this.state.score.toFixed(1);
+        return ( 
+            this.props.data.sites?"":this.siteLevel()
         );
     }
 }

@@ -225,7 +225,7 @@ class ReportsOverview extends React.Component {
                         </div>
                         <div className="overall-score">
                             <p style={{fontSize: "18px", fontWeight: "bold", marginBottom: "30px"}}>Overall</p>
-                            {this.props.data.score?<Slider data={this.props.data}/>:""}
+                            <Slider data={this.props.data}/>
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>

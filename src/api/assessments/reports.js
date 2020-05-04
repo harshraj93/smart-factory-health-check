@@ -4,7 +4,8 @@ let resultsApi={
     getResults:apiUrl+"/client/report",
     demographics:apiUrl+"/site/demographic",
     textEdit:apiUrl +"/site/siteSummaryAndRecommendation",
-    themesEdit:apiUrl+"/client/setKeythemesAndRecommendations"
+    themesEdit:apiUrl+"/client/setKeythemesAndRecommendations",
+    clientReport: apiUrl+"/client/clientReport",
 }
 
 export {

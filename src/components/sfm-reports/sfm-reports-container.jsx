@@ -194,7 +194,6 @@ class Reports extends React.Component{
             assessOverview: {},
             loadComponentString:"",
             data:[],
-            assessData:[],
             x: false,
             demographicsData:[],
             assessBody: {},
@@ -236,7 +235,7 @@ class Reports extends React.Component{
             <div className="reports-container">
             <div className="assessment-title">
             <div className="assessment-overview-title">
-                <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBackFromResults}/>
+                <CustomButton imgSrc={leftIcon} clickFunction={this.state.assessOverview==={}?this.navigateBack:this.navigateBackFromResults}/>
                 <span className="title-text">
                     {"Results "+this.state.title}
                 </span>
