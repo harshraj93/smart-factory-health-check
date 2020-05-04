@@ -309,7 +309,7 @@ class QuestionnairePage extends React.Component {
             + ":" + ("00" + date.getSeconds()).slice(-2);
         let notesSubmission = {
             "clientAssessmentId": subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId,
-            "resourceEmailId": "harshraj@deloitte.com",
+            "resourceEmailId": localStorage.userEmail,
             "note": this.state.textAreaNotesValue,
             "timestamp": Str,
             "flagType": this.state.flagType

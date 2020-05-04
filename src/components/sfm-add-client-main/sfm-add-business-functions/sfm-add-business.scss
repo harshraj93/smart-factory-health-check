@@ -13,6 +13,11 @@
             font-size: 32px;
             font-weight: 600;
         }
+        .form-navigation-button{
+            width: 123px;
+            height: 48px;
+            left: 75% !important;
+        }
     }
     // #add-business-functions{
         
@@ -32,7 +37,7 @@
         background-color: #35353b;
         margin: 16px 8px 16px 0;
         &.true{
-            border: 2px solid blue;
+            border: solid 5px #006dcc;
         }
         .custom-button{
             position: relative;
@@ -69,6 +74,11 @@
             font-weight: normal;
             color: #9e9e9e;
         }
+    }
+    .form-navigation-button{
+        width: 123px;
+        height: 48px;
+        left: 80%;
     } 
 // }
 }

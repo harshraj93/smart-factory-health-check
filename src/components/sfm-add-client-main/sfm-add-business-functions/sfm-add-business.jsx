@@ -79,7 +79,6 @@ class AddBusinessFunctions extends React.Component{
         return(
             <>
             <div className={"function-card "+(businessObject[0].indexArray.includes(String(index))?"true":"false")} onClick={this.highlightCard} sitename={siteName} key={index} value={index} >
-                <CustomButton labelName={<>&#9432;</>}></CustomButton>
                 <div className="card-text" >{businessName}</div>
             </div>
            

@@ -122,9 +122,9 @@
         .goToResults {
             position: absolute;
             display: flex;
-            left: 81.5%;
+            right:50px;
             align-items: center;
-            top: 26%;
+            top: 198px;
             cursor: pointer;
 
             .text {
@@ -181,3 +181,109 @@
     }
 
 }
+.modal-dialog{
+    max-width: 600px;
+    .modal-content{
+        background-color: #232325;
+        .modal-header{
+            color: #fefefe;
+            margin: auto;
+            border: unset;
+            padding: 40px 0 13px 0;
+            .h4{
+                font-size: 20px;
+                font-weight: bold;
+            }
+            .close{
+                position: absolute;
+                left: 90%;
+                top: 2%;
+                color: white;
+                outline: none;;
+            }
+        }
+        .modal-body{
+            color: #dedede;
+            margin: auto;
+            padding: unset;
+            margin-bottom: 40px;
+        }
+        .modal-footer{
+            border-top: unset;
+            margin: auto;
+            width: 100%;
+            justify-content: center;
+            .share-results{
+                font-size: 16px;
+                font-weight: 600;
+                color: #dedede;
+                width: 100%;
+                border-radius: 8px;
+                border: solid 2px #35353b;
+                padding-top: 32px;
+                padding-bottom: 32px;
+                .Username{
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 24px;
+                    span{
+                        opacity: 0.5;
+                        font-size: 16px;
+                        font-weight: bold;
+                    }
+
+                }
+                .link{
+                    margin-left: 40px;
+                    background-color: #161617;
+                    width: 85%;
+                    overflow: auto;
+                    padding: 16px;
+                }
+            }
+            .button-group{
+                margin-top: 32px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                .form-navigation-button{
+                    margin-right: 15px;
+                }
+            }
+            .publish-business-poc{
+                font-size: 16px;
+                font-weight: 600;
+                color: #dedede;
+                display: grid;
+                grid-template-columns: 70% 25%;
+                margin:40px;
+                border-radius: 8px;
+                border: solid 2px #c02424;
+                .text{
+                    padding: 24px 32px 24px 32px;
+                }
+                .form-navigation-button{
+                    position: unset;
+                    left: unset;
+                    width: 120px;
+                    padding: 12px 24px 14px 24px;
+                    height: 50px;
+                    margin: auto;
+                }
+            }
+            .save-and-exit{
+                padding: 14px 50px 15px 50px;
+            }
+            .form-navigation-button{
+                position: unset;
+                left: unset;
+                width: unset;
+                padding: 15px 45px 14px 45px;
+            }
+        }
+    }
+}
+
+ .modal-dialog.modal-dialog-centered{
+     max-width: 600px !important;
+ }

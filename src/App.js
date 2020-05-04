@@ -8,7 +8,8 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      showMenu:true
+      showMenu:true,
+      userName:""
     }
   }
 
@@ -62,9 +63,9 @@ componentDidMount(){
   return (
     <div className="App">
       <Router>
-      {this.state.showMenu&&<HamburgerNav/>}
+      {this.state.showMenu&&<HamburgerNav user={this.state.userName}/>}
         <div className="main">
-          <Routes disableMenu={this.disableMenu}/>
+          <Routes disableMenu={this.disableMenu} userProfile = {this.state.profile}/>
         </div>
       </Router>
     </div> 

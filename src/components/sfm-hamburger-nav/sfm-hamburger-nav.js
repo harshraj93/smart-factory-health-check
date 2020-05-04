@@ -53,48 +53,14 @@ class HamburgerNav extends React.Component {
         }); 
     }
 
-    getNick() {
-        let nameArray = this.state.username.split(" ");
-        let nickName = nameArray.length > 0 ? nameArray[0].charAt(0) + nameArray[1].charAt(0) :  nameArray[0].charAt(0);
-      
+    getNick(user) {
+        if(user && user !== null && user!==""){
+        let nameArray = user.split(" ");
+        let nickName = nameArray.length > 1 ? nameArray[0].charAt(0) + nameArray[1].charAt(0) :  nameArray[0].charAt(0);
         return nickName;
     }
-    triggerUserNameAndPassword = () => {
-
-        let accessTokenActual = (document.cookie);
-        let accessArr = accessTokenActual.split(':');
-        accessTokenActual = accessArr[1];
-        let obj = {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Bearer ' + accessTokenActual
-          }
-        };
-    
-        fetch('https://sfhc-dev.auth.us-east-1.amazoncognito.com/oauth2/userInfo', obj)
-          .then(resp => resp.json())
-          .then(
-            (result) => {
-              if (result.error) {
-                this.setState({
-                  userName: "Error"
-                });
-              } else {
-                this.setState({
-                  userName: result.username,
-                  email: result.email
-                });
-                localStorage.setItem("userName", result.username);
-                localStorage.setItem("userEmail", result.email);
-              }
-            }
-          ).catch(err => {
-            console.log(err)
-        })
-      }
-    componentDidMount(){
-        this.triggerUserNameAndPassword();
     }
+    
     render() {
         return (
             
@@ -127,9 +93,9 @@ class HamburgerNav extends React.Component {
                     </Link>
                     </div>
                     <div className="logout">
-                        <span className="name-circle">{this.getNick()}</span>
+                        <span className="name-circle">{this.getNick(this.props.user)}</span>
                         <div className="user-info">
-                            <p className="username">{this.state.username}</p>
+                            <p className="username">{this.props.user}</p>
                             <p className="logout-text">LOGOUT</p>
                         </div>
                         <img src={DropDownImg} alt="" className="logout-down-arrow"/>

@@ -2,7 +2,7 @@ import React from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import Spinner from 'react-bootstrap/Spinner'
-import {CustomButton,FormNavigationButton} from '../../assets/sfm-button';
+import {CustomButton,FormNavigationButton, SaveandExitButton} from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import downloadIcon from '../../images/icon-small-download.svg';
 import linkIcon from '../../images/icon-small-link.svg';
@@ -19,10 +19,14 @@ import {resultsApi} from '../../api/assessments/reports'
 import assessOverviewApi from '../../api/assessments/assess-overview';
 import assessNotesApi from '../../api/assessments/assess-notes';
 import siteInfoApi from '../../api/assessments/assess-siteInfo';
-import {apiPostHeader} from '../../api/main/mainapistorage'
+import {apiPostHeader, apiGetHeader} from '../../api/main/mainapistorage'
+import Modal from "react-bootstrap/Modal";
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=["Overview","Demographics"];
+const pocList = ["Operations","Quality","Information Technology","Procurement & Supplier Management","Continuous Improvement","Replenishment & Material Management",
+                "Maintenance","Planning & Scheduling"];
+let allPoc = false;
 
 let networkOverview = {
     summary: "sample summary.",
@@ -199,6 +203,10 @@ class Reports extends React.Component{
             assessBody: {},
             notesData: {},
             siteInfoData: {},
+            publishResults:false,
+            businessContactModal:false,
+            shareResults:false,
+            userProfile:true,
             clientOverview: networkOverview
         }
         this.props.disableMenu(false);        
@@ -230,6 +238,125 @@ class Reports extends React.Component{
         })
     }
     
+    navigateToBusinessPOC = async() => {
+        await this.setState({
+            loadComponentString: "assessments",
+            businessContactModal:false
+        })
+        document.getElementsByClassName("nav-item nav-link")[2].click();
+        document.getElementById("Continuous Improvement").scrollIntoView();
+        document.getElementById("Continuous Improvement").click();
+    }
+
+
+    closePublishPopup = ()=>{
+        this.setState({
+            publishResults:false
+        })
+    }
+
+    shareResults = ()=>{
+        this.setState({
+            publishResults:false,
+            shareResults:true
+        })
+    }
+
+    publishModal = ()=>{
+        return(
+            <div className = "publish-modal">
+    <Modal show={this.state.publishResults} onHide={this.closePublishPopup} centered>
+        <Modal.Header>
+          <Modal.Title>Publish Results</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Would you like to publish the results?</Modal.Body>
+        <Modal.Footer>
+          <SaveandExitButton labelName = "No" onClick={this.closePublishPopup}/>
+          <FormNavigationButton labelName = "Yes" onClick={this.shareResults}/>
+        </Modal.Footer>
+      </Modal>
+      </div>
+      )
+    }
+
+
+    shareResultsModal = ()=>{
+        return(
+            <div className = "publish-modal">
+    <Modal show={this.state.shareResults} onHide={this.closeShareResults} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Share Results</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>The results have been published.</Modal.Body>
+        <Modal.Footer>
+            <>
+            <div className="share-results">
+                <div className="Username"><span>Username:</span> ClientName</div>
+                <div className="Username"><span>Password:</span> Results</div>
+                <div className="link">https://deloittedigital.smartfactory.com/share/Q6WUAHGHUA3</div>
+
+          
+            </div>
+            <div className="button-group">
+            <FormNavigationButton labelName = "Send Email"/>
+            <FormNavigationButton labelName = "Copy Link" />
+            </div>
+            </>
+        </Modal.Footer>
+      </Modal>
+      </div>
+      )
+    }
+
+
+    closeShareResults = ()=>{
+        this.setState({
+            shareResults:false
+        })
+    }
+
+
+    showPopup = (e,popupToLoad)=>{
+        if(popupToLoad==="publishResults"){
+        this.setState({
+            publishResults:true
+        })
+        }
+        else{
+            this.setState({
+                businessContactModal:true
+            })
+        }
+    }
+
+
+    closeBusinessContactModal = ()=>{
+        this.setState({
+            businessContactModal:false
+        })
+    }
+
+
+    publishBusinessContactModal = ()=>{
+        return(
+            <div className = "publish-modal">
+    <Modal show={this.state.businessContactModal} onHide={this.closeBusinessContactModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Publish Results</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Would you like to publish the results?</Modal.Body>
+        <Modal.Footer>
+          <div className="publish-business-poc">
+              <span className="text">In order to publish you must first fill out the Point of Contacts section.</span>
+              <FormNavigationButton labelName="Complete" onClick={this.navigateToBusinessPOC}></FormNavigationButton>
+          </div>
+        </Modal.Footer>
+    </Modal>
+      </div>
+      )
+    }
+
+
     resultHeader = ()=>{
         return(
             <div className="reports-container">
@@ -253,9 +380,11 @@ class Reports extends React.Component{
             {this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}
             </h5>
             <span className="share-link">
-                        <FormNavigationButton labelName="Publish" />
+                <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>
             </span>
-            
+            {this.state.publishResults&&this.publishModal()}
+            {this.state.businessContactModal&&this.publishBusinessContactModal()}
+            {this.state.shareResults&&this.shareResultsModal()}
             <Tabs className="tab-group" onSelect={this.selectTab}>
             
                 {resultsList.map((element,index)=>{
@@ -372,7 +501,7 @@ class Reports extends React.Component{
                 </h2>
                     
                 <h5 className="company-name">{this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}</h5>
-
+                
                 <div className="goToResults" onClick={this.goToResults}>
                     <span className="text">Go to Results</span>
                     <img src={DropDownImg} alt="" className="right-arrow"></img>
@@ -479,6 +608,26 @@ class Reports extends React.Component{
     }
 
 
+    checkPOCs = (data)=>{
+        let pocDetails = data.resultantJSON.pocDetails;
+        let flag=true;
+        pocDetails.forEach(element=>{
+                if(element.ResourceName!=="null"){
+                    flag=true
+                }
+                else{
+                    flag=false
+                }      
+            
+        })
+        
+        if(flag){
+            allPoc = true;
+        }
+        
+    }
+
+
     fetchDemographicsData = async()=>{
         let body = {
             "clientName": this.props.location.companyName, 
@@ -489,6 +638,7 @@ class Reports extends React.Component{
         try{
         const response = await fetch(resultsApi.demographics,apiPostHeader)
         const demographicsData = await response.json();
+        this.checkPOCs(demographicsData);
         return demographicsData;
         }
         catch(err){
@@ -496,11 +646,27 @@ class Reports extends React.Component{
         }   
     }
 
+    clientUserProfile = async(userProfile)=>{
+        let pocName = resultsApi.reportOnly+`?pocName=${userProfile}`
+        const response = await fetch(pocName,apiGetHeader)
+        const demo = await response.json()
+        return demo;
+    }
 
     componentDidMount = async()=>{
         
         let resultJSON = {};
-
+        let userProfile=localStorage.getItem("userProfile")
+        let userName=localStorage.getItem("userName");
+        // if(userProfile==="Client"){
+        //     let resultsJSON = await this.clientUserProfile(userName)
+        //     this.setState({
+        //         loadComponentString:"results",
+        //         data:resultsJSON.resultantJSON,
+        //         reportsOverview:resultsJSON.resultantJSON,
+        //     })
+        // }
+        // else{
         let demographicsData = {}; 
         let overviewData = {};
         let notesData = {};
@@ -537,6 +703,7 @@ class Reports extends React.Component{
             notesData: notesData.resultantJSON,
             siteInfoData: siteInfoData.resultantJSON
         })
+    // }
     }
 
     render(){

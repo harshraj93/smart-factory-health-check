@@ -47,8 +47,7 @@
 
 
 .add-site{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    text-align: center;
     color: $add-site-button-color;
     
     .add-button{
@@ -76,7 +75,6 @@
 }
     .view-plant{
         
-        text-align: right;
         margin-bottom: $common-margin;
         margin-top: $small-margin;
         margin-right: $large-margin;

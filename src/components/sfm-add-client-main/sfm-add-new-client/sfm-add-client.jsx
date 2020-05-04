@@ -9,7 +9,7 @@ import addclientapi from '../../../api/addclient/addclient';
 import {apiGetHeader,apiPostHeader} from '../../../api/main/mainapistorage';
 let data = 
 [{
-    labelName:"Select Industry",
+    labelName:"Industry",
     dropDownData:[]
 },{
     labelName:"Sector",

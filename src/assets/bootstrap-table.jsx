@@ -14,11 +14,6 @@ function addSiteRow (props){
     
     return (
     <div className="add-site">
-       
-        <span className="add-button">
-            <CustomButton imgSrc={plusIcon}/>
-                    <span className="add-text">Add Site</span>
-        </span>
         
         <Link to={{
             pathname:'/reports',
@@ -27,7 +22,7 @@ function addSiteRow (props){
         }}
         >
         <div className="view-plant">
-            View {props.industryType} <span className="plant-navigate">></span>
+            View {props.industryType} Network <span className="plant-navigate">></span>
         </div>
         </Link>
     </div>
