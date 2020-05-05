@@ -46,7 +46,7 @@ class ReportsCardView extends React.Component {
             this.props.data.reportsData.map((data,index)=>{
                 return(
                     <div>
-                    <Accordion className="industry-reportview-accordion">
+                    <Accordion className="industry-reportview-accordion" defaultActiveKey={0}>
                         <Card key={index} className={"card"}>
                             <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} variant="link" eventKey={index} value={index} onClick={(e)=>this.handleClick(e)}>
                                 <span className="area-name">{data.name}</span>
@@ -65,7 +65,6 @@ class ReportsCardView extends React.Component {
                                                     <div className="reportview-card" key={y}>
                                                         <span className="area-name">{x.name}</span>
                                                         <span className="circle" style={{backgroundColor: "#232325"}}></span>
-                                                        <span className="vertical-line"></span>
                                                         <p className="score">{Number(x.score).toFixed(1)}</p>
                                                         <span className="circle" style={{backgroundColor: this.circleColor((x.target - x.score).toFixed(1))}}></span>
                                                         <p className="score">{Number(x.target).toFixed(1)}</p>
@@ -76,11 +75,12 @@ class ReportsCardView extends React.Component {
                                                 </div>
                                             )
                                         })}
+                                        <span className="vertical-line"></span>
                                     </div>
                                 </Accordion.Collapse>
                         </Card>
                     </Accordion>
-                    <Accordion className="cap-report-accordion">
+                    <Accordion className="cap-report-accordion" defaultActiveKey={0}>
                     {data.parts.map((x, y) => {
                         return (
                             <Card key={y} className={"card"}>
@@ -101,7 +101,6 @@ class ReportsCardView extends React.Component {
                                                         <div className="reportview-card" key={j}>
                                                             <span className="area-name">{i.name}</span>
                                                             <span className="circle" style={{backgroundColor: "#35353b"}}></span>
-                                                            <span className="vertical-line"></span>
                                                             <p className="score">{Number(i.score).toFixed(1)}</p>
                                                             <span className="circle" style={{backgroundColor: this.circleColor((i.target - i.score).toFixed(1))}}></span>
                                                             <p className="score">{Number(i.target).toFixed(1)}</p>
@@ -112,6 +111,7 @@ class ReportsCardView extends React.Component {
                                                     </div>
                                                 )
                                             })}
+                                            <span className="vertical-line"></span>
                                         </div>
                                     </Accordion.Collapse>
                             </Card>
@@ -141,14 +141,13 @@ class ReportsCardView extends React.Component {
                             <p className="score">{Number(data.indAvg).toFixed(1)}</p>
                         </Accordion.Toggle>
                             <Accordion.Collapse eventKey={index}>
-                                <div>
+                                <div style={{position: "relative"}}>
                                     {data.parts.map((x,y) => {
                                         return (
                                             <div>
                                                 <div className="reportview-card" key={y}>
                                                     <span className="area-name">{x.name}</span>
                                                     <span className="circle" style={{backgroundColor: "#35353b"}}></span>
-                                                    <span className="vertical-line"></span>
                                                     <p className="score">{Number(x.score).toFixed(1)}</p>
                                                     <span className="circle" style={{backgroundColor: this.circleColor((x.target - x.score).toFixed(1))}}></span>
                                                     <p className="score">{Number(x.target).toFixed(1)}</p>
@@ -159,6 +158,7 @@ class ReportsCardView extends React.Component {
                                             </div>
                                         )
                                     })}
+                                    <span className="vertical-line"></span>
                                 </div>
                             </Accordion.Collapse>
                     </Card>
@@ -170,7 +170,7 @@ class ReportsCardView extends React.Component {
 
     render() {
         return(
-            this.props.data.reportsData?this.siteLevel():this.clientLevel()
+            this.props.data.sites === undefined?this.siteLevel():this.clientLevel()
         )
     }
 }

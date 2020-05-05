@@ -68,36 +68,47 @@ class ReportsListView extends React.Component {
     }
 
     onSave = async() => {
-        let body = {
-            "businessFunction": this.state.businessFunction,
-            "recommendations": this.state.recs,
-            "keyThemes": this.state.keyThemes,
-            "siteid": this.props.data.siteid
+        if (this.props.data.sites === undefined) {
+            let body = {
+                "businessFunction": this.state.businessFunction,
+                "recommendations": this.state.recs,
+                "keyThemes": this.state.keyThemes,
+                "siteid": this.props.data.siteid
+            }
+            apiPostHeader.body = JSON.stringify(body);
+            let editresp;
+            try{
+                const response = await fetch(resultsApi.themesEdit,apiPostHeader)
+                editresp = await response.json();
+            }
+            catch(err){
+                editresp = err;
+            }
+            this.setState ({
+                capTextEdit: false
+            });
         }
-        apiPostHeader.body = JSON.stringify(body);
-        let editresp;
-        try{
-            const response = await fetch(resultsApi.themesEdit,apiPostHeader)
-            editresp = await response.json();
+        else {
+            this.setState ({
+                capTextEdit: false
+            });
         }
-        catch(err){
-            editresp = err;
-        }
-        this.setState ({
-            capTextEdit: false
-        });
+        
         // console.log(this.state.recs);
     }
 
-    capTextBox() {
-        // if (data.keyThemes !== null) {
+    // setText (keyThemes, recs) {}
+
+    capTextBox(keyThemes, recs) {
+        console.log(keyThemes + " + " + recs);
+        // if (keyThemes !== null) {
         //     this.setState({
-        //         keyThemes: data.keyThemes
+        //         keyThemes: keyThemes
         //     })
         // }
-        // if (data.recs !== null) {
+        // if (recs !== null) {
         //     this.setState({
-        //         recs: data.recs
+        //         recs: recs
         //     })
         // }
         return (
@@ -145,7 +156,7 @@ class ReportsListView extends React.Component {
     }
 
     textFormat(data) {
-        let points = data.split("\n");
+        let points = data.split("↵").split("\n");
         return (
             <ul className="list">
                 {points.map((data,index)=>{
@@ -179,7 +190,7 @@ class ReportsListView extends React.Component {
                                     <div className="edit">
                                         <img src={EditIcon} alt="" onClick={()=>this.editToggle(data.name)}></img>
                                     </div>
-                                    {this.state.capTextEdit?this.capTextForm():this.capTextBox()}
+                                    {this.state.capTextEdit?this.capTextForm(data.keyThemes, data.recs):this.capTextBox()}
                                 </div>
                                 {data.parts.map((x,y) => {
                                     return (
