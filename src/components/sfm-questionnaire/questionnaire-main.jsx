@@ -1,10 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import ProgressBar from 'react-bootstrap/ProgressBar'
-import { QuestionnaireNavigation, SaveandExitButton, FormNavigationButton } from '../../assets/sfm-button';
+import { QuestionnaireNavigation, SaveandExitButton, FormNavigationButton, CustomButton } from '../../assets/sfm-button';
 import GeneralQuestions from './general-questions';
 import flagIcon from '../../images/icon-small-flagged-outline.svg';
-import { CustomButton } from '../../assets/sfm-button';
 import addIcon from '../../images/icon-small-add-black.svg';
 import TextEditor from './text-editor-component';
 import TargetSelect from './target-select';
@@ -12,10 +11,12 @@ import NotesComponent from './notes-component';
 import questionnaire from '../../api/questionnaire/questionnaire';
 import { apiGetHeader, apiPostHeader } from '../../api/main/mainapistorage';
 import Spinner from 'react-bootstrap/Spinner';
+import Modal from "react-bootstrap/Modal";
 
 
 let capabilitiesArray = [];
 let subCapabilitiesArray = [];
+
 
 function QuestionnaireHeader(props) {
     return (
@@ -29,8 +30,8 @@ function QuestionnaireHeader(props) {
             </div>
             <div className="progress-bar-column">
                 <div className="progress-bar">
-                    <ProgressBar now={props.data.progress} variant="success" />
-                    <span className="progress-status">{props.data.progress}% complete</span>
+                    <ProgressBar now={props.progressValue} variant="success" />
+                    <span className="progress-status">{props.progressValue}% complete</span>
                 </div>
                 <div className="impact-area">
                     <span className="impact-area-text">OEE Impact Area:</span>
@@ -73,7 +74,10 @@ class QuestionnairePage extends React.Component {
             flagType: null,
             currentSelected: "",
             targetSelected: "",
-            showLoader:""
+            showLoader:"",
+            skipFlag:"",
+            showSkipped:"",
+            progressValue:""
 
         }
         this.props.disableMenu(false);
@@ -148,7 +152,7 @@ class QuestionnairePage extends React.Component {
 
                         }
                         else {
-                            return { arrayIndex: prevState.arrayIndex + 1 }
+                            return { arrayIndex: prevState.arrayIndex + 1, skipFlag:false }
                         }
                     })
 
@@ -167,13 +171,16 @@ class QuestionnairePage extends React.Component {
         fetch(questionnaire.getProgress + `?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}&capabilityId=${capabilitiesArray[this.state.capabilitiesArrayIndex].capabilityName}`, apiGetHeader)
             .then(resp => resp.json())
             .then(resp => {
+                this.setState({
+                    progressValue:Math.round(resp.progress, 4)
+                })
+             });
 
                 let headerValues = {
                     title: subCapabilitiesArray[this.state.arrayIndex].businessFunctionName,
                     Capabilities: capabilitiesArray[this.state.capabilitiesArrayIndex].capabilityName,
                     subCapabilities: subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
                     subCapabilityNum: this.state.arrayIndex + 1,
-                    progress: Math.round(resp.progress, 4),
                     oeeAddressArea: subCapabilitiesArray[this.state.arrayIndex].oeeAddressArea,
                     oeeImpact: subCapabilitiesArray[this.state.arrayIndex].oeeImpact
                 };
@@ -208,10 +215,10 @@ class QuestionnairePage extends React.Component {
                         questions: questionsArray,
                         scoringDetails: scoringDetails,
                         notesDetails: notesDetails,
-                        //showLoader:false
+                        showSkipped: subCapabilitiesArray[prevState.arrayIndex].skipQuestionFlag
                     }
                 })
-            });
+           
     }
 
 
@@ -309,7 +316,7 @@ class QuestionnairePage extends React.Component {
             + ":" + ("00" + date.getSeconds()).slice(-2);
         let notesSubmission = {
             "clientAssessmentId": subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId,
-            "resourceEmailId": localStorage.userEmail,
+            "resourceEmailId": "harshraj@deloitte.com",
             "note": this.state.textAreaNotesValue,
             "timestamp": Str,
             "flagType": this.state.flagType
@@ -394,38 +401,31 @@ class QuestionnairePage extends React.Component {
 
         fetch(questionnaire.saveAssessment, apiPostHeader)
             .then(resp => resp.json())
-            .then(resp => {
-                if (resp.successMsg) {
-
-                    this.setState(function (prevState, props) {
-                        if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
-                            if(prevState.capabilitiesArrayIndex+1 === capabilitiesArray.length){
-                                this.setState({
-                                    showContinue:false
-                                })
-                            }
-                            else{
-                                this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex + 1)
-                                return {
-                                    capabilitiesArrayIndex: prevState.capabilitiesArrayIndex + 1,
-                                    arrayIndex: 0
-                                }
-                                }
-                            
-
+            .then(resp => { 
+            })
+            this.setState(function (prevState, props) {
+                if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
+                    if(prevState.capabilitiesArrayIndex+1 === capabilitiesArray.length){
+                        this.setState({
+                            showContinue:false
+                        })
+                    }
+                    else{
+                        this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex + 1)
+                        return {
+                            capabilitiesArrayIndex: prevState.capabilitiesArrayIndex + 1,
+                            arrayIndex: 0
                         }
-                        else {
-                            return { arrayIndex: prevState.arrayIndex + 1 }
                         }
-                    })
-
-                    this.getQuestionnaire()
                     
+
                 }
                 else {
-                    console.log("errored out")
+                    return { arrayIndex: prevState.arrayIndex + 1 }
                 }
             })
+
+            this.getQuestionnaire();
             this.setState({
                 currentSelected:"",
                 targetSelected:""
@@ -442,12 +442,9 @@ class QuestionnairePage extends React.Component {
                 return { arrayIndex: prevState.arrayIndex - 1,
                         showContinue:true }
             })
-
-            this.getQuestionnaire();
         }
         else {
             if (this.state.capabilitiesArrayIndex > 0) {
-
                 await this.setState(function (prevState, props) {
                     return {
                         capabilitiesArrayIndex: prevState.capabilitiesArrayIndex - 1,
@@ -457,9 +454,8 @@ class QuestionnairePage extends React.Component {
                 })
             }
             this.replaceSubCapabilitiesArray(this.state.capabilitiesArrayIndex)
-
-            this.getQuestionnaire();
         }
+        this.getQuestionnaire();
     }
 
 
@@ -515,6 +511,30 @@ class QuestionnairePage extends React.Component {
         )
     }
 
+    closeSkipPopup = ()=>{
+        this.setState({
+            skipFlag:false
+        })
+    }
+
+    skipModal = ()=>{
+        return(
+            <div className = "publish-modal">
+    <Modal show={this.state.skipFlag} onHide={this.closeSkipPopup} centered>
+        <Modal.Header>
+          <Modal.Title>Skip Question</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>If you skip this question it will not be included in the report card.</Modal.Body>
+        <Modal.Footer>
+          <SaveandExitButton labelName = "Cancel" onClick={this.closeSkipPopup}/>
+          <FormNavigationButton labelName = "Skip" onClick={this.skipFlag}/>
+        </Modal.Footer>
+    </Modal>
+      </div>
+      )
+    }
+
+
     handleTargetChange = async (e) => {
         let value;
         if (e.target) {
@@ -531,13 +551,22 @@ class QuestionnairePage extends React.Component {
     }
 
 
+    showskipPopup = ()=>{
+        this.setState({
+            skipFlag:true
+        })
+    }
+
+
     render() {
         return (
             <div className="questionnaire-main-container">
-                {/* {this.state.showLoader&&this.loadingScreen()} */}
-                <QuestionnaireHeader data={this.state.headerValues} />
+                 {/* {this.state.showLoader&&this.loadingScreen()} */}
+                
+                <QuestionnaireHeader data={this.state.headerValues} progressValue={this.state.progressValue}/>
+                {this.state.showSkipped&&<div className="skipped-question">This question has previously been skipped</div>}
                 <div className="navigation-button-group">
-                    <QuestionnaireNavigation labelName="Previous" customClass="prev" onClick={this.previousSubCapability} /><QuestionnaireNavigation labelName="Skip Question" onClick={this.skipFlag}/>
+                    <QuestionnaireNavigation labelName="Previous" customClass="prev" onClick={this.previousSubCapability} /><QuestionnaireNavigation labelName="Skip Question" onClick={this.showskipPopup}/>
                 </div>
                 <div className="questions-and-targets">
                     <GeneralQuestions data={this.state.questions} flagQuestions={this.focusInput} />
@@ -590,6 +619,7 @@ class QuestionnairePage extends React.Component {
                         <NotesComponent data={element} textAreaClick={this.textAreaClick} />
                     )
                 }) : ""}
+                {this.state.skipFlag&&this.skipModal()}
             </div>
         )
     }

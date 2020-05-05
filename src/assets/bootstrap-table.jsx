@@ -85,16 +85,16 @@ actionsFormatter = (cell,row)=>{
 
 columns= [{
     dataField:"Location",
-    text:"SITE",
+    text:"",
     formatter:this.locationFormatter,
     headerStyle:this.headerStyle
 },{
     dataField:"POC",
-    text:"DELOITTE LEAD",
+    text:"",
     headerStyle:this.headerStyle
 },{
     dataField:"sitelevelstatus",
-    text:"STATUS",
+    text:"",
     headerStyle:this.headerStyle
 },{
     dataField:"Open",

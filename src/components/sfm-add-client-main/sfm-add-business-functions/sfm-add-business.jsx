@@ -2,7 +2,7 @@ import React from "react";
 import {FormNavigationButton} from '../../../assets/sfm-button';
 import Header from '../sfm-add-client-main';
 import {withRouter} from 'react-router-dom';
-import {CustomButton} from '../../../assets/sfm-button';
+import CheckBox from '../../../assets/check-box'
 import {createCardSelectedObj} from '../../../util/addbusinessfunctions'
 import addclientapi from "../../../api/addclient/addclient";
 import {apiGetHeader,apiPostHeader} from '../../../api/main/mainapistorage';
@@ -204,12 +204,15 @@ class AddBusinessFunctions extends React.Component{
                 <div className="site-name" key={index}>
                     {element}
                     {index===0?
-                    <>
-                        <span className="check-box" onChange={(e)=>this.handleCheckBox(e,element)}>
+                    <>  
+                        
+                    <span className="check-box"><CheckBox label="Apply Selections across all sites" onClick={(e)=>this.handleCheckBox(e,element)}/>
+                    </span>
+                        {/* <span className="check-box" onChange={(e)=>this.handleCheckBox(e,element)}>
                              <input type="checkbox" checked={this.state.checked} />
                             <span></span>
                             <label style={{marginLeft:"8px"}}>Apply Selections across all sites</label>
-                        </span>
+                        </span> */}
                     </>:""}
                 </div>
         

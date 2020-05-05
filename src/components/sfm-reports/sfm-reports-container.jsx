@@ -227,11 +227,13 @@ class Reports extends React.Component{
         }
     }
 
+
     navigateBack = ()=>{
         this.props.history.push({
             pathname:"/"
         })
     }
+
 
     navigateBackFromResults = async() => {
         await this.setState({
@@ -239,6 +241,7 @@ class Reports extends React.Component{
         })
     }
     
+
     navigateToBusinessPOC = async() => {
         await this.setState({
             loadComponentString: "assessments",
@@ -294,7 +297,7 @@ class Reports extends React.Component{
             <div className="share-results">
                 <div className="Username"><span>Username:</span> ClientName</div>
                 <div className="Username"><span>Password:</span> Results</div>
-                <div className="link">https://deloittedigital.smartfactory.com/share/Q6WUAHGHUA3</div>
+                <div className="link">{window.location.href}</div>
 
           
             </div>
@@ -381,7 +384,7 @@ class Reports extends React.Component{
             {this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}
             </h5>
             <span className="share-link">
-                <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>
+             {this.props.profile!=="Client"&&<FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>}
             </span>
             {this.state.publishResults&&this.publishModal()}
             {this.state.businessContactModal&&this.publishBusinessContactModal()}
@@ -525,6 +528,7 @@ class Reports extends React.Component{
         )
     }
 
+
     overviewRefresh = async() => {
         let overviewData = await this.fetchOverview();
         overviewData.clientName = this.props.location.companyName;
@@ -535,6 +539,7 @@ class Reports extends React.Component{
             assessOverview: overviewData
         })
     }
+
 
     fetchOverview = async()=> {
         let body = {
@@ -552,6 +557,7 @@ class Reports extends React.Component{
             return err
         }
     }
+
 
     fetchNotes = async()=> {
         let body = {
@@ -631,7 +637,8 @@ class Reports extends React.Component{
                 }
                 else{
                     flag=false
-                }      
+                }
+                     
             
         })
         
@@ -660,27 +667,29 @@ class Reports extends React.Component{
         }   
     }
 
+
     clientUserProfile = async(userProfile)=>{
+        console.log(resultsApi)
         let pocName = resultsApi.reportOnly+`?pocName=${userProfile}`
         const response = await fetch(pocName,apiGetHeader)
         const demo = await response.json()
         return demo;
     }
 
+
     componentDidMount = async()=>{
-        
         let resultJSON = {};
-        let userProfile=localStorage.getItem("userProfile")
-        let userName=localStorage.getItem("userName");
-        // if(userProfile==="Client"){
-        //     let resultsJSON = await this.clientUserProfile(userName)
-        //     this.setState({
-        //         loadComponentString:"results",
-        //         data:resultsJSON.resultantJSON,
-        //         reportsOverview:resultsJSON.resultantJSON,
-        //     })
-        // }
-        // else{
+        let userProfile=this.props.profile;
+        let userName=this.props.username;
+        if(userProfile==="Client"){
+            let resultsJSON = await this.clientUserProfile(userName)
+            this.setState({
+                loadComponentString:"results",
+                data:resultsJSON.resultantJSON,
+                reportsOverview:resultsJSON.resultantJSON,
+            })
+        }
+        else{
         let demographicsData = {}; 
         let overviewData = {};
         let notesData = {};
@@ -721,7 +730,7 @@ class Reports extends React.Component{
             notesData: notesData.resultantJSON,
             siteInfoData: siteInfoData.resultantJSON
         })
-    // }
+    }
     }
 
     render(){

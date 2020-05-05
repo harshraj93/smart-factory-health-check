@@ -109,9 +109,12 @@ class AddSiteDetails extends React.Component{
 
     handleChange = async(e)=>{
 
-        let name = e.target.name;
-        await this.setState({
+        let name = e.currentTarget.getAttribute("name");
+        e.target.value?await this.setState({
             [name]:e.target.value
+        }):
+        await this.setState({
+            [name]:e.target.getAttribute("value")
         })
         this.checkRequiredFields();
         
@@ -125,6 +128,7 @@ class AddSiteDetails extends React.Component{
             boolFlag = prevValue&&this.state[element];
             prevValue = this.state[element];
             boolFlag!==undefined?boolFlag=true:boolFlag=false
+            console.log(element,this.state[element])
         })
         if(boolFlag){
             this.setState({
@@ -173,8 +177,8 @@ class AddSiteDetails extends React.Component{
         {/* <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <div className="bottom-border"></div> */}
-        <DropDownMenu placeholder= "Sector*"  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
-        <DropDownMenu placeholder= "Manufacturing Archetype*" required={true}  data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder= "Sector*" dropdownIndex={index}  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
         <LabelledInputField placeholder={true} data={backData?(this.state["numShifts"+index]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["employees"]):null} labelName="# Employees (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["assets"]):null} labelName="# of Assets (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
