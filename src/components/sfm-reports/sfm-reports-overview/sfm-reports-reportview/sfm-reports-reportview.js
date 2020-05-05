@@ -43,7 +43,7 @@ class ReportsCardView extends React.Component {
 
     clientLevel = () => {
         return(
-            this.props.data.businessFunction.map((data,index)=>{
+            this.props.data.reportsData.map((data,index)=>{
                 return(
                     <div>
                     <Accordion className="industry-reportview-accordion">
@@ -81,7 +81,7 @@ class ReportsCardView extends React.Component {
                         </Card>
                     </Accordion>
                     <Accordion className="cap-report-accordion">
-                    {data.capabilities.map((x, y) => {
+                    {data.parts.map((x, y) => {
                         return (
                             <Card key={y} className={"card"}>
                                 <Accordion.Toggle as={Card.Header} className={"cap-report-card-header "+(this.state.arrayCapIndex===String(y))} variant="link" eventKey={y} value={y} onClick={(e)=>this.handleCapClick(e)}>

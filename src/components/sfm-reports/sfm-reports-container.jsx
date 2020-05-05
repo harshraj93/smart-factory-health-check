@@ -31,6 +31,7 @@ let allPoc = false;
 let networkOverview = {
     summary: "sample summary.",
     overallRecs: "hi this a good recommendation",
+    target: 5.0,
     sites: [
         {
             name: "Bristol",
@@ -51,7 +52,7 @@ let networkOverview = {
             indAvg: 4.8
         }
     ],
-    businessFunction: [
+    reportsData: [
         {
             name: "Operations",
             score: 3.9,
@@ -77,7 +78,7 @@ let networkOverview = {
                     indAvg: 4.8
                 }
             ],
-            capabilities: [
+            parts: [
                 {
                     name: "Capability 1",
                     score: 4.0,
@@ -207,7 +208,7 @@ class Reports extends React.Component{
             businessContactModal:false,
             shareResults:false,
             userProfile:true,
-            clientOverview: networkOverview
+            clientOverview: networkOverview,
         }
         this.props.disableMenu(false);        
     }
@@ -362,7 +363,7 @@ class Reports extends React.Component{
             <div className="reports-container">
             <div className="assessment-title">
             <div className="assessment-overview-title">
-                <CustomButton imgSrc={leftIcon} clickFunction={this.state.assessOverview?this.navigateBack:this.navigateBackFromResults}/>
+                <CustomButton imgSrc={leftIcon} clickFunction={JSON.stringify(this.state.assessOverview) !== "{}"?this.navigateBackFromResults:this.navigateBack}/>
                 <span className="title-text">
                     {"Results "+this.state.title}
                 </span>
@@ -406,35 +407,31 @@ class Reports extends React.Component{
     networkHeader = () => {
         return(
             <div className="reports-container">
-            <div className="assessment-title">
-            <div className="assessment-overview-title">
-                <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
-                <span className="title-text">
-                    {this.props.location.sector+" Network"}
-                </span>
-            </div>
-            <h2 className="location-name">
-            {this.props.location.clientName!==undefined?this.props.location.clientName:""}
-            
-            </h2>
-            <span className="share-link">
-                    <FormNavigationButton labelName="Publish" />
-            </span>
-            
-            <Tabs className="tab-group" onSelect={this.selectTab}>
-            
-                {resultsList.map((element,index)=>{
-                    return(
-                        
-                        <Tab key={index} eventKey={index} title={element} >
-                            {element==="Demographics"?"":<ReportsOverview data={this.state.clientOverview}/>}
+                <div className="assessment-title">
+                    <div className="assessment-overview-title">
+                        <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
+                        <span className="title-text">
+                            {this.props.location.sector+" Network"}
+                        </span>
+                    </div>
+                    <h2 className="location-name">
+                        {this.props.location.clientName!==undefined?this.props.location.clientName:""}
+                    </h2>
+                    <span className="share-link">
+                        <FormNavigationButton labelName="Publish" />
+                    </span>
+                    
+                    <Tabs className="tab-group" onSelect={this.selectTab}>
+                        {resultsList.map((element,index)=>{
+                            return(
+                                <Tab key={index} eventKey={index} title={element} >
+                                    {element==="Demographics"?"":<ReportsOverview data={this.state.clientOverview} sample={this.state.data}/>}
 
-                        </Tab>
-                    )
-                })}
-            </Tabs>
-           
-            </div>
+                                </Tab>
+                            )
+                        })}
+                    </Tabs>
+                </div>
             </div>
         )
     }
@@ -590,6 +587,23 @@ class Reports extends React.Component{
         }
     }
 
+    fetchClientLevelData = async()=>{
+        let body = { 
+            "clientName": this.props.location.clientName, 
+            "sector": this.props.location.sector
+        };
+        let postHeader = (apiPostHeader);
+        postHeader["body"] = JSON.stringify(body);
+        try{
+        const response = await fetch(resultsApi.clientReport,postHeader)
+        const json =  await response.json();
+        return json; 
+        }
+        catch(err){
+            return err
+        }
+    }
+
     fetchResultsData = async()=>{
         let body = { 
             "clientName": this.props.location.companyName, 
@@ -671,6 +685,7 @@ class Reports extends React.Component{
         let overviewData = {};
         let notesData = {};
         let siteInfoData={};
+        let clientReportsData = {};
         if (this.props.location.loadComponentString === "results" || this.state.loadComponentString === "results") {
             resultJSON = await this.fetchResultsData();
             demographicsData = await this.fetchDemographicsData();
@@ -688,6 +703,9 @@ class Reports extends React.Component{
             siteInfoData.resultantJSON.siteId = this.props.location.siteid;
             siteInfoData.resultantJSON.clientName = this.props.location.companyName;
         }
+        else if (this.props.location.clientName !== undefined) {
+            clientReportsData = await this.fetchClientLevelData();
+        }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
             "siteName": this.props.location.locationString,
@@ -696,7 +714,7 @@ class Reports extends React.Component{
         
         await this.setState({
             loadComponentString:this.props.location.loadComponentString,
-            data:resultJSON.resultantJSON,
+            data:clientReportsData,
             reportsOverview:resultJSON.resultantJSON,
             demographicsData:demographicsData,
             assessOverview: overviewData,

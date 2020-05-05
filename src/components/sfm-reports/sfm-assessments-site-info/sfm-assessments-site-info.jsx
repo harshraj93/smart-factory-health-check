@@ -121,7 +121,7 @@ class SiteInfo extends React.Component{
             "siteDetails": {
                 "siteId": this.props.data.siteId,
                 "clientName" : this.props.data.clientName,
-                "siteName":this.props.data.sitename,
+                "siteName":this.state.location?this.state.location:this.props.data.sitename,
                 "sector":this.props.data.sector,
                 "primarySitePocName":this.state.primaryPoc?this.state.primaryPoc:this.props.data.primarysitepocname,
                 "primarySitePocRole": this.state.primaryPocRole?this.state.primaryPocRole:this.props.data.primarysitepocrole,
@@ -192,7 +192,7 @@ class SiteInfo extends React.Component{
                 <form id="add-client-form" onSubmit={this.handleSubmit}>
                     <div className="team-info-container">
                         <div className="team-info">
-                            <LabelledInputField placeholder={false} name="location" labelName="Location*" data={this.props.data.sitename} readOnly={true}/>  {/**changeButtonState={this.changeButtonState}*/}
+                            <LabelledInputField placeholder={false} name="location" labelName="Location*" data={this.props.data.sitename} readOnly={false} onChange={this.onChange}/>  {/**changeButtonState={this.changeButtonState}*/}
                             <LabelledInputField placeholder={false} name="primaryPoc" labelName="Primary POC*" data={this.props.data.primarysitepocname} readOnly={false} onChange={this.onChange}/>
                             <LabelledInputField placeholder={false} name="primaryPocRole" labelName="Primary POC Role*" data={this.props.data.primarysitepocrole} readOnly={false} onChange={this.onChange}/>
                         </div>

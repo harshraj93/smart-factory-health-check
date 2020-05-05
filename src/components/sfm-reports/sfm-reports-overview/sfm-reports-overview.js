@@ -13,6 +13,7 @@ import {resultsApi} from '../../../api/assessments/reports'
 import {apiPostHeader} from '../../../api/main/mainapistorage'
 
 let tabValues = ["List","Report Card"];
+let colors = [];
 
 class ReportsOverview extends React.Component {
     constructor(props){
@@ -180,21 +181,81 @@ class ReportsOverview extends React.Component {
         }
     }
 
-    componentDidMount() {
-        if (this.props.data.summary !== null) {
-            this.setState ({
-                summary: this.props.data.summary
-            })
-        }
-
-        if (this.props.data.overallRecs !== null) {
-            this.setState({
-                overallRecs: this.props.data.overallRecs
-            })
-        }
+    clientLevel() {
+        return (
+            <div className="reports-overview">
+                <div className="legend">
+                    <div style={{display: "flex", width: "50%", justifyContent: "space-evenly"}}>
+                        <div className="legend-part">
+                            <span className="ind-avg"></span>
+                            <p style={{margin: "0"}}>Industry Range</p>
+                        </div>
+                        <div className="legend-part">
+                            <span className="target"></span>
+                            <p style={{margin: "0"}}>Target Average</p>
+                        </div>
+                    </div>
+                    <div className="sites-info">
+                        {this.props.data.sites.map((data, index) => {
+                            return (
+                                <div className="legend-part">
+                                    <span className="score" style={{backgroundColor: "#"+colors[index]}}></span>
+                                    <p style={{margin: "0"}}>{data.name}</p>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+                <div className="overview-top">
+                    <div className="summary">
+                        <div className="summary-header">
+                            <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
+                            <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>
+                        </div>
+                        {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.state.summary}</p>}
+                    </div>
+                    <div className="overall">
+                        <div className="overall-header">
+                            <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Scorecard</p>
+                        </div>
+                        <div className="overall-score">
+                            <p style={{fontSize: "18px", fontWeight: "bold", marginBottom: "30px"}}>Overall</p>
+                            <Slider data={this.props.data} colors={colors}/>
+                            <div className="overall-recs">
+                                <div className="overall-recs-header">
+                                    <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
+                                    <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
+                                </div>
+                                {this.state.recsEdit?this.overallRecsForm():this.recsTextFormat()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span className="reports-line"></span>
+                <div className="overview-tab-group">
+                    <div className="overview-tab-header">
+                        <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Business Function Overview</p>
+                        <div className="reorder">
+                            <img src={ReorderIcon} alt=""></img>
+                            <p style={{margin: "0", paddingLeft:"10px"}}>Reorder</p>
+                        </div>
+                    </div>
+                    <Tabs defaultActiveKey="List" id="overview-selection-tabs" onSelect={this.selectTab}>
+                        {tabValues.map((element,index)=>{
+                            return(
+                                <Tab key={index} eventKey={element} title={element} >
+                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors}/>:this.reportView()}
+                                </Tab>
+                            )
+                        })}
+                            
+                    </Tabs>
+                </div>
+            </div>
+        )
     }
 
-    render() {
+    siteLevel() {
         return (
             <div className="reports-overview">
                 <div className="overview-top">
@@ -225,7 +286,7 @@ class ReportsOverview extends React.Component {
                         </div>
                         <div className="overall-score">
                             <p style={{fontSize: "18px", fontWeight: "bold", marginBottom: "30px"}}>Overall</p>
-                            <Slider data={this.props.data}/>
+                            <Slider data={this.props.data} colors={colors}/>
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
@@ -249,7 +310,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
@@ -257,6 +318,35 @@ class ReportsOverview extends React.Component {
                     </Tabs>
                 </div>
             </div>
+        )
+    }
+
+    componentDidMount() {
+        if (this.props.data.summary !== null) {
+            this.setState ({
+                summary: this.props.data.summary
+            })
+        }
+
+        if (this.props.data.overallRecs !== null) {
+            this.setState({
+                overallRecs: this.props.data.overallRecs
+            })
+        }
+
+        if (this.props.data.sites !== undefined) {
+            // console.log(this.props.data.sites);
+            this.props.data.sites.map((data, index)=> {
+                colors.push(Math.floor(Math.random()*16777215).toString(16))
+            });
+        }
+
+        console.log(this.props.sample);
+    }
+
+    render() {
+        return (
+            this.props.data.sites !== undefined?this.clientLevel():this.siteLevel()
         );
     }
 }

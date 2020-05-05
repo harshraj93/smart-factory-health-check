@@ -166,7 +166,7 @@ class ReportsListView extends React.Component {
                         <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
                             <div className="listview-card">
                                 <span className="area-name">{data.name}</span>
-                                <Slider data={data}/>
+                                <Slider data={data} colors={this.props.colors}/>
                             </div>
                             <p style={{margin: "0px 12px 0px 15px", fontSize: "14px"}}>Breakdown</p>
                             <Accordion.Toggle as={Button} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
@@ -185,7 +185,7 @@ class ReportsListView extends React.Component {
                                     return (
                                         <div className="listview-card" key={y}>
                                             <span className="area-name">{x.name}</span>
-                                            <Slider data={x}/>
+                                            <Slider data={x} colors={this.props.colors}/>
                                         </div>
                                     )
                                 })}
@@ -295,7 +295,7 @@ class ReportsListView extends React.Component {
 
     render(){
         return(
-            this.props.data.sites?"":(this.props.data.reportsData?this.reportScoreCard():this.assessmentsCard())
+            (this.props.data.reportsData?this.reportScoreCard():this.assessmentsCard())
         )
     }
 }

@@ -48,7 +48,43 @@ class Slider extends React.Component {
         return ((x/532.469)*100).toFixed(2);
     }
 
-    siteLevel() {
+    clientLevel() {
+        return (
+            <div className="slider">
+                <p className="slider-text">Low 1</p>
+                <span className="slider-line"></span>
+                <div className="stops">
+                    <span className="stop"></span>
+                    <span className="stop"></span>
+                    <span className="stop"></span>
+                    <span className="stop"></span>
+                    <span className="stop"></span>
+                </div>
+                <span className="ind-avg" style={{marginLeft: this.state.indAvgPos + "%"}}></span>
+                {this.props.data.sites.map((data, index) => {
+                    return (
+                        <div className="score-box" style={{marginTop: "-18px", marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
+                            <p className="score-text">{Number(data.score).toFixed(1)}</p>
+                            <span className="slider-circle" style={{backgroundColor: "#" + this.props.colors[index]}}></span>
+                        </div>
+                    )
+                })}
+                
+                <div className="score-box" style={{marginTop: "18px", marginLeft: this.updatePosition(Number(this.props.data.target).toFixed(1), "target") + "%"}}> 
+                    <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
+                    {/* <span className="small-circle"></span>
+                    <div className="plus">
+                        <span className="small-line"></span>
+                        <span className="small-line"></span>
+                    </div> */}
+                    <p className="score-text">{Number(this.props.data.target).toFixed(1)}</p>
+                </div>
+                <p className="slider-text">High 7</p>
+            </div>
+        )
+    }
+
+    siteLevel(){
         return (
             <div className="slider">
                 <p className="slider-text">Low 1</p>
@@ -79,15 +115,10 @@ class Slider extends React.Component {
         )
     }
 
-    clientLevel(){
-        return (
-            <div className="slider"></div>
-        )
-    }
-
     componentDidMount() {
         if (this.props.data.sites !== undefined) {
             console.log("sites");
+            console.log(this.props.colors);
         }
         else {
             this.setState({
@@ -104,7 +135,7 @@ class Slider extends React.Component {
     render() {
         // let score = this.state.score.toFixed(1);
         return ( 
-            this.props.data.sites?"":this.siteLevel()
+            this.props.data.sites !== undefined?this.clientLevel():this.siteLevel()
         );
     }
 }
