@@ -36,7 +36,7 @@ let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
         <LabelledInputField 
         placeholder={true} 
         changeButtonState={changeButtonState} 
-        labelName="Primary Client Participation*" 
+        labelName="Primary Client Participant*" 
         required={true} name="clientParticipation" 
         onChange={handleChange} 
         data={(state.clientParticipation!==undefined?state.clientParticipation:"")}/>
@@ -49,7 +49,8 @@ let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
         <DropDownMenu 
         placeholder={data[0].labelName+"*"} 
         required={true} data={state.dropDownData} 
-        name="industryDropdown" 
+        name="industryDropdown"
+        dropdownIndex={0}
         onChange={handleChange}
         value={(state.industryDropdown!==undefined?state.industryDropdown:"")}
         />
@@ -127,7 +128,7 @@ function addSupportResource(handleChange,state,index,changeButtonState,hideSuppo
          />
         </>
         </div>
-        {(index!=0)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
+        {(index!=1)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
         </div>
     )
 }
@@ -163,7 +164,7 @@ class AddNewClient extends React.Component{
         this.setState(function(prevState,prevProps){
             
            return{showSupportIndex:prevState.showSupportIndex+1,
-            showSupportResource:prevState.showSupportIndex+1===5?true:false,
+            showSupportResource:prevState.showSupportIndex+1===4?true:false,
             indexArray:[...indexArray]}
         })
       
@@ -173,7 +174,8 @@ class AddNewClient extends React.Component{
         indexArray.pop();
         this.setState(function(prevState,prevProps){
             return{showSupportIndex:prevState.showSupportIndex-1,
-                indexArray:[...indexArray]}
+                indexArray:[...indexArray],
+                showSupportResource:prevState.showSupportIndex-1===4?true:false,}
         })
     }
 
@@ -186,6 +188,7 @@ class AddNewClient extends React.Component{
         await this.setState({
             [name]:e.target.getAttribute("value")
         })
+        console.log(name,this.state[name])
         this.checkRequiredFields();
     }
 
@@ -219,6 +222,7 @@ class AddNewClient extends React.Component{
 
     triggerFormSubmission = ()=>{
         let clientid;
+        console.log(this.state.supResourceName2?true:false)
         let addClientJSON={
             clientDetails:{
                 "clientname":this.state.clientName,
@@ -234,11 +238,11 @@ class AddNewClient extends React.Component{
                 "modifiedby":null,
                 "modifiedon":null,
             },
-                "deloitteResources":{
+            "deloitteResources":{
                     "primary_owner_name":this.state.primOwnerName,
                     "primary_owner_email":this.state.primOwnerEmail,
                     "primary_owner_level":this.state.primOwnerLevel,
-                    "SupportResources":this.state.supResource1?[{
+                    "SupportResources":this.state.supResourceName1?[{
                     "support_resource_name":this.state.supResourceName1,
                     "support_resource_email":this.state.supResourceEmail1,
                     "support_resource_level":this.state.supResourceLevel1
@@ -247,24 +251,29 @@ class AddNewClient extends React.Component{
                         "support_resource_name":this.state.supResourceName2,
                         "support_resource_email":this.state.supResourceEmail2,
                         "support_resource_level":this.state.supResourceLevel2
-                        }:"",
+                        }:null,
                         this.state.supResourceName3?{
                             "support_resource_name":this.state.supResourceName3,
                             "support_resource_email":this.state.supResourceEmail3,
                             "support_resource_level":this.state.supResourceLevel3
-                            }:"",this.state.supResourceName4?{
+                            }:null,this.state.supResourceName4?{
                                 "support_resource_name":this.state.supResourceName4,
                                 "support_resource_email":this.state.supResourceEmail4,
                                 "support_resource_level":this.state.supResourceLevel4
-                                }:"",this.state.supResourceName5?{
+                                }:null,this.state.supResourceName5?{
                                     "support_resource_name":this.state.supResourceName5,
                                     "support_resource_email":this.state.supResourceEmail5,
                                     "support_resource_level":this.state.supResourceLevel5
-                                    }:"",
+                                    }:null,
                       ]:[]
             }
         }
+        addClientJSON.deloitteResources.SupportResources = addClientJSON.deloitteResources.SupportResources.filter((element,index)=>{
+            console.log(element===null?index:0)
+             return (element!=null) 
+        })
         let body = addClientJSON;
+        console.log(addClientJSON,this.state.supResourceName1,this.state.supResourceName2,this.state.supResourceName3);
         apiPostHeader.body = JSON.stringify(body);
         fetch(addclientapi.addClient,apiPostHeader)
             .then(resp=>resp.json())
@@ -322,6 +331,7 @@ class AddNewClient extends React.Component{
             boolFlag=true;
         }
         //console.log(boolFlag,cnt,requiredFieldNames.length);
+        console.log(boolFlag,cnt,requiredFieldNames.length);
         if(boolFlag){
             this.setState({
             enableButton:true
@@ -342,7 +352,7 @@ class AddNewClient extends React.Component{
         if(cnt>=requiredFieldNames.length){
             boolFlag=true;
         }
-        console.log(boolFlag,cnt,requiredFieldNames.length);
+       
         if(boolFlag){
             this.setState({
             enableButton:true
@@ -400,11 +410,11 @@ class AddNewClient extends React.Component{
             <div className="border-bottom"></div>
             {teamInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}
             <div className="border-bottom"></div>
-            {addSupportResource(this.handleChange,this.state,0)}
+            {addSupportResource(this.handleChange,this.state,1)}
             <div className="border-bottom"></div>
             {this.state.indexArray.map((element,index)=>{
                 return(
-                this.state.showSupportIndex<6&&addSupportResource(this.handleChange,this.state,index+1,this.setNextStepState,this.hideSupportResource)
+                this.state.showSupportIndex<5&&addSupportResource(this.handleChange,this.state,index+2,this.setNextStepState,this.hideSupportResource)
                 )
             })}
             {/* {this.state.showSupportIndex>0&&this.state.showSupportIndex!=5&&addSupportResource(this.handleChange,this.state,2,this.setNextStepState,this.hideSupportResource)} */}

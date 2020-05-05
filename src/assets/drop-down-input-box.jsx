@@ -68,7 +68,7 @@ class DropDownMenu extends React.Component{
 
         changePlaceholder = (e)=>{
             if(this.props.placeholder){
-          document.getElementsByClassName("tkey-dropdown")[0].parentElement.childNodes[0].innerHTML = this.props.placeholder.toUpperCase();
+          document.getElementsByClassName("tkey-dropdown")[this.props.dropdownIndex].parentElement.childNodes[0].innerHTML = this.props.placeholder.toUpperCase();
         }
         }
         render(){

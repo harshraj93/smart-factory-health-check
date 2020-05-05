@@ -1,0 +1,64 @@
+.add-new-site{
+.add-new-client-title{
+
+    background-color: #232325;
+    padding-left:5px;
+    padding-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+.custom-button{
+    height: 32px;
+    position: relative;
+    left: 40px;
+    width: 35px;
+    border-radius: 4px;
+    background-color: #35353b;
+    margin: $common-margin;
+}
+.title-text{
+    margin: auto;
+    font-weight: bold;
+    font-size: 18px;
+}
+}
+.checkbox-container{
+    margin-left: 107px;
+}
+.select-sector-text{
+width: 272px;
+  height: 24px;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 40px 0 35px 64px;
+}
+.labelled-input-field{
+width: 249px;
+  height: 44px;
+}
+.add-new-sector{
+    margin-left:100px;
+    margin-right: 100px;
+    margin-top: 40px;
+    border-radius: 19.5px;
+    padding: 2px 8px 2px 8px;
+    outline: none;
+    color: white;
+    background-color: $accordion-dark-background;
+    border: none;
+    &.true{
+        color: #727279;
+    }
+    span{
+        //font-size: 24px;
+        padding-right: 5px;
+    }
+}
+.show-input-box{
+    display: none;
+    &.true{
+        display: block;
+    }
+
+}
+}

@@ -9,10 +9,9 @@ import AddNewClient from '../components//sfm-add-client-main/sfm-add-new-client/
 import AddSiteDetails from '../components/sfm-add-client-main/sfm-setup-site-details/setup-site-details'
 import AddBusinessFunctions from '../components/sfm-add-client-main/sfm-add-business-functions/sfm-add-business'
 import QuestionnairePage from '../components/sfm-questionnaire/questionnaire-main';
-
+import AddNewSite from '../components/sfm-add-new-site/add-new-site';
 export default function Routes(props){
     let profile = props.userProfile;
-    console.log(props)
     if(profile==="Client"){
         return(
             <Switch>
@@ -32,6 +31,7 @@ export default function Routes(props){
         <Route exact path="/addsitedetails"><AddSiteDetails disableMenu={props.disableMenu}/></Route>
         <Route exact path="/addbusinessfunctions"><AddBusinessFunctions disableMenu={props.disableMenu}/></Route>
         <Route exact path="/questionnaire"><QuestionnairePage disableMenu={props.disableMenu} /></Route>
+        <Route exact path="/addnewsite"><AddNewSite disableMenu={props.disableMenu} /></Route>
     </Switch>
     );
 }
