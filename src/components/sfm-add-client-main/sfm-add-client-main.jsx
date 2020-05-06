@@ -17,7 +17,7 @@ export default function Header(props){
 
 function backNavigation(e,props){
     let locationpath = props.props.location.pathname;
-    let history = props.props.history
+    let history = props.props.history;
     if(locationpath==="/addnewclient"){
         return history.push({
             pathname:"/"
@@ -25,11 +25,18 @@ function backNavigation(e,props){
     }
     else if(locationpath==="/addsitedetails"){
         let addClientData = localStorage.getItem("addnewclient")
+        if(props.props.location.state.page==="addsite"){
+            return history.push({
+                pathname:"/addnewsite",
+                data:JSON.parse(addClientData)
+            })
+        }
+        else{
         return history.push({
             pathname:"/addnewclient",
             data:JSON.parse(addClientData)
         })
-       
+    }
     }
     else if(locationpath==="/addbusinessfunctions"){
         let addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
