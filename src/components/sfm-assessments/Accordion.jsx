@@ -101,6 +101,7 @@ class CustomAccordion extends React.Component{
                                                     industryType={element.sector} 
                                                     disableMenu={this.props.disableMenu}
                                                     companyName = {companyName}
+                                                    clientid={data.clientid}
                                                     />
                                                 </Accordion.Collapse>
 
