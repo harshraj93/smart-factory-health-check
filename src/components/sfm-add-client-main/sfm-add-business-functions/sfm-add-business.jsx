@@ -88,6 +88,7 @@ class AddBusinessFunctions extends React.Component{
 
 
     handleCheckBox = (e,siteName)=>{
+        
         let tempArray = this.state.cardSelectedIndexArray; 
         let businessNameObjArray = tempArray.filter(element=>{
             return element.businessName===siteName;
@@ -97,6 +98,7 @@ class AddBusinessFunctions extends React.Component{
             element.indexArray = businessNameObjArray[0].indexArray
         })
         if(!this.state.checked){
+            
         this.setState({
             cardSelectedIndexArray:[...tempArray],
             checked:!this.state.checked
@@ -107,7 +109,9 @@ class AddBusinessFunctions extends React.Component{
                 return element.businessName!==siteName
             })
             if(businessArray[0]){
-            businessArray[0].indexArray=[];
+            businessArray.forEach(element=>{
+                element.indexArray=[]
+            })
             }
             this.setState({
                 checked:false,

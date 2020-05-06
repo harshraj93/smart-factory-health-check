@@ -41,9 +41,32 @@ function Header(props){
             await this.setState({
                 [name]:e.target.getAttribute("value")
             })
-            console.log(name,this.state[name])
-            
+            if(this.state.addSectorDiv){
+                if(this.state.sectorSelect&&this.state.siteNum){
+                    this.setState({
+                        enableButton:true
+                    })
+                }
+                else{
+                    this.setState({
+                        enableButton:false
+                    })
+                }
+            }
+            else{
+                if(this.state.siteNum.length>0){
+                    this.setState({
+                        enableButton:true
+                    })
+                }
+                else{
+                    this.setState({
+                        enableButton:false
+                    })
+                }
+            }
     }
+
 
     showNewSector = ()=>{
         this.setState({
@@ -51,19 +74,44 @@ function Header(props){
         })
     }
 
+
     changeButtonState = ()=>{
         this.setState({
             enableButton:false
         })
     }
 
+    navigate = ()=>{
+        
+
+            let state={
+                sites:this.state.siteNum,
+                clientName:this.props.location.companyName,
+                industry:this.state.industryDropdown,
+                industryList:this.state.dropDownData,
+                page:"addsite"
+             }
+    
+            localStorage.setItem("sitedetailsstate",JSON.stringify({
+                state:state
+            }))
+    
+            this.props.history.push({
+                pathname: '/addsitedetails',
+                state:state
+             })
+        
+    }
+
+    
     selectCheckBox = (e)=>{
         !this.state[e.target.name+"showInput"]?document.getElementById(e.target.name).style.color="#ffffff":document.getElementById(e.target.name).style.color="#9e9e9e";
         this.setState({
             [e.target.name+"showInput"]:!this.state[e.target.name+"showInput"],
-            addNewSector:!this.state.addNewSector
+            addNewSector:!this.state.addNewSector,
         })
     }
+
 
     render(){
         return(
@@ -93,16 +141,21 @@ function Header(props){
             </button>
             
             <div className="border-bottom" />
-            {this.state.addSectorDiv&&<div className="add-new-sector-text">Add New Sector</div>}
-            {this.state.addSectorDiv&&<div className="container-add-sector">
-            <DropDownMenu placeholder = "Select Sector*" data={["A","B"]} onChange={this.handleChange} dropdownIndex={0}/>
+            {
+                this.state.addSectorDiv&&<>
+                <div className="add-new-sector-text">Add New Sector</div>
+            <div className="container-add-sector">
+            <DropDownMenu placeholder = "Select Sector*" data={["A","B"]} name="sectorSelect" onChange={this.handleChange} dropdownIndex={0}/>
             <LabelledInputField placeholder={true} 
                     type="number"
                     changeButtonState={this.changeButtonState} 
                     labelName="# of sites to assess*" required={true} 
                         name="siteNum" onChange={this.handleChange} />
-            </div>}
-            <FormNavigationButton buttonStatus={this.state.enableButton} labelName="Next Step" />
+            </div>
+            <div className="border-bottom" />
+            </>}
+           
+            <FormNavigationButton buttonStatus={this.state.enableButton} labelName="Next Step" onClick={this.navigate}/>
             </div>
         )
     }

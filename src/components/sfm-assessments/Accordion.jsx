@@ -26,7 +26,11 @@ function industryCard (props){
             </span>
         </div>
         <div className="industry-text-info">
-            <span className="add-site">{props["companyName"]?<Link to="/addnewsite"><div className="add-site"><img src={addIcon} />Add Site</div></Link>:""}</span>
+            <span className="add-site">{props["companyName"]?<Link to={{
+                pathname:"/addnewsite",
+                companyName:props["companyName"]
+            }}
+                ><div className="add-site"><img src={addIcon} />Add Site</div></Link>:""}</span>
             <span className="open-text">
                 Open
             </span>

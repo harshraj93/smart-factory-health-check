@@ -55,6 +55,9 @@
     margin-left: 64px;
     display: grid;
     grid-template-columns: 324px 1fr;
+    .dropdown-container{
+        margin-top: 12px;
+    }
 }
 .select-sector-text{
 width: 272px;
@@ -79,6 +82,7 @@ width: 249px;
     border: none;
     &.true{
         color: #727279;
+        pointer-events: none;
     }
     span{
         //font-size: 24px;
