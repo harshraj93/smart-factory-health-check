@@ -81,18 +81,39 @@ columns= [{
     dataField:"deloitteLead",
     text:"",
     headerStyle:this.headerStyle
-},{
+},
+{
+    dataField:"OpenedOn",
+    text:"",
+    headerStyle:this.headerStyle
+},
+{
     dataField:"site_level_status",
     text:"",
     headerStyle:this.headerStyle
 },{
-    dataField:"OpenedOn",
+    dataField:"Open",
     text:"",
     isDummyField:true,
     formatter: this.actionsFormatter,
     headerStyle:this.headerStyle
 }
     ]
+
+    rowEvents = {
+       
+        onClick : (e, row, rowIndex)=>{
+            this.props.history.push({
+                pathname:'/reports',
+                locationString:row.Location,
+                companyName:this.props.companyName,
+                loadComponentString : "assessments",
+                industryType : this.props.industryType,
+                siteid: row.siteid
+            })
+        }
+        
+    }
 
 
     render(){
@@ -104,6 +125,7 @@ columns= [{
                 striped bordered={false} 
                 data={this.props.data} 
                 columns={this.columns}
+                rowEvents={ this.rowEvents }
                 />
                 {addSiteRow(this.props)}
                 </>                    

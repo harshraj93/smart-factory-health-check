@@ -136,14 +136,16 @@ class QuestionnairePage extends React.Component {
                         if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
                             if(prevState.capabilitiesArrayIndex+1 === capabilitiesArray.length){
                                 this.setState({
-                                    showContinue:false
+                                    showContinue:false,
+                                    skipFlag:false
                                 })
                             }
                             else{
                                 this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex + 1)
                                 return {
                                     capabilitiesArrayIndex: prevState.capabilitiesArrayIndex + 1,
-                                    arrayIndex: 0
+                                    arrayIndex: 0,
+                                    skipFlag:false
                                 }
                                 }
                             
@@ -163,7 +165,11 @@ class QuestionnairePage extends React.Component {
             .then(resp => resp.json())
             .then(resp => {
                 this.setState({
-                    progressValue:Math.round(resp.progress, 4)
+                    progressValue:Math.round(resp.progress, 4),
+                    targetValue:questionnaireResponse.targetLevel?questionnaireResponse.targetLevel:"",
+                    currentValue:questionnaireResponse.currentLevel?questionnaireResponse.currentLevel:"",
+                    // currentSelected:questionnaireResponse.currentLevel?questionnaireResponse.currentLevel:"",
+                    // targetSelected:questionnaireResponse.targetLevel?questionnaireResponse.targetLevel:""
                 })
              });
 
@@ -285,7 +291,7 @@ class QuestionnairePage extends React.Component {
                businessFunctionName = businessFunctionName.replace("&","%26")
                localStorage.setItem("businessfunctionId", businessFunctionName);
             }
-           localStorage.setItem("businessfunctionId", "Procurement  %26  Supplier Management");
+           //localStorage.setItem("businessfunctionId", "Procurement  %26  Supplier Management");
         }
         fetch(questionnaire.getCapabilities + `?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${businessFunctionName}`, apiGetHeader)
             .then(resp => resp.json())
@@ -322,7 +328,7 @@ class QuestionnairePage extends React.Component {
                         showNotes: true,
                         textEditorData: ""
                     })
-                    this.getSubCapability();
+                    this.getQuestionnaire();
                 }
                 else {
                     this.setState({
@@ -377,7 +383,6 @@ class QuestionnairePage extends React.Component {
 
 
     replaceSubCapabilitiesArray = async(arrayCapabilitiesIndex,flag) => {
-        console.log(arrayCapabilitiesIndex,this.state.capabilitiesArrayIndex,this.state.arrayIndex)
             if(arrayCapabilitiesIndex<capabilitiesArray.length){
             subCapabilitiesArray = capabilitiesArray[arrayCapabilitiesIndex].subcapabilities;
         }
@@ -425,9 +430,9 @@ class QuestionnairePage extends React.Component {
 
             this.getQuestionnaire();
            await this.setState({
-                currentSelected:"",
-                targetSelected:""
-            })
+               targetSelected:"",
+               currentSelected:""
+           })
 
     }
 
@@ -454,7 +459,12 @@ class QuestionnairePage extends React.Component {
             }
            
         }
+        
         this.getQuestionnaire();
+        await this.setState({
+            targetSelected:"",
+            currentSelected:""
+        })
     }
 
 
@@ -486,7 +496,6 @@ class QuestionnairePage extends React.Component {
 
     
     handleChangeCurrent = async (e) => {
-        console.log(e,e.target);
         let value;
         if (e.target) {
             value = e.target.value;

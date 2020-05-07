@@ -92,9 +92,9 @@ function teamInfoForm(props,state,handleChange,changeButtonState){
         <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} 
         labelName="Primary Owner Name*" name="primOwnerName" onChange={handleChange} 
         data={(state.primOwnerName!==undefined?state.primOwnerName:"")}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} 
+        <DropDownMenu placeholder="Primary Owner Level*" changeButtonState={changeButtonState} required={true} 
         labelName="Primary Owner Level*" name="primOwnerLevel" onChange={handleChange} 
-        data={(state.primOwnerLevel!==undefined?state.primOwnerLevel:"")}/>
+        data={["Manager","Sr. Consultant","Consultant"]} dropdownIndex={1}/>
         <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} 
         labelName="Primary Owner Email*" name="primOwnerEmail" onChange={handleChange} 
         data={(state.primOwnerEmail!==undefined?state.primOwnerEmail:"")}/>
@@ -328,6 +328,7 @@ class AddNewClient extends React.Component{
         let cnt=0;
         requiredFieldNames.forEach(element=>{
             let stateName = this.state[element]
+            
             if(stateName){
             cnt++;
         }
