@@ -52,17 +52,8 @@ locationFormatter = (cell,row)=>{
 
 actionsFormatter = (cell,row)=>{
 
-    let rowLabel,style,loadComponentString;
-        if(row.site_level_status==="Open"){
-            rowLabel="Open";
-            style={backgroundColor:"#57bb50"};
-            loadComponentString="assessments";
-        }
-        else{
-            rowLabel="Results";
-            style={backgroundColor:"#0b6ec5"};
-            loadComponentString="results";
-        }
+    
+        
         return  (<div className="misc-container">
                         {row.site_level_status!=="Open"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
                         {row.site_level_status!=="Open"?<img  className="download" aria-label="download" src={downloadIcon} alt=""/>:<div></div>}         
@@ -71,7 +62,7 @@ actionsFormatter = (cell,row)=>{
                             pathname:'/reports',
                             locationString:row.Location,
                             companyName:this.props.companyName,
-                            loadComponentString : loadComponentString,
+                            loadComponentString : "assessments",
                             industryType : this.props.industryType,
                             siteid: row.siteid
                         }}
