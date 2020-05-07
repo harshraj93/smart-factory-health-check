@@ -128,7 +128,7 @@ function addSupportResource(handleChange,state,index,changeButtonState,hideSuppo
          />
         </>
         </div>
-        {(index!=1)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
+        {(index!==1)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
         </div>
     )
 }

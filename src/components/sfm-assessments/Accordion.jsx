@@ -30,7 +30,7 @@ function industryCard (props){
                 pathname:"/addnewsite",
                 companyName:props["companyName"]
             }}
-                ><div className="add-site"><img src={addIcon} />Add Site</div></Link>:""}</span>
+                ><div className="add-site"><img src={addIcon} alt=""/>Add Site</div></Link>:""}</span>
             <span className="open-text">
                 Open
             </span>

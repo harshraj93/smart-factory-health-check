@@ -4,8 +4,6 @@ import Tab from 'react-bootstrap/Tab';
 import Spinner from 'react-bootstrap/Spinner'
 import {CustomButton,FormNavigationButton, SaveandExitButton} from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
-import downloadIcon from '../../images/icon-small-download.svg';
-import linkIcon from '../../images/icon-small-link.svg';
 import DeleteIcon from '../../images/combined-shape.svg';
 import DropDownImg from '../../images/icon-small-chevron-down.svg';
 import ReportsOverview from './sfm-reports-overview/sfm-reports-overview';
@@ -24,8 +22,6 @@ import Modal from "react-bootstrap/Modal";
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=["Overview","Demographics"];
-const pocList = ["Operations","Quality","Information Technology","Procurement & Supplier Management","Continuous Improvement","Replenishment & Material Management",
-                "Maintenance","Planning & Scheduling"];
 let allPoc = false;
 
 let networkOverview = {
@@ -543,10 +539,10 @@ class Reports extends React.Component{
 
     fetchOverview = async()=> {
         let body = {
-            // "clientName": this.props.location.companyName, 
-            // "siteName": this.props.location.locationString,
-            // "sector":this.props.location.industryType
-            "siteId":this.props.location.siteid
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+            "sector":this.props.location.industryType
+            //"siteId":this.props.location.siteid
         }
         apiPostHeader.body = JSON.stringify(body);
         try{
@@ -562,10 +558,10 @@ class Reports extends React.Component{
 
     fetchNotes = async()=> {
         let body = {
-            // "clientName": this.props.location.companyName, 
-            // "siteName": this.props.location.locationString,
-            // "sector":this.props.location.industryType
-            "siteId":this.props.location.siteid
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+            "sector":this.props.location.industryType
+            //"siteId":this.props.location.siteid
         }
         apiPostHeader.body = JSON.stringify(body);
         try{
@@ -580,10 +576,10 @@ class Reports extends React.Component{
 
     fetchSiteInfo = async()=> {
         let body = {
-            // "clientName": this.props.location.companyName, 
-            // "siteName": this.props.location.locationString,
-            // "sector":this.props.location.industryType
-            "siteId":this.props.location.siteid
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+            "sector":this.props.location.industryType
+           // "siteId":this.props.location.siteid
         }
         apiPostHeader.body = JSON.stringify(body);
         try{
@@ -615,9 +611,9 @@ class Reports extends React.Component{
 
     fetchResultsData = async()=>{
         let body = { 
-            // "clientName": this.props.location.companyName, 
-            // "siteName": this.props.location.locationString,
-            "siteId":this.props.location.siteid
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+           // "siteId":this.props.location.siteid
         };
         let postHeader = (apiPostHeader);
         postHeader["body"] = JSON.stringify(body);
@@ -655,10 +651,10 @@ class Reports extends React.Component{
 
     fetchDemographicsData = async()=>{
         let body = {
-            // "clientName": this.props.location.companyName, 
-            // "siteName": this.props.location.locationString,
-            // "sector":this.props.location.industryType,
-            "siteId":this.props.location.siteid
+            "clientName": this.props.location.companyName, 
+            "siteName": this.props.location.locationString,
+            "sector":this.props.location.industryType,
+           // "siteId":this.props.location.siteid
         }
         apiPostHeader.body = JSON.stringify(body);
         try{

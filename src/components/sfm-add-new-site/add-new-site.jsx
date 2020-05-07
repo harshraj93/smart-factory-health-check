@@ -81,6 +81,7 @@ function Header(props){
         })
     }
 
+    
     navigate = ()=>{
         
 
@@ -103,7 +104,7 @@ function Header(props){
         
     }
 
-    
+
     selectCheckBox = (e)=>{
         !this.state[e.target.name+"showInput"]?document.getElementById(e.target.name).style.color="#ffffff":document.getElementById(e.target.name).style.color="#9e9e9e";
         this.setState({

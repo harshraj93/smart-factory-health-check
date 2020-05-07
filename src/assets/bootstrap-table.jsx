@@ -2,9 +2,6 @@ import React from 'react'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import {CustomButton} from './sfm-button';
-import plusIcon from '../images/icon-small-add.svg';
-import smallLink from '../images/icon-small-link.svg';
-import downloadIcon from '../images/icon-small-download.svg';
 import {Link,withRouter} from 'react-router-dom';
 
 
@@ -55,8 +52,8 @@ actionsFormatter = (cell,row)=>{
     
         
         return  (<div className="misc-container">
-                        {row.site_level_status!=="Open"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
-                        {row.site_level_status!=="Open"?<img  className="download" aria-label="download" src={downloadIcon} alt=""/>:<div></div>}         
+                        {/* {row.site_level_status!=="Open"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
+                        {row.site_level_status!=="Open"?<img  className="download" aria-label="download" src={downloadIcon} alt=""/>:<div></div>}          */}
                         <span className="button"> 
                         <Link to={{
                             pathname:'/reports',
@@ -89,7 +86,7 @@ columns= [{
     text:"",
     headerStyle:this.headerStyle
 },{
-    dataField:"Open",
+    dataField:"OpenedOn",
     text:"",
     isDummyField:true,
     formatter: this.actionsFormatter,
