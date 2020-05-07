@@ -76,7 +76,7 @@ actionsFormatter = (cell,row)=>{
                             siteid: row.siteid
                         }}
                         >
-                            <CustomButton labelName={rowLabel} className="openButton" style={style}/>
+                            >
                         </Link>
                         </span>
                 </div>
@@ -90,11 +90,11 @@ columns= [{
     formatter:this.locationFormatter,
     headerStyle:this.headerStyle
 },{
-    dataField:"POC",
+    dataField:"deloitteLead",
     text:"",
     headerStyle:this.headerStyle
 },{
-    dataField:"sitelevelstatus",
+    dataField:"site_level_status",
     text:"",
     headerStyle:this.headerStyle
 },{
