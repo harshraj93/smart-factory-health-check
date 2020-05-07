@@ -41,7 +41,7 @@ headerStyle = ()=>{
 
 locationFormatter = (cell,row)=>{
     let style={backgroundColor:"#ef7c03",borderRadius:"4px", color:"white", marginLeft:"4px", outline:"none"}
-    if(row.sitelevelstatus!=="In Progress"){
+    if(row.site_level_status!=="Open"){
         return <div id="revisit">{cell} <CustomButton labelName="Revisit" style={style} /></div>
     }
     else {
@@ -53,7 +53,7 @@ locationFormatter = (cell,row)=>{
 actionsFormatter = (cell,row)=>{
 
     let rowLabel,style,loadComponentString;
-        if(row.sitelevelstatus==="In Progress"){
+        if(row.site_level_status==="Open"){
             rowLabel="Open";
             style={backgroundColor:"#57bb50"};
             loadComponentString="assessments";
@@ -64,8 +64,8 @@ actionsFormatter = (cell,row)=>{
             loadComponentString="results";
         }
         return  (<div className="misc-container">
-                        {row.sitelevelstatus!=="In Progress"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
-                        {row.sitelevelstatus!=="In Progress"?<img  className="download" aria-label="download" src={downloadIcon} alt=""/>:<div></div>}         
+                        {row.site_level_status!=="Open"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
+                        {row.site_level_status!=="Open"?<img  className="download" aria-label="download" src={downloadIcon} alt=""/>:<div></div>}         
                         <span className="button"> 
                         <Link to={{
                             pathname:'/reports',
