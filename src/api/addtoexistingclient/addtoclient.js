@@ -1,7 +1,7 @@
 import {apiUrl} from '../main/mainapistorage'
 
 let addtoclientapi={
-    sectorsForClient:apiUrl+"/client/sectorsForClient"
+    sectorsForClient:apiUrl+"clientService/sectorsForClient"
 
 }
 

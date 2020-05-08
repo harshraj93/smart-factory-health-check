@@ -162,7 +162,7 @@ class AddSiteDetails extends React.Component{
     }
 
     siteInfoForm =(siteNumber,index,backData)=>{
-        
+        console.log(this.props.location)
         return(
             <>
         <div className="site-form-modal" key={index}>
@@ -179,7 +179,7 @@ class AddSiteDetails extends React.Component{
         {/* <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <div className="bottom-border"></div> */}
-        <DropDownMenu placeholder= "Sector*" dropdownIndex={index} value={backData?(backData["sector"]):this.state["sector"+index]}  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder= "Sector*" dropdownIndex={index} value={backData?(backData["sector"]):(this.props.location.state.industry?this.props.location.state.industry:this.state["sector"+index])}  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
         <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} value={backData?(backData["archetype"]):this.state["manfArch"+index]} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
         <LabelledInputField placeholder={true} data={backData?(this.state["numShifts"+index]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["employees"]):null} labelName="# Employees (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
@@ -221,15 +221,20 @@ class AddSiteDetails extends React.Component{
                 this.setData(site.siteDetails,index)
             })
             }
-            else{
-            backData = null;
-            }
+        else if(this.props.location.state.industry){
+                siteNumber.forEach((number,index)=>{
+                    console.log(index)
+                    this.setState({
+                        ["sector"+index]:this.props.location.state.industry
+                    })
+                })
+                
+            } 
             this.checkRequiredFields();
     }
 
     componentDidMount = ()=>{
         requiredFieldNames=[];
-        
         siteNumber = this.evaluateSiteNumber();
         this.checkBackData();
         this.getSectorandManufactureTypeDetails();

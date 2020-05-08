@@ -11,16 +11,17 @@ let sectors = ["Consumer Products","Automotive"]
 
 
 function Header(props){
+    if(props.title){localStorage.setItem("title",props.title)}
     return(
         <div className="add-new-client-title">
                 <CustomButton imgSrc={leftIcon} clickFunction={()=>props.props.history.push("/")}/>
                 <span className="title-text">
-                    {props.title}
+                    {localStorage.getItem("title")}
                 </span>
         </div>
     )
 }
-
+let name;
 
  class AddNewSite extends React.Component{
     constructor(props){
@@ -28,7 +29,9 @@ function Header(props){
         this.state={
             addNewSector:false,
             enableButton:false,
-            addSectorDiv:""
+            addSectorDiv:"",
+            selectedSectors:[],
+            allSectors:[]
         }
         this.props.disableMenu(false)
     }
@@ -89,8 +92,9 @@ function Header(props){
             let state={
                 sites:this.state.siteNum,
                 clientName:this.props.location.companyName,
-                industry:this.state.industryDropdown,
+                industry:this.state.sectorSelect,
                 industryList:this.state.dropDownData,
+                clientid:localStorage.getItem("clientid"),
                 page:"addsite"
              }
     
@@ -106,13 +110,15 @@ function Header(props){
     }
 
 
-    selectCheckBox = (e)=>{
+    selectCheckBox = (e,name)=>{
         !this.state[e.target.name+"showInput"]?document.getElementById(e.target.name).style.color="#ffffff":document.getElementById(e.target.name).style.color="#9e9e9e";
         this.setState({
             [e.target.name+"showInput"]:!this.state[e.target.name+"showInput"],
             addNewSector:!this.state.addNewSector,
+            sectorSelect:name
         })
     }
+
 
     getSectors = async()=>{
         if(this.props.location.clientid)
@@ -121,7 +127,7 @@ function Header(props){
         }
         let resp = await fetch(addtoclientapi.sectorsForClient+`?clientid=${localStorage.getItem("clientid")}`,apiGetHeader)
         let response = await resp.json();
-        this.setState({
+       await this.setState({
             selectedSectors:response.resultantJSON.selectedSectors,
             allSectors:response.resultantJSON.allSectors
         })
@@ -138,10 +144,10 @@ function Header(props){
             <Header title="Add New Site" props={this.props}/>
             <div className="select-sector-text">Select sector to add site(s)</div>
             <div className="checkbox-container">
-            {sectors.map((element,index)=>{
+            {this.state.selectedSectors.map((element,index)=>{
                 return (
                     <>
-                    <CustomCheckBox label={element} name={element.replace(/\s/g,'')} onClick={this.selectCheckBox}/>
+                    <CustomCheckBox label={element} name={element.replace(/\s/g,'')} onClick={(e)=>this.selectCheckBox(e,element)}/>
                     <div className={"show-input-box "+this.state[element.replace(/\s/g,'')+"showInput"]}>
                     <LabelledInputField placeholder={true} 
                     type="number"
@@ -164,7 +170,7 @@ function Header(props){
                 this.state.addSectorDiv&&<>
                 <div className="add-new-sector-text">Add New Sector</div>
             <div className="container-add-sector">
-            <DropDownMenu placeholder = "Select Sector*" data={["A","B"]} name="sectorSelect" onChange={this.handleChange} dropdownIndex={0}/>
+            <DropDownMenu placeholder = "Select Sector*" data={this.state.allSectors} name="sectorSelect" onChange={this.handleChange} dropdownIndex={0}/>
             <LabelledInputField placeholder={true} 
                     type="number"
                     changeButtonState={this.changeButtonState} 
