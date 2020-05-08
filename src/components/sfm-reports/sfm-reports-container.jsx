@@ -613,7 +613,7 @@ class Reports extends React.Component{
         let body = { 
             "clientName": this.props.location.companyName, 
             "siteName": this.props.location.locationString,
-           // "siteId":this.props.location.siteid
+            //"siteId":this.props.location.siteid
         };
         let postHeader = (apiPostHeader);
         postHeader["body"] = JSON.stringify(body);
