@@ -46,7 +46,7 @@ let name;
                 [name]:e.target.getAttribute("value")
             })
             if(this.state.addSectorDiv){
-                if(this.state.sectorSelect&&this.state.siteNum){
+                if(this.state.sectorSelected&&this.state.siteNum){
                     this.setState({
                         enableButton:true
                     })
@@ -92,7 +92,7 @@ let name;
             let state={
                 sites:this.state.siteNum,
                 clientName:this.props.location.companyName,
-                industry:this.state.sectorSelect,
+                industry:this.state.sectorSelected,
                 industryList:this.state.dropDownData,
                 clientid:localStorage.getItem("clientid"),
                 page:"addsite"
@@ -115,7 +115,7 @@ let name;
         this.setState({
             [e.target.name+"showInput"]:!this.state[e.target.name+"showInput"],
             addNewSector:!this.state.addNewSector,
-            sectorSelect:name
+            sectorSelected:name
         })
     }
 
@@ -170,7 +170,7 @@ let name;
                 this.state.addSectorDiv&&<>
                 <div className="add-new-sector-text">Add New Sector</div>
             <div className="container-add-sector">
-            <DropDownMenu placeholder = "Select Sector*" data={this.state.allSectors} name="sectorSelect" onChange={this.handleChange} dropdownIndex={0}/>
+            <DropDownMenu placeholder = "Select Sector*" data={this.state.allSectors} value={this.state.sectorSelected} name="sectorSelected" onChange={this.handleChange} dropdownIndex={0}/>
             <LabelledInputField placeholder={true} 
                     type="number"
                     changeButtonState={this.changeButtonState} 
