@@ -32,7 +32,7 @@ class Table extends React.Component{
 
 
 headerStyle = ()=>{
-    return { width: '35%',color: "#727279", fontSize:"11px", borderTop:"unset" };
+    return { width: '35%',color: "#727279", fontSize:"11px", borderTop:"unset",padding:"0.50rem" };
 }
 
 

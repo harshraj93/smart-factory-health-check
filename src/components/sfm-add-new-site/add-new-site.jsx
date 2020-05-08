@@ -5,7 +5,8 @@ import {withRouter} from 'react-router-dom';
 import CustomCheckBox from '../../assets/check-box';
 import LabelledInputField from '../../assets/input-field';
 import DropDownMenu from '../../assets/drop-down-input-box';
-
+import addtoclientapi from '../../api/addtoexistingclient/addtoclient';
+import {apiGetHeader,apiPostHeader} from '../../api/main/mainapistorage';
 let sectors = ["Consumer Products","Automotive"]
 
 
@@ -113,6 +114,23 @@ function Header(props){
         })
     }
 
+    getSectors = async()=>{
+        if(this.props.location.clientid)
+        {
+            localStorage.setItem("clientid",this.props.location.clientid)
+        }
+        let resp = await fetch(addtoclientapi.sectorsForClient+`?clientid=${localStorage.getItem("clientid")}`,apiGetHeader)
+        let response = await resp.json();
+        this.setState({
+            selectedSectors:response.resultantJSON.selectedSectors,
+            allSectors:response.resultantJSON.allSectors
+        })
+    }
+
+
+    componentDidMount = ()=>{
+        this.getSectors();
+    }
 
     render(){
         return(

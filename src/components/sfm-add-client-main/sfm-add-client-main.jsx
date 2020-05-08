@@ -42,7 +42,7 @@ function backNavigation(e,props){
         let addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
         
         let siteDetails = JSON.parse(localStorage.getItem("sitedetailsstate"))
-        console.log(siteDetails);
+        console.log(siteDetails,addSiteData);
         return history.push({
             pathname:"/addsitedetails",
             state:{

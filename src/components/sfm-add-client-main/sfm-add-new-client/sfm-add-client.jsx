@@ -3,7 +3,7 @@ import {FormNavigationButton} from '../../../assets/sfm-button'
 import {withRouter} from 'react-router-dom';
 import DropDownMenu from '../../../assets/drop-down-input-box';
 import LabelledInputField from '../../../assets/input-field';
-//import FileUpload from '../../sfm-file-upload/file-upload';
+import FileUpload from '../../sfm-file-upload/file-upload';
 import Header from '../sfm-add-client-main';
 import addclientapi from '../../../api/addclient/addclient';
 import {apiGetHeader,apiPostHeader} from '../../../api/main/mainapistorage';
@@ -23,7 +23,7 @@ let requiredFieldNames=["clientName","clientParticipation","clientRole","industr
 let indexArray = [];
 
 let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
-
+    console.log(state.clientName)
     return(
         <div className = "client-info-container">
         <div className="title">Client Information</div>
@@ -92,9 +92,14 @@ function teamInfoForm(props,state,handleChange,changeButtonState){
         <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} 
         labelName="Primary Owner Name*" name="primOwnerName" onChange={handleChange} 
         data={(state.primOwnerName!==undefined?state.primOwnerName:"")}/>
-        <DropDownMenu placeholder="Primary Owner Level*" changeButtonState={changeButtonState} required={true} 
-        labelName="Primary Owner Level*" name="primOwnerLevel" onChange={handleChange} 
-        data={["Manager","Sr. Consultant","Consultant"]} dropdownIndex={1}/>
+        <DropDownMenu placeholder="Primary Owner Level*" 
+        changeButtonState={changeButtonState} required={true} 
+        labelName="Primary Owner Level*" name="primOwnerLevel" 
+        onChange={handleChange} 
+        data={["Manager","Sr. Consultant","Consultant"]} 
+        dropdownIndex={1}
+        value={(state.primOwnerLevel!==undefined?state.primOwnerLevel:"")}
+        />
         <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} 
         labelName="Primary Owner Email*" name="primOwnerEmail" onChange={handleChange} 
         data={(state.primOwnerEmail!==undefined?state.primOwnerEmail:"")}/>
@@ -342,28 +347,7 @@ class AddNewClient extends React.Component{
         })
         }
     }  
-    
-    checkRequiredBack = (state)=>{
-        let cnt=0;
-        let boolFlag;
-        if(this.state.backData){
-        requiredFieldNames.forEach(element=>{
 
-            if(this.state[element]){
-                cnt++;
-            }
-        })
-        if(cnt>=requiredFieldNames.length){
-            boolFlag=true;
-        }
-       
-        if(boolFlag){
-            this.setState({
-            enableButton:true
-        })
-        }
-    }
-    }
 
 
     getIndustryList = ()=>{
@@ -396,10 +380,23 @@ class AddNewClient extends React.Component{
             "supResourceLevel1":backData.supResourceLevel1,
             "supResourceName2":backData.supResourceName2,
             "supResourceEmail2":backData.supResourceEmail2,
-            "supResourceLevel2":backData.supResourceLevel2
+            "supResourceLevel2":backData.supResourceLevel2,
+            "supResourceName3":backData.supResourceName3,
+            "supResourceEmail3":backData.supResourceEmail3,
+            "supResourceLevel3":backData.supResourceLevel3,
+            "supResourceName4":backData.supResourceName4,
+            "supResourceEmail4":backData.supResourceEmail4,
+            "supResourceLevel4":backData.supResourceLevel4,
+            "supResourceName5":backData.supResourceName5,
+            "supResourceEmail5":backData.supResourceEmail5,
+            "supResourceLevel5":backData.supResourceLevel5,
+            "supResourceName6":backData.supResourceName6,
+            "supResourceEmail6":backData.supResourceEmail6,
+            "supResourceLevel6":backData.supResourceLevel6,
+            
 
         })
-        this.checkRequiredBack()
+        this.checkRequiredFields();
     }
     }
 
@@ -408,6 +405,7 @@ class AddNewClient extends React.Component{
        return(
             <div className='add-new-client-container'>
             <Header title="Add New Client" props={this.props}/>
+            <FileUpload />
             <div className="required">* Required</div>
             <form id="add-client-form" onSubmit={this.handleSubmit}>
             {clientInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}
