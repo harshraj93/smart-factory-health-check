@@ -1,7 +1,7 @@
-// let apiUrl = "https://z2gnwk9hyh.execute-api.us-east-1.amazonaws.com/dev";
+let apiUrl = "https://dev.sfhcapp.com/dev-";
+let xapikey = "ITEdpYmxd29yhWvXwmW07IUHyLtJaPZ1gmRDDGZ4";
+// let apiUrl = "https://dev.sfhcapp.com/qa-";
 // let xapikey = "ITEdpYmxd29yhWvXwmW07IUHyLtJaPZ1gmRDDGZ4";
-let apiUrl = "https://8qdannxm3a.execute-api.us-east-1.amazonaws.com/qa";
-let xapikey = "AnPbnvmTFI70vB1MnyJek7eNK5NXgobZ4POkMYX2";
 let apiGetHeader = {
     method:'GET',
     headers: {

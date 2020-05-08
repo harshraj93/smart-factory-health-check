@@ -1,8 +1,8 @@
 import {apiUrl} from '../main/mainapistorage'
 
 let assessOverviewApi={
-    assessOverview:apiUrl+'/site/siteOverview',
-    editOverview:apiUrl+'/site/siteOverviewEdit'
+    assessOverview:apiUrl+'siteService/siteOverview',
+    editOverview:apiUrl+'siteService/siteOverviewEdit'
 }
 
 export default assessOverviewApi;

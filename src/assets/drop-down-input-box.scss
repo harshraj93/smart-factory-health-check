@@ -37,20 +37,17 @@
 .tkey-dropdown {
     border-bottom: 1px solid #ffffff;
     width: 91%;
-    .toggle { 
-        display: flex;
+    .toggle {
+    display: flex;  
     padding: 2.5px;
     margin: 10px 4px 2px 0px;
-    overflow: hidden;
   
     span{
+        margin-right: auto;
         font-size: 16px;
         font-weight: normal;
         font-style: unset !important;
-        opacity: 0.5;     
-    }
-    img{
-        margin-left: auto;
+        opacity: 0.5;
     }
 }
 }

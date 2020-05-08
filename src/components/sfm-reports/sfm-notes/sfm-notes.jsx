@@ -1,6 +1,7 @@
 import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import DropDownImg from '../../../images/icon-small-chevron-down.svg';
 import FlagImg from '../../../images/icon-small-flagged-outline.svg';
 import DownloadIcon from '../../../images/icon-small-download.svg';
@@ -20,7 +21,7 @@ class Notes extends React.Component {
 
     noOfNotes (data) {
         var count = 0;
-        data.subcapabilities.forEach((x, y)=>{
+        data.subcapabilities.map((x, y)=>{
             count += x.notes.length;
         });
         return count;
@@ -82,7 +83,7 @@ class Notes extends React.Component {
                                         </Accordion.Toggle>
                                         <Accordion.Collapse eventKey={y}>
                                             <div>
-                                            {x.subcapabilities.forEach((i,j) => {
+                                            {x.subcapabilities.map((i,j) => {
                                                 if (i.notes.length > 0) {
                                                 return(
                                                 <div className="sub-cap">
