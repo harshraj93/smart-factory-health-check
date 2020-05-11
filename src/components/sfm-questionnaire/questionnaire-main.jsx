@@ -234,7 +234,6 @@ class QuestionnairePage extends React.Component {
             )
                 .then(resp => resp.json())
                 .then(resp => this.parseQuestionnaire(resp))
-
         }
 
         else {
@@ -413,7 +412,6 @@ class QuestionnairePage extends React.Component {
         if (arrayIndex < capabilitiesArray.length) {
             subCapabilitiesArray = capabilitiesArray[arrayIndex].subcapabilities;
         }
-
     }
 
     continueNav = () => {

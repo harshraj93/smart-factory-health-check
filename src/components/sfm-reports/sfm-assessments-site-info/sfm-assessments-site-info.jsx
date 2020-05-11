@@ -109,10 +109,17 @@ class SiteInfo extends React.Component{
         })
     }
 
+    addBFP() {
+        bizFuncPoc.map((data, index)=>{
+            let obj = {};
+            obj.businessFunction = data.BusinessFunction;
+            obj.businessFunctionId = data.BusinessFunctionId;
+            // obj.resourceName = this.state[this.variableName(data.BusinessFunction)]?this.state[this.variableName(data.BusinessFunction)]:data.ResourceName;
+        });
+    }
+
     componentDidMount = () => {
-        this.props.data.BusinessFunctionPoC.forEach((data, index) => {
-            bizFuncPoc.push(data.ResourceName);
-        })
+        bizFuncPoc = this.props.data.BusinessFunctionPoC;
          console.log('bizFuncPoc',bizFuncPoc)
     }
 

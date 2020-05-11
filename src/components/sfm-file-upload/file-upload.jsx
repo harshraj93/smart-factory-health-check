@@ -1,20 +1,7 @@
 import React from 'react'
 import {DownloadButton} from '../../assets/sfm-button';
-
-function downloadUpload(props,fileChange){
-    return(
-        <div className="upload-client-details">
-            <div className="upload-text">Upload Client & Site Details</div>
-            <span className="button-download"><DownloadButton labelName="Download Template" /></span>
-            <span className="button-upload" id="upload">
-                <label className="upload-file-label">
-                    <input type="file" accept=".xls,.xlsx" onChange={fileChange} id="upload-file"></input> 
-                    <span>Upload Template</span>
-                </label>
-            </span>
-        </div>
-    )
-}
+import {apiGetHeader,apiPostHeader} from '../../api/main/mainapistorage';
+import addclientapi from '../../api/addclient/addclient';
 
 
 export default class FileUpload extends React.Component{
@@ -41,16 +28,32 @@ export default class FileUpload extends React.Component{
         });
       }
 
-    fileChange=async(e)=>{
+
+    fileChange= async(e)=>{
         let file = e.target.files[0]
-        let fileName=file.name;
         let baseEncodedString = await this.getBase64(file).catch(e => Error(e));
             if(baseEncodedString instanceof Error) {
                console.log('Error: ', baseEncodedString.message);
                return;
             };
-        
+            let body = {"encodedFile":baseEncodedString}
+            apiPostHeader.body = JSON.stringify(body);
+            let response = await fetch(addclientapi.upload,apiPostHeader);
+            let jsonResponse = await response.json();
+            this.props.parseUploadedExcel(jsonResponse);
+            
     }
+
+
+    downloadFile = async(e) =>{
+        let downloadNotes = await fetch(addclientapi.download+`?type=${this.props.type}`,apiGetHeader)
+        let response  = await downloadNotes.json()
+        let fileURL = response.fileUrl;
+        let download = await fetch(fileURL,apiGetHeader)
+        let fileResponse = await download.json();
+        console.log(fileResponse);
+    }
+
 
     handleClose = ()=>{
         this.setState({
@@ -60,7 +63,18 @@ export default class FileUpload extends React.Component{
 
     render(){
         return(
-        downloadUpload(this.props,this.fileChange)
+            
+                <div className="upload-client-details">
+                    <div className="upload-text">Upload Client & Site Details</div>
+                    <span className="button-download"><DownloadButton labelName="Download Template" onClick={this.downloadFile}/></span>
+                    <span className="button-upload" id="upload">
+                        <label className="upload-file-label">
+                            <input type="file" accept=".xls,.xlsx" onChange={this.fileChange} id="upload-file"></input> 
+                            <span>Upload Template</span>
+                        </label>
+                    </span>
+                </div>
+            
         
         )
     }

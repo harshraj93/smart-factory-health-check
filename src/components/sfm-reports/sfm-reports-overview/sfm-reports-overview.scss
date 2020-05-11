@@ -19,12 +19,13 @@
         .sites-info {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            width: 75%;
+            width: 67%;
         }
 
         .legend-part {
             display: flex;
             align-items: center;
+            justify-content: center;
             .ind-avg {
                 border-radius: 1.5em;
                 border: solid 0.05em #727279;
@@ -75,6 +76,7 @@
 
                 .form-control {
                     background-color: #232325;
+                    font-size: 14px;
                     border-radius: 8px;
                     color: #dedede;
                     height: 29.1vh;
@@ -96,7 +98,7 @@
                         margin-right: 10px;
                     }
                     .btn {
-                        border-radius: 14px;
+                        border-radius: 16px;
                         width: 68px;
                         height: 32px;
                         padding: 0;
@@ -185,12 +187,13 @@
                         flex-direction: column;
         
                         .form-control {
-                            background-color: #35353b;
+                            background-color: #232325;
                             border-radius: 8px;
                             color: #dedede;
                             height: 8.76vh;
                             border: none;
                             flex: none;
+                            font-size: 12px;
                             background-clip: unset;
                         }
         
@@ -207,7 +210,7 @@
                                 margin-right: 10px;
                             }
                             .btn {
-                                border-radius: 14px;
+                                border-radius: 16px;
                                 width: 68px;
                                 height: 32px;
                                 padding: 0;
@@ -265,11 +268,11 @@
             color: $white;
             opacity: 0.5;
             outline: none;
-            width: 14% !important;
+            width: 13.503% !important;
             text-align: center;
             border-radius: 3px;
             height: 32px;
-            padding: 8px 12px !important;
+            padding: 8px 11px !important;
             line-height: 16px;
             &.active{
                 opacity: unset;
@@ -279,6 +282,7 @@
                 color: #35353b !important;
                 border-bottom: none !important;
                 padding: 8px 8px !important;
+                height: 32px;
             }
         }
 

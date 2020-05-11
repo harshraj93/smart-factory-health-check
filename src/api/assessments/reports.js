@@ -5,7 +5,7 @@ let resultsApi={
     demographics:apiUrl+"siteService/demographic",
     textEdit:apiUrl +"siteService/siteSummaryAndRecommendation",
     themesEdit:apiUrl+"clientService/setKeythemesAndRecommendations",
-    clientReport: apiUrl+"clientService/clientReport",
+    clientReport: apiUrl+"clientService/clientNetworkReport",
     reportOnly:apiUrl+"clientService/reportOnly"
 }
 
