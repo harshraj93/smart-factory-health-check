@@ -226,7 +226,8 @@ class ReportsListView extends React.Component {
                                 clientName: this.props.data.clientName, 
                                 siteName: this.props.data.siteName, 
                                 sector:this.props.data.sector, 
-                                businessFunctionName: data.name, 
+                                businessFunctionName: data.name,
+                                businessFunctionID:data.businessFunctionId, 
                                 capabilityName: null}}>
                                     {data.business_funtion_level_status!=="Open"?<FormNavigationButton labelName="Done" style={{marginRight: "28px"}}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50", marginRight: "28px"}}/>}
                             </Link>
@@ -248,7 +249,8 @@ class ReportsListView extends React.Component {
                                                 clientName: this.props.data.clientName, 
                                                 siteName: this.props.data.siteName, 
                                                 sector:this.props.data.sector, 
-                                                businessFunctionName: data.name, 
+                                                businessFunctionName: data.name,
+                                                businessFunctionID:data.businessFunctionId,
                                                 capabilityName: x.name}}>
                                                     <FormNavigationButton labelName={<>&#10003;</>}/>
                                             </Link>:
@@ -258,7 +260,8 @@ class ReportsListView extends React.Component {
                                                 clientName: this.props.data.clientName, 
                                                 siteName: this.props.data.siteName, 
                                                 sector:this.props.data.sector, 
-                                                businessFunctionName: data.name, 
+                                                businessFunctionName: data.name,
+                                                businessFunctionID:data.businessFunctionId,
                                                 capabilityName: x.name}}>
                                                     <FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>
                                             </Link>):""}

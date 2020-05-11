@@ -110,10 +110,10 @@ class SiteInfo extends React.Component{
     }
 
     componentDidMount = () => {
-        this.props.data.BusinessFunctionPoC.map((data, index) => {
+        this.props.data.BusinessFunctionPoC.forEach((data, index) => {
             bizFuncPoc.push(data.ResourceName);
         })
-        // console.log(bizFuncPoc)
+         console.log('bizFuncPoc',bizFuncPoc)
     }
 
     saveForm = async() => {
@@ -201,7 +201,7 @@ class SiteInfo extends React.Component{
                     <div className="mid-container">
                         <div className="client-info">
                             <LabelledInputField placeholder={false} name="sector" labelName="Sector*" data={this.props.data.sector} readOnly={true}/>
-                            <DropDownMenu placeholder={false} data={this.props.data.manufactureArchList} labelName="Manufacturing Archetype*" name="manuArchtype" onChange={this.handleChange} value={(this.props.data.manufacturearchtype!==undefined?this.props.data.manufacturearchtype:"-")}/>
+                            <DropDownMenu placeholder="Manufacturing Archetype*" data={this.props.data.manufactureArchList} labelName="" name="manuArchtype" onChange={this.handleChange} value={(this.props.data.manufacturearchtype!==undefined?this.props.data.manufacturearchtype:"-")}/>
                             {/* <LabelledInputField placeholder={false} name="manuArchtype" labelName="Manufacturing Archetype*" data={this.props.data.manufacturearchtype} readOnly={false} onChange={this.onChange}/> */}
                             <LabelledInputField placeholder={false} name="noShifts" labelName="# of Shifts" data={this.props.data.totalshifts} readOnly={false} onChange={this.onChange}/>
                             <LabelledInputField placeholder={false} name="noEmps" labelName="# Employees" data={this.props.data.totalemployees} readOnly={false} onChange={this.onChange}/>

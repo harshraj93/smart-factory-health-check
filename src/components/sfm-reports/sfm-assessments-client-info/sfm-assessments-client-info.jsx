@@ -57,7 +57,7 @@ class ClientInfo extends React.Component {
         // console.log(this.props.data);
         // apiPostHeader.body = JSON.stringify(this.props.data);
         try{
-        const response = await fetch(clientInfoApi.clientInfo,apiGetHeader)
+        const response = await fetch(clientInfoApi.clientInfo+`?clientName=${this.props.client}`,apiGetHeader)
         const siteInfoData = await response.json();
         return siteInfoData;
         }

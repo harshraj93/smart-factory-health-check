@@ -6,7 +6,7 @@ import DropDownMenu from '../../../assets/drop-down-input-box'
 import {FormNavigationButton} from '../../../assets/sfm-button'
 import {apiGetHeader} from '../../../api/main/mainapistorage';
 import addclientapi from '../../../api/addclient/addclient';
-
+import FileUpload from '../../sfm-file-upload/file-upload';
 
 
 let siteNumber=[];
@@ -138,8 +138,8 @@ class AddSiteDetails extends React.Component{
     }
 
 
-    setData = (backData,index)=>{
-        this.setState({
+    setData = async(backData,index)=>{
+       await this.setState({
             ["siteName"+index]: backData["sitename"],
             "clientID": this.props.location.state.clientid,
             ["primePoc"+index]: backData["primaryPOC"],
@@ -157,10 +157,12 @@ class AddSiteDetails extends React.Component{
             ["percentAvailable"+index]: backData["availabilityOEE"],
             ["percentQuality"+index]: backData["qualityOEE"]
         })
+        this.checkRequiredFields();
+        
     }
 
     siteInfoForm =(siteNumber,index,backData)=>{
-        
+        console.log(this.props.location)
         return(
             <>
         <div className="site-form-modal" key={index}>
@@ -171,14 +173,14 @@ class AddSiteDetails extends React.Component{
         <div className="required">* Required field</div>
         <div className="site-form">
        
-        <LabelledInputField placeholder={true} data={backData?(this.state["siteName"+index]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"siteName"+index} required={true} labelName="Site Name*"/>
-        <LabelledInputField placeholder={true} data={backData?(this.state["primePoc"+index]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primePoc"+index} required={true} labelName="Primary POC*" />
-        <LabelledInputField placeholder={true} data={backData?(backData["primPocRole"+index]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primPocRole"+index} required={true} labelName="Primary POC Role*"  />
+        <LabelledInputField placeholder={true} data={backData?(backData["sitename"]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"siteName"+index} required={true} labelName="Site Name*"/>
+        <LabelledInputField placeholder={true} data={backData?(backData["primaryPOC"]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primePoc"+index} required={true} labelName="Primary POC*" />
+        <LabelledInputField placeholder={true} data={backData?(backData["primaryPOCRole"]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primPocRole"+index} required={true} labelName="Primary POC Role*"  />
         {/* <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <div className="bottom-border"></div> */}
-        <DropDownMenu placeholder= "Sector*" dropdownIndex={index}  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
-        <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder= "Sector*" dropdownIndex={index} value={backData?(backData["sector"]):(this.props.location.state.industry?this.props.location.state.industry:this.state["sector"+index])}  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} value={backData?(backData["archetype"]):this.state["manfArch"+index]} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
         <LabelledInputField placeholder={true} data={backData?(this.state["numShifts"+index]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["employees"]):null} labelName="# Employees (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["assets"]):null} labelName="# of Assets (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
@@ -211,9 +213,30 @@ class AddSiteDetails extends React.Component{
     }
 
 
+    checkBackData = ()=>{
+        let backData
+        if(this.props.location.state.data){
+            backData = this.props.location.state.data.sitedetailsJSON.sites;
+            backData.forEach((site,index)=>{
+                this.setData(site.siteDetails,index)
+            })
+            }
+        else if(this.props.location.state.industry){
+                siteNumber.forEach((number,index)=>{
+                    console.log(index)
+                    this.setState({
+                        ["sector"+index]:this.props.location.state.industry
+                    })
+                })
+                
+            } 
+            this.checkRequiredFields();
+    }
+
     componentDidMount = ()=>{
-        requiredFieldNames=[]
+        requiredFieldNames=[];
         siteNumber = this.evaluateSiteNumber();
+        this.checkBackData();
         this.getSectorandManufactureTypeDetails();
     }
 
@@ -237,17 +260,19 @@ class AddSiteDetails extends React.Component{
     render(){
          return(
              <div className="setup-site-details">
+            
             <Header title="Enter site details" handleSubmit={this.handleSubmit} props={this.props}/>
             <form id="setup-site-details" onSubmit={this.handleSubmit}>
             {siteHeader(this.props,this.state.enableButton)}
+            {this.props.location.state.page?<FileUpload />:""}
             {siteNumber.map((number,index)=>{
                 let backData;
                 if(this.props.location.state.data){
-                backData = this.props.location.state.data.sitedetailsJSON.sites[index].siteDetails;
-                }
-                else{
-                backData = null;
-                }
+                    backData = this.props.location.state.data.sitedetailsJSON.sites[index].siteDetails;
+                 }
+                 else{
+            backData = null;
+                    }
                 return (
                     
                     this.siteInfoForm(number,index,backData)

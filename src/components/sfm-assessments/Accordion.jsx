@@ -26,7 +26,12 @@ function industryCard (props){
             </span>
         </div>
         <div className="industry-text-info">
-            <Link to="/addnewsite"><span className="add-site">{props["companyName"]?<div className="add-site"><img src={addIcon} />Add Site</div>:""}</span></Link>
+            <span className="add-site">{props["companyName"]?<Link to={{
+                pathname:"/addnewsite",
+                companyName:props["companyName"],
+                clientid:props["clientid"]
+            }}
+                ><div className="add-site"><img src={addIcon} alt=""/>Add Site</div></Link>:""}</span>
             <span className="open-text">
                 Open
             </span>
@@ -97,6 +102,7 @@ class CustomAccordion extends React.Component{
                                                     industryType={element.sector} 
                                                     disableMenu={this.props.disableMenu}
                                                     companyName = {companyName}
+                                                    clientid={data.clientid}
                                                     />
                                                 </Accordion.Collapse>
 

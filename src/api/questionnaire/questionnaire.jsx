@@ -1,12 +1,12 @@
 import {apiUrl} from '../main/mainapistorage'
 
 let  questionnaire = {
-    getCapabilities:apiUrl+'/site/getCapabilities',
-    saveAssessment:apiUrl+'/site/saveAssessment',
-    getQuestionnaire:apiUrl+'/site/getQuestionaireDetails',
-    addAssessmentNote:apiUrl+'/users/addAssessmentNote',
-    getProgress:apiUrl+'/site/getQuestionaireProgress',
-    skipFlag:apiUrl+'/site/skipSubCapability'
+    getCapabilities:apiUrl+'siteService/getCapabilities',
+    saveAssessment:apiUrl+'siteService/saveAssessment',
+    getQuestionnaire:apiUrl+'siteService/getQuestionaireDetails',
+    addAssessmentNote:apiUrl+'userService/addAssessmentNote',
+    getProgress:apiUrl+'siteService/getQuestionaireProgress',
+    skipFlag:apiUrl+'siteService/skipSubCapability'
 }
 
 export default questionnaire;

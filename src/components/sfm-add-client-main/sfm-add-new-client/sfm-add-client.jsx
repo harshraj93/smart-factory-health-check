@@ -3,7 +3,7 @@ import {FormNavigationButton} from '../../../assets/sfm-button'
 import {withRouter} from 'react-router-dom';
 import DropDownMenu from '../../../assets/drop-down-input-box';
 import LabelledInputField from '../../../assets/input-field';
-//import FileUpload from '../../sfm-file-upload/file-upload';
+import FileUpload from '../../sfm-file-upload/file-upload';
 import Header from '../sfm-add-client-main';
 import addclientapi from '../../../api/addclient/addclient';
 import {apiGetHeader,apiPostHeader} from '../../../api/main/mainapistorage';
@@ -23,7 +23,7 @@ let requiredFieldNames=["clientName","clientParticipation","clientRole","industr
 let indexArray = [];
 
 let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
-
+    console.log(state.clientName)
     return(
         <div className = "client-info-container">
         <div className="title">Client Information</div>
@@ -92,9 +92,14 @@ function teamInfoForm(props,state,handleChange,changeButtonState){
         <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} 
         labelName="Primary Owner Name*" name="primOwnerName" onChange={handleChange} 
         data={(state.primOwnerName!==undefined?state.primOwnerName:"")}/>
-        <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} 
-        labelName="Primary Owner Level*" name="primOwnerLevel" onChange={handleChange} 
-        data={(state.primOwnerLevel!==undefined?state.primOwnerLevel:"")}/>
+        <DropDownMenu placeholder="Primary Owner Level*" 
+        changeButtonState={changeButtonState} required={true} 
+        labelName="Primary Owner Level*" name="primOwnerLevel" 
+        onChange={handleChange} 
+        data={["Manager","Sr. Consultant","Consultant"]} 
+        dropdownIndex={1}
+        value={(state.primOwnerLevel!==undefined?state.primOwnerLevel:"")}
+        />
         <LabelledInputField placeholder={true} changeButtonState={changeButtonState} required={true} 
         labelName="Primary Owner Email*" name="primOwnerEmail" onChange={handleChange} 
         data={(state.primOwnerEmail!==undefined?state.primOwnerEmail:"")}/>
@@ -128,7 +133,7 @@ function addSupportResource(handleChange,state,index,changeButtonState,hideSuppo
          />
         </>
         </div>
-        {(index!=1)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
+        {(index!==1)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
         </div>
     )
 }
@@ -164,7 +169,7 @@ class AddNewClient extends React.Component{
         this.setState(function(prevState,prevProps){
             
            return{showSupportIndex:prevState.showSupportIndex+1,
-            showSupportResource:prevState.showSupportIndex+1===4?true:false,
+            showSupportResource:prevState.showSupportIndex+1===5?true:false,
             indexArray:[...indexArray]}
         })
       
@@ -175,7 +180,7 @@ class AddNewClient extends React.Component{
         this.setState(function(prevState,prevProps){
             return{showSupportIndex:prevState.showSupportIndex-1,
                 indexArray:[...indexArray],
-                showSupportResource:prevState.showSupportIndex-1===4?true:false,}
+                showSupportResource:prevState.showSupportIndex-1===5?true:false,}
         })
     }
 
@@ -188,7 +193,6 @@ class AddNewClient extends React.Component{
         await this.setState({
             [name]:e.target.getAttribute("value")
         })
-        console.log(name,this.state[name])
         this.checkRequiredFields();
     }
 
@@ -256,24 +260,30 @@ class AddNewClient extends React.Component{
                             "support_resource_name":this.state.supResourceName3,
                             "support_resource_email":this.state.supResourceEmail3,
                             "support_resource_level":this.state.supResourceLevel3
-                            }:null,this.state.supResourceName4?{
+                            }:null,
+                            this.state.supResourceName4?{
                                 "support_resource_name":this.state.supResourceName4,
                                 "support_resource_email":this.state.supResourceEmail4,
                                 "support_resource_level":this.state.supResourceLevel4
-                                }:null,this.state.supResourceName5?{
+                                }:null,
+                                this.state.supResourceName5?{
                                     "support_resource_name":this.state.supResourceName5,
                                     "support_resource_email":this.state.supResourceEmail5,
                                     "support_resource_level":this.state.supResourceLevel5
                                     }:null,
+                                    this.state.supResourceName6?{
+                                        "support_resource_name":this.state.supResourceName6,
+                                        "support_resource_email":this.state.supResourceEmail6,
+                                        "support_resource_level":this.state.supResourceLevel6
+                                        }:null,
                       ]:[]
             }
         }
         addClientJSON.deloitteResources.SupportResources = addClientJSON.deloitteResources.SupportResources.filter((element,index)=>{
-            console.log(element===null?index:0)
              return (element!=null) 
         })
         let body = addClientJSON;
-        console.log(addClientJSON,this.state.supResourceName1,this.state.supResourceName2,this.state.supResourceName3);
+   
         apiPostHeader.body = JSON.stringify(body);
         fetch(addclientapi.addClient,apiPostHeader)
             .then(resp=>resp.json())
@@ -323,6 +333,7 @@ class AddNewClient extends React.Component{
         let cnt=0;
         requiredFieldNames.forEach(element=>{
             let stateName = this.state[element]
+            
             if(stateName){
             cnt++;
         }
@@ -330,36 +341,13 @@ class AddNewClient extends React.Component{
         if(cnt>=requiredFieldNames.length){
             boolFlag=true;
         }
-        //console.log(boolFlag,cnt,requiredFieldNames.length);
-        console.log(boolFlag,cnt,requiredFieldNames.length);
         if(boolFlag){
             this.setState({
             enableButton:true
         })
         }
     }  
-    
-    checkRequiredBack = (state)=>{
-        let cnt=0;
-        let boolFlag;
-        if(this.state.backData){
-        requiredFieldNames.forEach(element=>{
 
-            if(this.state[element]){
-                cnt++;
-            }
-        })
-        if(cnt>=requiredFieldNames.length){
-            boolFlag=true;
-        }
-       
-        if(boolFlag){
-            this.setState({
-            enableButton:true
-        })
-        }
-    }
-    }
 
 
     getIndustryList = ()=>{
@@ -392,10 +380,23 @@ class AddNewClient extends React.Component{
             "supResourceLevel1":backData.supResourceLevel1,
             "supResourceName2":backData.supResourceName2,
             "supResourceEmail2":backData.supResourceEmail2,
-            "supResourceLevel2":backData.supResourceLevel2
+            "supResourceLevel2":backData.supResourceLevel2,
+            "supResourceName3":backData.supResourceName3,
+            "supResourceEmail3":backData.supResourceEmail3,
+            "supResourceLevel3":backData.supResourceLevel3,
+            "supResourceName4":backData.supResourceName4,
+            "supResourceEmail4":backData.supResourceEmail4,
+            "supResourceLevel4":backData.supResourceLevel4,
+            "supResourceName5":backData.supResourceName5,
+            "supResourceEmail5":backData.supResourceEmail5,
+            "supResourceLevel5":backData.supResourceLevel5,
+            "supResourceName6":backData.supResourceName6,
+            "supResourceEmail6":backData.supResourceEmail6,
+            "supResourceLevel6":backData.supResourceLevel6,
+            
 
         })
-        this.checkRequiredBack()
+        this.checkRequiredFields();
     }
     }
 
@@ -404,6 +405,7 @@ class AddNewClient extends React.Component{
        return(
             <div className='add-new-client-container'>
             <Header title="Add New Client" props={this.props}/>
+            <FileUpload />
             <div className="required">* Required</div>
             <form id="add-client-form" onSubmit={this.handleSubmit}>
             {clientInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}
@@ -414,7 +416,7 @@ class AddNewClient extends React.Component{
             <div className="border-bottom"></div>
             {this.state.indexArray.map((element,index)=>{
                 return(
-                this.state.showSupportIndex<5&&addSupportResource(this.handleChange,this.state,index+2,this.setNextStepState,this.hideSupportResource)
+                this.state.showSupportIndex<6&&addSupportResource(this.handleChange,this.state,index+2,this.setNextStepState,this.hideSupportResource)
                 )
             })}
             {/* {this.state.showSupportIndex>0&&this.state.showSupportIndex!=5&&addSupportResource(this.handleChange,this.state,2,this.setNextStepState,this.hideSupportResource)} */}

@@ -1,7 +1,7 @@
 import {apiUrl} from '../main/mainapistorage'
 
 let assessmentsApi={
-    getAssessments:apiUrl+"/client/assessmentDetails"
+    getAssessments:apiUrl+"clientService/assessmentDetails"
 }
 
 export {

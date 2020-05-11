@@ -1,14 +1,13 @@
 import React from 'react';
 import arrowIcon from '../images/icon-small-dropdown.svg';
-let data = ["A","B","C","D","E"]
 class DropDownMenu extends React.Component{
 
       
         constructor(props){
             super(props);
+            console.log(this.props)
             this.state={
                 showRequired:"",
-                value:this.props.placeholder,
                 showDropdown:"",
 
             }
@@ -77,7 +76,7 @@ class DropDownMenu extends React.Component{
             <label></label>
         <div className="tkey-dropdown"> 
             
-            <span className="toggle" name={this.props.name} onClick={this.changeValue}><span>{this.state.value}</span><img src={arrowIcon} /></span>
+            <span className="toggle" name={this.props.name} onClick={this.changeValue}><span>{this.props.value?this.props.value:this.props.placeholder}</span><img src={arrowIcon} alt=""/></span>
             <div className={"dropdown-options-container "+ this.state.showDropdown } onClick={this.changeValue}  name={this.props.name}> 
                 {this.props.data.map((item,index) => {
                     return (
