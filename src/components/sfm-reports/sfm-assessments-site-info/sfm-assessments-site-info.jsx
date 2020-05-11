@@ -113,7 +113,7 @@ class SiteInfo extends React.Component{
         this.props.data.BusinessFunctionPoC.forEach((data, index) => {
             bizFuncPoc.push(data.ResourceName);
         })
-        // console.log(bizFuncPoc)
+         console.log('bizFuncPoc',bizFuncPoc)
     }
 
     saveForm = async() => {

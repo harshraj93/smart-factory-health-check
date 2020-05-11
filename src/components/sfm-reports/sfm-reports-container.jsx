@@ -506,7 +506,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData}/>:<ClientInfo/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData}/>:<ClientInfo client={this.props.location.companyName}/>))}
                             </Tab>
                         )
                     })}
@@ -539,10 +539,10 @@ class Reports extends React.Component{
 
     fetchOverview = async()=> {
         let body = {
-            "clientName": this.props.location.companyName, 
-            "siteName": this.props.location.locationString,
-            "sector":this.props.location.industryType
-            //"siteId":this.props.location.siteid
+            // "clientName": this.props.location.companyName, 
+            // "siteName": this.props.location.locationString,
+            // "sector":this.props.location.industryType
+            "siteId":this.props.location.siteid
         }
         apiPostHeader.body = JSON.stringify(body);
         try{
@@ -558,10 +558,10 @@ class Reports extends React.Component{
 
     fetchNotes = async()=> {
         let body = {
-            "clientName": this.props.location.companyName, 
-            "siteName": this.props.location.locationString,
-            "sector":this.props.location.industryType
-            //"siteId":this.props.location.siteid
+            // "clientName": this.props.location.companyName, 
+            // "siteName": this.props.location.locationString,
+            // "sector":this.props.location.industryType
+            "siteId":this.props.location.siteid
         }
         apiPostHeader.body = JSON.stringify(body);
         try{
@@ -576,10 +576,10 @@ class Reports extends React.Component{
 
     fetchSiteInfo = async()=> {
         let body = {
-            "clientName": this.props.location.companyName, 
-            "siteName": this.props.location.locationString,
-            "sector":this.props.location.industryType
-           // "siteId":this.props.location.siteid
+            // "clientName": this.props.location.companyName, 
+            // "siteName": this.props.location.locationString,
+            // "sector":this.props.location.industryType
+            "siteId":this.props.location.siteid
         }
         apiPostHeader.body = JSON.stringify(body);
         try{
@@ -594,7 +594,7 @@ class Reports extends React.Component{
 
     fetchClientLevelData = async()=>{
         let body = { 
-            "clientName": this.props.location.clientName, 
+            "clientName": this.props.location.clientid, 
             "sector": this.props.location.sector
         };
         let postHeader = (apiPostHeader);
@@ -611,9 +611,9 @@ class Reports extends React.Component{
 
     fetchResultsData = async()=>{
         let body = { 
-            "clientName": this.props.location.companyName, 
-            "siteName": this.props.location.locationString,
-            //"siteId":this.props.location.siteid
+            // "clientName": this.props.location.companyName, 
+            // "siteName": this.props.location.locationString,
+            "siteId":this.props.location.siteid
         };
         let postHeader = (apiPostHeader);
         postHeader["body"] = JSON.stringify(body);
@@ -651,10 +651,10 @@ class Reports extends React.Component{
 
     fetchDemographicsData = async()=>{
         let body = {
-            "clientName": this.props.location.companyName, 
-            "siteName": this.props.location.locationString,
-            "sector":this.props.location.industryType,
-           // "siteId":this.props.location.siteid
+            // "clientName": this.props.location.companyName, 
+            // "siteName": this.props.location.locationString,
+            // "sector":this.props.location.industryType,
+            "siteId":this.props.location.siteid
         }
         apiPostHeader.body = JSON.stringify(body);
         try{

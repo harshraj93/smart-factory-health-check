@@ -124,7 +124,7 @@ class QuestionnairePage extends React.Component {
 
     skipFlag = ()=>{
         let skipBody = {
-            "subCapability":subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
+            "subCapability":subCapabilitiesArray[this.state.arrayIndex].subcapabilityId,
             "siteid":localStorage.getItem("siteId")
         }
         apiPostHeader.body = JSON.stringify(skipBody)
@@ -168,7 +168,7 @@ class QuestionnairePage extends React.Component {
 
 
     parseQuestionnaire = async (questionnaireResponse) => {
-        fetch(questionnaire.getProgress + `?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}&capabilityId=${capabilitiesArray[this.state.capabilitiesArrayIndex].capabilityName}`, apiGetHeader)
+        fetch(questionnaire.getProgress + `?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}&capabilityId=${capabilitiesArray[this.state.capabilitiesArrayIndex].capabilityId}`, apiGetHeader)
             .then(resp => resp.json())
             .then(resp => {
                 this.setState({
@@ -285,7 +285,7 @@ class QuestionnairePage extends React.Component {
     getSubCapability = () => {
         let businessFunctionName;
          if (this.props.location.siteid) {
-             localStorage.setItem("businessfunctionId", this.props.location.businessFunctionName);
+             localStorage.setItem("businessfunctionId", this.props.location.businessFunctionID);
              localStorage.setItem("siteId", this.props.location.siteid);
             businessFunctionName = localStorage.getItem("businessfunctionId");
             //localStorage.setItem("siteId", "ST_002");
@@ -394,7 +394,7 @@ class QuestionnairePage extends React.Component {
         let saveAssessment = {
             "currentLevel": this.state.currentValue ? this.state.currentValue : -1,
             "targetLevel": this.state.targetValue ? this.state.targetValue : -1,
-            "subCapability": subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
+            "subCapability": subCapabilitiesArray[this.state.arrayIndex].subcapabilityId,
             "siteid": localStorage.getItem("siteId")
         }
         apiPostHeader.body = JSON.stringify(saveAssessment);
@@ -458,12 +458,11 @@ class QuestionnairePage extends React.Component {
         this.getQuestionnaire();
     }
 
-
     saveAndExit = () => {
         let saveAssessment = {
             "currentLevel": this.state.currentValue ? this.state.currentValue : -1,
             "targetLevel": this.state.targetValue ? this.state.targetValue : -1,
-            "subCapability": subCapabilitiesArray[this.state.arrayIndex].subcapabilityName,
+            "subCapability": subCapabilitiesArray[this.state.arrayIndex].subcapabilityId,
             "siteid": localStorage.getItem("siteId")
         }
         apiPostHeader.body = JSON.stringify(saveAssessment);
@@ -476,7 +475,8 @@ class QuestionnairePage extends React.Component {
                         companyName: this.props.history.location.clientName,
                         locationString: this.props.history.location.siteName,
                         industryType: this.props.history.location.sector,
-                        loadComponentString: "assessments"
+                        loadComponentString: "assessments",
+                        siteid:localStorage.getItem("siteId")
                     })
                 }
                 else {
