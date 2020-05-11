@@ -156,7 +156,7 @@ class ReportsListView extends React.Component {
     }
 
     textFormat(data) {
-        let points = data.split("↵").split("\n");
+        let points = data.split("\n");  //split("↵").
         return (
             <ul className="list">
                 {points.map((data,index)=>{

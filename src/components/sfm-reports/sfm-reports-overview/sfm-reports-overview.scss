@@ -76,6 +76,7 @@
 
                 .form-control {
                     background-color: #232325;
+                    font-size: 14px;
                     border-radius: 8px;
                     color: #dedede;
                     height: 29.1vh;
@@ -186,12 +187,13 @@
                         flex-direction: column;
         
                         .form-control {
-                            background-color: #35353b;
+                            background-color: #232325;
                             border-radius: 8px;
                             color: #dedede;
                             height: 8.76vh;
                             border: none;
                             flex: none;
+                            font-size: 12px;
                             background-clip: unset;
                         }
         
