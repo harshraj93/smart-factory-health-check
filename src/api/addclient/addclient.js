@@ -6,7 +6,9 @@ let addclientapi={
     manufactureTypeList:apiUrl+'siteService/manufactureTypeList',
     addClient:apiUrl+'clientService/addClient',
     getBusinessFunctions:apiUrl+'clientService/businessFunctions',
-    addSite:apiUrl+'siteService/addSite'
+    addSite:apiUrl+'siteService/addSite',
+    upload:apiUrl+'siteService/uploadSiteInfo',
+    download:apiUrl+'siteService/downloadSiteInfo'
 
 }
 
