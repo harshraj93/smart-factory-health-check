@@ -84,8 +84,8 @@ class QuestionnairePage extends React.Component {
     }
 
 
-    showTextEditor = () => {
-        this.setState({
+    showTextEditor = async() => {
+       await this.setState({
             showTextEditor: true,
             textEditorData: ""
         })
@@ -108,44 +108,44 @@ class QuestionnairePage extends React.Component {
     }
 
 
-    setCurrentValue = currentValue => {
-        this.setState({
+    setCurrentValue = async(currentValue) => {
+        await this.setState({
             currentValue: currentValue
         })
     }
 
 
-    setTargetValue = targetValue => {
-        this.setState({
+    setTargetValue = async(targetValue) => {
+        await this.setState({
             targetValue: targetValue
         })
     }
 
 
-    skipFlag = () => {
+    skipFlag = async()=>{
         let skipBody = {
             "subCapability": subCapabilitiesArray[this.state.arrayIndex].subcapabilityId,
             "siteid": localStorage.getItem("siteId")
         }
         apiPostHeader.body = JSON.stringify(skipBody)
-        fetch(questionnaire.skipFlag, apiPostHeader)
-            .then(resp => resp.json())
-            .then(resp => {
-                if (resp.successMsg) {
-
-
-                    this.setState(function (prevState, props) {
+        fetch(questionnaire.skipFlag,apiPostHeader)
+            .then(resp=>resp.json())
+            .then(resp=>{}
+                )
+            await this.setState(function (prevState, props) {
                         if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
                             if (prevState.capabilitiesArrayIndex + 1 === capabilitiesArray.length) {
                                 this.setState({
-                                    showContinue: false
+                                    showContinue:false,
+                                    skipFlag:false
                                 })
                             }
                             else {
                                 this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex + 1)
                                 return {
                                     capabilitiesArrayIndex: prevState.capabilitiesArrayIndex + 1,
-                                    arrayIndex: 0
+                                    arrayIndex: 0,
+                                    skipFlag:false
                                 }
                             }
 
@@ -157,13 +157,10 @@ class QuestionnairePage extends React.Component {
                     })
 
                     this.getQuestionnaire()
-                }
-                else {
-                    console.log("errored out")
-                }
-            }
-            )
-
+                    // await this.setState({
+                    //     targetSelected:"",
+                    //     currentSelected:""
+                    // })
     }
 
 
@@ -172,7 +169,11 @@ class QuestionnairePage extends React.Component {
             .then(resp => resp.json())
             .then(resp => {
                 this.setState({
-                    progressValue: Math.round(resp.progress, 4)
+                    progressValue:Math.round(resp.progress, 4),
+                    targetValue:questionnaireResponse.targetLevel?questionnaireResponse.targetLevel:"",
+                    currentValue:questionnaireResponse.currentLevel?questionnaireResponse.currentLevel:"",
+                    // currentSelected:questionnaireResponse.currentLevel?questionnaireResponse.currentLevel:"",
+                    // targetSelected:questionnaireResponse.targetLevel?questionnaireResponse.targetLevel:""
                 })
             });
 
@@ -293,7 +294,7 @@ class QuestionnairePage extends React.Component {
                 businessFunctionName = businessFunctionName.replace("&", "%26")
                 localStorage.setItem("businessfunctionId", businessFunctionName);
             }
-            // localStorage.setItem("businessfunctionId", "Procurement  %26  Supplier Management");
+           //localStorage.setItem("businessfunctionId", "Procurement  %26  Supplier Management");
         }
         fetch(questionnaire.getCapabilities + `?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${businessFunctionName}`, apiGetHeader)
             .then(resp => resp.json())
@@ -304,7 +305,7 @@ class QuestionnairePage extends React.Component {
     }
 
 
-    submitNotes = () => {
+    submitNotes = async() => {
         var date = new Date();
         var Str =
             date.getFullYear() + "-" + ("00" + (date.getMonth() + 1)).slice(-2)
@@ -325,12 +326,12 @@ class QuestionnairePage extends React.Component {
             .then(resp => resp.json())
             .then(resp => {
                 if (resp.resultantJSON.successMsg) {
-                    this.setState({
+                     this.setState({
                         showTextEditor: false,
                         showNotes: true,
                         textEditorData: ""
                     })
-                    this.getSubCapability();
+                    this.getQuestionnaire();
                 }
                 else {
                     this.setState({
@@ -381,21 +382,23 @@ class QuestionnairePage extends React.Component {
     }
 
 
-    textAreaClick = (e) => {
+    textAreaClick = async(e) => {
         let textAreaText = e.target.innerHTML;
-        this.setState({
+       await this.setState({
             showTextEditor: true,
             textEditorData: (textAreaText),
             showNotes: false
         })
     }
 
-    textAreaValue = (e) => {
-        this.setState({
+    
+    textAreaValue = async(e) => {
+      await  this.setState({
             textAreaNotesValue: e.target.value,
             textArealength: e.target.value.length
         })
     }
+
 
     componentDidMount = () => {
         this.getSubCapability();
@@ -408,13 +411,20 @@ class QuestionnairePage extends React.Component {
     }
 
 
-    replaceSubCapabilitiesArray = (arrayIndex) => {
-        if (arrayIndex < capabilitiesArray.length) {
-            subCapabilitiesArray = capabilitiesArray[arrayIndex].subcapabilities;
+    replaceSubCapabilitiesArray = async(arrayCapabilitiesIndex,flag) => {
+            if(arrayCapabilitiesIndex<capabilitiesArray.length){
+            subCapabilitiesArray = capabilitiesArray[arrayCapabilitiesIndex].subcapabilities;
         }
+        if(flag==="prev"){
+            
+            await this.setState({
+                arrayIndex:subCapabilitiesArray.length-1
+            })
+            
+    }
     }
 
-    continueNav = () => {
+    continueNav = async() => {
         let saveAssessment = {
             "currentLevel": this.state.currentValue ? this.state.currentValue : -1,
             "targetLevel": this.state.targetValue ? this.state.targetValue : -1,
@@ -427,12 +437,20 @@ class QuestionnairePage extends React.Component {
             .then(resp => resp.json())
             .then(resp => {
             })
-        this.setState(function (prevState, props) {
-            if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
-                if (prevState.capabilitiesArrayIndex + 1 === capabilitiesArray.length) {
-                    this.setState({
-                        showContinue: false
-                    })
+           await this.setState(function (prevState, props) {
+                if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
+                    if(prevState.capabilitiesArrayIndex+1 === capabilitiesArray.length){
+                        this.setState({
+                            showContinue:false
+                        })
+                    }
+                    else{
+                        this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex + 1)
+                        return {
+                            capabilitiesArrayIndex: prevState.capabilitiesArrayIndex + 1,
+                            arrayIndex: 0
+                        }
+                        }
                 }
                 else {
                     this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex + 1)
@@ -442,20 +460,14 @@ class QuestionnairePage extends React.Component {
                     }
                 }
 
+            this.getQuestionnaire();
+           await this.setState({
+               targetSelected:"",
+               currentSelected:""
+           })
 
-            }
-            else {
-                return { arrayIndex: prevState.arrayIndex + 1 }
-            }
-        })
-
-        this.getQuestionnaire();
-        this.setState({
-            currentSelected: "",
-            targetSelected: ""
-        })
-
-    }
+    })
+}
 
 
     previousSubCapability = async () => {
@@ -474,14 +486,20 @@ class QuestionnairePage extends React.Component {
                 await this.setState(function (prevState, props) {
                     return {
                         capabilitiesArrayIndex: prevState.capabilitiesArrayIndex - 1,
-                        arrayIndex: 0,
-                        showContinue: true
+                       
+                        showContinue:true
                     }
                 })
+                this.replaceSubCapabilitiesArray(this.state.capabilitiesArrayIndex,"prev")
             }
-            this.replaceSubCapabilitiesArray(this.state.capabilitiesArrayIndex)
+           
         }
+        
         this.getQuestionnaire();
+        await this.setState({
+            targetSelected:"",
+            currentSelected:""
+        })
     }
 
     saveAndExit = () => {
