@@ -216,10 +216,10 @@ class QuestionnairePage extends React.Component {
                 questions: questionsArray,
                 scoringDetails: scoringDetails,
                 notesDetails: notesDetails,
-                showSkipped: subCapabilitiesArray[prevState.arrayIndex].skipQuestionFlag
+                // showSkipped: subCapabilitiesArray[prevState.arrayIndex].skipQuestionFlag
+                showSkipped: questionnaireResponse.skipQuestionFlag
             }
         })
-
     }
 
 
