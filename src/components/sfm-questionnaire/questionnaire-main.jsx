@@ -367,7 +367,7 @@ class QuestionnairePage extends React.Component {
             ele = "General Questions"
         }
 
-        if (ele !== this.state.flagTypeCopy && (this.state.flagTypeCopy !== "" || this.state.textAreaNotesValue === "Type something here ...")) {
+        if (ele !== this.state.flagTypeCopy && (this.state.flagTypeCopy !== "" || this.state.textEditorData === "Type something here ...")) {
             this.setState({
                 flagType : ele
             })
@@ -399,7 +399,8 @@ class QuestionnairePage extends React.Component {
             flagTypeCopy: ele,
             textAreaNotesValue : placeholder,
             textEditorData : placeholder,
-            textArealength: placeholder.length
+            textArealength: placeholder.length,
+            submitBtnDisabled : placeholder.length !== 0 ? false : true
         })
         document.getElementsByClassName("notes-editor-area")[0].scrollIntoView({ behaviour: "smooth" });
         document.getElementsByClassName("notes-editor-area")[0].click();
@@ -636,7 +637,8 @@ class QuestionnairePage extends React.Component {
             flagType: "",
             textAreaNotesValue : "",
             textEditorData : "",
-            textArealength: 0
+            textArealength: 0,
+            submitBtnDisabled: false
         })
     }
 
