@@ -33,7 +33,7 @@ function createCardSelectedObj(siteNames,indexObjArray,excelData,response){
       indexObj={}; 
     });
   }
-   
+    
     return indexObjArray;
 }
 

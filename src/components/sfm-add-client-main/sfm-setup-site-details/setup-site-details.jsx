@@ -17,7 +17,7 @@ function siteHeader(props,enableButton){
     return(
         <div className="site-header-container">
             <span className="site-name">{props.location.state.clientName}</span>
-         <FormNavigationButton labelName="Next Step" buttonStatus={enableButton}/>
+        {props.location.state.page?<FormNavigationButton labelName="Next Step" buttonStatus={enableButton}/>:""}
         </div>
     )
 }
@@ -63,7 +63,7 @@ class AddSiteDetails extends React.Component{
                 dataForBusinessFunctions:dataForBusinessFunctions,
                 siteName:this.props.location.state.clientName,
                 sitedetailsJSON:sitedetailsJSON,
-                excelData:this.props.location.state.siteDetails
+                excelData:this.props.location.state.siteDetails?this.props.location.state.siteDetails:excelData
             }
         })
     }
@@ -157,13 +157,20 @@ class AddSiteDetails extends React.Component{
             ["percentAvailable"+index]: backData["availabilityOEE"],
             ["percentQuality"+index]: backData["qualityOEE"]
         })
-        
-        this.checkRequiredFields();
-        
+        console.log(this.state);
+        this.checkRequiredFields();   
     }
 
     siteInfoForm =(siteNumber,index,backData)=>{
-        console.log(backData)
+        let industryValue
+        console.log(this.state);
+        if(this.props.location.state.page){
+           industryValue = this.props.location.state.industrySelected
+        }
+        else{
+            industryValue = this.state["sector"+index]
+        }
+       
         return(
             <>
         <div className="site-form-modal" key={index}>
@@ -179,8 +186,8 @@ class AddSiteDetails extends React.Component{
         {/* <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <div className="bottom-border"></div> */}
-        <DropDownMenu placeholder= "Sector*" dropdownIndex={index} value={backData?(backData["sector"]):""}  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
-        <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} value={backData?(backData["archetype"]):""} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder= "Sector*" dropdownIndex={index} value={backData?(backData["sector"]):industryValue}  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} value={backData?(backData["archetype"]):this.state["manfArch"+index]} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
         <LabelledInputField placeholder={true} data={backData?(backData["numShifts"]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["employees"]):null} labelName="# Employees (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["assets"]):null} labelName="# of Assets (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
@@ -223,7 +230,7 @@ class AddSiteDetails extends React.Component{
             })
             }
         
-        else if(this.props.location.state.industry){
+        else if(this.props.location.state.page){
                 siteNumber.forEach((number,index)=>{
                     this.setState({
                         ["sector"+index]:this.props.location.state.industry
@@ -270,7 +277,14 @@ class AddSiteDetails extends React.Component{
         return siteNumArray
     }
 
-
+    parseUploadedExcel = async(jsonResponse)=>{
+        excelData= jsonResponse.siteDetails;
+        excelData.forEach((site,index)=>{
+            this.setData(site,index)
+        })
+    
+        this.checkRequiredFields();
+    }
 
     render(){
          return(
@@ -279,7 +293,7 @@ class AddSiteDetails extends React.Component{
             <Header title="Enter site details" handleSubmit={this.handleSubmit} props={this.props}/>
             <form id="setup-site-details" onSubmit={this.handleSubmit}>
             {siteHeader(this.props,this.state.enableButton)}
-            {this.props.location.state.page?<FileUpload />:""}
+            {this.props.location.state.page?<FileUpload type="HALF" parseUploadedExcel={this.parseUploadedExcel}/>:""}
             {siteNumber.map((number,index)=>{
                 let backData;
                 if(this.props.location.state.data){
@@ -287,6 +301,9 @@ class AddSiteDetails extends React.Component{
                  }
                  else if(this.props.location.state.siteDetails){
                     backData = this.props.location.state.siteDetails[index];
+                }
+                else if(excelData){
+                    backData=excelData[index]
                 }
                 return (
                     

@@ -21,7 +21,7 @@ function Header(props){
         </div>
     )
 }
-let name;
+let name, siteDetails;
 
  class AddNewSite extends React.Component{
     constructor(props){
@@ -92,10 +92,11 @@ let name;
             let state={
                 sites:this.state.siteNum,
                 clientName:this.props.location.companyName,
-                industry:this.state.sectorSelected,
+                industrySelected:this.state.sectorSelected,
                 industryList:this.state.dropDownData,
                 clientid:localStorage.getItem("clientid"),
-                page:"addsite"
+                page:"addsite",
+                
              }
     
             localStorage.setItem("sitedetailsstate",JSON.stringify({
@@ -132,6 +133,9 @@ let name;
             allSectors:response.resultantJSON.allSectors
         })
     }
+
+
+    
 
 
     componentDidMount = ()=>{
