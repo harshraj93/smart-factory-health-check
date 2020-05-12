@@ -71,23 +71,30 @@ class QuestionnairePage extends React.Component {
             capabilitiesArrayIndex: 0,
             showContinue: true,
             textArealength: 0,
-            flagType: null,
+            flagType: "",
+            flagTypeCopy: "",
             currentSelected: "",
             targetSelected: "",
             showLoader: "",
             skipFlag: "",
             showSkipped: "",
             progressValue: "",
-            placeholder: "Type something here ..."
+            placeholder: "Type something here ...",
+            submitBtnDisabled: false
         }
         this.props.disableMenu(false);
     }
 
 
     showTextEditor = async () => {
+        let noteText = "Type something here ...";
         await this.setState({
             showTextEditor: true,
-            textEditorData: ""
+            textAreaNotesValue: noteText,
+            textEditorData : noteText,
+            flagType: "",
+            flagTypeCopy: "",
+            textArealength: noteText.length
         })
 
     }
@@ -314,9 +321,10 @@ class QuestionnairePage extends React.Component {
             + ("00" + date.getHours()).slice(-2) + ":"
             + ("00" + date.getMinutes()).slice(-2)
             + ":" + ("00" + date.getSeconds()).slice(-2);
+        
         let notesSubmission = {
             "clientAssessmentId": subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId,
-            "resourceEmailId": "harshraj@deloitte.com",
+            "resourceEmailId": this.props.userEmail === "" ? "harshraj@deloitte.com" : this.props.userEmail,
             "note": this.state.textAreaNotesValue,
             "timestamp": Str,
             "flagType": this.state.flagType
@@ -329,7 +337,10 @@ class QuestionnairePage extends React.Component {
                     this.setState({
                         showTextEditor: false,
                         showNotes: true,
-                        textEditorData: ""
+                        textEditorData: "",
+                        textAreaNotesValue: "",
+                        flagType: "",
+                        flagTypeCopy: ""
                     })
                     this.getQuestionnaire();
                 }
@@ -337,7 +348,10 @@ class QuestionnairePage extends React.Component {
                     this.setState({
                         showTextEditor: false,
                         showNotes: true,
-                        textEditorData: ""
+                        textEditorData: "",
+                        textAreaNotesValue: "",
+                        flagType: "",
+                        flagTypeCopy: ""
                     })
                     console.log("errored out notes")
                 }
@@ -351,6 +365,13 @@ class QuestionnairePage extends React.Component {
             ele = ele.replace(/ *\([^)]*\) */g, "");
         } else {
             ele = "General Questions"
+        }
+
+        if (ele !== this.state.flagTypeCopy && (this.state.flagTypeCopy !== "" || this.state.textAreaNotesValue === "Type something here ...")) {
+            this.setState({
+                flagType : ele
+            })
+            this.submitNotes();
         }
 
         let placeholder = "";
@@ -375,7 +396,10 @@ class QuestionnairePage extends React.Component {
         await this.setState({
             showTextEditor: true,
             flagType: ele,
-            placeholder
+            flagTypeCopy: ele,
+            textAreaNotesValue : placeholder,
+            textEditorData : placeholder,
+            textArealength: placeholder.length
         })
         document.getElementsByClassName("notes-editor-area")[0].scrollIntoView({ behaviour: "smooth" });
         document.getElementsByClassName("notes-editor-area")[0].click();
@@ -397,6 +421,16 @@ class QuestionnairePage extends React.Component {
             textAreaNotesValue: e.target.value,
             textArealength: e.target.value.length
         })
+
+        if (this.state.textArealength === 0) {
+            this.setState({
+                submitBtnDisabled : true
+            })
+        } else {
+            this.setState({
+                submitBtnDisabled : false
+            })
+        }
     }
 
 
@@ -596,9 +630,20 @@ class QuestionnairePage extends React.Component {
         })
     }
 
+    cancelNote = () => {
+        this.setState({
+            showTextEditor: false,
+            flagType: "",
+            textAreaNotesValue : "",
+            textEditorData : "",
+            textArealength: 0
+        })
+    }
+
 
     render() {
-        const { placeholder } = this.state;
+        // const { placeholder } = this.state;
+        // console.log("email", this.props.userEmail)
         return (
             <div className="questionnaire-main-container">
                 {/* {this.state.showLoader&&this.loadingScreen()} */}
@@ -632,7 +677,9 @@ class QuestionnairePage extends React.Component {
                                 <div className="scoring-text-container" key={index}>
                                     <div className="scoring-range">
                                         {element}
-                                        <span className="flag-button"><CustomButton imgSrc={flagIcon} clickFunction={() => this.focusInput(element)} /></span>
+                                        <span className="flag-button">
+                                            <CustomButton imgSrc={flagIcon} clickFunction={() => this.focusInput(element)} />
+                                        </span>
                                     </div>
                                     <div className="scoring-info">
                                         {this.state.scoringDetails[element]}
@@ -647,11 +694,12 @@ class QuestionnairePage extends React.Component {
                     <div className="notes-title">Notes</div>
                     <div className="text-area" >
                         {!this.state.showTextEditor && <CustomButton imgSrc={addIcon} clickFunction={this.showTextEditor} />}
-                        {this.state.showTextEditor && <TextEditor textAreaValue={this.textAreaValue} value={this.state.textEditorData} placeholder={placeholder} />}
+                        {this.state.showTextEditor && <TextEditor textAreaValue={this.textAreaValue} value={this.state.textEditorData} />}
                     </div>
                     <div className="character-count-submit">
                         {this.state.showTextEditor && <div className="character-count">{this.state.textArealength}/3000 characters</div>}
-                        {this.state.showTextEditor && <FormNavigationButton labelName="Submit" onClick={this.submitNotes} />}
+                        {this.state.showTextEditor && <SaveandExitButton labelName="Cancel" onClick={this.cancelNote} />}
+                        {this.state.showTextEditor && <FormNavigationButton disabled={this.state.submitBtnDisabled} labelName="Submit" onClick={this.submitNotes} />}
                     </div>
                 </div>
                 {this.state.notesDetails ? this.state.showNotes && this.state.notesDetails.map(element => {
