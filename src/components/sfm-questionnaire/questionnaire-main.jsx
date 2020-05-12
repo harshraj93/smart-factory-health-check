@@ -453,19 +453,13 @@ class QuestionnairePage extends React.Component {
                         }
                 }
                 else {
-                    this.replaceSubCapabilitiesArray(prevState.capabilitiesArrayIndex + 1)
-                    return {
-                        capabilitiesArrayIndex: prevState.capabilitiesArrayIndex + 1,
-                        arrayIndex: 0
-                    }
+                    return { arrayIndex: prevState.arrayIndex + 1 }
                 }
-
-            this.getQuestionnaire();
-           await this.setState({
-               targetSelected:"",
-               currentSelected:""
-           })
-
+    })
+    this.getQuestionnaire();
+    await this.setState({
+        targetSelected:"",
+        currentSelected:""
     })
 }
 
