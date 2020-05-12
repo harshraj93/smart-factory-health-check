@@ -25,6 +25,7 @@ function backNavigation(e,props){
     }
     else if(locationpath==="/addsitedetails"){
         let addClientData = localStorage.getItem("addnewclient")
+        console.log(addClientData);
         if(props.props.location.state.page==="addsite"){
             return history.push({
                 pathname:"/addnewsite",
@@ -40,7 +41,6 @@ function backNavigation(e,props){
     }
     else if(locationpath==="/addbusinessfunctions"){
         let addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
-        
         let siteDetails = JSON.parse(localStorage.getItem("sitedetailsstate"))
         console.log(siteDetails,addSiteData);
         return history.push({

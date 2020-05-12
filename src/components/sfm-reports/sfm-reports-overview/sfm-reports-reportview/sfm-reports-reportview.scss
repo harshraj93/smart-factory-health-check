@@ -58,6 +58,8 @@
             .area-name {
                 font-size: 16px;
                 font-weight: bold;
+                display: flex;
+                align-items: center;
             }
 
             .btn.btn-link{
@@ -90,18 +92,21 @@
                 .area-name {
                     font-size: 16px;
                     font-weight: bold;
+                    display: flex;
+                    align-items: center;
                 }
             }
         }
 
         .collapse,.collapsing,.collapse-show{
+            position: relative;
             background-color: $accordion-dark-background;
 
             .reportview-card {
                 display: grid;
-                grid-template-columns: 10fr 1fr 0.1fr 3fr 0.5fr 3fr 3fr 3fr;
+                grid-template-columns: 10fr 1fr 3fr 0.5fr 3fr 3fr 3fr;
                 align-items: center;
-                margin: 16px;
+                padding: 16px;
 
                 .score {
                     text-align: center;
@@ -121,17 +126,23 @@
                 .area-name {
                     font-size: 16px;
                     font-weight: bold;
-                }
-
-                .vertical-line {
-                    width: 2px;
-                    background-color: #232325;
-                    height: 100%;
+                    display: flex;
+                    align-items: center;
                 }
             }
 
+            .vertical-line {
+                position: absolute;
+                display: block;
+                width: 1px;
+                background-color: #232325;
+                height: 100%;
+                left: 47%;
+                top: 0;
+            }
+
             .repCard-bottom-line {
-                height: 2px;
+                height: 1px;
                 background-color: #232325;
                 display: flex;
             }
@@ -199,6 +210,8 @@
             .area-name {
                 font-size: 16px;
                 font-weight: bold;
+                display: flex;
+                align-items: center;
             }
 
             .btn.btn-link{
@@ -231,6 +244,8 @@
                 .area-name {
                     font-size: 16px;
                     font-weight: bold;
+                    display: flex;
+                    align-items: center;
                 }
             }
         }
@@ -239,7 +254,7 @@
             background-color: #232325;
             .reportview-card {
                 display: grid;
-                grid-template-columns: 10fr 1fr 0.1fr 3fr 0.5fr 3fr 3fr 3fr;
+                grid-template-columns: 10fr 1fr 3fr 0.5fr 3fr 3fr 3fr;
                 align-items: center;
                 padding: 14px;
 
@@ -262,17 +277,23 @@
                 .area-name {
                     font-size: 16px;
                     margin-left: 56px;
-                }
-
-                .vertical-line {
-                    width: 2px;
-                    background-color: #35353b;
-                    height: 100%;
+                    display: flex;
+                    align-items: center;
                 }
             }
 
+            .vertical-line {
+                position: absolute;
+                display: block;
+                width: 1px;
+                background-color: #35353b;
+                height: 100%;
+                left: 47%;
+                top: 0;
+            }
+
             .repCard-bottom-line {
-                height: 2px;
+                height: 1px;
                 background-color: #35353b;
                 display: flex;
                 width: 95.4%;
@@ -297,12 +318,12 @@
         width: 100%;
         margin-bottom: 0px !important;
 
-        .card-header{
+        .cap-report-card-header{
             display: grid;
             grid-template-columns: 10fr 1fr 3fr 0.5fr 3fr 3fr 3fr;
             background-color: $accordion-dark-background; 
             // margin-bottom: $common-margin !important;
-            margin-top: $common-margin !important;
+            margin-top: 0px !important;
             margin-bottom: 0px !important;
             width: 100%;
             padding: 12px 16px;
@@ -341,6 +362,8 @@
                 font-size: 16px;
                 margin-left: 24px;
                 font-weight: bold;
+                display: flex;
+                align-items: center;
             }
 
             .btn.btn-link{
@@ -373,6 +396,8 @@
                 .area-name {
                     font-size: 16px;
                     font-weight: bold;
+                    display: flex;
+                    align-items: center;
                 }
             }
         }
@@ -382,7 +407,7 @@
 
             .reportview-card {
                 display: grid;
-                grid-template-columns: 10fr 1fr 0.1fr 3fr 0.5fr 3fr 3fr 3fr;
+                grid-template-columns: 10fr 1fr 3fr 0.5fr 3fr 3fr 3fr;
                 align-items: center;
                 padding: 14px;
 
@@ -405,17 +430,23 @@
                 .area-name {
                     font-size: 16px;
                     margin-left: 56px;
-                }
-
-                .vertical-line {
-                    width: 2px;
-                    background-color: #232325;
-                    height: 100%;
+                    display: flex;
+                    align-items: center;
                 }
             }
 
+            .vertical-line {
+                position: absolute;
+                display: block;
+                width: 1px;
+                background-color: #232325;
+                height: 100%;
+                left: 47%;
+                top: 0;
+            }
+
             .repCard-bottom-line {
-                height: 2px;
+                height: 1px;
                 background-color: #232325;
                 display: flex;
                 width: 95.4%;

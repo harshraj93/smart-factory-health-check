@@ -66,11 +66,12 @@
                     .custom-control-input:checked~{
                         .custom-control-label {
                             &:before {
-                                background-color: #161617;
+                                background-color: #161617 !important;
+                                border-color: #161617 !important;
                             }
                             &:after {
-                                background-color: #727279;
-                                transform: translateX(1.3rem);
+                                background-color: #727279 !important;
+                                transform: translateX(1.3rem) !important;
                             }
                         }
                     }
@@ -79,7 +80,8 @@
                         margin-bottom: 0;
                         vertical-align: top;
                         &:before {
-                            background-color: #57bb50;
+                            background-color: #57bb50 !important;
+                            border-color: #57bb50;
                             left: -2.25rem;
                             width: 2.88rem;
                             height: 1.63rem;
@@ -191,11 +193,12 @@
                         .custom-control-input:checked~{
                             .custom-control-label {
                                 &:before {
-                                    background-color: #161617;
+                                    background-color: #161617 !important;
+                                    border-color: #161617 !important;
                                 }
                                 &:after {
-                                    background-color: #727279;
-                                    transform: translateX(1.3rem);
+                                    background-color: #727279 !important;
+                                    transform: translateX(1.3rem) !important;
                                 }
                             }
                         }
@@ -204,7 +207,8 @@
                             margin-bottom: 0;
                             vertical-align: top;
                             &:before {
-                                background-color: #57bb50;
+                                background-color: #57bb50 !important;
+                                border-color: #57bb50;
                                 left: -2.25rem;
                                 width: 2.88rem;
                                 height: 1.63rem;

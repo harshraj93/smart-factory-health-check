@@ -165,7 +165,6 @@ class AddBusinessFunctions extends React.Component{
                 siteDetailsJSON.sites[i].businessFunctions=functionsArray;
                 functionsArray = [];
             }
-            
         }
         apiPostHeader.body = JSON.stringify(siteDetailsJSON);
         console.log(apiPostHeader,addclientapi.addSite)

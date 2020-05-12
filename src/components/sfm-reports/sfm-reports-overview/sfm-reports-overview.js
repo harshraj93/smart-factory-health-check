@@ -67,12 +67,13 @@ class ReportsOverview extends React.Component {
             "siteid": this.props.data.siteid
         }
         apiPostHeader.body = JSON.stringify(body);
+        let editresp;
         try{
             const response = await fetch(resultsApi.textEdit,apiPostHeader)
-            const editresp = await response.json();
+            editresp = await response.json();
         }
         catch(err){
-            const editresp = err;
+            editresp = err;
         }
         this.setState({
             recsEdit: false

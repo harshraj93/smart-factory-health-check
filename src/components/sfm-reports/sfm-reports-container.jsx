@@ -609,6 +609,50 @@ class Reports extends React.Component{
         }
     }
 
+    targetAvg(data) {
+        let x = 0;
+        data.map((element, index)=>{
+            x += Number(element.target)
+        })
+        return x/data.length;
+    }
+
+    formatClientLevelData = async(data) => {
+        let jsonData = {};
+        jsonData.summary = data.summary;
+        jsonData.overallRecs = data.overallRecs;
+        jsonData.sites = data.sites;
+        jsonData.target = this.targetAvg(data.sites);
+        let parts = [];
+        let temp = {};
+        data.businessFunctions.map((element, index) => {
+            if (index%(data.sites.length)===0) {
+                temp.name = element.name;
+                temp.score = Number(element.score);
+                temp.target = Number(element.target);
+                temp.low = Number(element.low);
+                temp.high = Number(element.high);
+                temp.indAvg = Number(element.indAvg);
+                temp.sites = element.sites;
+            }
+            else {
+                temp.score += Number(element.score);
+                temp.target += Number(element.target);
+                temp.low += Number(element.low);
+                temp.high += Number(element.high);
+                temp.indAvg += Number(element.indAvg);
+                if ((index+1)%(data.sites.length) === 0) {
+                    temp.score /= data.sites.length;
+                    temp.target /= data.sites.length;
+                    temp.low /= data.sites.length;
+                    temp.high /= data.sites.length;
+                    temp.indAvg /= data.sites.length;
+                    parts.push(temp);
+                }
+            }
+        })
+    }
+
     fetchResultsData = async()=>{
         let body = { 
             // "clientName": this.props.location.companyName, 
