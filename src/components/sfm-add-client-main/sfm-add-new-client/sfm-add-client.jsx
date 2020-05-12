@@ -21,9 +21,8 @@ let data =
 
 let requiredFieldNames=["clientName","clientParticipation","clientRole","industryDropdown","numSites","primOwnerName","primOwnerLevel","primOwnerEmail"]
 let indexArray = [];
-
+let siteDetails;
 let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
-    console.log(state.clientName)
     return(
         <div className = "client-info-container">
         <div className="title">Client Information</div>
@@ -72,7 +71,7 @@ let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
         placeholder={true} changeButtonState={changeButtonState} 
         labelName="Company Revenue (optional)" min="1" type="number" 
         name="companyRevenue" onChange={handleChange} 
-        data={state.backData.companyRevenue!==undefined?state.backData.companyRevenue:""}/>
+        data={state.companyRevenue!==undefined?state.companyRevenue:""}/>
         <LabelledInputField 
         placeholder={true} changeButtonState={changeButtonState} 
         labelName="Company EBITDA (optional)" min="1" type="number" 
@@ -110,7 +109,6 @@ function teamInfoForm(props,state,handleChange,changeButtonState){
 
 
 function addSupportResource(handleChange,state,index,changeButtonState,hideSupportResource){
-    
     return(
         <div className = "support-info-container">
         <div className="support-info">
@@ -122,14 +120,14 @@ function addSupportResource(handleChange,state,index,changeButtonState,hideSuppo
         <LabelledInputField placeholder={true}  
         labelName="Support Resource Level" changeButtonState={changeButtonState} 
         name={"supResourceLevel"+index} onChange={handleChange}
-        data={(state.backData["supResourceLevel"+index])!==undefined?(state.backData["supResourceLevel"+index]):""}
+        data={(state["supResourceLevel"+index])!==undefined?(state["supResourceLevel"+index]):""}
         />
         <>
         <LabelledInputField placeholder={true}  
         labelName={(supportEmailRequired(index,state))?"Support Resource Email*":"Support Resource Email"} 
         required = {supportEmailRequired(index,state)} changeButtonState={changeButtonState}
          name={"supResourceEmail"+index} onChange={handleChange}
-         data={(state.backData["supResourceEmail"+index])!==undefined?state.backData["supResourceEmail"+index]:""}
+         data={(state["supResourceEmail"+index])!==undefined?state["supResourceEmail"+index]:""}
          />
         </>
         </div>
@@ -204,13 +202,14 @@ class AddNewClient extends React.Component{
 
 
     navigate = (clientid)=>{
-
+        console.log(siteDetails)
         let state={
             sites:this.state.numSites,
             clientName:this.state.clientName,
             industry:this.state.industryDropdown,
             industryList:this.state.dropDownData,
-            clientid:clientid
+            clientid:clientid,
+            siteDetails:siteDetails?siteDetails:""
          }
 
         localStorage.setItem("sitedetailsstate",JSON.stringify({
@@ -226,7 +225,6 @@ class AddNewClient extends React.Component{
 
     triggerFormSubmission = ()=>{
         let clientid;
-        console.log(this.state.supResourceName2?true:false)
         let addClientJSON={
             clientDetails:{
                 "clientname":this.state.clientName,
@@ -300,6 +298,7 @@ class AddNewClient extends React.Component{
 
     
     setData = ()=>{
+        
         localStorage.setItem("addnewclient",JSON.stringify({
             "clientName":this.state.clientName,
             "industryDropdown":this.state.industryDropdown,
@@ -317,7 +316,20 @@ class AddNewClient extends React.Component{
             "supResourceLevel1":this.state.supResourceLevel1,
             "supResourceName2":this.state.supResourceName2,
             "supResourceEmail2":this.state.supResourceEmail2,
-            "supResourceLevel2":this.state.supResourceLevel2
+            "supResourceLevel2":this.state.supResourceLevel2,
+            "supResourceName3":this.state.supResourceName3,
+            "supResourceEmail3":this.state.supResourceEmail3,
+            "supResourceLevel3":this.state.supResourceLevel3,
+            "supResourceName4":this.state.supResourceName4,
+            "supResourceEmail4":this.state.supResourceEmail4,
+            "supResourceLevel4":this.state.supResourceLevel4,
+            "supResourceName5":this.state.supResourceName5,
+            "supResourceEmail5":this.state.supResourceEmail5,
+            "supResourceLevel5":this.state.supResourceLevel5,
+            "supResourceName6":this.state.supResourceName6,
+            "supResourceEmail6":this.state.supResourceEmail6,
+            "supResourceLevel6":this.state.supResourceLevel6,
+            "siteDetails":siteDetails?siteDetails:""
         }))
     }
 
@@ -347,7 +359,6 @@ class AddNewClient extends React.Component{
         })
         }
     }  
-
 
 
     getIndustryList = ()=>{
@@ -400,12 +411,58 @@ class AddNewClient extends React.Component{
     }
     }
 
+    parseUploadedExcel = async(response)=>{
+        let clientDetails = response.clientDetails;
+        let supportResources = clientDetails.deloitteResources.supportResources;
+        let excelData={};
+        supportResources.forEach((resource,index)=>{
+            excelData["supResourceName"+(index+1)]=resource.support_resource_name;
+            excelData["supResourceEmail"+(index+1)]=resource.support_resource_email;
+            excelData["supResourceLevel"+(index+1)]=resource.support_resource_level;
+            if(index+1!==supportResources.length){this.showSupportResource()}
+        })
+        siteDetails = response.siteDetails;
+        await this.setState({
+            numSites:clientDetails.assesssites,
+            industryDropdown:clientDetails.clientindustry,
+            clientName:clientDetails.clientname,
+            primOwnerName:clientDetails.deloitteResources.primary_owner_name,
+            primOwnerEmail:clientDetails.deloitteResources.primary_owner_email,
+            primOwnerLevel:clientDetails.deloitteResources.primary_owner_level,
+            clientRole:clientDetails.primaryclientrole,
+            clientParticipation:clientDetails.primaryclientparticipant,
+            companyRevenue:clientDetails.revenue,
+            totalSites:clientDetails.totalsites,
+            "supResourceName1":excelData.supResourceName1,
+            "supResourceEmail1":excelData.supResourceEmail1,
+            "supResourceLevel1":excelData.supResourceLevel1,
+            "supResourceName2":excelData.supResourceName2,
+            "supResourceEmail2":excelData.supResourceEmail2,
+            "supResourceLevel2":excelData.supResourceLevel2,
+            "supResourceName3":excelData.supResourceName3,
+            "supResourceEmail3":excelData.supResourceEmail3,
+            "supResourceLevel3":excelData.supResourceLevel3,
+            "supResourceName4":excelData.supResourceName4,
+            "supResourceEmail4":excelData.supResourceEmail4,
+            "supResourceLevel4":excelData.supResourceLevel4,
+            "supResourceName5":excelData.supResourceName5,
+            "supResourceEmail5":excelData.supResourceEmail5,
+            "supResourceLevel5":excelData.supResourceLevel5,
+            "supResourceName6":excelData.supResourceName6,
+            "supResourceEmail6":excelData.supResourceEmail6,
+            "supResourceLevel6":excelData.supResourceLevel6,
+            showSupportIndex:supportResources.length
+        })
+        this.checkRequiredFields();
+       
+    }
+
 
     render(){
        return(
             <div className='add-new-client-container'>
             <Header title="Add New Client" props={this.props}/>
-            <FileUpload />
+            <FileUpload type="FULL" parseUploadedExcel={this.parseUploadedExcel}/>
             <div className="required">* Required</div>
             <form id="add-client-form" onSubmit={this.handleSubmit}>
             {clientInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}

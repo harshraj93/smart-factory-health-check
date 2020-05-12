@@ -147,6 +147,10 @@ class SiteInfo extends React.Component{
     }
 
     componentDidMount = () => {
+        // this.props.data.BusinessFunctionPoC.forEach((data, index) => {
+        //     bizFuncPoc.push(data.ResourceName);
+        // })
+        // console.log(bizFuncPoc)
         bizFuncPoc = this.props.data.BusinessFunctionPoC;
         console.log('bizFuncPoc',bizFuncPoc)
     }
