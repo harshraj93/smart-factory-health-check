@@ -183,9 +183,10 @@ class AddBusinessFunctions extends React.Component{
     componentDidMount = async()=>{
         let indexObjArray=[];
         console.log(this.props.location);
-        indexObjectArray = await createCardSelectedObj(this.props.location.state.dataForBusinessFunctions.clientNames,indexObjArray)
+       
        let resp =  await fetch(addclientapi.getBusinessFunctions,apiGetHeader)
        let response =   await resp.json()
+       indexObjectArray = await createCardSelectedObj(this.props.location.state.dataForBusinessFunctions.clientNames,indexObjArray,this.props.location.state.excelData,response)
        await this.setState({
            businessNames:response.resultantJSON,
            cardSelectedIndexArray:[...indexObjectArray]
