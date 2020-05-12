@@ -112,7 +112,7 @@ class ReportsListView extends React.Component {
         //     })
         // }
         return (
-            <div style={{display: "flex"}}>
+            <div style={{display: "grid" , "grid-template-columns": "1fr 1fr"}}>
                 <div className="tr-box">
                     <span className="tr-heading">Key Themes</span>
                     {this.textFormat(this.state.keyThemes)}
