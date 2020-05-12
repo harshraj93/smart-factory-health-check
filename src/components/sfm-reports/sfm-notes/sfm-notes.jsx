@@ -60,6 +60,7 @@ class Notes extends React.Component {
         return (
             <Accordion className="notes-accordion" defaultActiveKey={0}>
             {this.props.data.businessFunctions.map((data,index)=>{
+                if (data.capabilities.length > 0) {
                 return(
                     <Card key={index} className={"card"}>                                   
                         <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
@@ -82,7 +83,7 @@ class Notes extends React.Component {
                                         </Accordion.Toggle>
                                         <Accordion.Collapse eventKey={y}>
                                             <div>
-                                            {x.subcapabilities.forEach((i,j) => {
+                                            {x.subcapabilities.map((i,j) => {
                                                 if (i.notes.length > 0) {
                                                 return(
                                                 <div className="sub-cap">
@@ -138,7 +139,7 @@ class Notes extends React.Component {
                             </Accordion>
                         </Accordion.Collapse>
                     </Card>
-                )
+                )}
             })}
             </Accordion>
         )
