@@ -49,6 +49,20 @@
         font-style: unset !important;
         opacity: 0.5;
     }
+    .text-place-holder{
+        overflow: scroll;
+        overflow-x: scroll;
+        overflow-y:hidden ;
+  white-space: nowrap;
+  width: 22vw;
+
+ 
+    }
+    .text-place-holder::-webkit-scrollbar {
+        width: 0.1px !important;
+        height: 0.1px !important;
+    }
+    
 }
 }
 .down {

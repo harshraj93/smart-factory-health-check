@@ -190,7 +190,8 @@
 
             .listview-card {
                 display: grid;
-                grid-template-columns: 1fr 8fr 1fr;
+                grid-template-columns: auto 1fr;
+                width: 71vw;
                 grid-template-rows: 87px;
                 align-items: center;
                 margin: 20px 32px;
