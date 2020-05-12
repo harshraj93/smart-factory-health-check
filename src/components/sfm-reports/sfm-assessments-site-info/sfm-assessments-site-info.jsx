@@ -110,12 +110,40 @@ class SiteInfo extends React.Component{
     }
 
     addBFP() {
+        let arr = [];
         bizFuncPoc.map((data, index)=>{
             let obj = {};
             obj.businessFunction = data.BusinessFunction;
             obj.businessFunctionId = data.BusinessFunctionId;
-            // obj.resourceName = this.state[this.variableName(data.BusinessFunction)]?this.state[this.variableName(data.BusinessFunction)]:data.ResourceName;
+            if (data.BusinessFunction === "Continuous Improvement") {
+                obj.resourceName = this.state.continuousimprovement?this.state.continuousimprovement:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Information Technology") {
+                obj.resourceName = this.state.informationtechnology?this.state.informationtechnology:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Replenishment & Material Management") {
+                obj.resourceName = this.state.replenishmentmaterialmanagement?this.state.replenishmentmaterialmanagement:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Operations") {
+                obj.resourceName = this.state.operations?this.state.operations:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Quality") {
+                obj.resourceName = this.state.quality?this.state.quality:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Maintenance") {
+                obj.resourceName = this.state.maintenance?this.state.maintenance:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Procurement & Supplier Management") {
+                obj.resourceName = this.state.procurementsuppliermanagement?this.state.procurementsuppliermanagement:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Planning & Scheduling") {
+                obj.resourceName = this.state.planningscheduling?this.state.planningscheduling:data.ResourceName
+            }
+
+            arr.push(obj);
         });
+
+        return arr;
     }
 
     componentDidMount = () => {
@@ -124,7 +152,7 @@ class SiteInfo extends React.Component{
         // })
         // console.log(bizFuncPoc)
         bizFuncPoc = this.props.data.BusinessFunctionPoC;
-         console.log('bizFuncPoc',bizFuncPoc)
+        console.log('bizFuncPoc',bizFuncPoc)
     }
 
     saveForm = async() => {
@@ -148,40 +176,7 @@ class SiteInfo extends React.Component{
                 "otif":Number(this.state.otif)>=0?Number(this.state.otif):this.props.data.otif,
                 "siteRevenue":Number(this.state.siteRevenue)>=0?Number(this.state.siteRevenue):this.props.data.siterevenue,
             },
-            "businessFunctionPoC":[
-                {
-                    "businessFunction":"Continuous Improvement",
-                    "resourceName":this.state.continuousimprovement?this.state.continuousimprovement:bizFuncPoc[0],
-                },
-                {
-                    "businessFunction":"Information Technology",
-                    "resourceName":this.state.informationtechnology?this.state.informationtechnology:bizFuncPoc[1],
-                },
-                {
-                    "businessFunction":"Replenishment & Material Management",
-                    "resourceName":this.state.replenishmentmaterialmanagement?this.state.replenishmentmaterialmanagement:bizFuncPoc[2],
-                },
-                {
-                    "businessFunction":"Operations",
-                    "resourceName":this.state.operations?this.state.operations:bizFuncPoc[3],
-                },
-                {
-                    "businessFunction":"Quality",
-                    "resourceName":this.state.quality?this.state.quality:bizFuncPoc[4],
-                },
-                {
-                    "businessFunction":"Maintenance",
-                    "resourceName":this.state.maintenance?this.state.maintenance:bizFuncPoc[5],
-                },
-                {
-                    "businessFunction":"Procurement & Supplier Management",
-                    "resourceName":this.state.procurementsuppliermanagement?this.state.procurementsuppliermanagement:bizFuncPoc[6],
-                },
-                {
-                    "businessFunction":"Planning & Scheduling",
-                    "resourceName":this.state.planningscheduling?this.state.planningscheduling:bizFuncPoc[7],
-                },
-            ]
+            "businessFunctionPoC":this.addBFP()
         }
 
         // console.log(siteInfoJSON);

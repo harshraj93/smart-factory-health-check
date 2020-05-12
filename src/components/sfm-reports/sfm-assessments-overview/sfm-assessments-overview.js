@@ -77,7 +77,7 @@ class AssessmentsOverview extends React.Component {
             // [id]: target.checked
             jsonData: overviewData
         });
-        this.editAssessCard();
+        // this.editAssessCard();
         // this.sendData();
     }
 
@@ -107,10 +107,11 @@ class AssessmentsOverview extends React.Component {
                 "action": !target.checked
             };
         }
-        this.fetchEdit();
-        this.updateData();
+        // this.fetchEdit();
+        // this.updateData();
 
-        target.setAttribute("checked", !target.checked)
+        target.setAttribute("checked", target.checked)
+        console.log(!target.checked)
 
         // console.log("onChange was called!");
     };
@@ -192,7 +193,7 @@ class AssessmentsOverview extends React.Component {
             <Card key={index} className={"card"}>                                   
                 <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
                 
-                <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange}/> 
+                <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange} checked={!data.active}/> 
                 {/* checked={true} */}
                     <div className="assess-overview-card">
                         <span className="area-name">{data.name}</span>
@@ -227,7 +228,7 @@ class AssessmentsOverview extends React.Component {
             <Card key={index} className={"card"}>
                 <Card.Header className={"card-header"} style={{backgroundColor: "#232325"}}>
                     <div className="assess-overview-card-inactive">
-                        <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange} checked={true}/>
+                        <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange} checked={true} isValid={true}/>
                         <span className="area-name" style={{opacity: "0.3"}}>{data.name}</span>
                     </div>
                 </Card.Header>
