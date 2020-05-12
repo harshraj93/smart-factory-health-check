@@ -76,7 +76,7 @@ let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
         placeholder={true} changeButtonState={changeButtonState} 
         labelName="Company EBITDA (optional)" min="1" type="number" 
         name="companyEBITDA" onChange={handleChange} 
-        data={(state.companyEBITDA!==undefined?state.backData.companyEBITDA:"")}/>
+        data={(state.companyEBITDA!==undefined?state.companyEBITDA:"")}/>
         </div>
         </div>
     )
@@ -202,7 +202,6 @@ class AddNewClient extends React.Component{
 
 
     navigate = (clientid)=>{
-        console.log(siteDetails)
         let state={
             sites:this.state.numSites,
             clientName:this.state.clientName,
@@ -345,7 +344,6 @@ class AddNewClient extends React.Component{
         let cnt=0;
         requiredFieldNames.forEach(element=>{
             let stateName = this.state[element]
-            
             if(stateName){
             cnt++;
         }

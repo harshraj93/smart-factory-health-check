@@ -98,7 +98,6 @@ export default class LabelledInputField extends React.Component{
 function changeBorder(e,placeholder){
     let id = e.target.id;
     let element = document.getElementById(id);
-    console.log(element.value)
     element.value.length>0?element.style.borderColor="#727279":element.style.borderColor="#ffffff";
     document.getElementById(id).nextSibling.parentElement.childNodes[0].innerHTML=placeholder.toUpperCase();
 }
