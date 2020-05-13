@@ -11,8 +11,8 @@ import FileUpload from '../../sfm-file-upload/file-upload';
 
 let siteNumber=[];
 let requiredFieldNames=[];
-let excelData;
-
+let excelData=[];
+let prevIndex;
 function siteHeader(props,enableButton){
     return(
         <div className="site-header-container">
@@ -29,7 +29,8 @@ class AddSiteDetails extends React.Component{
         this.state={
             enableButton:"false",
             manuArchetype:[],
-            sectorData:[]
+            sectorData:[],
+            excelData:""
         }
         this.props.disableMenu(false)
     }
@@ -55,15 +56,17 @@ class AddSiteDetails extends React.Component{
             clientNames:clientNameArray
         }
         let sitedetailsJSON = this.triggerFormSubmission();
-        console.log(sitedetailsJSON);
         localStorage.setItem("addsitedata",JSON.stringify({sitedetailsJSON:sitedetailsJSON}))
+        localStorage.setItem("excelData",excelData)
+        console.log(excelData,this.props.location.state.siteDetails)
         this.props.history.push({
             pathname:'/addbusinessfunctions',
             state:{
                 dataForBusinessFunctions:dataForBusinessFunctions,
                 siteName:this.props.location.state.clientName,
                 sitedetailsJSON:sitedetailsJSON,
-                excelData:this.props.location.state.siteDetails?this.props.location.state.siteDetails:excelData
+                excelData:this.props.location.state.siteDetails?this.props.location.state.siteDetails:excelData,
+                page:this.props.location.state.page
             }
         })
     }
@@ -109,7 +112,7 @@ class AddSiteDetails extends React.Component{
 
 
     handleChange = async(e)=>{
-
+        e.persist();
         let name = e.currentTarget.getAttribute("name");
         e.target.value?await this.setState({
             [name]:e.target.value
@@ -118,7 +121,6 @@ class AddSiteDetails extends React.Component{
             [name]:e.target.getAttribute("value")
         })
         this.checkRequiredFields();
-        
     }
 
 
@@ -157,20 +159,32 @@ class AddSiteDetails extends React.Component{
             ["percentAvailable"+index]: backData["availabilityOEE"],
             ["percentQuality"+index]: backData["qualityOEE"]
         })
-        console.log(this.state);
         this.checkRequiredFields();   
     }
 
+
     siteInfoForm =(siteNumber,index,backData)=>{
-        let industryValue
-        console.log(this.state);
-        if(this.props.location.state.page){
-           industryValue = this.props.location.state.industrySelected
+        let showIndustryRequired;
+        let showArchetypeRequired;
+        let industryValue = this.state["sector"+index]
+        let archeType = this.state["manfArch"+index];
+        if(industryValue){
+        if(!(this.state.sectorData.includes(industryValue))){
+            showIndustryRequired=true;
+        }
+        }       
+        else{
+            showIndustryRequired=false;
+        }
+        if(archeType){
+        if(!(this.state.manuArchetype.includes(archeType))){
+            showArchetypeRequired = true
+        }
         }
         else{
-            industryValue = this.state["sector"+index]
+            showArchetypeRequired = false
         }
-       
+        // }
         return(
             <>
         <div className="site-form-modal" key={index}>
@@ -189,8 +203,8 @@ class AddSiteDetails extends React.Component{
         <div className="bottom-border"></div> */}
         </div>
         <div className="row-2">
-        <DropDownMenu placeholder= "Sector*" dropdownIndex={index} value={backData?(backData["sector"]):industryValue}  data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
-        <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} value={backData?(backData["archetype"]):this.state["manfArch"+index]} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder= "Sector*" dropdownIndex={index} value={this.state["sector"+index]} showRequired={showIndustryRequired} data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} value={this.state["manfArch"+index]} showRequired={showArchetypeRequired} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
         <LabelledInputField placeholder={true} data={backData?(backData["numShifts"]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["employees"]):null} labelName="# Employees (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["assets"]):null} labelName="# of Assets (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
@@ -212,11 +226,17 @@ class AddSiteDetails extends React.Component{
 
 
     getSectorandManufactureTypeDetails = ()=>{
+        if(this.props.location.state.industry){
         fetch(addclientapi.sectorList+`?industry=${this.props.location.state.industry}`,apiGetHeader)
             .then(resp=>resp.json())
             .then(resp=>this.setState({sectorData:resp.resultantJSON}))
             .catch(err=>console.log(err))
-        
+        }
+        else{
+            this.setState({
+                sectorData:this.props.location.state.industryList
+            })
+        }
         fetch(addclientapi.manufactureTypeList,apiGetHeader)
             .then(resp=>resp.json())
             .then(resp=>this.setState({manuArchetype:resp.resultantJSON}))
@@ -226,25 +246,14 @@ class AddSiteDetails extends React.Component{
 
     checkBackData = ()=>{
         let backData;
-
         if(this.props.location.state.data){
             backData = this.props.location.state.data.sitedetailsJSON.sites;
             backData.forEach((site,index)=>{
                 this.setData(site.siteDetails,index)
             })
             }
-        
-        else if(this.props.location.state.page){
-                siteNumber.forEach((number,index)=>{
-                    this.setState({
-                        ["sector"+index]:this.props.location.state.industry
-                    })
-                })
-            }
-        
        if(this.props.location.state.siteDetails){
             excelData = this.props.location.state.siteDetails;
-            console.log(excelData);
             excelData.forEach((site,index)=>{
                 this.setData(site,index)
             })
@@ -253,23 +262,52 @@ class AddSiteDetails extends React.Component{
     }
 
 
-    checkExcelData = ()=>{
-        let siteDetails = this.props.location.state.siteDetails;
-        excelData = siteDetails;
+    getSiteNum = arr=>{
+        let numArray=[]
+        arr.forEach(element=>{
+            numArray.push(element.siteNum);
+        })
+        return numArray
     }
 
 
-    componentDidMount = ()=>{
+    componentDidMount = async()=>{
         requiredFieldNames=[];
-        siteNumber = this.evaluateSiteNumber();
-        this.checkBackData();
-        this.getSectorandManufactureTypeDetails();
+        let siteNum=0;
+        let prevValue=0;
+        if(this.props.location.state.addSiteArray){
+            let addSiteArray= this.props.location.state.addSiteArray;
+            addSiteArray.forEach(async(site,index)=>{
+            siteNum = siteNum + Number(site.siteNum);
+            for(let i=1;i<=site.siteNum;i++){
+                this.setState({
+                    ["sector"+prevValue]:site.sector
+                })
+                prevValue++;
+            }
+            })
+            siteNumber = await this.evaluateSiteNumber(siteNum);        
+        }
+        else{
+            if(this.props.location.state.sites){
+            siteNumber = await this.evaluateSiteNumber(this.props.location.state.sites);
+            }
+            else if(this.props.location.state.data){
+            siteNumber = await this.evaluateSiteNumber(this.props.location.state.data.sitedetailsJSON.sites.length);
+            }
+        }
+    this.checkBackData();
+    this.getSectorandManufactureTypeDetails();
     }
 
+    // componentWillUnmount = ()=>{
+    //     excelData=[]
+    // }
 
-    evaluateSiteNumber = ()=>{
+    evaluateSiteNumber = async(siteNumber)=>{
         let siteNumArray=[];
-        let siteNum = this.props.location.state.sites;
+        requiredFieldNames=[];
+        let siteNum = siteNumber;
         for(let i=1;i<=siteNum;i++){
             siteNumArray.push("Site "+i);
             requiredFieldNames.push("primePoc"+String(i-1));
@@ -281,19 +319,21 @@ class AddSiteDetails extends React.Component{
         return siteNumArray
     }
 
+
     parseUploadedExcel = async(jsonResponse)=>{
         excelData= jsonResponse.siteDetails;
+        siteNumber = await this.evaluateSiteNumber(excelData.length);
         excelData.forEach((site,index)=>{
             this.setData(site,index)
         })
-    
         this.checkRequiredFields();
     }
 
+
     render(){
+       
          return(
              <div className="setup-site-details">
-            
             <Header title="Enter site details" handleSubmit={this.handleSubmit} props={this.props}/>
             <form id="setup-site-details" onSubmit={this.handleSubmit}>
             {siteHeader(this.props,this.state.enableButton)}
@@ -310,12 +350,9 @@ class AddSiteDetails extends React.Component{
                     backData=excelData[index]
                 }
                 return (
-                    
                     this.siteInfoForm(number,index,backData)
-                    
                 )
                 })}
-           
            <FormNavigationButton labelName="Next Step" buttonStatus={this.state.enableButton} type="submit"/>
            </form>
             

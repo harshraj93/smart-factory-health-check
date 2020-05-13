@@ -179,7 +179,6 @@ class AddBusinessFunctions extends React.Component{
             }
         }
         apiPostHeader.body = JSON.stringify(siteDetailsJSON);
-        console.log(apiPostHeader,addclientapi.addSite)
         fetch(addclientapi.addSite,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{
@@ -195,7 +194,7 @@ class AddBusinessFunctions extends React.Component{
     componentDidMount = async()=>{
         let indexObjArray=[];
         let cnt=0;
-       
+       console.log(this.props.location)
        let resp =  await fetch(addclientapi.getBusinessFunctions,apiGetHeader)
        let response =   await resp.json()
        indexObjectArray = await createCardSelectedObj(this.props.location.state.dataForBusinessFunctions.clientNames,indexObjArray,this.props.location.state.excelData,response,this.enableButton)

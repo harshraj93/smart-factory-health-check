@@ -1,11 +1,14 @@
 
 let indexObj = {};
 function createCardSelectedObj(siteNames,indexObjArray,excelData,response){
-    if(excelData){
+  console.log(siteNames);
+    if(excelData.length>0){
       let indexArray=[];
       siteNames.forEach(element => {
         indexObj["businessName"]=element;
+        console.log(element,excelData)
         excelData.forEach(site=>{
+
           if(element===site.sitename){
             let businessFunctions = site.businessFunctions;
             businessFunctions.forEach(bfunc=>{
@@ -21,7 +24,7 @@ function createCardSelectedObj(siteNames,indexObjArray,excelData,response){
         })
         
         indexObjArray.push(indexObj);
-        console.log(indexObjArray)
+        console.log(indexObjArray);
         indexObj={}; 
       });
     }

@@ -603,12 +603,14 @@ class Reports extends React.Component{
     }
 
     fetchClientLevelData = async()=>{
+        console.log("fetch")
         let body = { 
             "clientName": this.props.location.clientid, 
             "sector": this.props.location.sector
         };
         let postHeader = (apiPostHeader);
         postHeader["body"] = JSON.stringify(body);
+        console.log(postHeader)
         try{
         const response = await fetch(resultsApi.clientReport,postHeader)
         const json =  await response.json();
