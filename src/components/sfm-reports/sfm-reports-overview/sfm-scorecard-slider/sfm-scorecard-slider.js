@@ -66,14 +66,28 @@ class Slider extends React.Component {
                         Number(data.score)>0?
                         <div className="score-box" style={{marginTop: "-18px", marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
                             <p className="score-text">{Number(data.score).toFixed(1)}</p>
-                            <span className="slider-circle" style={{backgroundColor: "#" + this.props.colors[index]}}></span>
+                            <div className="tooltip-circle">
+                                <span className="slider-circle" style={{backgroundColor: "#" + this.props.colors[index]}}></span>
+                                <div class="tooltiptext">
+                                    <p>{Number(data.score).toFixed(1) + "  " + data.name}</p>
+                                </div>
+                            </div>
                         </div>
                         :""
                     )
                 })}
                 
                 {Number(this.props.data.target) > 0?<div className="score-box" style={{marginTop: "18px", marginLeft: this.updatePosition(Number(this.props.data.target).toFixed(1), "target") + "%"}}> 
-                    <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
+                    <div className="tooltip-circle">
+                        <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
+                        <div class="tooltiptext" style={{bottom: "100%", marginLeft: "-55px"}}>
+                            {this.props.data.sites.map((data, index) => {
+                                return (
+                                    <p>{Number(data.target).toFixed(1) + "  " + data.name}</p>
+                                )
+                            })}
+                        </div>
+                    </div>
                     <p className="score-text">{Number(this.props.data.target).toFixed(1)}</p>
                 </div>:""}
                 <p className="slider-text">High 7</p>
