@@ -45,10 +45,12 @@
            padding-bottom: 32px;
         .modal-container{
             background-color:#35353b;
-            padding-left: 60px;
+            padding-left: 40px;
             padding-bottom: 2%;
             margin: 0 100px;
             border-radius: 8px;
+            padding-right: 40px;
+    padding-bottom: 49px;
             .required{
                 font-size: 12px;
                 font-weight: bold;
@@ -59,8 +61,9 @@
         .site-form{
             
             display:grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: 80px 80px 80px 80px 80px 80px;
+            grid-template-rows: auto auto;
+          
+          //  grid-template-rows: 80px 80px 80px 80px 80px 80px;
           
             // .dropdown label{
             //     border-top: 1px solid #161617;
@@ -71,6 +74,18 @@
             //     width: 91%;
             // }
             // }
+                .row-1{
+                    display: grid;
+                     grid-template-columns: 1fr 1fr 1fr;
+                     border-bottom        : 1px solid rgba(22, 22, 23, 1);
+                     padding-bottom: 5vh;
+                }
+                .row-2{
+                    display: grid;
+                     grid-template-columns: 1fr 1fr 1fr;
+                     margin-top: 4vh;
+                }
+
         }
     }
         .site-number{
