@@ -361,8 +361,8 @@ class QuestionnairePage extends React.Component {
 
 
     focusInput = async (ele) => {
-        console.log("flagType", this.state.flagType)
-        console.log("flagTypeCopy", this.state.flagTypeCopy)
+        // console.log("flagType", this.state.flagType)
+        // console.log("flagTypeCopy", this.state.flagTypeCopy)
         if (ele !== "General Questions") {
             ele = ele.replace(/ *\([^)]*\) */g, "");
         } else {
