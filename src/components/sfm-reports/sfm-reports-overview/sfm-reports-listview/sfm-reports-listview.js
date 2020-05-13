@@ -238,7 +238,7 @@ class ReportsListView extends React.Component {
                 </Card.Header>
                 <Accordion.Collapse eventKey={index}>
                     <div>
-                        {data.Capability.map((x,y) => {
+                        {data.Capability!==undefined?data.Capability.map((x,y) => {
                             return (
                                 <div className="assess-overview-card" key={y}>
                                     {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
@@ -267,7 +267,7 @@ class ReportsListView extends React.Component {
                                             </Link>):""}
                                 </div>
                             )
-                        })}
+                        }):""}
                     </div>
                 </Accordion.Collapse>
             </Card>

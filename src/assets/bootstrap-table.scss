@@ -3,9 +3,16 @@
             margin: $common-margin;
             width: 98%;
             #revisit{
+                display: grid;
+                grid-template-columns: auto auto;
                 .custom-button{
-                    width: 47%;
+                    width: 5.4vw;
                     cursor: unset;
+                    margin-left: 1vw !important;
+                    font-size: 12px;
+                    height: 20px;
+                    font-weight: bold;
+                    margin-top: 0.5vh;
                 };
             }
             
