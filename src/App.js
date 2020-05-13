@@ -10,8 +10,8 @@ class App extends React.Component {
     this.state = {
       showMenu: true,
       userName: "",
-      email: "harshraj@deloitte.com",
-      profile: "Client"
+      email: "",
+      profile: ""
     }
   }
 
@@ -32,29 +32,29 @@ class App extends React.Component {
       }
     };
 
-    // fetch('https://sfhc-dev.auth.us-east-1.amazoncognito.com/oauth2/userInfo', obj)
-    //   .then(resp => resp.json())
-    //   .then(
-    //     (result) => {
+    fetch('https://sfhc-dev.auth.us-east-1.amazoncognito.com/oauth2/userInfo', obj)
+      .then(resp => resp.json())
+      .then(
+        (result) => {
 
-    //       if (result.error) {
-    //         this.setState({
-    //           userName: "Error"
-    //         });
-    //       } else {
-    //         this.setState({
-    //           userName: result.username,
-    //           email: result.email,
-    //           profile: result.profile
-    //         });
-    //         localStorage.setItem("userName", result.username);
-    //         localStorage.setItem("userEmail", result.email);
-    //         localStorage.setItem("userProfile", result.profile)
-    //       }
-    //     }
-    //   ).catch(err => {
-    //     console.log(err)
-    //   })
+          if (result.error) {
+            this.setState({
+              userName: "Error"
+            });
+          } else {
+            this.setState({
+              userName: result.username,
+              email: result.email,
+              profile: result.profile
+            });
+            localStorage.setItem("userName", result.username);
+            localStorage.setItem("userEmail", result.email);
+            localStorage.setItem("userProfile", result.profile)
+          }
+        }
+      ).catch(err => {
+        console.log(err)
+      })
   }
 
   componentDidMount() {

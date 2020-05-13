@@ -211,7 +211,7 @@ class ReportsOverview extends React.Component {
                     <div className="summary">
                         <div className="summary-header">
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
-                            <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>
+                            {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img> : ""}
                         </div>
                         {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.state.summary}</p>}
                     </div>
@@ -225,7 +225,7 @@ class ReportsOverview extends React.Component {
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
-                                    <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
+                                    {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img> : ""}
                                 </div>
                                 {this.state.recsEdit?this.overallRecsForm():this.recsTextFormat()}
                             </div>
@@ -245,7 +245,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors} profile={this.props.profile}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
@@ -263,7 +263,7 @@ class ReportsOverview extends React.Component {
                     <div className="summary">
                         <div className="summary-header">
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
-                            <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>
+                            {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img> : ""}
                         </div>
                         {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.state.summary}</p>}
                     </div>
@@ -291,7 +291,7 @@ class ReportsOverview extends React.Component {
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
-                                    <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
+                                    {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img> : ""}
                                 </div>
                                 {this.state.recsEdit?this.overallRecsForm():this.recsTextFormat()}
                             </div>
@@ -311,7 +311,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors} profile={this.props.profile}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
