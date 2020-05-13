@@ -78,7 +78,6 @@ class DropDownMenu extends React.Component{
             <div className = "dropdown-container">
             <label></label>
         <div className="tkey-dropdown"> 
-            
             <span className="toggle" name={this.props.name} onClick={this.changeValue}><span className="text-place-holder">{this.props.value?this.props.value:this.props.placeholder}</span><img src={arrowIcon} alt=""/></span>
             <div className={"dropdown-options-container "+ this.state.showDropdown } onClick={this.changeValue}  name={this.props.name}> 
                 {this.props.data.map((item,index) => {

@@ -12,6 +12,7 @@ import FileUpload from '../../sfm-file-upload/file-upload';
 let siteNumber=[];
 let requiredFieldNames=[];
 let excelData=[];
+
 let prevIndex;
 function siteHeader(props,enableButton){
     return(
@@ -164,10 +165,10 @@ class AddSiteDetails extends React.Component{
 
 
     siteInfoForm =(siteNumber,index,backData)=>{
-        let showIndustryRequired;
-        let showArchetypeRequired;
         let industryValue = this.state["sector"+index]
         let archeType = this.state["manfArch"+index];
+        let showIndustryRequired;
+        let showArchetypeRequired;
         if(industryValue){
         if(!(this.state.sectorData.includes(industryValue))){
             showIndustryRequired=true;
