@@ -361,6 +361,8 @@ class QuestionnairePage extends React.Component {
 
 
     focusInput = async (ele) => {
+        console.log("flagType", this.state.flagType)
+        console.log("flagTypeCopy", this.state.flagTypeCopy)
         if (ele !== "General Questions") {
             ele = ele.replace(/ *\([^)]*\) */g, "");
         } else {
@@ -635,6 +637,7 @@ class QuestionnairePage extends React.Component {
         this.setState({
             showTextEditor: false,
             flagType: "",
+            flagTypeCopy: "",
             textAreaNotesValue : "",
             textEditorData : "",
             textArealength: 0,
