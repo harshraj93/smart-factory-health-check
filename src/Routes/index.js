@@ -15,7 +15,7 @@ export default function Routes(props){
     if(profile==="Client"){
         return(
             <Switch>
-            <Route exact path="/"> <Reports disableMenu={props.disableMenu} profile={props.userProfile} username={props.username}/> </Route>
+                <Route exact path="/"> <Reports disableMenu={props.disableMenu} profile={props.userProfile} username={props.username} userEmail={props.userEmail}/> </Route>
             </Switch>
         )
     }

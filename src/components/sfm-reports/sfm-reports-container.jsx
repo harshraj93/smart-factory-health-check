@@ -205,6 +205,8 @@ class Reports extends React.Component{
             shareResults:false,
             userProfile:true,
             clientOverview: networkOverview,
+            userName:  "",
+            password: ""
         }
         this.props.disableMenu(false);        
     }
@@ -256,6 +258,10 @@ class Reports extends React.Component{
     }
 
     shareResults = ()=>{
+        // fetch(resultsApi.userInfoDetails,apiGetHeader)
+        // .then(resp=>resp.json())
+        // .then(resp=>this.setState({dropDownData:resp.resultantJSON}))
+        // .catch(err=>console.log(err))
         this.setState({
             publishResults:false,
             shareResults:true
@@ -380,7 +386,7 @@ class Reports extends React.Component{
             {this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}
             </h5>
             <span className="share-link">
-             {this.props.profile!=="Client"&&<FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>}
+             {<FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>}
             </span>
             {this.state.publishResults&&this.publishModal()}
             {this.state.businessContactModal&&this.publishBusinessContactModal()}
@@ -391,7 +397,7 @@ class Reports extends React.Component{
                     return(
                         
                         <Tab key={index} eventKey={index} title={element} >
-                            {element==="Demographics"?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview}/>}
+                            {(element==="Demographics" &&  this.state.demographicsData.length > 0) ?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview}/>}
 
                         </Tab>
                     )
@@ -713,9 +719,9 @@ class Reports extends React.Component{
     }
 
 
-    clientUserProfile = async(userProfile)=>{
+    clientUserProfile = async(userEmail)=>{
         console.log(resultsApi)
-        let pocName = resultsApi.reportOnly+`?pocName=${userProfile}`
+        let pocName = resultsApi.reportOnly+`?pocName=${userEmail}`
         const response = await fetch(pocName,apiGetHeader)
         const demo = await response.json()
         return demo;
@@ -725,12 +731,16 @@ class Reports extends React.Component{
     componentDidMount = async()=>{
         let resultJSON = {};
         let userProfile=this.props.profile;
-        let userName=this.props.username;
+        let userEmail=this.props.userEmail === "" ? "harshraj@deloitte.com" : this.props.userEmail;
         if(userProfile==="Client"){
-            let resultsJSON = await this.clientUserProfile(userName)
+            let resultsJSON = await this.clientUserProfile(userEmail)
+            let demographicsData = {};
+            // resultsJSON.resultantJSON.siteid = this.props.location.siteid;
+            // demographicsData = await this.fetchDemographicsData();
             this.setState({
                 loadComponentString:"results",
-                data:resultsJSON.resultantJSON,
+                // data:resultsJSON.resultantJSON,
+                // demographicsData:demographicsData,
                 reportsOverview:resultsJSON.resultantJSON,
             })
         }
