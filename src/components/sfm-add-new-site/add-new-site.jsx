@@ -22,6 +22,8 @@ function Header(props){
     )
 }
 let name, siteDetails;
+let addSiteArray = [];
+
 
  class AddNewSite extends React.Component{
     constructor(props){
@@ -31,7 +33,8 @@ let name, siteDetails;
             enableButton:false,
             addSectorDiv:"",
             selectedSectors:[],
-            allSectors:[]
+            allSectors:[],
+            checkedSectors:"",
         }
         this.props.disableMenu(false)
     }
@@ -39,12 +42,16 @@ let name, siteDetails;
     
     handleChange = async (e)=>{
             let name = e.currentTarget.getAttribute("name");
-            e.target.value?await this.setState({
+            if(e.target.value){
+            await this.setState({
                 [name]:e.target.value
-            }):
+            })
+            }
+            else{
             await this.setState({
                 [name]:e.target.getAttribute("value")
             })
+            }
             if(this.state.addSectorDiv){
                 if(this.state.sectorSelected&&this.state.siteNum){
                     this.setState({
@@ -58,7 +65,8 @@ let name, siteDetails;
                 }
             }
             else{
-                if(this.state.siteNum.length>0){
+                console.log(this.state[name])
+                if(this.state[name]>0){
                     this.setState({
                         enableButton:true
                     })
@@ -69,6 +77,7 @@ let name, siteDetails;
                     })
                 }
             }
+            this.getSiteData() 
     }
 
 
@@ -87,33 +96,50 @@ let name, siteDetails;
 
     
     navigate = ()=>{
-        
-
+            this.getSiteNum();
             let state={
                 sites:this.state.siteNum,
                 clientName:this.props.location.companyName,
-                industrySelected:this.state.sectorSelected,
-                industryList:this.state.dropDownData,
+                industryList:this.state.allSectors,
                 clientid:localStorage.getItem("clientid"),
                 page:"addsite",
-                
+                addSiteArray:addSiteArray
              }
     
             localStorage.setItem("sitedetailsstate",JSON.stringify({
                 state:state
             }))
-    
             this.props.history.push({
                 pathname: '/addsitedetails',
                 state:state
              })
-        
+             addSiteArray=[]
+             
     }
+
+
+    getSiteNum = ()=>{
+        addSiteArray.forEach(element=>{
+            element["siteNum"] = this.state["siteNum"+element.sector]
+        })
+        console.log(this.state,addSiteArray)
+    }
+
+
+    getSiteData = ()=>{
+        let addSiteJSON={};
+        addSiteJSON["sector"] = this.state.sectorSelected;
+        let siteElement = addSiteArray.filter(element=>{
+            return element.sector===this.state.sectorSelected
+        })
+        if(siteElement.length===0){addSiteArray.push(addSiteJSON)}
+    }   
 
 
     selectCheckBox = (e,name)=>{
         !this.state[e.target.name+"showInput"]?document.getElementById(e.target.name).style.color="#ffffff":document.getElementById(e.target.name).style.color="#9e9e9e";
         this.setState({
+            enableButton:false,
             [e.target.name+"showInput"]:!this.state[e.target.name+"showInput"],
             addNewSector:!this.state.addNewSector,
             sectorSelected:name
@@ -135,12 +161,10 @@ let name, siteDetails;
     }
 
 
-    
-
-
     componentDidMount = ()=>{
         this.getSectors();
     }
+
 
     render(){
         return(
@@ -157,7 +181,7 @@ let name, siteDetails;
                     type="number"
                     changeButtonState={this.changeButtonState} 
                     labelName="# of sites to assess*" required={true} 
-                        name="siteNum" onChange={this.handleChange} />
+                        name={"siteNum"+element} onChange={this.handleChange} />
                         </div>
                     </>
                 )
@@ -183,7 +207,6 @@ let name, siteDetails;
             </div>
             <div className="border-bottom" />
             </>}
-           
             <FormNavigationButton buttonStatus={this.state.enableButton} labelName="Next Step" onClick={this.navigate}/>
             </div>
         )

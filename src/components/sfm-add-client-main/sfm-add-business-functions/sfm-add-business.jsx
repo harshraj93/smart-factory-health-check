@@ -179,7 +179,7 @@ class AddBusinessFunctions extends React.Component{
             }
         }
         apiPostHeader.body = JSON.stringify(siteDetailsJSON);
-        console.log(apiPostHeader,addclientapi.addSite)
+        console.log(apiPostHeader,addclientapi.addSite,JSON.stringify(siteDetailsJSON))
         fetch(addclientapi.addSite,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{

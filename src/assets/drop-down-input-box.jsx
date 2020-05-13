@@ -86,6 +86,7 @@ class DropDownMenu extends React.Component{
                 </>)})}
             </div>
         </div>
+        {this.state.showRequired?<div className="required-text">! Required Field</div>:<div />}
            </div>
 
         )

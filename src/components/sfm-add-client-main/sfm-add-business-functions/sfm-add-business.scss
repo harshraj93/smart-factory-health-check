@@ -16,7 +16,8 @@
         .form-navigation-button{
             width: 123px;
             height: 48px;
-            left: 75% !important;
+            position: unset;
+            float: right;
         }
     }
     // #add-business-functions{
