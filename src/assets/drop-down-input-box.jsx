@@ -44,7 +44,11 @@ class DropDownMenu extends React.Component{
             document.addEventListener('invalid', this.handleInvalid(), true);
         }
 
-
+        showRequired = ()=>{
+            this.setState({
+                showRequired:this.props.showRequired
+            })
+        }
         toggleDropdown = () => {
             if(this.state.showDropdown === ""){
                 this.setState({
@@ -86,7 +90,7 @@ class DropDownMenu extends React.Component{
                 </>)})}
             </div>
         </div>
-        {this.state.showRequired?<div className="required-text">! Required Field</div>:<div />}
+        {this.props.showRequired?<div className="required-text">! Required Field</div>:<div />}
            </div>
 
         )

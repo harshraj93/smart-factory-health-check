@@ -24,15 +24,15 @@ function backNavigation(e,props){
         })
     }
     else if(locationpath==="/addsitedetails"){
-        let addClientData = localStorage.getItem("addnewclient")
-        console.log(addClientData);
+        
+        
         if(props.props.location.state.page){
             return history.push({
                 pathname:"/addnewsite",
-                data:JSON.parse(addClientData)
             })
         }
         else{
+            let addClientData = localStorage.getItem("addnewclient")
         return history.push({
             pathname:"/addnewclient",
             data:JSON.parse(addClientData)
@@ -46,12 +46,13 @@ function backNavigation(e,props){
         return history.push({
             pathname:"/addsitedetails",
             state:{
-               data:(addSiteData),
+               data: addSiteData,
                sites: siteDetails.state.sites,
                clientName: siteDetails.state.clientName,
                industry: siteDetails.state.industry,
                industryList: siteDetails.state.industryList,
-               clientid: siteDetails.state.clientid
+               clientid: siteDetails.state.clientid,
+               page:siteDetails.state.page
             }
         })
     }

@@ -53,7 +53,7 @@ let addSiteArray = [];
             })
             }
             if(this.state.addSectorDiv){
-                if(this.state.sectorSelected&&this.state.siteNum){
+                if(this.state.sectorSelected&&this.state[name]){
                     this.setState({
                         enableButton:true
                     })
@@ -65,7 +65,6 @@ let addSiteArray = [];
                 }
             }
             else{
-                console.log(this.state[name])
                 if(this.state[name]>0){
                     this.setState({
                         enableButton:true
@@ -128,11 +127,13 @@ let addSiteArray = [];
 
     getSiteData = ()=>{
         let addSiteJSON={};
+        if(this.state.sectorSelected){
         addSiteJSON["sector"] = this.state.sectorSelected;
         let siteElement = addSiteArray.filter(element=>{
             return element.sector===this.state.sectorSelected
         })
         if(siteElement.length===0){addSiteArray.push(addSiteJSON)}
+    }
     }   
 
 
@@ -203,7 +204,7 @@ let addSiteArray = [];
                     type="number"
                     changeButtonState={this.changeButtonState} 
                     labelName="# of sites to assess*" required={true} 
-                        name="siteNum" onChange={this.handleChange} />
+                        name={"siteNum"+this.state.sectorSelected} onChange={this.handleChange} />
             </div>
             <div className="border-bottom" />
             </>}

@@ -23,6 +23,16 @@ let requiredFieldNames=["clientName","clientParticipation","clientRole","industr
 let indexArray = [];
 let siteDetails;
 let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
+    let industryDropdown = state.industryDropdown;
+    let showIndustryRequired;
+    if(industryDropdown){
+        if(state.dropDownData.includes(industryDropdown)){
+            showIndustryRequired = false
+        }  
+        else{
+            showIndustryRequired = true 
+        } 
+    }
     return(
         <div className = "client-info-container">
         <div className="title">Client Information</div>
@@ -48,6 +58,7 @@ let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
         <DropDownMenu 
         placeholder={data[0].labelName+"*"} 
         required={true} data={state.dropDownData} 
+        showRequired = {showIndustryRequired}
         name="industryDropdown"
         dropdownIndex={0}
         onChange={handleChange}
@@ -457,6 +468,7 @@ class AddNewClient extends React.Component{
 
 
     render(){
+      
        return(
             <div className='add-new-client-container'>
             <Header title="Add New Client" props={this.props}/>
