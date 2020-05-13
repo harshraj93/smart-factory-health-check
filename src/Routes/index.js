@@ -26,7 +26,7 @@ export default function Routes(props){
         <Route exact path="/analytics"> <Analytics/> </Route>
         <Route exact path="/utilization"> <UtilSum/> </Route>
         <Route exact path="/overview"></Route>
-        <Route exact path='/reports'><Reports disableMenu={props.disableMenu} /></Route>
+        <Route exact path='/reports'><Reports disableMenu={props.disableMenu} profile={props.userProfile} username={props.username} userEmail={props.userEmail}/></Route>
         <Route exact path="/addnewclient"><AddNewClient disableMenu={props.disableMenu}/></Route>
         <Route exact path="/addsitedetails"><AddSiteDetails disableMenu={props.disableMenu}/></Route>
         <Route exact path="/addbusinessfunctions"><AddBusinessFunctions disableMenu={props.disableMenu}/></Route>
