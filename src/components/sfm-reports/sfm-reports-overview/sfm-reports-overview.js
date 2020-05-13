@@ -200,7 +200,7 @@ class ReportsOverview extends React.Component {
                         {this.props.data.sites.map((data, index) => {
                             return (
                                 <div className="legend-part">
-                                    <span className="score" style={{backgroundColor: "#"+colors[index]}}></span>
+                                    <span className="score" style={{backgroundColor: "#"+this.props.colors[index]}}></span>
                                     <p style={{margin: "0"}}>{data.name}</p>
                                 </div>
                             )
@@ -221,7 +221,7 @@ class ReportsOverview extends React.Component {
                         </div>
                         <div className="overall-score">
                             <p style={{fontSize: "18px", fontWeight: "bold", marginBottom: "30px"}}>Overall</p>
-                            <Slider data={this.props.data} colors={colors}/>
+                            <Slider data={this.props.data} colors={this.props.colors}/>
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
@@ -245,7 +245,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data} colors={this.props.colors}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
@@ -287,7 +287,7 @@ class ReportsOverview extends React.Component {
                         </div>
                         <div className="overall-score">
                             <p style={{fontSize: "18px", fontWeight: "bold", marginBottom: "30px"}}>Overall</p>
-                            <Slider data={this.props.data} colors={colors}/>
+                            <Slider data={this.props.data}/>
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
@@ -311,7 +311,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
@@ -323,31 +323,34 @@ class ReportsOverview extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.data.summary !== null) {
-            this.setState ({
-                summary: this.props.data.summary
-            })
-        }
+        if (this.props.data) {
+            if (this.props.data.summary !== null) {
+                this.setState ({
+                    summary: this.props.data.summary
+                })
+            }
 
-        if (this.props.data.overallRecs !== null) {
-            this.setState({
-                overallRecs: this.props.data.overallRecs
-            })
-        }
+            if (this.props.data.overallRecs !== null) {
+                this.setState({
+                    overallRecs: this.props.data.overallRecs
+                })
+            }
 
-        if (this.props.data.sites !== undefined) {
             // console.log(this.props.data.sites);
-            this.props.data.sites.map((data, index)=> {
-                colors.push(Math.floor(Math.random()*16777215).toString(16))
-            });
+            // this.props.data.sites.map((data, index)=> {
+            //     colors.push(Math.floor(Math.random()*16777215).toString(16))
+            // });
+            // console.log(colors);
         }
 
-        console.log(this.props.sample);
+        // console.log(this.props.data);
+        // console.log(this.props.sample);
     }
 
     render() {
+        console.log(this.props.data);
         return (
-            this.props.data.sites !== undefined?this.clientLevel():this.siteLevel()
+            this.props.data ? this.props.data.sites !== undefined?this.clientLevel():this.siteLevel() : ""
         );
     }
 }

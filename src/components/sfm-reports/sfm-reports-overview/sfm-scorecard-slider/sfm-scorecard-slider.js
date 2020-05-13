@@ -60,25 +60,22 @@ class Slider extends React.Component {
                     <span className="stop"></span>
                     <span className="stop"></span>
                 </div>
-                <span className="ind-avg" style={{marginLeft: this.state.indAvgPos + "%"}}></span>
+                {Number(this.props.data.indAvg)>0?<span className="ind-avg" style={{marginLeft: this.updatePosition(Number(this.props.data.indAvg).toFixed(1), "indAvg") + "%"}}></span>:""}
                 {this.props.data.sites.map((data, index) => {
                     return (
+                        Number(data.score)>0?
                         <div className="score-box" style={{marginTop: "-18px", marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
                             <p className="score-text">{Number(data.score).toFixed(1)}</p>
                             <span className="slider-circle" style={{backgroundColor: "#" + this.props.colors[index]}}></span>
                         </div>
+                        :""
                     )
                 })}
                 
-                <div className="score-box" style={{marginTop: "18px", marginLeft: this.updatePosition(Number(this.props.data.target).toFixed(1), "target") + "%"}}> 
+                {Number(this.props.data.target) > 0?<div className="score-box" style={{marginTop: "18px", marginLeft: this.updatePosition(Number(this.props.data.target).toFixed(1), "target") + "%"}}> 
                     <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
-                    {/* <span className="small-circle"></span>
-                    <div className="plus">
-                        <span className="small-line"></span>
-                        <span className="small-line"></span>
-                    </div> */}
                     <p className="score-text">{Number(this.props.data.target).toFixed(1)}</p>
-                </div>
+                </div>:""}
                 <p className="slider-text">High 7</p>
             </div>
         )
@@ -96,20 +93,15 @@ class Slider extends React.Component {
                     <span className="stop"></span>
                     <span className="stop"></span>
                 </div>
-                <span className="ind-avg" style={{marginLeft: this.state.indAvgPos + "%"}}></span>
-                <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "%"}}>
+                {this.state.indAvg>0?<span className="ind-avg" style={{marginLeft: this.state.indAvgPos + "%"}}></span>:""}
+                {this.state.score>0?<div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "%"}}>
                     <p className="score-text">{this.state.score}</p>
                     <span className="slider-circle" style={{backgroundColor: "#57bb50"}}></span>
-                </div>
-                <div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "%"}}> 
+                </div>:""}
+                {this.state.target>0?<div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "%"}}> 
                     <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
-                    {/* <span className="small-circle"></span>
-                    <div className="plus">
-                        <span className="small-line"></span>
-                        <span className="small-line"></span>
-                    </div> */}
                     <p className="score-text">{this.state.target}</p>
-                </div>
+                </div>:""}
                 <p className="slider-text">High 7</p>
             </div>
         )
@@ -117,17 +109,17 @@ class Slider extends React.Component {
 
     componentDidMount() {
         if (this.props.data.sites !== undefined) {
-            console.log("sites");
-            console.log(this.props.colors);
+            // console.log("sites");
+            // console.log(this.props.colors);
         }
         else {
             this.setState({
-                score: Number(this.props.data.score).toFixed(1),
-                target: Number(this.props.data.target).toFixed(1),
-                indAvg: Number(this.props.data.indAvg).toFixed(1),
-                scorePos: this.updatePosition(Number(this.props.data.score), "score"),
-                targetPos: this.updatePosition(Number(this.props.data.target), "target"),
-                indAvgPos: this.updatePosition(Number(this.props.data.indAvg), "indAvg")
+                score: this.props.data.score!=="NaN" && this.props.data.score!==null?Number(this.props.data.score).toFixed(1):0,
+                target: this.props.data.target!=="NaN" && this.props.data.target!==null?Number(this.props.data.target).toFixed(1):0,
+                indAvg: this.props.data.indAvg!=="NaN" && this.props.data.indAvg!==null?Number(this.props.data.indAvg).toFixed(1):0,
+                scorePos: this.props.data.score!=="NaN" && this.props.data.score!==null?this.updatePosition(Number(this.props.data.score), "score"):0,
+                targetPos: this.props.data.target!=="NaN" && this.props.data.target!==null?this.updatePosition(Number(this.props.data.target), "target"):0,
+                indAvgPos: this.props.data.indAvg!=="NaN" && this.props.data.indAvg!==null?this.updatePosition(Number(this.props.data.indAvg), "indAvg"):0
             });
         }
     }
