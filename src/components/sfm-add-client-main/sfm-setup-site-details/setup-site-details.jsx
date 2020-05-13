@@ -185,12 +185,15 @@ class AddSiteDetails extends React.Component{
         <div className="modal-container">
         <div className="required">* Required field</div>
         <div className="site-form">
+         <div className="row-1"> 
         <LabelledInputField placeholder={true} data={backData?(backData["sitename"]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"siteName"+index} required={true} labelName="Site Name*"/>
         <LabelledInputField placeholder={true} data={backData?(backData["primaryPOC"]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primePoc"+index} required={true} labelName="Primary POC*" />
         <LabelledInputField placeholder={true} data={backData?(backData["primaryPOCRole"]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primPocRole"+index} required={true} labelName="Primary POC Role*"  />
         {/* <div className="bottom-border"></div>
         <div className="bottom-border"></div>
         <div className="bottom-border"></div> */}
+        </div>
+        <div className="row-2">
         <DropDownMenu placeholder= "Sector*" dropdownIndex={index} value={backData?(backData["sector"]):industryValue} showRequired={showIndustryRequired} data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
         <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} value={backData?(backData["archetype"]):this.state["manfArch"+index]} showRequired={showArchetypeRequired} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
         <LabelledInputField placeholder={true} data={backData?(backData["numShifts"]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
@@ -203,6 +206,7 @@ class AddSiteDetails extends React.Component{
         <LabelledInputField placeholder={true} data={backData?(backData["performanceOEE"]):null} labelName="OEE - Performance % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentSiteOEE"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["availabilityOEE"]):null} labelName="OEE - Availability % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentAvailable"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["qualityOEE"]):null} labelName="OEE - Quality % (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"percentQuality"+index}/>
+        </div>
         </div>
         </div>
         </div>

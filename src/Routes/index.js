@@ -30,7 +30,7 @@ export default function Routes(props){
         <Route exact path="/addnewclient"><AddNewClient disableMenu={props.disableMenu}/></Route>
         <Route exact path="/addsitedetails"><AddSiteDetails disableMenu={props.disableMenu}/></Route>
         <Route exact path="/addbusinessfunctions"><AddBusinessFunctions disableMenu={props.disableMenu}/></Route>
-        <Route exact path="/questionnaire"><QuestionnairePage disableMenu={props.disableMenu} /></Route>
+        <Route exact path="/questionnaire"><QuestionnairePage disableMenu={props.disableMenu} userEmail={props.userEmail}/></Route>
         <Route exact path="/addnewsite"><AddNewSite disableMenu={props.disableMenu} /></Route>
     </Switch>
     );
