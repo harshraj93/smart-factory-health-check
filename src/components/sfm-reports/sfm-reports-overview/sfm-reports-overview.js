@@ -60,6 +60,27 @@ class ReportsOverview extends React.Component {
         });
     }
 
+    saveClientRecs = async() => {
+        let body = {
+            "type": "recommendation",
+            "data": this.state.overallRecs,
+            "clientId": this.props.data.clientid,
+            "secotr": this.props.data.sector
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        let editresp;
+        try{
+            const response = await fetch(resultsApi.clientReport,apiPostHeader)
+            editresp = await response.json();
+        }
+        catch(err){
+            editresp = err;
+        }
+        this.setState({
+            recsEdit: false
+        });
+    }
+
     saveRecs = async() => {
         let body = {
             "type": "recommendation",
@@ -101,9 +122,14 @@ class ReportsOverview extends React.Component {
                     <Form.Text className="text-muted">
                         {this.state.overallRecs.length}/400 characters
                     </Form.Text>
-                    <Button variant="primary" type="submit" onClick={this.saveRecs}>
-                        Done
-                    </Button>
+                    {this.props.data.sites?
+                        <Button variant="primary" type="submit" onClick={this.saveClientRecs}>
+                            Done
+                        </Button>:
+                        <Button variant="primary" type="submit" onClick={this.saveRecs}>
+                            Done
+                        </Button>
+                    }
                 </InputGroup.Append>
             </InputGroup>
         )
@@ -113,6 +139,28 @@ class ReportsOverview extends React.Component {
         this.setState({
             summary:e.target.value
         })
+    }
+
+    saveClientSummary = async() => {
+        let body = {
+            "type": "summary",
+            "data": this.state.summary,
+            "clientId": this.props.data.clientid,
+            "secotr": this.props.data.sector
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        let editresp;
+        try{
+            const response = await fetch(resultsApi.clientReport,apiPostHeader)
+            editresp = await response.json();
+        }
+        catch(err){
+            editresp = err;
+        }
+        console.log(editresp)
+        this.setState({
+            summaryEdit: false
+        });
     }
 
     saveSummary = async() => {
@@ -144,9 +192,14 @@ class ReportsOverview extends React.Component {
                     <Form.Text className="text-muted">
                         {this.state.summary.length}/600 characters
                     </Form.Text>
-                    <Button variant="primary" type="submit" onClick={this.saveSummary}>
-                        Done
-                    </Button>
+                    {this.props.data.sites?
+                        <Button variant="primary" type="submit" onClick={this.saveClientSummary}>
+                            Done
+                        </Button>:
+                        <Button variant="primary" type="submit" onClick={this.saveSummary}>
+                            Done
+                        </Button>
+                    }
                 </InputGroup.Append>
             </InputGroup>
         )

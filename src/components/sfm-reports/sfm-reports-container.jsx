@@ -599,6 +599,8 @@ class Reports extends React.Component{
         const json =  await response.json();
         console.log(json);
         const data = this.formatClientLevelData(json.resultantJSON);
+        data.clientid = this.props.location.clientid;
+        data.sector = this.props.location.sector;
         console.log(data);
         return data; 
         }
