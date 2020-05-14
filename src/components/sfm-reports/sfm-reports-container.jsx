@@ -400,7 +400,7 @@ class Reports extends React.Component{
                     return(
                         
                         <Tab key={index} eventKey={index} title={element} >
-                            {(element==="Demographics" &&  this.state.demographicsData.length > 0) ?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview} profile={this.props.profile}/>}
+                            {(element==="Demographics" &&  this.state.demographicsData) ?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview} profile={this.props.profile}/>}
 
                         </Tab>
                     )
@@ -686,19 +686,15 @@ class Reports extends React.Component{
 
     checkPOCs = (data)=>{
         let pocDetails = data.resultantJSON.pocDetails;
-        let flag=true;
+        let cnt=0;
         pocDetails.forEach(element=>{
-                if(element.ResourceName!=="null"){
-                    flag=true
+                if(element.ResourceName){
+                    cnt++;
                 }
-                else{
-                    flag=false
-                }
-                     
-            
+                
         })
         
-        if(flag){
+        if(cnt===pocDetails.length){
             allPoc = true;
         }
         
