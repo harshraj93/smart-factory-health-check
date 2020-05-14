@@ -100,7 +100,7 @@ class ReportsListView extends React.Component {
     // setText (keyThemes, recs) {}
 
     capTextBox(keyThemes, recs) {
-        console.log(keyThemes + " + " + recs);
+        // console.log(keyThemes + " + " + recs);
         // if (keyThemes !== null) {
         //     this.setState({
         //         keyThemes: keyThemes
@@ -177,7 +177,7 @@ class ReportsListView extends React.Component {
                         <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
                             <div className="listview-card">
                                 <span className="area-name">{data.name}</span>
-                                <Slider data={data} colors={this.props.colors}/>
+                                {this.props.colors?<Slider data={data} colors={this.props.colors}/>:<Slider data={data}/>}
                             </div>
                             <p style={{margin: "0px 12px 0px 15px", fontSize: "14px"}}>Breakdown</p>
                             <Accordion.Toggle as={Button} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
@@ -188,7 +188,7 @@ class ReportsListView extends React.Component {
                             <div>
                                 <div className="tr-com-box">
                                     <div className="edit">
-                                        <img src={EditIcon} alt="" onClick={()=>this.editToggle(data.name)}></img>
+                                        {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle(data.name)}></img> : ""}
                                     </div>
                                     {this.state.capTextEdit?this.capTextForm(data.keyThemes, data.recs):this.capTextBox()}
                                 </div>
@@ -196,7 +196,7 @@ class ReportsListView extends React.Component {
                                     return (
                                         <div className="listview-card" key={y}>
                                             <span className="area-name">{x.name}</span>
-                                            <Slider data={x} colors={this.props.colors}/>
+                                            {this.props.colors?<Slider data={x} colors={this.props.colors}/>:<Slider data={x}/>}
                                         </div>
                                     )
                                 })}

@@ -60,6 +60,27 @@ class ReportsOverview extends React.Component {
         });
     }
 
+    saveClientRecs = async() => {
+        let body = {
+            "type": "recommendation",
+            "data": this.state.overallRecs,
+            "clientId": this.props.data.clientid,
+            "sector": this.props.data.sector
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        let editresp;
+        try{
+            const response = await fetch(resultsApi.clientReport,apiPostHeader)
+            editresp = await response.json();
+        }
+        catch(err){
+            editresp = err;
+        }
+        this.setState({
+            recsEdit: false
+        });
+    }
+
     saveRecs = async() => {
         let body = {
             "type": "recommendation",
@@ -93,6 +114,22 @@ class ReportsOverview extends React.Component {
         )
     }
 
+    overallRecsClientForm() {
+        return (
+            <InputGroup>
+                <Form.Control as={"textarea"} maxLength={400} value={this.state.overallRecs} onChange={this.handleChangeRecs}/>
+                <InputGroup.Append>
+                    <Form.Text className="text-muted">
+                        {this.state.overallRecs.length}/400 characters
+                    </Form.Text>
+                    <Button variant="primary" type="submit" onClick={this.saveClientRecs}>
+                        Done
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
+        )
+    }
+
     overallRecsForm() {
         return (
             <InputGroup>
@@ -115,6 +152,28 @@ class ReportsOverview extends React.Component {
         })
     }
 
+    saveClientSummary = async() => {
+        let body = {
+            "type": "summary",
+            "data": this.state.summary,
+            "clientId": this.props.data.clientid,
+            "sector": this.props.data.sector
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        let editresp;
+        try{
+            const response = await fetch(resultsApi.clientReport,apiPostHeader)
+            editresp = await response.json();
+        }
+        catch(err){
+            editresp = err;
+        }
+        // console.log(editresp)
+        this.setState({
+            summaryEdit: false
+        });
+    }
+
     saveSummary = async() => {
         let body = {
             "type": "summary",
@@ -130,10 +189,26 @@ class ReportsOverview extends React.Component {
         catch(err){
             editresp = err;
         }
-        console.log(editresp)
+        // console.log(editresp)
         this.setState({
             summaryEdit: false
         });
+    }
+
+    summaryClientForm() {
+        return (
+            <InputGroup>
+                <Form.Control as={"textarea"} maxLength={600} value={this.state.summary} onChange={this.handleChange}/>
+                <InputGroup.Append>
+                    <Form.Text className="text-muted">
+                        {this.state.summary.length}/600 characters
+                    </Form.Text>
+                    <Button variant="primary" type="submit" onClick={this.saveClientSummary}>
+                        Done
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
+        )
     }
 
     summaryForm() {
@@ -200,7 +275,7 @@ class ReportsOverview extends React.Component {
                         {this.props.data.sites.map((data, index) => {
                             return (
                                 <div className="legend-part">
-                                    <span className="score" style={{backgroundColor: "#"+colors[index]}}></span>
+                                    <span className="score" style={{backgroundColor: "#"+this.props.colors[index]}}></span>
                                     <p style={{margin: "0"}}>{data.name}</p>
                                 </div>
                             )
@@ -211,9 +286,9 @@ class ReportsOverview extends React.Component {
                     <div className="summary">
                         <div className="summary-header">
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
-                            <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>
+                            {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img> : ""}
                         </div>
-                        {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.state.summary}</p>}
+                        {this.state.summaryEdit?this.summaryClientForm():<p className="summary-text">{this.state.summary}</p>}
                     </div>
                     <div className="overall">
                         <div className="overall-header">
@@ -221,13 +296,13 @@ class ReportsOverview extends React.Component {
                         </div>
                         <div className="overall-score">
                             <p style={{fontSize: "18px", fontWeight: "bold", marginBottom: "30px"}}>Overall</p>
-                            <Slider data={this.props.data} colors={colors}/>
+                            <Slider data={this.props.data} colors={this.props.colors}/>
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
-                                    <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
+                                    {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img> : ""}
                                 </div>
-                                {this.state.recsEdit?this.overallRecsForm():this.recsTextFormat()}
+                                {this.state.recsEdit?this.overallRecsClientForm():this.recsTextFormat()}
                             </div>
                         </div>
                     </div>
@@ -245,7 +320,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data} colors={this.props.colors} profile={this.props.profile}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
@@ -263,7 +338,7 @@ class ReportsOverview extends React.Component {
                     <div className="summary">
                         <div className="summary-header">
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
-                            <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>
+                            {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img> : ""}
                         </div>
                         {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.state.summary}</p>}
                     </div>
@@ -287,11 +362,11 @@ class ReportsOverview extends React.Component {
                         </div>
                         <div className="overall-score">
                             <p style={{fontSize: "18px", fontWeight: "bold", marginBottom: "30px"}}>Overall</p>
-                            <Slider data={this.props.data} colors={colors}/>
+                            <Slider data={this.props.data}/>
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
-                                    <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
+                                    {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img> : ""}
                                 </div>
                                 {this.state.recsEdit?this.overallRecsForm():this.recsTextFormat()}
                             </div>
@@ -311,7 +386,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data} profile={this.props.profile}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
@@ -323,31 +398,34 @@ class ReportsOverview extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.data.summary !== null) {
-            this.setState ({
-                summary: this.props.data.summary
-            })
-        }
+        if (this.props.data) {
+            if (this.props.data.summary !== null) {
+                this.setState ({
+                    summary: this.props.data.summary
+                })
+            }
 
-        if (this.props.data.overallRecs !== null) {
-            this.setState({
-                overallRecs: this.props.data.overallRecs
-            })
-        }
+            if (this.props.data.overallRecs !== null) {
+                this.setState({
+                    overallRecs: this.props.data.overallRecs
+                })
+            }
 
-        if (this.props.data.sites !== undefined) {
             // console.log(this.props.data.sites);
-            this.props.data.sites.map((data, index)=> {
-                colors.push(Math.floor(Math.random()*16777215).toString(16))
-            });
+            // this.props.data.sites.map((data, index)=> {
+            //     colors.push(Math.floor(Math.random()*16777215).toString(16))
+            // });
+            // console.log(colors);
         }
 
-        console.log(this.props.sample);
+        // console.log(this.props.data);
+        // console.log(this.props.sample);
     }
 
     render() {
+        console.log(this.props.data);
         return (
-            this.props.data.sites !== undefined?this.clientLevel():this.siteLevel()
+            this.props.data ? this.props.data.sites !== undefined?this.clientLevel():this.siteLevel() : ""
         );
     }
 }

@@ -142,9 +142,13 @@ class QuestionnairePage extends React.Component {
         await this.setState(function (prevState, props) {
             if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
                 if (prevState.capabilitiesArrayIndex + 1 === capabilitiesArray.length) {
-                    this.setState({
-                        showContinue: false,
-                        skipFlag: false
+                    this.props.history.push({
+                        pathname: "/reports",
+                        companyName: this.props.history.location.clientName,
+                        locationString: this.props.history.location.siteName,
+                        industryType: this.props.history.location.sector,
+                        loadComponentString: "assessments",
+                        siteid: localStorage.getItem("siteId")
                     })
                 }
                 else {

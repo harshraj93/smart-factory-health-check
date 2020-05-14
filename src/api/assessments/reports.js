@@ -6,7 +6,8 @@ let resultsApi={
     textEdit:apiUrl +"siteService/siteSummaryAndRecommendation",
     themesEdit:apiUrl+"clientService/setKeythemesAndRecommendations",
     clientReport: apiUrl+"clientService/clientNetworkReport",
-    reportOnly:apiUrl+"clientService/reportOnly"
+    reportOnly:apiUrl+"clientService/reportOnly",
+    userInfoDetails: apiUrl+"userService/userInfoDetails"
 }
 
 export {
