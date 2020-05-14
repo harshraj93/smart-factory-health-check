@@ -26,7 +26,6 @@ function percentComplete(data, str) {
 let body = {};
 let editBusinessFunction = [];
 let editCapability = [];
-let msg;
 
 class AssessmentsOverview extends React.Component {
     constructor(props){
@@ -46,6 +45,7 @@ class AssessmentsOverview extends React.Component {
     }
 
     fetchEdit = async() => {
+        let msg;
         apiPostHeader.body = JSON.stringify(body);
         try{
             const response = await fetch(assessOverviewApi.editOverview,apiPostHeader)
@@ -54,6 +54,8 @@ class AssessmentsOverview extends React.Component {
         catch(err){
             msg = err;
         }
+
+        return msg;
         // console.log(msg);
     }
 
@@ -189,11 +191,14 @@ class AssessmentsOverview extends React.Component {
         body.editBusinessFunction = editBusinessFunction;
         body.editCapability = editCapability;
         // console.log(body);
-        this.fetchEdit();
-        this.updateData();
+        const editMsg = await this.fetchEdit();
+        if (editMsg) {
+            this.updateData();
 
-        this.assessmentsCard();
-        this.props.overviewRefresh();
+            this.assessmentsCard();
+            this.props.overviewRefresh();
+        }
+        
         await this.setState({
             x:true,
             prevData : this.state.jsonData

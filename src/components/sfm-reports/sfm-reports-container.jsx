@@ -372,7 +372,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData}/>:<ClientInfo client={this.props.location.companyName}/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData} siteinfoRefresh={this.siteinfoRefresh}/>:<ClientInfo client={this.props.location.companyName}/>))}
                             </Tab>
                         )
                     })}
@@ -438,6 +438,16 @@ class Reports extends React.Component{
         catch(err){
             return err
         }
+    }
+
+    siteinfoRefresh = async() => {
+        let siteInfoData = await this.fetchSiteInfo();
+        siteInfoData.resultantJSON.siteId = this.props.location.siteid;
+        siteInfoData.resultantJSON.clientName = this.props.location.companyName;
+
+        await this.setState({
+            siteInfoData: siteInfoData.resultantJSON
+        })
     }
 
     fetchSiteInfo = async()=> {
