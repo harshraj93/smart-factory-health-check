@@ -4,6 +4,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar'
 import { QuestionnaireNavigation, SaveandExitButton, FormNavigationButton, CustomButton } from '../../assets/sfm-button';
 import GeneralQuestions from './general-questions';
 import flagIcon from '../../images/icon-small-flagged-outline.svg';
+import flagHighlitedIcon from '../../images/icon-small-flagged-highlited.svg';
 import addIcon from '../../images/icon-small-add-black.svg';
 import TextEditor from './text-editor-component';
 import TargetSelect from './target-select';
@@ -79,22 +80,31 @@ class QuestionnairePage extends React.Component {
             skipFlag: "",
             showSkipped: "",
             progressValue: "",
-            placeholder: "Type something here ...",
-            submitBtnDisabled: false
+            submitBtnDisabled: false,
+            generalQuestionsFlagHighlited: false,
+            lowQuestion: "",
+            lowFlagHighlited: false,
+            mediumQuestion: "",
+            mediumFlagHighlited: false,
+            highQuestion: "",
+            highFlagHighlited: false,
+            placeholder: ""
         }
         this.props.disableMenu(false);
     }
 
 
     showTextEditor = async () => {
-        let noteText = "Type something here ...";
+        let noteText = "";
         await this.setState({
             showTextEditor: true,
             textAreaNotesValue: noteText,
             textEditorData : noteText,
             flagType: "",
             flagTypeCopy: "",
-            textArealength: noteText.length
+            textArealength: noteText.length,
+            submitBtnDisabled: true,
+            placeholder: "Type something here ..."
         })
 
     }
@@ -226,9 +236,16 @@ class QuestionnairePage extends React.Component {
                 checkBoxValues: checkBoxValues,
                 questions: questionsArray,
                 scoringDetails: scoringDetails,
+                lowQuestion : questionnaireResponse.low,
+                mediumQuestion : questionnaireResponse.medium,
+                highQuestion : questionnaireResponse.high,
+                lowFlagHighlited : questionnaireResponse.lowFlag,
+                mediumFlagHighlited : questionnaireResponse.mediumFlag,
+                highFlagHighlited : questionnaireResponse.highFlag,
                 notesDetails: notesDetails,
                 // showSkipped: subCapabilitiesArray[prevState.arrayIndex].skipQuestionFlag
-                showSkipped: questionnaireResponse.skipQuestionFlag
+                showSkipped: questionnaireResponse.skipQuestionFlag,
+                generalQuestionsFlagHighlited : questionnaireResponse.questionFlag
             }
         })
     }
@@ -338,13 +355,42 @@ class QuestionnairePage extends React.Component {
             .then(resp => resp.json())
             .then(resp => {
                 if (resp.resultantJSON.successMsg) {
+                    switch (this.state.flagType) {
+                        case "General Questions":
+                            // generalFlag = true
+                            this.setState({
+                                generalQuestionsFlagHighlited : true
+                            })
+                            break;
+                        case "Low":
+                            // lowFlag = true
+                            this.setState({
+                                lowFlagHighlited : true
+                            })
+                            break;
+                        case "Medium":
+                            // mediumFlag = true
+                            this.setState({
+                                mediumFlagHighlited : true
+                            })
+                            break;
+                        case "High":
+                            // highFlag = true
+                            this.setState({
+                                highFlagHighlited : true
+                            })
+                            break;
+                        default:
+                        // code block
+                    }
                     this.setState({
                         showTextEditor: false,
                         showNotes: true,
                         textEditorData: "",
                         textAreaNotesValue: "",
                         flagType: "",
-                        flagTypeCopy: ""
+                        flagTypeCopy: "",
+                        // generalQuestionsFlagHighlited: true
                     })
                     this.getQuestionnaire();
                 }
@@ -367,13 +413,45 @@ class QuestionnairePage extends React.Component {
     focusInput = async (ele) => {
         // console.log("flagType", this.state.flagType)
         // console.log("flagTypeCopy", this.state.flagTypeCopy)
-        if (ele !== "General Questions") {
-            ele = ele.replace(/ *\([^)]*\) */g, "");
-        } else {
-            ele = "General Questions"
+        // if (ele !== "General Questions") {
+        //     ele = ele.replace(/ *\([^)]*\) */g, "");
+        // } else {
+        //     ele = "General Questions";
+        //     this.setState({
+        //         generalQuestionsFlagHighlited : true
+        //     })
+        // }
+
+        switch (ele) {
+            case "General Questions":
+                // generalFlag = true
+                this.setState({
+                    generalQuestionsFlagHighlited : true
+                })
+                break;
+            case "Low":
+                // lowFlag = true
+                this.setState({
+                    lowFlagHighlited : true
+                })
+                break;
+            case "Medium":
+                // mediumFlag = true
+                this.setState({
+                    mediumFlagHighlited : true
+                })
+                break;
+            case "High":
+                // highFlag = true
+                this.setState({
+                    highFlagHighlited : true
+                })
+                break;
+            default:
+            // code block
         }
 
-        if (ele !== this.state.flagTypeCopy && (this.state.flagTypeCopy !== "" || this.state.textEditorData === "Type something here ...")) {
+        if (ele !== this.state.flagTypeCopy && this.state.flagTypeCopy !== "" ) {
             this.setState({
                 flagType : ele
             })
@@ -638,6 +716,34 @@ class QuestionnairePage extends React.Component {
     }
 
     cancelNote = () => {
+        switch (this.state.flagType) {
+            case "General Questions":
+                // generalFlag = true
+                this.setState({
+                    generalQuestionsFlagHighlited : false
+                })
+                break;
+            case "Low":
+                // lowFlag = true
+                this.setState({
+                    lowFlagHighlited : false
+                })
+                break;
+            case "Medium":
+                // mediumFlag = true
+                this.setState({
+                    mediumFlagHighlited : false
+                })
+                break;
+            case "High":
+                // highFlag = true
+                this.setState({
+                    highFlagHighlited : false
+                })
+                break;
+            default:
+            // code block
+        }
         this.setState({
             showTextEditor: false,
             flagType: "",
@@ -645,7 +751,8 @@ class QuestionnairePage extends React.Component {
             textAreaNotesValue : "",
             textEditorData : "",
             textArealength: 0,
-            submitBtnDisabled: false
+            submitBtnDisabled: false,
+            // generalQuestionsFlagHighlited: false
         })
     }
 
@@ -663,7 +770,7 @@ class QuestionnairePage extends React.Component {
                     <QuestionnaireNavigation labelName="Previous" customClass="prev" onClick={this.previousSubCapability} /><QuestionnaireNavigation labelName="Skip Question" onClick={this.showskipPopup} />
                 </div>
                 <div className="questions-and-targets">
-                    <GeneralQuestions data={this.state.questions} flagQuestions={() => this.focusInput("General Questions")} />
+                    <GeneralQuestions data={this.state.questions} flagQuestions={() => this.focusInput("General Questions")} flagHighlited={this.state.generalQuestionsFlagHighlited}/>
                     <span className="targets">
                         <TargetSelect
                             handleChangeCurrent={this.handleChangeCurrent}
@@ -681,21 +788,45 @@ class QuestionnairePage extends React.Component {
                 <div className="scoring">
                     <div className="scoring-text-main">Scoring</div>
                     <div className="scoring-text-main-container">
-                        {Object.keys(this.state.scoringDetails).map((element, index) => {
-                            return (
-                                <div className="scoring-text-container" key={index}>
+                        {/* {Object.keys(this.state.scoringDetails).map((element, index) => {
+                            return ( */}
+                                <div className="scoring-text-container">
                                     <div className="scoring-range">
-                                        {element}
+                                        {"Low(2)"}
                                         <span className="flag-button">
-                                            <CustomButton imgSrc={flagIcon} clickFunction={() => this.focusInput(element)} />
+                                            {this.state.lowFlagHighlited === false  ? (<CustomButton imgSrc={flagIcon} clickFunction={() => this.focusInput("Low")} />) : (<CustomButton imgSrc={flagHighlitedIcon} />)}
                                         </span>
                                     </div>
                                     <div className="scoring-info">
-                                        {this.state.scoringDetails[element]}
+                                        {this.state.lowQuestion}
                                     </div>
                                 </div>
-                            )
-                        })}
+
+                                <div className="scoring-text-container">
+                                    <div className="scoring-range">
+                                        {"Medium(4)"}
+                                        <span className="flag-button">
+                                            {this.state.mediumFlagHighlited === false  ? (<CustomButton imgSrc={flagIcon} clickFunction={() => this.focusInput("Medium")} />) : (<CustomButton imgSrc={flagHighlitedIcon} />)}
+                                        </span>
+                                    </div>
+                                    <div className="scoring-info">
+                                        {this.state.mediumQuestion}
+                                    </div>
+                                </div>
+
+                                <div className="scoring-text-container">
+                                    <div className="scoring-range">
+                                        {"High(6)"}
+                                        <span className="flag-button">
+                                            {this.state.highFlagHighlited === false  ? (<CustomButton imgSrc={flagIcon} clickFunction={() => this.focusInput("High")} />) : (<CustomButton imgSrc={flagHighlitedIcon} />)}
+                                        </span>
+                                    </div>
+                                    <div className="scoring-info">
+                                        {this.state.highQuestion}
+                                    </div>
+                                </div>
+                            {/* )
+                        })} */}
                     </div>
                 </div>
                 <div className="bottom-border"></div>
@@ -703,10 +834,10 @@ class QuestionnairePage extends React.Component {
                     <div className="notes-title">Notes</div>
                     <div className="text-area" >
                         {!this.state.showTextEditor && <CustomButton imgSrc={addIcon} clickFunction={this.showTextEditor} />}
-                        {this.state.showTextEditor && <TextEditor textAreaValue={this.textAreaValue} value={this.state.textEditorData} />}
+                        {this.state.showTextEditor && <TextEditor textAreaValue={this.textAreaValue} value={this.state.textEditorData} placeholder={this.state.placeholder}/>}
                     </div>
                     <div className="character-count-submit">
-                        {this.state.showTextEditor && <div className="character-count">{this.state.textArealength}/3000 characters</div>}
+                        {this.state.showTextEditor && <div className="character-count">{this.state.textArealength}/1000 characters</div>}
                         {this.state.showTextEditor && <SaveandExitButton labelName="Cancel" onClick={this.cancelNote} />}
                         {this.state.showTextEditor && <FormNavigationButton disabled={this.state.submitBtnDisabled} labelName="Submit" onClick={this.submitNotes} />}
                     </div>

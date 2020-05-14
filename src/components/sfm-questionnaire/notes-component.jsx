@@ -1,5 +1,5 @@
 import React from 'react';
-import FlagImg from '../../images/icon-small-flagged-outline.svg';
+import FlagImg from '../../images/icon-small-flagged-highlited.svg';
 export default class NotesComponent extends React.Component{
     constructor(props){
         super(props);
