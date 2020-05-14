@@ -65,7 +65,7 @@ class ReportsOverview extends React.Component {
             "type": "recommendation",
             "data": this.state.overallRecs,
             "clientId": this.props.data.clientid,
-            "secotr": this.props.data.sector
+            "sector": this.props.data.sector
         }
         apiPostHeader.body = JSON.stringify(body);
         let editresp;
@@ -114,6 +114,22 @@ class ReportsOverview extends React.Component {
         )
     }
 
+    overallRecsClientForm() {
+        return (
+            <InputGroup>
+                <Form.Control as={"textarea"} maxLength={400} value={this.state.overallRecs} onChange={this.handleChangeRecs}/>
+                <InputGroup.Append>
+                    <Form.Text className="text-muted">
+                        {this.state.overallRecs.length}/400 characters
+                    </Form.Text>
+                    <Button variant="primary" type="submit" onClick={this.saveClientRecs}>
+                        Done
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
+        )
+    }
+
     overallRecsForm() {
         return (
             <InputGroup>
@@ -122,14 +138,9 @@ class ReportsOverview extends React.Component {
                     <Form.Text className="text-muted">
                         {this.state.overallRecs.length}/400 characters
                     </Form.Text>
-                    {this.props.data.sites?
-                        <Button variant="primary" type="submit" onClick={this.saveClientRecs}>
-                            Done
-                        </Button>:
-                        <Button variant="primary" type="submit" onClick={this.saveRecs}>
-                            Done
-                        </Button>
-                    }
+                    <Button variant="primary" type="submit" onClick={this.saveRecs}>
+                        Done
+                    </Button>
                 </InputGroup.Append>
             </InputGroup>
         )
@@ -146,7 +157,7 @@ class ReportsOverview extends React.Component {
             "type": "summary",
             "data": this.state.summary,
             "clientId": this.props.data.clientid,
-            "secotr": this.props.data.sector
+            "sector": this.props.data.sector
         }
         apiPostHeader.body = JSON.stringify(body);
         let editresp;
@@ -157,7 +168,7 @@ class ReportsOverview extends React.Component {
         catch(err){
             editresp = err;
         }
-        console.log(editresp)
+        // console.log(editresp)
         this.setState({
             summaryEdit: false
         });
@@ -178,10 +189,26 @@ class ReportsOverview extends React.Component {
         catch(err){
             editresp = err;
         }
-        console.log(editresp)
+        // console.log(editresp)
         this.setState({
             summaryEdit: false
         });
+    }
+
+    summaryClientForm() {
+        return (
+            <InputGroup>
+                <Form.Control as={"textarea"} maxLength={600} value={this.state.summary} onChange={this.handleChange}/>
+                <InputGroup.Append>
+                    <Form.Text className="text-muted">
+                        {this.state.summary.length}/600 characters
+                    </Form.Text>
+                    <Button variant="primary" type="submit" onClick={this.saveClientSummary}>
+                        Done
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
+        )
     }
 
     summaryForm() {
@@ -192,14 +219,9 @@ class ReportsOverview extends React.Component {
                     <Form.Text className="text-muted">
                         {this.state.summary.length}/600 characters
                     </Form.Text>
-                    {this.props.data.sites?
-                        <Button variant="primary" type="submit" onClick={this.saveClientSummary}>
-                            Done
-                        </Button>:
-                        <Button variant="primary" type="submit" onClick={this.saveSummary}>
-                            Done
-                        </Button>
-                    }
+                    <Button variant="primary" type="submit" onClick={this.saveSummary}>
+                        Done
+                    </Button>
                 </InputGroup.Append>
             </InputGroup>
         )
@@ -266,7 +288,7 @@ class ReportsOverview extends React.Component {
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
                             <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>
                         </div>
-                        {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.state.summary}</p>}
+                        {this.state.summaryEdit?this.summaryClientForm():<p className="summary-text">{this.state.summary}</p>}
                     </div>
                     <div className="overall">
                         <div className="overall-header">
@@ -280,7 +302,7 @@ class ReportsOverview extends React.Component {
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
                                     <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>
                                 </div>
-                                {this.state.recsEdit?this.overallRecsForm():this.recsTextFormat()}
+                                {this.state.recsEdit?this.overallRecsClientForm():this.recsTextFormat()}
                             </div>
                         </div>
                     </div>
