@@ -189,9 +189,7 @@ class AddSiteDetails extends React.Component{
         return(
             <>
         <div className="site-form-modal" key={index}>
-        
         <div className="site-number">{siteNumber}</div>
-        
         <div className="modal-container">
         <div className="required">* Required field</div>
         <div className="site-form">

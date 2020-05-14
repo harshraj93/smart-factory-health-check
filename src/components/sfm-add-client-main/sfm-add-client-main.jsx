@@ -42,7 +42,6 @@ function backNavigation(e,props){
     else if(locationpath==="/addbusinessfunctions"){
         let addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
         let siteDetails = JSON.parse(localStorage.getItem("sitedetailsstate"))
-        console.log(siteDetails,addSiteData);
         return history.push({
             pathname:"/addsitedetails",
             state:{
@@ -52,7 +51,7 @@ function backNavigation(e,props){
                industry: siteDetails.state.industry,
                industryList: siteDetails.state.industryList,
                clientid: siteDetails.state.clientid,
-               page:siteDetails.state.page
+               page: siteDetails.state.page
             }
         })
     }
