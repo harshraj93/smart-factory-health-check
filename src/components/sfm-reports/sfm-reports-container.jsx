@@ -48,7 +48,8 @@ class Reports extends React.Component{
             shareResults:false,
             userProfile:true,
             userName:  "",
-            password: ""
+            password: "",
+            clipboardCopySuccess: false,
         }
         this.props.disableMenu(false);        
     }
@@ -111,6 +112,15 @@ class Reports extends React.Component{
         })
     }
 
+    copyLink = () => {
+        var copyText = document.getElementById("linkURL").baseURI
+        navigator.clipboard.writeText(copyText);
+        this.setState({
+            clipboardCopySuccess: true
+        })
+        // console.log("copyText", copyText)
+    }
+
     publishModal = ()=>{
         return(
             <div className = "publish-modal">
@@ -142,14 +152,18 @@ class Reports extends React.Component{
             <div className="share-results">
                 <div className="Username"><span>Username:</span>{this.state.userName}</div>
                 <div className="Username"><span>Password:</span>{this.state.password}</div>
-                <div className="link">{window.location.href}</div>
+                {/* <div id="linkURL" className="link">{window.location.href}</div> */}
+                <input type="text" readonly id="linkURL" value={window.location.href} className="link"/>
 
           
             </div>
-            <div className="button-group">
-            <FormNavigationButton labelName = "Send Email"/>
-            <FormNavigationButton labelName = "Copy Link" />
-            </div>
+            {this.state.clipboardCopySuccess === false ? 
+            (<div className="button-group">
+                <FormNavigationButton labelName = "Send Email"/>
+                <FormNavigationButton labelName = "Copy Link" onClick={this.copyLink}/>
+            </div>) : 
+            (<div className="linkCopySuccess">Link Copied to Clipboard</div>)
+            }
             </>
         </Modal.Footer>
       </Modal>
@@ -168,7 +182,8 @@ class Reports extends React.Component{
     showPopup = (e,popupToLoad)=>{
         if(popupToLoad==="publishResults"){
         this.setState({
-            publishResults:true
+            publishResults:true,
+            clipboardCopySuccess: false,
         })
         }
         else{
@@ -212,7 +227,7 @@ class Reports extends React.Component{
             <div className="reports-container">
             <div className="assessment-title">
             <div className="assessment-overview-title">
-                <CustomButton imgSrc={leftIcon} clickFunction={JSON.stringify(this.state.assessOverview) !== "{}"?this.navigateBackFromResults:this.navigateBack}/>
+                {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={JSON.stringify(this.state.assessOverview) !== "{}"?this.navigateBackFromResults:this.navigateBack}/> : ""}
                 <span className="title-text">
                     {"Results "+this.state.title}
                 </span>
@@ -259,7 +274,7 @@ class Reports extends React.Component{
             <div className="reports-container">
                 <div className="assessment-title">
                     <div className="assessment-overview-title">
-                        <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
+                        {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
                         <span className="title-text">
                             {this.props.location.sector+" Network"}
                         </span>
@@ -335,7 +350,7 @@ class Reports extends React.Component{
             <div className="reports-container">
                 {this.state.x?this.deleteModal():""}
                 <div className="assessment-overview-title">
-                    <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
+                    {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
                     <span className="title-text">
                         Assessment Overview
                     </span>

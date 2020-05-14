@@ -26,7 +26,7 @@ class Assessments extends React.Component {
         let tabText = e.target.childNodes[0].wholeText;
         if(tabText==="Open"){
             accordionData = this.state.data.filter(element=>{
-                return element.openNumber!==0;
+                return element.openNumber!==0 ;
             })
             
         }

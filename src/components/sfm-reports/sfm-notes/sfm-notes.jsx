@@ -108,7 +108,7 @@ class Notes extends React.Component {
                                                                             <div className="notes-block">
                                                                                 <div className="notes-header">
                                                                                     <div className="context">
-                                                                                        {m.flagType!==null?<img src={FlagImg} alt="" style={{marginRight: "10px"}}/>:""}
+                                                                                        {m.flagType!==""?<img src={FlagImg} alt="" style={{marginRight: "10px"}}/>:""}
                                                                                         <span className="user-name">{m.username}</span>
                                                                                     </div>
                                                                                     <div className="date-time">

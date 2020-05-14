@@ -107,15 +107,20 @@ class Slider extends React.Component {
                     <span className="stop"></span>
                     <span className="stop"></span>
                 </div>
-                {this.state.indAvg>0?<span className="ind-avg" style={{marginLeft: this.state.indAvgPos + "%"}}></span>:""}
-                {this.state.score>0?<div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "%"}}>
-                    <p className="score-text">{this.state.score}</p>
-                    <span className="slider-circle" style={{backgroundColor: "#57bb50"}}></span>
-                </div>:""}
-                {this.state.target>0?<div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "%"}}> 
-                    <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
-                    <p className="score-text">{this.state.target}</p>
-                </div>:""}
+                <span className="ind-avg" style={this.state.score==='NaN' || this.state.target==='NaN' ? {display: "none"} : {marginLeft: this.state.indAvgPos + "%"}}></span>
+                <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "%"}}>
+                    <p className="score-text">{this.state.score==='NaN' || this.state.target==='NaN' ? '' : this.state.score}</p>
+                    <span className="slider-circle" style={this.state.score==='NaN' || this.state.target==='NaN' ? {backgroundColor: "transparent"} : {backgroundColor: "#57bb50"}}></span>
+                </div>
+                <div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "%"}}> 
+                    <span className="slider-circle" style={this.state.target==='NaN' || this.state.score==='NaN' ? {backgroundColor: "transparent"} : {backgroundColor: "#ffffff"}}></span>
+                    {/* <span className="small-circle"></span>
+                    <div className="plus">
+                        <span className="small-line"></span>
+                        <span className="small-line"></span>
+                    </div> */}
+                    <p className="score-text">{this.state.target==='NaN' || this.state.score==='NaN' ? '' : this.state.target}</p>
+                </div>
                 <p className="slider-text">High 7</p>
             </div>
         )
