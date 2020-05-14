@@ -35,7 +35,8 @@ class AssessmentsOverview extends React.Component {
             jsonData: {},
             clientName: "",
             siteName: "",
-            sector: ""
+            sector: "",
+            prevData: {}
         }
         this.handleChange = this.handleChange.bind(this);
     }
@@ -81,7 +82,7 @@ class AssessmentsOverview extends React.Component {
         // this.sendData();
     }
 
-    onChange = (e) => {
+    onChange = index => (e) => {
         const target = e.target;
         const id = target.id;
         const names = id.split("_");
@@ -111,7 +112,15 @@ class AssessmentsOverview extends React.Component {
         // this.updateData();
 
         target.setAttribute("checked", target.checked)
-        console.log(!target.checked)
+        // console.log(!target.checked)
+        // console.log(index);
+        let editdata = this.state.jsonData;
+        editdata.businessFunction[index].active = !target.checked;
+        // console.log(data)
+        this.setState({
+            jsonData : editdata
+        })
+        
 
         // console.log("onChange was called!");
     };
@@ -138,8 +147,22 @@ class AssessmentsOverview extends React.Component {
         // this.assessmentsCard();
         this.props.overviewRefresh();
         await this.setState({
-            x:true
+            x:true,
+            prevData : this.state.jsonData
         });
+        console.log(this.state.prevData);
+        console.log("save")
+    }
+
+    cancel = () => {
+        this.setState ({
+            jsonData: this.state.prevData,
+            x: true
+        });
+        console.log(this.state.prevData)
+        console.log(this.state.jsonData);
+        console.log("cancel")
+        console.log(this.props.data)
     }
 
     editAssessCard = () => {
@@ -169,7 +192,7 @@ class AssessmentsOverview extends React.Component {
     applyChanges = () => {
         return (
             <div className="edit-bar">
-                <CustomButton labelName="Cancel" style={{backgroundColor: "#161617", boxShadow: "0 0 0 2px inset #616161"}} clickFunction={this.editToggle}/>
+                <CustomButton labelName="Cancel" style={{backgroundColor: "#161617", boxShadow: "0 0 0 2px inset #616161"}} clickFunction={this.cancel}/>
                 <CustomButton labelName="Apply Changes" clickFunction={this.saveBtn}/>
             </div>
         )
@@ -193,7 +216,7 @@ class AssessmentsOverview extends React.Component {
             <Card key={index} className={"card"}>                                   
                 <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
                 
-                <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange} checked={!data.active}/> 
+                <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange(index)}/> 
                 {/* checked={true} */}
                     <div className="assess-overview-card">
                         <span className="area-name">{data.name}</span>
@@ -206,7 +229,7 @@ class AssessmentsOverview extends React.Component {
                 </Card.Header>
                 <Accordion.Collapse eventKey={0}>
                     <div>
-                        {data.Capability.map((x,y) => {
+                        {data.Capability!==undefined?data.Capability.map((x,y) => {
                             return (
                                 <div className="assess-overview-card" key={y}>
                                     <Form.Switch id={data.name + "_" + x.name} label="" onChange={this.onChange} checked={!x.active}/>
@@ -216,7 +239,7 @@ class AssessmentsOverview extends React.Component {
                                     </div>
                                 </div>
                             )
-                        })}
+                        }):""}
                     </div>
                 </Accordion.Collapse>
             </Card>
@@ -228,7 +251,7 @@ class AssessmentsOverview extends React.Component {
             <Card key={index} className={"card"}>
                 <Card.Header className={"card-header"} style={{backgroundColor: "#232325"}}>
                     <div className="assess-overview-card-inactive">
-                        <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange} checked={true} isValid={true}/>
+                        <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange(index)} defaultChecked/>
                         <span className="area-name" style={{opacity: "0.3"}}>{data.name}</span>
                     </div>
                 </Card.Header>
@@ -293,9 +316,11 @@ class AssessmentsOverview extends React.Component {
             jsonData:this.props.data,
             clientName: this.props.data.clientName, 
             siteName: this.props.data.siteName,
-            sector:this.props.data.sector
+            sector:this.props.data.sector,
+            prevData: this.props.data
         })
-        // console.log(this.state.jsonData)
+        
+        console.log(this.state.prevData)
     }
 
     render() {

@@ -25,165 +25,7 @@ let inProgressList=["Overview","Notes","Site Info","Client Info"];
 let resultsList=[];
 let allPoc = false;
 
-let networkOverview = {
-    summary: "sample summary.",
-    overallRecs: "hi this a good recommendation",
-    target: 5.0,
-    sites: [
-        {
-            name: "Bristol",
-            score: 3.2,
-            target: 4.0,
-            indAvg: 4.8
-        },
-        {
-            name: "Edinburgh",
-            score: 5.3,
-            target: 6.0,
-            indAvg: 4.8
-        },
-        {
-            name: "Odessa",
-            score: 3.3,
-            target: 5.0,
-            indAvg: 4.8
-        }
-    ],
-    reportsData: [
-        {
-            name: "Operations",
-            score: 3.9,
-            target: null,
-            indAvg: 4.8,
-            sites: [
-                {
-                    name: "Bristol",
-                    score: 3.2,
-                    target: 4.0,
-                    indAvg: 4.8
-                },
-                {
-                    name: "Edinburgh",
-                    score: 5.3,
-                    target: 6.0,
-                    indAvg: 4.8
-                },
-                {
-                    name: "Odessa",
-                    score: 3.3,
-                    target: 5.0,
-                    indAvg: 4.8
-                }
-            ],
-            parts: [
-                {
-                    name: "Capability 1",
-                    score: 4.0,
-                    target: 5.2,
-                    indAvg: 4.5,
-                    sites: [
-                        {
-                            name: "Bristol",
-                            score: 3.2,
-                            target: 4.0,
-                            indAvg: 4.8
-                        },
-                        {
-                            name: "Edinburgh",
-                            score: 5.3,
-                            target: 6.0,
-                            indAvg: 4.8
-                        },
-                        {
-                            name: "Odessa",
-                            score: 3.3,
-                            target: 5.0,
-                            indAvg: 4.8
-                        }
-                    ]
-                },
-                {
-                    name: "Capability 2",
-                    score: 4.0,
-                    target: 5.2,
-                    indAvg: 4.5,
-                    sites: [
-                        {
-                            name: "Bristol",
-                            score: 3.2,
-                            target: 4.0,
-                            indAvg: 4.8
-                        },
-                        {
-                            name: "Edinburgh",
-                            score: 5.3,
-                            target: 6.0,
-                            indAvg: 4.8
-                        },
-                        {
-                            name: "Odessa",
-                            score: 3.3,
-                            target: 5.0,
-                            indAvg: 4.8
-                        }
-                    ]
-                },
-                {
-                    name: "Capability 3",
-                    score: 4.0,
-                    target: 5.2,
-                    indAvg: 4.5,
-                    sites: [
-                        {
-                            name: "Bristol",
-                            score: 3.2,
-                            target: 4.0,
-                            indAvg: 4.8
-                        },
-                        {
-                            name: "Edinburgh",
-                            score: 5.3,
-                            target: 6.0,
-                            indAvg: 4.8
-                        },
-                        {
-                            name: "Odessa",
-                            score: 3.3,
-                            target: 5.0,
-                            indAvg: 4.8
-                        }
-                    ]
-                },
-                {
-                    name: "Capability 4",
-                    score: 4.0,
-                    target: 5.2,
-                    indAvg: 4.5,
-                    sites: [
-                        {
-                            name: "Bristol",
-                            score: 3.2,
-                            target: 4.0,
-                            indAvg: 4.8
-                        },
-                        {
-                            name: "Edinburgh",
-                            score: 5.3,
-                            target: 6.0,
-                            indAvg: 4.8
-                        },
-                        {
-                            name: "Odessa",
-                            score: 3.3,
-                            target: 5.0,
-                            indAvg: 4.8
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-}
+let colors = [];
 
 class Reports extends React.Component{
     constructor(props){
@@ -195,7 +37,7 @@ class Reports extends React.Component{
             reportsOverview: {},
             assessOverview: {},
             loadComponentString:"",
-            data:[],
+            clientReportsData:null,
             x: false,
             demographicsData:[],
             assessBody: {},
@@ -205,7 +47,6 @@ class Reports extends React.Component{
             businessContactModal:false,
             shareResults:false,
             userProfile:true,
-            clientOverview: networkOverview,
             userName:  "",
             password: ""
         }
@@ -434,7 +275,7 @@ class Reports extends React.Component{
                         {resultsList.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={index} title={element} >
-                                    {element==="Demographics"?"":<ReportsOverview data={this.state.clientOverview} sample={this.state.data} profile={this.props.profile}/>}
+                                    {element==="Demographics"?"":<ReportsOverview data={this.state.clientReportsData} colors ={colors} profile={this.props.profile}/>}
 
                                 </Tab>
                             )
@@ -608,61 +449,166 @@ class Reports extends React.Component{
             "clientName": this.props.location.clientid, 
             "sector": this.props.location.sector
         };
-        let postHeader = (apiPostHeader);
-        postHeader["body"] = JSON.stringify(body);
-        console.log(postHeader)
+        apiPostHeader.body = JSON.stringify(body);
         try{
-        const response = await fetch(resultsApi.clientReport,postHeader)
+        const response = await fetch(resultsApi.clientReport,apiPostHeader);
         const json =  await response.json();
-        return json; 
+        console.log(json);
+        const data = this.formatClientLevelData(json.resultantJSON);
+        data.clientid = this.props.location.clientid;
+        data.sector = this.props.location.sector;
+        console.log(data);
+        return data; 
         }
         catch(err){
             return err
         }
     }
 
-    targetAvg(data) {
+    numbersAvg(data, str) {
         let x = 0;
         data.map((element, index)=>{
-            x += Number(element.target)
+            if (str === "score") {
+                x += Number(element.score)
+            }
+            else if (str === "target") {
+                x += Number(element.target)
+            }
+            else if (str === "low") {
+                x += Number(element.low)
+            }
+            else if (str === "high") {
+                x += Number(element.high)
+            }
+            else if (str === "indAvg") {
+                x += Number(element.indAvg)
+            }
         })
         return x/data.length;
     }
 
-    formatClientLevelData = async(data) => {
+    sendSiteArray = (arr) => {
+        let newarr = [];
+        
+        arr.map((data, index) => {
+            let obj = {};
+            obj.name = data.name;
+            obj.score = data.score;
+            obj.target = data.target;
+            obj.indAvg = data.indAvg;
+            obj.high = data.high;
+            obj.low = data.low;
+
+            newarr.push(obj);
+        })
+        return newarr;
+    }
+
+    sendBusinessFunction = (siteData) => {
+        let reportData = [];
+
+        siteData.map((data, index) => {
+            data.businessFunctions.map((x, y) => {
+                let obj = {};
+                obj.id = x.id;
+                obj.name = x.name;
+                let sites = [];
+                for (let a = 0; a < siteData.length; a++) {
+                    let bizfunc = siteData[a].businessFunctions;
+                    let siteObj = {};
+                    for (let b = 0; b < bizfunc.length; b++) {
+                        if (bizfunc[b].id === obj.id) {
+                            siteObj.name = siteData[a].name;
+                            siteObj.score = bizfunc[b].score;
+                            siteObj.target = bizfunc[b].target;
+                            siteObj.low = bizfunc[b].low;
+                            siteObj.high = bizfunc[b].high;
+                            siteObj.indAvg = bizfunc[b].mean;
+
+                            sites.push(siteObj);
+                            break;
+                        }
+                    }
+                }
+                obj.sites = sites;
+                obj.score = this.numbersAvg(obj.sites, "score");
+                obj.target = this.numbersAvg(obj.sites, "target");
+                obj.low = this.numbersAvg(obj.sites, "low");
+                obj.high = this.numbersAvg(obj.sites, "high");
+                obj.indAvg = this.numbersAvg(obj.sites, "indAvg");
+
+                let caps = new Set();
+                x.capabilityData.map((i, j) => {
+                    let capObj = {};
+                    capObj.id = i.capability_id;
+                    capObj.name = i.name;
+                    let sites = [];
+                    for (let a = 0; a < siteData.length; a++) {
+                        let bizfunc = siteData[a].businessFunctions;
+                        let siteObj = {};
+                        for (let b = 0; b < bizfunc.length; b++) {
+                            if (bizfunc[b].id === obj.id) {
+                                let capData = bizfunc[b].capabilityData;
+                                for (let c = 0; c < capData.length; c++) {
+                                    if (capData[c].capability_id === capObj.id) {
+                                        siteObj.name = siteData[a].name;
+                                        siteObj.score = capData[c].score;
+                                        siteObj.target = capData[c].target;
+                                        siteObj.low = capData[c].low;
+                                        siteObj.high = capData[c].high;
+                                        siteObj.indAvg = capData[c].indAvg;
+            
+                                        sites.push(siteObj);
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    // sites.push(this.numbersAvg(sites, "indAvg"))
+                    capObj.sites = sites;
+                    capObj.score = this.numbersAvg(capObj.sites, "score");
+                    capObj.target = this.numbersAvg(capObj.sites, "target");
+                    capObj.low = this.numbersAvg(capObj.sites, "low");
+                    capObj.high = this.numbersAvg(capObj.sites, "high");
+                    capObj.indAvg = this.numbersAvg(capObj.sites, "indAvg");
+
+                    caps.add(JSON.stringify(capObj));
+                })
+                // console.log(caps)
+
+                var arr = [...caps];
+                let parts = [];
+                for (var i = 0; i < arr.length; i++) {
+                    parts.push(JSON.parse(arr[i]));
+                }
+                // console.log(parts)
+                obj.parts = parts;
+
+                reportData.push(JSON.stringify(obj));
+            })
+        });
+
+        var arr = [...new Set(reportData)];
+        var newarr = [];
+        for (var i = 0; i < arr.length; i++) {
+            newarr.push(JSON.parse(arr[i]));
+        }
+
+        return newarr;
+    }
+
+    formatClientLevelData = (data) => {
         let jsonData = {};
         jsonData.summary = data.summary;
-        jsonData.overallRecs = data.overallRecs;
-        jsonData.sites = data.sites;
-        jsonData.target = this.targetAvg(data.sites);
-        let parts = [];
-        let temp = {};
-        data.businessFunctions.map((element, index) => {
-            if (index%(data.sites.length)===0) {
-                temp.name = element.name;
-                temp.score = Number(element.score);
-                temp.target = Number(element.target);
-                temp.low = Number(element.low);
-                temp.high = Number(element.high);
-                temp.indAvg = Number(element.indAvg);
-                temp.sites = element.sites;
-            }
-            else {
-                temp.score += Number(element.score);
-                temp.target += Number(element.target);
-                temp.low += Number(element.low);
-                temp.high += Number(element.high);
-                temp.indAvg += Number(element.indAvg);
-                if ((index+1)%(data.sites.length) === 0) {
-                    temp.score /= data.sites.length;
-                    temp.target /= data.sites.length;
-                    temp.low /= data.sites.length;
-                    temp.high /= data.sites.length;
-                    temp.indAvg /= data.sites.length;
-                    parts.push(temp);
-                }
-            }
-        })
+        jsonData.overallRecs = data.overAllRecs;
+        jsonData.sites = this.sendSiteArray(data.siteData);
+        jsonData.reportsData = this.sendBusinessFunction(data.siteData);
+        jsonData.target = this.numbersAvg(jsonData.sites, "target");
+        // console.log(jsonData.target);
+        // console.log("format data",jsonData);
+        return jsonData;
     }
 
     fetchResultsData = async()=>{
@@ -722,7 +668,7 @@ class Reports extends React.Component{
 
 
     clientUserProfile = async(userEmail)=>{
-        console.log(resultsApi)
+        // console.log(resultsApi)
         let pocName = resultsApi.reportOnly+`?pocName=${userEmail}`
         const response = await fetch(pocName,apiGetHeader)
         const demo = await response.json()
@@ -752,6 +698,7 @@ class Reports extends React.Component{
         let notesData = {};
         let siteInfoData={};
         let clientReportsData = {};
+        let formattedClientReportsData = {};
         if (this.props.location.loadComponentString === "results" || this.state.loadComponentString === "results") {
             resultJSON = await this.fetchResultsData();
             demographicsData = await this.fetchDemographicsData();
@@ -769,8 +716,13 @@ class Reports extends React.Component{
             siteInfoData.resultantJSON.siteId = this.props.location.siteid;
             siteInfoData.resultantJSON.clientName = this.props.location.companyName;
         }
-        else if (this.props.location.clientName !== undefined) {
+        else if (this.props.location.clientid) {
             clientReportsData = await this.fetchClientLevelData();
+            // formattedClientReportsData = await this.formatClientLevelData(clientReportsData.resultantJSON);
+            clientReportsData.sites.map((data, index)=> {
+                colors.push(Math.floor(Math.random()*16777215).toString(16))
+            });
+            // console.log(colors);
         }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
@@ -780,7 +732,7 @@ class Reports extends React.Component{
         
         await this.setState({
             loadComponentString:this.props.location.loadComponentString,
-            data:clientReportsData,
+            clientReportsData:clientReportsData,
             reportsOverview:resultJSON.resultantJSON,
             demographicsData:demographicsData,
             assessOverview: overviewData,
@@ -794,7 +746,10 @@ class Reports extends React.Component{
         
     return(
     
-      this.props.location.clientName?this.networkHeader():(this.state.loadComponentString==="results"?this.resultHeader():(this.state.loadComponentString==="assessments"?this.AssessmentsHeader():this.loadingScreen()))
+      this.props.location.clientid?
+            (this.networkHeader()):
+            (this.state.loadComponentString==="results"?this.resultHeader():
+                    (this.state.loadComponentString==="assessments"?this.AssessmentsHeader():this.loadingScreen()))
         
         
     )
