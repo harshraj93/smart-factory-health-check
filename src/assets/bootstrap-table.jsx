@@ -61,7 +61,8 @@ actionsFormatter = (cell,row)=>{
                             companyName:this.props.companyName,
                             loadComponentString : "assessments",
                             industryType : this.props.industryType,
-                            siteid: row.siteid
+                            siteid: row.siteid,
+                            clientid: this.props.clientid
                         }}
                         >
                             >
@@ -109,7 +110,8 @@ columns= [{
                 companyName:this.props.companyName,
                 loadComponentString : "assessments",
                 industryType : this.props.industryType,
-                siteid: row.siteid
+                siteid: row.siteid,
+                clientid: this.props.clientid
             })
         }
         

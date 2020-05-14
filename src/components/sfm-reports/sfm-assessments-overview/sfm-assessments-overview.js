@@ -24,7 +24,9 @@ function percentComplete(data, str) {
 }
 
 let body = {};
-let overviewData;
+let editBusinessFunction = [];
+let editCapability = [];
+let msg;
 
 class AssessmentsOverview extends React.Component {
     constructor(props){
@@ -36,6 +38,8 @@ class AssessmentsOverview extends React.Component {
             clientName: "",
             siteName: "",
             sector: "",
+            siteid: "",
+            clientId: "",
             prevData: {}
         }
         this.handleChange = this.handleChange.bind(this);
@@ -45,19 +49,20 @@ class AssessmentsOverview extends React.Component {
         apiPostHeader.body = JSON.stringify(body);
         try{
             const response = await fetch(assessOverviewApi.editOverview,apiPostHeader)
-            overviewData = await response.json();
+            msg = await response.json();
         }
         catch(err){
-            overviewData = err;
+            msg = err;
         }
-        // console.log(overviewData.resultantJSON.rowCount);
+        // console.log(msg);
     }
 
     fetchOverview = async()=> {
         let body = {
-            "clientName": this.state.clientName,
-            "siteName": this.state.siteName,
-            "sector": this.state.sector
+            // "clientName": this.state.clientName,
+            // "siteName": this.state.siteName,
+            // "sector": this.state.sector
+            "siteId":this.state.siteid
         }
         apiPostHeader.body = JSON.stringify(body);
         try{
@@ -83,39 +88,41 @@ class AssessmentsOverview extends React.Component {
     }
 
     onChange = index => (e) => {
+        let editdata = this.state.jsonData;
         const target = e.target;
         const id = target.id;
-        const names = id.split("_");
+        const name = target.name;
+        const names = name.split("_");
+        const ids = id.split("+")
         if (names.length > 1) {
-            body = {
-                "editValueFor": names[1],
-                "clientName": this.state.clientName,
-                "siteName": this.state.siteName,
-                "sector": this.state.sector,
+            let obj = {
                 "businessFunction": names[0],
+                "businessFunctionId": ids[0],
                 "capability": names[1],
+                "capabilityId": ids[1],
                 "action": !target.checked
             };
+            editCapability.push(obj);
         }
         else {
-            body = {
-                "editValueFor": names[0],
-                "clientName": this.state.clientName,
-                "siteName": this.state.siteName,
-                "sector": this.state.sector,
+            editdata.businessFunction[index].active = !target.checked;
+            let obj = {
                 "businessFunction": names[0],
-                "capability": "",
+                "businessFunctionId": ids[0],
                 "action": !target.checked
             };
+            editBusinessFunction.push(obj);
         }
+
+        // console.log(editBusinessFunction);
+        // console.log(editCapability);
         // this.fetchEdit();
         // this.updateData();
 
-        target.setAttribute("checked", target.checked)
+        // target.setAttribute("checked", target.checked)
         // console.log(!target.checked)
         // console.log(index);
-        let editdata = this.state.jsonData;
-        editdata.businessFunction[index].active = !target.checked;
+        
         // console.log(data)
         this.setState({
             jsonData : editdata
@@ -144,25 +151,68 @@ class AssessmentsOverview extends React.Component {
     }
 
     saveBtn = async() => {
-        // this.assessmentsCard();
+        body.siteId = this.state.siteid;
+        body.siteName = this.state.siteName;
+        body.sector = this.state.sector;
+        body.clientId = this.state.clientId;
+
+        // for (let i = editBusinessFunction.length-1; i>=0; i--) {
+        //     for (let j = 0; j < i; j++) {
+        //         delete editBusinessFunction[j];
+        //     }
+        // }
+
+        // for (let i = editCapability.length-1; i>=0; i--) {
+        //     for (let j = 0; j < i; j++) {
+        //         delete editCapability[j];
+        //     }
+        // }
+
+        // let newEditBF = [];
+        // let newEditCap = [];
+
+        // for (let i = 0; i < editBusinessFunction.length; i++) {
+        //     if (editBusinessFunction[i] !== undefined) {
+        //         newEditBF.push(editBusinessFunction[i]);
+        //     }
+        // }
+
+        // for (let i = 0; i < editCapability.length; i++) {
+        //     if (editCapability[i] !== undefined) {
+        //         newEditCap.push(editCapability[i]);
+        //     }
+        // }
+
+        // console.log(newEditBF);
+        // console.log(newEditCap);
+
+        body.editBusinessFunction = editBusinessFunction;
+        body.editCapability = editCapability;
+        // console.log(body);
+        this.fetchEdit();
+        this.updateData();
+
+        this.assessmentsCard();
         this.props.overviewRefresh();
         await this.setState({
             x:true,
             prevData : this.state.jsonData
         });
-        console.log(this.state.prevData);
+        // console.log(this.state.prevData);
         console.log("save")
     }
 
     cancel = () => {
+        // this.assessmentsCard();
+        this.props.overviewRefresh();
         this.setState ({
             jsonData: this.state.prevData,
             x: true
         });
-        console.log(this.state.prevData)
-        console.log(this.state.jsonData);
+        // console.log(this.state.prevData)
+        // console.log(this.state.jsonData);
         console.log("cancel")
-        console.log(this.props.data)
+        // console.log(this.props.data)
     }
 
     editAssessCard = () => {
@@ -199,14 +249,18 @@ class AssessmentsOverview extends React.Component {
     }
 
     editToggle = () => {
+        editBusinessFunction = [];
+        editCapability = [];
         if (this.state.x) {
             this.setState({
-                x: false
+                x: false,
+                jsonData: this.props.data
             });
         }
         else {
             this.setState({
-                x: true
+                x: true,
+                jsonData: this.props.data
             });
         }
     }
@@ -216,7 +270,7 @@ class AssessmentsOverview extends React.Component {
             <Card key={index} className={"card"}>                                   
                 <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
                 
-                <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange(index)}/> 
+                <Form.Switch name={data.name} id={data.businessFunctionId} label="" onChange={this.onChange(index)}/> 
                 {/* checked={true} */}
                     <div className="assess-overview-card">
                         <span className="area-name">{data.name}</span>
@@ -232,7 +286,10 @@ class AssessmentsOverview extends React.Component {
                         {data.Capability!==undefined?data.Capability.map((x,y) => {
                             return (
                                 <div className="assess-overview-card" key={y}>
-                                    <Form.Switch id={data.name + "_" + x.name} label="" onChange={this.onChange} checked={!x.active}/>
+                                    {x.active?
+                                        <Form.Switch name={data.name + "_" + x.name} id={data.businessFunctionId + "+" + x.capabilityId} label="" onChange={this.onChange(y)}/>:
+                                        <Form.Switch name={data.name + "_" + x.name} id={data.businessFunctionId + "+" + x.capabilityId} label="" onChange={this.onChange(y)} defaultChecked/>
+                                    }
                                     <div className="child-group">
                                     {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
                                     {x.active?(x.status!=="Open"?<FormNavigationButton labelName="Done"/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
@@ -251,7 +308,7 @@ class AssessmentsOverview extends React.Component {
             <Card key={index} className={"card"}>
                 <Card.Header className={"card-header"} style={{backgroundColor: "#232325"}}>
                     <div className="assess-overview-card-inactive">
-                        <Form.Switch id={data.name} title={data.name} label="" onChange={this.onChange(index)} defaultChecked/>
+                        <Form.Switch name={data.name} id={data.businessFunctionId} label="" onChange={this.onChange(index)} defaultChecked/>
                         <span className="area-name" style={{opacity: "0.3"}}>{data.name}</span>
                     </div>
                 </Card.Header>
@@ -272,14 +329,14 @@ class AssessmentsOverview extends React.Component {
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey={index}>
                     <div>
-                        {data.Capability.map((x,y) => {
+                        {data.Capability!==undefined?data.Capability.map((x,y) => {
                             return (
                                 <div className="assess-overview-card" key={y}>
                                     {x.active?<span className="area-name">{x.name}</span>:<span className="area-name" style={{opacity: "0.3"}}>{x.name}</span>}
                                     {x.active?(x.status!=="Open"?<FormNavigationButton labelName={<>&#10003;</>}/>:<FormNavigationButton labelName="Open" style={{backgroundColor: "#57bb50"}}/>):""}
                                 </div>
                             )
-                        })}
+                        }):""}
                     </div>
                 </Accordion.Collapse>
             </Card>
@@ -317,10 +374,15 @@ class AssessmentsOverview extends React.Component {
             clientName: this.props.data.clientName, 
             siteName: this.props.data.siteName,
             sector:this.props.data.sector,
-            prevData: this.props.data
+            prevData: this.props.data,
+            siteid: this.props.data.siteid,
+            clientId: this.props.data.clientId
         })
+
+        editBusinessFunction = [];
+        editCapability = [];
         
-        console.log(this.state.prevData)
+        console.log(this.props.data)
     }
 
     render() {

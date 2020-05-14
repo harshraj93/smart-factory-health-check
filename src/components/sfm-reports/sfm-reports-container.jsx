@@ -708,7 +708,8 @@ class Reports extends React.Component{
             overviewData = await this.fetchOverview();
             notesData = await this.fetchNotes();
             siteInfoData = await this.fetchSiteInfo();
-            overviewData.clientName = this.props.location.companyName;
+            overviewData.clientId = this.props.location.clientid;
+            // console.log(this.props.location.clientid)
             overviewData.siteName = this.props.location.locationString;
             overviewData.sector = this.props.location.industryType;
             overviewData.siteid = this.props.location.siteid;
@@ -716,7 +717,7 @@ class Reports extends React.Component{
             siteInfoData.resultantJSON.siteId = this.props.location.siteid;
             siteInfoData.resultantJSON.clientName = this.props.location.companyName;
         }
-        else if (this.props.location.clientid) {
+        else if (this.props.location.siteid === undefined) {
             clientReportsData = await this.fetchClientLevelData();
             // formattedClientReportsData = await this.formatClientLevelData(clientReportsData.resultantJSON);
             clientReportsData.sites.map((data, index)=> {
@@ -746,7 +747,7 @@ class Reports extends React.Component{
         
     return(
     
-      this.props.location.clientid?
+      this.props.location.siteid === undefined?
             (this.networkHeader()):
             (this.state.loadComponentString==="results"?this.resultHeader():
                     (this.state.loadComponentString==="assessments"?this.AssessmentsHeader():this.loadingScreen()))
