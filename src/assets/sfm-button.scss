@@ -21,6 +21,10 @@
         font-weight: 500; 
         outline: none !important;
         width: 14%;  
+        &:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
         &.false{
             opacity: 0.5;
             pointer-events: none;

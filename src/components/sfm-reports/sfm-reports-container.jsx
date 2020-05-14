@@ -21,7 +21,8 @@ import {apiPostHeader, apiGetHeader} from '../../api/main/mainapistorage'
 import Modal from "react-bootstrap/Modal";
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
-let resultsList=["Overview","Demographics"];
+// let resultsList=["Overview","Demographics"];
+let resultsList=[];
 let allPoc = false;
 
 let colors = [];
@@ -46,6 +47,8 @@ class Reports extends React.Component{
             businessContactModal:false,
             shareResults:false,
             userProfile:true,
+            userName:  "",
+            password: ""
         }
         this.props.disableMenu(false);        
     }
@@ -96,10 +99,15 @@ class Reports extends React.Component{
         })
     }
 
-    shareResults = ()=>{
+    shareResults = async() => {
+        let userInfo = resultsApi.userInfoDetails+`?siteid=${this.props.location.siteid}`
+        const response = await fetch(userInfo,apiGetHeader)
+        const demo = await response.json();
         this.setState({
             publishResults:false,
-            shareResults:true
+            shareResults:true,
+            userName: demo.resultantJSON.emailOrUsername,
+            password: demo.resultantJSON.defaultPassword,
         })
     }
 
@@ -132,8 +140,8 @@ class Reports extends React.Component{
         <Modal.Footer>
             <>
             <div className="share-results">
-                <div className="Username"><span>Username:</span> ClientName</div>
-                <div className="Username"><span>Password:</span> Results</div>
+                <div className="Username"><span>Username:</span>{this.state.userName}</div>
+                <div className="Username"><span>Password:</span>{this.state.password}</div>
                 <div className="link">{window.location.href}</div>
 
           
@@ -199,6 +207,7 @@ class Reports extends React.Component{
 
 
     resultHeader = ()=>{
+        this.props.profile === "Client" ? resultsList = ["Overview"] : resultsList = ["Overview","Demographics"]
         return(
             <div className="reports-container">
             <div className="assessment-title">
@@ -221,7 +230,7 @@ class Reports extends React.Component{
             {this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}
             </h5>
             <span className="share-link">
-             {this.props.profile!=="Client"&&<FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>}
+             {this.props.profile  !== "Client" && <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>}
             </span>
             {this.state.publishResults&&this.publishModal()}
             {this.state.businessContactModal&&this.publishBusinessContactModal()}
@@ -232,7 +241,7 @@ class Reports extends React.Component{
                     return(
                         
                         <Tab key={index} eventKey={index} title={element} >
-                            {element==="Demographics"?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview}/>}
+                            {(element==="Demographics" &&  this.state.demographicsData) ?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview} profile={this.props.profile}/>}
 
                         </Tab>
                     )
@@ -245,6 +254,7 @@ class Reports extends React.Component{
     }
 
     networkHeader = () => {
+        this.props.profile === "Client" ? resultsList = ["Overview"] : resultsList = ["Overview","Demographics"]
         return(
             <div className="reports-container">
                 <div className="assessment-title">
@@ -265,7 +275,7 @@ class Reports extends React.Component{
                         {resultsList.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={index} title={element} >
-                                    {element==="Demographics"?"":<ReportsOverview data={this.state.clientReportsData} colors ={colors}/>}
+                                    {element==="Demographics"?"":<ReportsOverview data={this.state.clientReportsData} colors ={colors} profile={this.props.profile}/>}
 
                                 </Tab>
                             )
@@ -434,6 +444,7 @@ class Reports extends React.Component{
     }
 
     fetchClientLevelData = async()=>{
+        console.log("fetch")
         let body = { 
             "clientName": this.props.location.clientid, 
             "sector": this.props.location.sector
@@ -621,19 +632,15 @@ class Reports extends React.Component{
 
     checkPOCs = (data)=>{
         let pocDetails = data.resultantJSON.pocDetails;
-        let flag=true;
+        let cnt=0;
         pocDetails.forEach(element=>{
-                if(element.ResourceName!=="null"){
-                    flag=true
+                if(element.ResourceName){
+                    cnt++;
                 }
-                else{
-                    flag=false
-                }
-                     
-            
+                
         })
         
-        if(flag){
+        if(cnt===pocDetails.length){
             allPoc = true;
         }
         
@@ -660,9 +667,9 @@ class Reports extends React.Component{
     }
 
 
-    clientUserProfile = async(userProfile)=>{
+    clientUserProfile = async(userEmail)=>{
         // console.log(resultsApi)
-        let pocName = resultsApi.reportOnly+`?pocName=${userProfile}`
+        let pocName = resultsApi.reportOnly+`?pocName=${userEmail}`
         const response = await fetch(pocName,apiGetHeader)
         const demo = await response.json()
         return demo;
@@ -672,12 +679,16 @@ class Reports extends React.Component{
     componentDidMount = async()=>{
         let resultJSON = {};
         let userProfile=this.props.profile;
-        let userName=this.props.username;
+        let userEmail=this.props.userEmail === "" ? "harshraj@deloitte.com" : this.props.userEmail;
         if(userProfile==="Client"){
-            let resultsJSON = await this.clientUserProfile(userName)
+            let resultsJSON = await this.clientUserProfile(userEmail)
+            let demographicsData = {};
+            // resultsJSON.resultantJSON.siteid = this.props.location.siteid;
+            // demographicsData = await this.fetchDemographicsData();
             this.setState({
                 loadComponentString:"results",
-                data:resultsJSON.resultantJSON,
+                // data:resultsJSON.resultantJSON,
+                // demographicsData:demographicsData,
                 reportsOverview:resultsJSON.resultantJSON,
             })
         }

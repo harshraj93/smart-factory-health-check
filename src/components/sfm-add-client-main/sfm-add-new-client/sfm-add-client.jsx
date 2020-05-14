@@ -22,7 +22,9 @@ let data =
 let requiredFieldNames=["clientName","clientParticipation","clientRole","industryDropdown","numSites","primOwnerName","primOwnerLevel","primOwnerEmail"]
 let indexArray = [];
 let siteDetails;
-let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
+let showIndustryRequired=false;
+let clientInfoForm=(props,state,handleChange,changeButtonState,showIndustryRequired)=>{
+    
     return(
         <div className = "client-info-container">
         <div className="title">Client Information</div>
@@ -48,8 +50,10 @@ let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
         <DropDownMenu 
         placeholder={data[0].labelName+"*"} 
         required={true} data={state.dropDownData} 
+        showRequired = {showIndustryRequired}
         name="industryDropdown"
         dropdownIndex={0}
+        changeButtonState={changeButtonState}
         onChange={handleChange}
         value={(state.industryDropdown!==undefined?state.industryDropdown:"")}
         />
@@ -76,7 +80,7 @@ let clientInfoForm=(props,state,handleChange,changeButtonState)=>{
         placeholder={true} changeButtonState={changeButtonState} 
         labelName="Company EBITDA (optional)" min="1" type="number" 
         name="companyEBITDA" onChange={handleChange} 
-        data={(state.companyEBITDA!==undefined?state.backData.companyEBITDA:"")}/>
+        data={(state.companyEBITDA!==undefined?state.companyEBITDA:"")}/>
         </div>
         </div>
     )
@@ -202,7 +206,6 @@ class AddNewClient extends React.Component{
 
 
     navigate = (clientid)=>{
-        console.log(siteDetails)
         let state={
             sites:this.state.numSites,
             clientName:this.state.clientName,
@@ -345,7 +348,6 @@ class AddNewClient extends React.Component{
         let cnt=0;
         requiredFieldNames.forEach(element=>{
             let stateName = this.state[element]
-            
             if(stateName){
             cnt++;
         }
@@ -353,7 +355,7 @@ class AddNewClient extends React.Component{
         if(cnt>=requiredFieldNames.length){
             boolFlag=true;
         }
-        if(boolFlag){
+        if(boolFlag&&(!showIndustryRequired)){
             this.setState({
             enableButton:true
         })
@@ -459,13 +461,24 @@ class AddNewClient extends React.Component{
 
 
     render(){
+        let industryDropdown = this.state.industryDropdown;
+    
+    if(industryDropdown){
+        if(this.state.dropDownData.includes(industryDropdown)){
+            showIndustryRequired = false
+        }  
+        else{
+            showIndustryRequired = true
+        } 
+    }
+      
        return(
             <div className='add-new-client-container'>
             <Header title="Add New Client" props={this.props}/>
             <FileUpload type="FULL" parseUploadedExcel={this.parseUploadedExcel}/>
             <div className="required">* Required</div>
             <form id="add-client-form" onSubmit={this.handleSubmit}>
-            {clientInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}
+            {clientInfoForm(this.props,this.state,this.handleChange,this.setNextStepState,showIndustryRequired)}
             <div className="border-bottom"></div>
             {teamInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}
             <div className="border-bottom"></div>

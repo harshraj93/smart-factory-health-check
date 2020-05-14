@@ -112,7 +112,7 @@ class ReportsListView extends React.Component {
         //     })
         // }
         return (
-            <div style={{display: "flex"}}>
+            <div style={{display: "grid" , "grid-template-columns": "1fr 1fr"}}>
                 <div className="tr-box">
                     <span className="tr-heading">Key Themes</span>
                     {this.textFormat(this.state.keyThemes)}
@@ -188,7 +188,7 @@ class ReportsListView extends React.Component {
                             <div>
                                 <div className="tr-com-box">
                                     <div className="edit">
-                                        <img src={EditIcon} alt="" onClick={()=>this.editToggle(data.name)}></img>
+                                        {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle(data.name)}></img> : ""}
                                     </div>
                                     {this.state.capTextEdit?this.capTextForm(data.keyThemes, data.recs):this.capTextBox()}
                                 </div>

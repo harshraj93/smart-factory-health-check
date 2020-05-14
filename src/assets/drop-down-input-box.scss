@@ -52,11 +52,29 @@
     img{
         margin-left: auto;
     }
+    .text-place-holder{
+        overflow: scroll;
+        overflow-x: scroll;
+        overflow-y:hidden ;
+  white-space: nowrap;
+  width: 22vw;
+
+ 
+    }
+    .text-place-holder::-webkit-scrollbar {
+        width: 0.1px !important;
+        height: 0.1px !important;
+    }
+    
 }
 }
 .down {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
+}
+.required-text{
+   // border-top: 1px solid red !important;;
+    padding-top: 8px;
 }
 }
 // .dropdown{
