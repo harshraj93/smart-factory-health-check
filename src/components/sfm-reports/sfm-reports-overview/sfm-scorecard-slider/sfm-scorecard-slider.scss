@@ -52,6 +52,12 @@
         align-items: center;
     }
 
+    .slider-circle {
+        width: 3.512vh;
+        height: 3.512vh;
+        border-radius: 50%;
+    }
+
     .tooltip-circle {
         display: flex;
         .slider-circle {
