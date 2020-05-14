@@ -1,5 +1,6 @@
 import React from 'react';
 import flagIcon from '../../images/icon-small-flagged-outline.svg';
+import flagHighlitedIcon from '../../images/icon-small-flagged-highlited.svg';
 import {CustomButton} from '../../assets/sfm-button';
 
 
@@ -20,7 +21,7 @@ export default function GeneralQuestions(props){
                 }
             </div>
             <div className="flag-button">
-                <CustomButton imgSrc={flagIcon} clickFunction={props.flagQuestions}/>
+                {props.flagHighlited === false ? (<CustomButton imgSrc={flagIcon} clickFunction={props.flagQuestions}/>) : <CustomButton imgSrc={flagHighlitedIcon} />}
             </div>
         </div>
     )

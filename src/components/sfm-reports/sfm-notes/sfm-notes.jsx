@@ -2,7 +2,7 @@ import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import DropDownImg from '../../../images/icon-small-chevron-down.svg';
-import FlagImg from '../../../images/icon-small-flagged-outline.svg';
+import FlagImg from '../../../images/icon-small-flagged-highlited.svg';
 import DownloadIcon from '../../../images/icon-small-download.svg';
 import assessNotesApi from '../../../api/assessments/assess-notes.js';
 import {apiPostHeader} from '../../../api/main/mainapistorage';
