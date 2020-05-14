@@ -355,7 +355,7 @@ class AddNewClient extends React.Component{
         if(cnt>=requiredFieldNames.length){
             boolFlag=true;
         }
-        if(boolFlag&&(!showIndustryRequired)){
+        if(boolFlag){
             this.setState({
             enableButton:true
         })
@@ -406,8 +406,6 @@ class AddNewClient extends React.Component{
             "supResourceName6":backData.supResourceName6,
             "supResourceEmail6":backData.supResourceEmail6,
             "supResourceLevel6":backData.supResourceLevel6,
-            
-
         })
         this.checkRequiredFields();
     }
@@ -425,7 +423,7 @@ class AddNewClient extends React.Component{
         })
         siteDetails = response.siteDetails;
         await this.setState({
-            numSites:clientDetails.assesssites,
+            numSites:response.siteDetails.length,
             industryDropdown:clientDetails.clientindustry,
             clientName:clientDetails.clientname,
             primOwnerName:clientDetails.deloitteResources.primary_owner_name,
@@ -435,6 +433,7 @@ class AddNewClient extends React.Component{
             clientParticipation:clientDetails.primaryclientparticipant,
             companyRevenue:clientDetails.revenue,
             totalSites:clientDetails.totalsites,
+            companyEBITDA:clientDetails.ebitda,
             "supResourceName1":excelData.supResourceName1,
             "supResourceEmail1":excelData.supResourceEmail1,
             "supResourceLevel1":excelData.supResourceLevel1,
