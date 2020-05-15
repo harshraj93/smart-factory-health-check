@@ -23,6 +23,7 @@ let requiredFieldNames=["clientName","clientParticipation","clientRole","industr
 let indexArray = [];
 let siteDetails;
 let showIndustryRequired=false;
+
 let clientInfoForm=(props,state,handleChange,changeButtonState,showIndustryRequired)=>{
     
     return(
@@ -169,7 +170,7 @@ class AddNewClient extends React.Component{
     showSupportResource = ()=>{
         indexArray.push(this.state.showSupportIndex+1);
         this.setState(function(prevState,prevProps){
-            
+            console.log(prevState)
            return{showSupportIndex:prevState.showSupportIndex+1,
             showSupportResource:prevState.showSupportIndex+1===5?true:false,
             indexArray:[...indexArray]}
@@ -205,29 +206,38 @@ class AddNewClient extends React.Component{
         }
 
 
-    navigate = (clientid)=>{
+    navigate = (clientid,supportResourcesID)=>{
+        let addSiteData
+        if(localStorage.getItem("addsitedata")&&!siteDetails){
+        addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
+        }
+        // console.log(addSiteData,siteDetails)
         let state={
             sites:this.state.numSites,
             clientName:this.state.clientName,
             industry:this.state.industryDropdown,
             industryList:this.state.dropDownData,
             clientid:clientid,
-            siteDetails:siteDetails?siteDetails:""
+            data:addSiteData,
+            siteDetails:siteDetails?siteDetails:"",
+            supportResourcesID:supportResourcesID
          }
 
         localStorage.setItem("sitedetailsstate",JSON.stringify({
             state:state
         }))
-
+        
         this.props.history.push({
             pathname: '/addsitedetails',
-            state:state
+            state:state,
          })
     }
 
 
     triggerFormSubmission = ()=>{
-        let clientid;
+        let clientid,supportResourcesID,primaryResourceID;
+        let back = this.props.location.data;
+        
         let addClientJSON={
             clientDetails:{
                 "clientname":this.state.clientName,
@@ -242,40 +252,49 @@ class AddNewClient extends React.Component{
                 "createdon":null,
                 "modifiedby":null,
                 "modifiedon":null,
+                "clientid":back?back.clientid:"",
+                
             },
             "deloitteResources":{
                     "primary_owner_name":this.state.primOwnerName,
                     "primary_owner_email":this.state.primOwnerEmail,
                     "primary_owner_level":this.state.primOwnerLevel,
+                    "primary_resource_id":back?(back.primaryResourceID?back.primaryResourceID:""):"",
                     "SupportResources":this.state.supResourceName1?[{
                     "support_resource_name":this.state.supResourceName1,
                     "support_resource_email":this.state.supResourceEmail1,
-                    "support_resource_level":this.state.supResourceLevel1
+                    "support_resource_level":this.state.supResourceLevel1,
+                    "support_resource_id":back?(back.supportResourcesID?back.supportResourcesID[0]:""):""
                     },
                     this.state.supResourceName2?{
                         "support_resource_name":this.state.supResourceName2,
                         "support_resource_email":this.state.supResourceEmail2,
-                        "support_resource_level":this.state.supResourceLevel2
+                        "support_resource_level":this.state.supResourceLevel2,
+                        "support_resource_id":back?(back.supportResourcesID?back.supportResourcesID[1]:""):""
                         }:null,
                         this.state.supResourceName3?{
                             "support_resource_name":this.state.supResourceName3,
                             "support_resource_email":this.state.supResourceEmail3,
-                            "support_resource_level":this.state.supResourceLevel3
+                            "support_resource_level":this.state.supResourceLevel3,
+                            "support_resource_id":back?(back.supportResourcesID?back.supportResourcesID[2]:""):""
                             }:null,
                             this.state.supResourceName4?{
                                 "support_resource_name":this.state.supResourceName4,
                                 "support_resource_email":this.state.supResourceEmail4,
-                                "support_resource_level":this.state.supResourceLevel4
+                                "support_resource_level":this.state.supResourceLevel4,
+                                "support_resource_id":back?(back.supportResourcesID?back.supportResourcesID[3]:""):""
                                 }:null,
                                 this.state.supResourceName5?{
                                     "support_resource_name":this.state.supResourceName5,
                                     "support_resource_email":this.state.supResourceEmail5,
-                                    "support_resource_level":this.state.supResourceLevel5
+                                    "support_resource_level":this.state.supResourceLevel5,
+                                    "support_resource_id":back?(back.supportResourcesID)?back.supportResourcesID[4]:"":""
                                     }:null,
                                     this.state.supResourceName6?{
                                         "support_resource_name":this.state.supResourceName6,
                                         "support_resource_email":this.state.supResourceEmail6,
-                                        "support_resource_level":this.state.supResourceLevel6
+                                        "support_resource_level":this.state.supResourceLevel6,
+                                        "support_resource_id":back?(back.supportResourcesID)?back.supportResourcesID[5]:"":""
                                         }:null,
                       ]:[]
             }
@@ -284,23 +303,33 @@ class AddNewClient extends React.Component{
              return (element!=null) 
         })
         let body = addClientJSON;
-   
+        let callAPI;
         apiPostHeader.body = JSON.stringify(body);
-        fetch(addclientapi.addClient,apiPostHeader)
+        if(back){
+            callAPI = addclientapi.updateClient
+        }else{
+            callAPI = addclientapi.addClient
+        }
+        fetch(callAPI,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{
             clientid=resp.clientid;
+            supportResourcesID=resp.supportResourcesID.length>0?resp.supportResourcesID:"";
+            primaryResourceID=resp.primaryResourceId?resp.primaryResourceId:""
+            console.log(primaryResourceID)
            if(!resp.errorMessage){
-                this.navigate(clientid);
-                this.setData();
+                this.navigate(clientid,supportResourcesID,primaryResourceID);
+                this.setData(clientid,supportResourcesID,primaryResourceID);
            }
         })
             .catch(err=>console.log(err))
 
-        }
+        
+        
+    }
 
     
-    setData = ()=>{
+    setData = (clientid,supportResourcesID,primaryResourceID)=>{
         
         localStorage.setItem("addnewclient",JSON.stringify({
             "clientName":this.state.clientName,
@@ -332,7 +361,10 @@ class AddNewClient extends React.Component{
             "supResourceName6":this.state.supResourceName6,
             "supResourceEmail6":this.state.supResourceEmail6,
             "supResourceLevel6":this.state.supResourceLevel6,
-            "siteDetails":siteDetails?siteDetails:""
+            "siteDetails":siteDetails?siteDetails:"",
+            "clientid":clientid,
+            supportResourcesID:supportResourcesID,
+            primaryResourceID:primaryResourceID
         }))
     }
 
@@ -375,6 +407,7 @@ class AddNewClient extends React.Component{
     componentDidMount = async()=>{
         this.getIndustryList();
         let backData = this.props.location.data;
+        console.log(backData);
         if(backData){
         await this.setState({
             clientName:backData.clientName,
@@ -416,6 +449,7 @@ class AddNewClient extends React.Component{
         let supportResources = clientDetails.deloitteResources.supportResources;
         let excelData={};
         supportResources.forEach((resource,index)=>{
+            console.log(supportResources.length);
             excelData["supResourceName"+(index+1)]=resource.support_resource_name;
             excelData["supResourceEmail"+(index+1)]=resource.support_resource_email;
             excelData["supResourceLevel"+(index+1)]=resource.support_resource_level;
@@ -456,6 +490,12 @@ class AddNewClient extends React.Component{
         })
         this.checkRequiredFields();
        
+    }
+
+    componentWillUnmount = ()=>{
+        indexArray=[];
+        showIndustryRequired="";
+        requiredFieldNames = [];
     }
 
 
