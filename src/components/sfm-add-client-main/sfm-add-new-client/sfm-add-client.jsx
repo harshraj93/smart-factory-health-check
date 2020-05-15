@@ -208,10 +208,12 @@ class AddNewClient extends React.Component{
 
     navigate = (clientid,supportResourcesID)=>{
         let addSiteData
-        if(localStorage.getItem("addsitedata")&&!siteDetails){
+
+        if(localStorage.getItem("addsitedata")&&this.props.location.data){
         addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
         }
-        // console.log(addSiteData,siteDetails)
+        
+        console.log(addSiteData)
         let state={
             sites:this.state.numSites,
             clientName:this.state.clientName,
@@ -303,29 +305,25 @@ class AddNewClient extends React.Component{
              return (element!=null) 
         })
         let body = addClientJSON;
-        let callAPI;
+        let callAPI = addclientapi.addClient;
         apiPostHeader.body = JSON.stringify(body);
-        if(back){
-            callAPI = addclientapi.updateClient
-        }else{
-            callAPI = addclientapi.addClient
-        }
+        // if(back){
+        //     callAPI = addclientapi.updateClient
+        // }else{
+        //     callAPI = addclientapi.addClient
+        // }
         fetch(callAPI,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{
             clientid=resp.clientid;
             supportResourcesID=resp.supportResourcesID.length>0?resp.supportResourcesID:"";
             primaryResourceID=resp.primaryResourceId?resp.primaryResourceId:""
-            console.log(primaryResourceID)
            if(!resp.errorMessage){
                 this.navigate(clientid,supportResourcesID,primaryResourceID);
                 this.setData(clientid,supportResourcesID,primaryResourceID);
            }
         })
             .catch(err=>console.log(err))
-
-        
-        
     }
 
     

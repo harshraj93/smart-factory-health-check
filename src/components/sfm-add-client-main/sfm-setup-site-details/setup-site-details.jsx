@@ -18,7 +18,7 @@ function siteHeader(props,enableButton){
     return(
         <div className="site-header-container">
             <span className="site-name">{props.location.state.clientName}</span>
-        {props.location.state.page?<FormNavigationButton labelName="Next Step" buttonStatus={enableButton}/>:""}
+        <FormNavigationButton labelName="Next Step" buttonStatus={enableButton}/>
         </div>
     )
 }
@@ -160,6 +160,7 @@ class AddSiteDetails extends React.Component{
             ["percentAvailable"+index]: backData["availabilityOEE"],
             ["percentQuality"+index]: backData["qualityOEE"]
         })
+        console.log(this.state);
         this.checkRequiredFields();   
     }
 
