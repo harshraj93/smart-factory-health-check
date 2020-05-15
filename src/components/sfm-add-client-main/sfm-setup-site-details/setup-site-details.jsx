@@ -349,6 +349,7 @@ class AddSiteDetails extends React.Component{
             {siteNumber.map((number,index)=>{
                 let backData;
                 if(this.props.location.state.data){
+                    console.log(this.props.location.state.data)
                     backData = this.props.location.state.data.sitedetailsJSON.sites[index].siteDetails;
                  }
                  else if(this.props.location.state.siteDetails){

@@ -116,7 +116,6 @@ let addSiteArray = [];
                 state:state
              })
              addSiteArray=[]
-             
     }
 
 
