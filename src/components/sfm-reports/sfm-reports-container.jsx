@@ -256,7 +256,7 @@ class Reports extends React.Component{
                     return(
                         
                         <Tab key={index} eventKey={index} title={element} >
-                            {(element==="Demographics" &&  this.state.demographicsData) ?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview} profile={this.props.profile}/>}
+                            {(element==="Demographics" &&  this.state.demographicsData) ?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview} resultsRefresh={this.resultsRefresh} profile={this.props.profile}/>}
 
                         </Tab>
                     )
@@ -634,6 +634,15 @@ class Reports extends React.Component{
         // console.log(jsonData.target);
         // console.log("format data",jsonData);
         return jsonData;
+    }
+
+    resultsRefresh = async() => {
+        let resultData = await this.fetchResultsData();
+        resultData.resultantJSON.siteid = this.props.location.siteid;
+
+        await this.setState({
+            reportsOverview: resultData.resultantJSON
+        })
     }
 
     fetchResultsData = async()=>{
