@@ -96,9 +96,12 @@ let addSiteArray = [];
     
     navigate = ()=>{
             this.getSiteNum();
+            if(this.props.location.companyName){
+                localStorage.setItem("siteCompanyName",this.props.location.companyName)
+            }
             let state={
                 sites:this.state.siteNum,
-                clientName:this.props.location.companyName,
+                clientName:localStorage.getItem("siteCompanyName"),
                 industryList:this.state.allSectors,
                 clientid:localStorage.getItem("clientid"),
                 page:"addsite",
