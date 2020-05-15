@@ -209,7 +209,7 @@ class AddNewClient extends React.Component{
     navigate = (clientid,supportResourcesID)=>{
         let addSiteData
 
-        if(localStorage.getItem("addsitedata")&&!siteDetails){
+        if(localStorage.getItem("addsitedata")&&this.props.location.data){
         addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
         }
         

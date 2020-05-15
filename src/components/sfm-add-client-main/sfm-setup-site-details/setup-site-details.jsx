@@ -18,7 +18,7 @@ function siteHeader(props,enableButton){
     return(
         <div className="site-header-container">
             <span className="site-name">{props.location.state.clientName}</span>
-        {props.location.state.page?<FormNavigationButton labelName="Next Step" buttonStatus={enableButton}/>:""}
+        <FormNavigationButton labelName="Next Step" buttonStatus={enableButton}/>
         </div>
     )
 }
@@ -160,6 +160,7 @@ class AddSiteDetails extends React.Component{
             ["percentAvailable"+index]: backData["availabilityOEE"],
             ["percentQuality"+index]: backData["qualityOEE"]
         })
+        console.log(this.state);
         this.checkRequiredFields();   
     }
 
@@ -349,7 +350,6 @@ class AddSiteDetails extends React.Component{
             {siteNumber.map((number,index)=>{
                 let backData;
                 if(this.props.location.state.data){
-                    console.log(this.props.location.state.data)
                     backData = this.props.location.state.data.sitedetailsJSON.sites[index].siteDetails;
                  }
                  else if(this.props.location.state.siteDetails){
