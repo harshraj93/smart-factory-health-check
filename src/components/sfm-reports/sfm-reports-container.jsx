@@ -256,7 +256,7 @@ class Reports extends React.Component{
                     return(
                         
                         <Tab key={index} eventKey={index} title={element} >
-                            {(element==="Demographics" &&  this.state.demographicsData) ?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview} profile={this.props.profile}/>}
+                            {(element==="Demographics" &&  this.state.demographicsData) ?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview} resultsRefresh={this.resultsRefresh} profile={this.props.profile}/>}
 
                         </Tab>
                     )
@@ -372,7 +372,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData}/>:<ClientInfo client={this.props.location.companyName}/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData} siteinfoRefresh={this.siteinfoRefresh}/>:<ClientInfo client={this.props.location.companyName}/>))}
                             </Tab>
                         )
                     })}
@@ -438,6 +438,16 @@ class Reports extends React.Component{
         catch(err){
             return err
         }
+    }
+
+    siteinfoRefresh = async() => {
+        let siteInfoData = await this.fetchSiteInfo();
+        siteInfoData.resultantJSON.siteId = this.props.location.siteid;
+        siteInfoData.resultantJSON.clientName = this.props.location.companyName;
+
+        await this.setState({
+            siteInfoData: siteInfoData.resultantJSON
+        })
     }
 
     fetchSiteInfo = async()=> {
@@ -626,6 +636,15 @@ class Reports extends React.Component{
         return jsonData;
     }
 
+    resultsRefresh = async() => {
+        let resultData = await this.fetchResultsData();
+        resultData.resultantJSON.siteid = this.props.location.siteid;
+
+        await this.setState({
+            reportsOverview: resultData.resultantJSON
+        })
+    }
+
     fetchResultsData = async()=>{
         let body = { 
             // "clientName": this.props.location.companyName, 
@@ -723,6 +742,7 @@ class Reports extends React.Component{
             overviewData = await this.fetchOverview();
             notesData = await this.fetchNotes();
             siteInfoData = await this.fetchSiteInfo();
+            overviewData.clientName = this.props.location.companyName;
             overviewData.clientId = this.props.location.clientid;
             // console.log(this.props.location.clientid)
             overviewData.siteName = this.props.location.locationString;

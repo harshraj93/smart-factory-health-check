@@ -25,6 +25,9 @@ function percentComplete(data, str) {
     )
 }
 
+let keyThemes = [];
+let recs = [];
+
 class ReportsListView extends React.Component {
     constructor(props){
         super(props);
@@ -33,36 +36,49 @@ class ReportsListView extends React.Component {
             capTextEdit: false,
             keyThemes: "Enter Key Themes",
             recs: "Enter Recommendations",
-            businessFunction: ""
+            businessFunction: "",
+            tempKT: "",
+            tempRecs: ""
         }
 
         this.editToggle = this.editToggle.bind(this);
     }
 
-    recsChange = (e)=>{
-        this.setState({
-            recs:e.target.value
-        })
+    recsChange = index => (e)=>{
+        this.setState ({
+            tempRecs: e.target.value
+        });
+        // recs[index] = this.state.tempRecs;
+        recs[index] = e.target.value
     }
 
-    themeChange = (e)=>{
-        this.setState({
-            keyThemes:e.target.value
-        })
+    themeChange = index => (e)=>{
+        this.setState ({
+            tempKT: e.target.value
+        });
+        keyThemes[index] = e.target.value;
+        // this.capTextForm(index);
+        // console.log(e.target.value)
+        // console.log(keyThemes[index])
     }
 
-    editToggle = (name)=> {
-        // console.log(name)
+    editToggle = (data, index)=> {
+        console.log(index)
+        console.log(data)
         if (this.state.capTextEdit) {
             this.setState({
                 capTextEdit: false,
-                businessFunction: name
+                businessFunction: data.name,
+                tempKT: keyThemes[index],
+                tempRecs: recs[index]
             });
         }
         else {
             this.setState({
                 capTextEdit: true,
-                businessFunction: name
+                businessFunction: data.name,
+                tempKT: keyThemes[index],
+                tempRecs: recs[index]
             });
         }
     }
@@ -71,8 +87,8 @@ class ReportsListView extends React.Component {
         if (this.props.data.sites === undefined) {
             let body = {
                 "businessFunction": this.state.businessFunction,
-                "recommendations": this.state.recs,
-                "keyThemes": this.state.keyThemes,
+                "recommendations": this.state.tempRecs,
+                "keyThemes": this.state.tempKT,
                 "siteid": this.props.data.siteid
             }
             apiPostHeader.body = JSON.stringify(body);
@@ -94,12 +110,16 @@ class ReportsListView extends React.Component {
             });
         }
         
-        // console.log(this.state.recs);
+        console.log(keyThemes);
+        console.log(recs);
+        this.props.resultsRefresh();
+        console.log(keyThemes);
+        console.log(recs);
     }
 
     // setText (keyThemes, recs) {}
 
-    capTextBox(keyThemes, recs) {
+    capTextBox = (index) => {
         // console.log(keyThemes + " + " + recs);
         // if (keyThemes !== null) {
         //     this.setState({
@@ -111,6 +131,9 @@ class ReportsListView extends React.Component {
         //         recs: recs
         //     })
         // }
+        // console.log(keyThemes)
+        // console.log(recs)
+        // console.log(index)
         return (
             <div style={{display: "grid" , "grid-template-columns": "1fr 1fr"}}>
                 <div className="tr-box">
@@ -125,23 +148,33 @@ class ReportsListView extends React.Component {
         )
     }
 
-    capTextForm() {
+    setTempText = (index) => {
+        this.setState ({
+            tempKT: keyThemes[index],
+            tempRecs: recs[index]
+        });
+        console.log(this.state.tempKT);
+        console.log(keyThemes[index]);
+    }
+
+    capTextForm = (index) => {
+        // this.setTempText(index);
         return (
             <InputGroup controlId="capText">
                 <Form.Row>
                     <Form.Group as={Col} controlId="keyThemes">
                         <Form.Label>Key Themes</Form.Label>
-                        <Form.Control as={"textarea"} maxLength={450} placeholder="Enter key themes" onChange={this.themeChange} value={this.state.keyThemes}/>
+                        <Form.Control as={"textarea"} maxLength={450} placeholder="Enter key themes" onChange={this.themeChange(index)} value={this.state.tempKT}/>
                         <Form.Text className="text-muted">
-                            {this.state.keyThemes.length}/450 characters
+                            {this.state.tempKT.length}/450 characters
                         </Form.Text>
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="recs">
                         <Form.Label>Recommendations</Form.Label>
-                        <Form.Control as={"textarea"} maxLength={450} placeholder="Enter recommendations" onChange={this.recsChange} value={this.state.recs} />
+                        <Form.Control as={"textarea"} maxLength={450} placeholder="Enter recommendations" onChange={this.recsChange(index)} value={this.state.tempRecs} />
                         <Form.Text className="text-muted">
-                            {this.state.recs.length}/450 characters
+                            {this.state.tempRecs.length}/450 characters
                         </Form.Text>
                     </Form.Group>
                 </Form.Row>
@@ -188,9 +221,9 @@ class ReportsListView extends React.Component {
                             <div>
                                 <div className="tr-com-box">
                                     <div className="edit">
-                                        {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle(data.name)}></img> : ""}
+                                        {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle(data, index)}></img> : ""}
                                     </div>
-                                    {this.state.capTextEdit?this.capTextForm(data.keyThemes, data.recs):this.capTextBox()}
+                                    {this.state.capTextEdit?this.capTextForm(index):this.capTextBox(index)}
                                 </div>
                                 {data.parts.map((x,y) => {
                                     return (
@@ -305,6 +338,32 @@ class ReportsListView extends React.Component {
         this.setState({
             arrayIndex:this.state.arrayIndex===String(index)?"":String(index)
         });
+    }
+
+    componentDidMount = async() => {
+        console.log(this.props.data.reportsData);
+        keyThemes = [];
+        recs = [];
+        if (this.props.data.reportsData !== undefined) {
+            for (let i = 0; i < this.props.data.reportsData.length; i++) {
+                if (this.props.data.reportsData[i].keyThemes !== null) {
+                    keyThemes.push(this.props.data.reportsData[i].keyThemes);
+                }
+                else {
+                    keyThemes.push(this.state.keyThemes);
+                }
+                
+                if (this.props.data.reportsData[i].recs !== null) {
+                    recs.push(this.props.data.reportsData[i].recs);
+                }
+                else {
+                    recs.push(this.state.recs);
+                }
+            }
+        }
+
+        console.log(keyThemes);
+        console.log(recs);
     }
 
     render(){

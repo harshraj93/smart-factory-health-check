@@ -187,11 +187,13 @@ class SiteInfo extends React.Component{
         try{
             const response = await fetch(siteInfoApi.siteInfoEdit,apiPostHeader)
             const message = await response.json();
-            return message;
+            console.log(message);
         }
         catch(err){
-            return err
+            console.log(err)
         }
+
+        this.props.siteinfoRefresh();
     }
 
     render() {

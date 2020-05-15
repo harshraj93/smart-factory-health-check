@@ -83,7 +83,10 @@ class Slider extends React.Component {
                         <div class="tooltiptext" style={{bottom: "100%", marginLeft: "-55px"}}>
                             {this.props.data.sites.map((data, index) => {
                                 return (
-                                    <p>{Number(data.target).toFixed(1) + "  " + data.name}</p>
+                                    <div className="line">
+                                        <p>{Number(data.target).toFixed(1)}</p>
+                                        <p>{data.name}</p>
+                                    </div>
                                 )
                             })}
                         </div>

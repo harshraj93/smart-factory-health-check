@@ -386,7 +386,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data} profile={this.props.profile}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data} resultsRefresh={this.props.resultsRefresh} profile={this.props.profile}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
@@ -398,6 +398,7 @@ class ReportsOverview extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props.data)
         if (this.props.data) {
             if (this.props.data.summary !== null) {
                 this.setState ({
@@ -423,7 +424,6 @@ class ReportsOverview extends React.Component {
     }
 
     render() {
-        console.log(this.props.data);
         return (
             this.props.data ? this.props.data.sites !== undefined?this.clientLevel():this.siteLevel() : ""
         );
