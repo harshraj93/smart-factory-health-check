@@ -396,7 +396,7 @@ class ReportsListView extends React.Component {
 
     render(){
         return(
-            (this.props.data.reportsData?(keyThemes[0]!==undefined?this.reportScoreCard():""):this.assessmentsCard())
+            (this.props.data.reportsData?(this.reportScoreCard()):this.assessmentsCard())
         )
     }
 }
