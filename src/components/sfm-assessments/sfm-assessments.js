@@ -63,6 +63,9 @@ class Assessments extends React.Component {
 
     componentDidMount = ()=>{
         this.fetchAssessmentsData();
+        localStorage.setItem("sitedetailsstate","");
+        localStorage.setItem("addsitedata","");
+        localStorage.setItem("addnewclient","")
     }
 
 
