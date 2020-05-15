@@ -70,6 +70,7 @@
                 margin: 0;
                 font-size: 14px;
             }
+
             visibility: hidden;
             width: max-content;
             background-color: black;
@@ -77,6 +78,7 @@
             text-align: center;
             border-radius: 6px;
             padding: 7px 9px;
+            padding-left: 14px;
 
             position: absolute;
             z-index: 5;
@@ -93,6 +95,12 @@
                 border-width: 5px;
                 border-style: solid;
                 border-color: black transparent transparent transparent;
+            }
+
+            .line {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                text-align: left;
             }
         }
 
