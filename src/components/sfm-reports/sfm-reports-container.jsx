@@ -733,6 +733,7 @@ class Reports extends React.Component{
             overviewData = await this.fetchOverview();
             notesData = await this.fetchNotes();
             siteInfoData = await this.fetchSiteInfo();
+            overviewData.clientName = this.props.location.companyName;
             overviewData.clientId = this.props.location.clientid;
             // console.log(this.props.location.clientid)
             overviewData.siteName = this.props.location.locationString;
