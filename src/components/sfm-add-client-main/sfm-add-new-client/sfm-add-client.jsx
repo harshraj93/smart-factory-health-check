@@ -303,13 +303,13 @@ class AddNewClient extends React.Component{
              return (element!=null) 
         })
         let body = addClientJSON;
-        let callAPI=addclientapi.addClient;
+        let callAPI;
         apiPostHeader.body = JSON.stringify(body);
-        // if(back){
-        //     callAPI = addclientapi.updateClient
-        // }else{
-        //     callAPI = addclientapi.addClient
-        // }
+        if(back){
+            callAPI = addclientapi.updateClient
+        }else{
+            callAPI = addclientapi.addClient
+        }
         fetch(callAPI,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{

@@ -9,7 +9,7 @@ let addclientapi={
     addSite:apiUrl+'siteService/addSite',
     upload:apiUrl+'siteService/uploadSiteInfo',
     download:apiUrl+'siteService/downloadSiteInfo',
-    updateClient:apiUrl+'siteService/updateClient'
+    updateClient:apiUrl+'clientService/updateClient'
 
 }
 
