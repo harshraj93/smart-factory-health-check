@@ -49,7 +49,7 @@ locationFormatter = (cell,row)=>{
 
 actionsFormatter = (cell,row)=>{
 
-    
+    localStorage.setItem("clientName", this.props.companyName)
         
         return  (<div className="misc-container">
                         {/* {row.site_level_status!=="Open"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
