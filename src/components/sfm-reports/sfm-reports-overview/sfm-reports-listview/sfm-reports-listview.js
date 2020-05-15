@@ -83,6 +83,28 @@ class ReportsListView extends React.Component {
         }
     }
 
+    refreshText = async() => {
+        keyThemes = [];
+        recs = [];
+        if (this.props.data.reportsData !== undefined) {
+            for (let i = 0; i < this.props.data.reportsData.length; i++) {
+                if (this.props.data.reportsData[i].keyThemes !== null) {
+                    keyThemes.push(this.props.data.reportsData[i].keyThemes);
+                }
+                else {
+                    keyThemes.push(this.state.keyThemes);
+                }
+                
+                if (this.props.data.reportsData[i].recs !== null) {
+                    recs.push(this.props.data.reportsData[i].recs);
+                }
+                else {
+                    recs.push(this.state.recs);
+                }
+            }
+        }
+    }
+
     onSave = async() => {
         if (this.props.data.sites === undefined) {
             let body = {
@@ -100,6 +122,16 @@ class ReportsListView extends React.Component {
             catch(err){
                 editresp = err;
             }
+
+            console.log(keyThemes);
+            console.log(recs);
+            if (editresp) {
+                this.props.resultsRefresh();
+                // this.refreshText();
+            }
+            console.log(keyThemes);
+            console.log(recs);
+
             this.setState ({
                 capTextEdit: false
             });
@@ -109,12 +141,6 @@ class ReportsListView extends React.Component {
                 capTextEdit: false
             });
         }
-        
-        console.log(keyThemes);
-        console.log(recs);
-        this.props.resultsRefresh();
-        console.log(keyThemes);
-        console.log(recs);
     }
 
     // setText (keyThemes, recs) {}
@@ -134,28 +160,30 @@ class ReportsListView extends React.Component {
         // console.log(keyThemes)
         // console.log(recs)
         // console.log(index)
-        return (
-            <div style={{display: "grid" , "grid-template-columns": "1fr 1fr"}}>
-                <div className="tr-box">
-                    <span className="tr-heading">Key Themes</span>
-                    {this.textFormat(this.state.keyThemes)}
+        if (keyThemes[index] !== undefined && recs[index] !== undefined) {
+            return (
+                <div style={{display: "grid" , "grid-template-columns": "1fr 1fr"}}>
+                    <div className="tr-box">
+                        <span className="tr-heading">Key Themes</span>
+                        {this.textFormat(keyThemes[index])}
+                    </div>
+                    <div className="tr-box">
+                        <span className="tr-heading">Recommendations</span>
+                        {this.textFormat(recs[index])}
+                    </div>
                 </div>
-                <div className="tr-box">
-                    <span className="tr-heading">Recommendations</span>
-                    {this.textFormat(this.state.recs)}
-                </div>
-            </div>
-        )
+            )
+        }
     }
 
-    setTempText = (index) => {
-        this.setState ({
-            tempKT: keyThemes[index],
-            tempRecs: recs[index]
-        });
-        console.log(this.state.tempKT);
-        console.log(keyThemes[index]);
-    }
+    // setTempText = (index) => {
+    //     this.setState ({
+    //         tempKT: keyThemes[index],
+    //         tempRecs: recs[index]
+    //     });
+    //     console.log(this.state.tempKT);
+    //     console.log(keyThemes[index]);
+    // }
 
     capTextForm = (index) => {
         // this.setTempText(index);
@@ -341,7 +369,7 @@ class ReportsListView extends React.Component {
     }
 
     componentDidMount = async() => {
-        console.log(this.props.data.reportsData);
+        console.log("reports",this.props.data.reportsData);
         keyThemes = [];
         recs = [];
         if (this.props.data.reportsData !== undefined) {
@@ -368,7 +396,7 @@ class ReportsListView extends React.Component {
 
     render(){
         return(
-            (this.props.data.reportsData?this.reportScoreCard():this.assessmentsCard())
+            (this.props.data.reportsData?(keyThemes[0]!==undefined?this.reportScoreCard():""):this.assessmentsCard())
         )
     }
 }

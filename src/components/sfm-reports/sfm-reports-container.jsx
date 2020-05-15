@@ -758,7 +758,7 @@ class Reports extends React.Component{
             clientReportsData.sites.map((data, index)=> {
                 colors.push(Math.floor(Math.random()*16777215).toString(16))
             });
-            // console.log(colors);
+            // console.log(clientReportsData);
         }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
