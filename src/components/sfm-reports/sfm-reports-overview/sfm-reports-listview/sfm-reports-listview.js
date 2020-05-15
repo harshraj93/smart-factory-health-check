@@ -123,14 +123,14 @@ class ReportsListView extends React.Component {
                 editresp = err;
             }
 
-            console.log(keyThemes);
-            console.log(recs);
+            // console.log(keyThemes);
+            // console.log(recs);
             if (editresp) {
                 this.props.resultsRefresh();
-                // this.refreshText();
+                this.refreshText();
             }
-            console.log(keyThemes);
-            console.log(recs);
+            // console.log(keyThemes);
+            // console.log(recs);
 
             this.setState ({
                 capTextEdit: false
