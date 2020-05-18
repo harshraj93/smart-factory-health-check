@@ -38,7 +38,10 @@ headerStyle = ()=>{
 
 locationFormatter = (cell,row)=>{
     let style={backgroundColor:"#ef7c03",borderRadius:"4px", color:"white", marginLeft:"4px", outline:"none"}
-    if(row.site_level_status!=="Open"){
+    // if(row.site_level_status!=="Open"){
+    //     return <div id="revisit"><span>{cell}</span> <CustomButton labelName="Revisit" style={style} /></div>
+    // }
+    if(row.revisit_flag==="true" || row.revisit_flag===true){
         return <div id="revisit"><span>{cell}</span> <CustomButton labelName="Revisit" style={style} /></div>
     }
     else {
