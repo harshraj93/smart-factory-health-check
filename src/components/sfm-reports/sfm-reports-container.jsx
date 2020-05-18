@@ -195,7 +195,7 @@ class Reports extends React.Component{
         <Modal.Footer>
             <>
             <div className="share-results">
-                <div className="Username"><span>Username:</span><input type="text" id="username" value={this.state.userName} className="username" onInput={(e)=>this.changeUsername(e)}/><FormNavigationButton labelName = "Submit" disabled={!this.state.correctEmailFormat} onClick={this.submitUsername}/></div>
+                <div className="Username"><span>Email:</span><input type="text" id="username" value={this.state.userName} className="username" onInput={(e)=>this.changeUsername(e)}/><FormNavigationButton labelName = "Submit" disabled={!this.state.correctEmailFormat} onClick={this.submitUsername}/></div>
                 
                 {/* <div className="Username"><span>Password:</span>{this.state.password}</div> */}
                 {/* <div id="linkURL" className="link">{window.location.href}</div> */}
