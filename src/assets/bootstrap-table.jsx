@@ -52,7 +52,7 @@ locationFormatter = (cell,row)=>{
 
 actionsFormatter = (cell,row)=>{
 
-    
+    localStorage.setItem("clientName", this.props.companyName)
         
         return  (<div className="misc-container">
                         {/* {row.site_level_status!=="Open"?<img  className="link-icon" aria-label="link" src={smallLink} alt=""/>:<div></div>}
@@ -64,7 +64,8 @@ actionsFormatter = (cell,row)=>{
                             companyName:this.props.companyName,
                             loadComponentString : "assessments",
                             industryType : this.props.industryType,
-                            siteid: row.siteid
+                            siteid: row.siteid,
+                            clientid: this.props.clientid
                         }}
                         >
                             >
@@ -112,7 +113,8 @@ columns= [{
                 companyName:this.props.companyName,
                 loadComponentString : "assessments",
                 industryType : this.props.industryType,
-                siteid: row.siteid
+                siteid: row.siteid,
+                clientid: this.props.clientid
             })
         }
         

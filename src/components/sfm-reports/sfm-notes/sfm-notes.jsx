@@ -2,7 +2,7 @@ import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import DropDownImg from '../../../images/icon-small-chevron-down.svg';
-import FlagImg from '../../../images/icon-small-flagged-outline.svg';
+import FlagImg from '../../../images/icon-small-flagged-highlited.svg';
 import DownloadIcon from '../../../images/icon-small-download.svg';
 import assessNotesApi from '../../../api/assessments/assess-notes.js';
 import {apiPostHeader} from '../../../api/main/mainapistorage';
@@ -108,7 +108,7 @@ class Notes extends React.Component {
                                                                             <div className="notes-block">
                                                                                 <div className="notes-header">
                                                                                     <div className="context">
-                                                                                        {m.flagType!==null?<img src={FlagImg} alt="" style={{marginRight: "10px"}}/>:""}
+                                                                                        {m.flagType!==""?<img src={FlagImg} alt="" style={{marginRight: "10px"}}/>:""}
                                                                                         <span className="user-name">{m.username}</span>
                                                                                     </div>
                                                                                     <div className="date-time">

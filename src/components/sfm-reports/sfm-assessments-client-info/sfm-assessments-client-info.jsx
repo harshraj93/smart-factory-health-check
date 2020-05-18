@@ -53,11 +53,12 @@ class ClientInfo extends React.Component {
     //     }
     // }
 
-    fetchSiteInfo = async()=> {
+    fetchSiteInfo = async(clientName)=> {
         // console.log(this.props.data);
         // apiPostHeader.body = JSON.stringify(this.props.data);
+        
         try{
-        const response = await fetch(clientInfoApi.clientInfo+`?clientName=${this.props.client}`,apiGetHeader)
+        const response = await fetch(clientInfoApi.clientInfo+`?clientName=${clientName}`,apiGetHeader)
         const siteInfoData = await response.json();
         return siteInfoData;
         }
@@ -67,7 +68,8 @@ class ClientInfo extends React.Component {
     }
 
     componentDidMount = async()=> {
-        let siteInfoData = await this.fetchSiteInfo();
+        let clientName = localStorage.getItem("clientName")
+        let siteInfoData = await this.fetchSiteInfo(clientName);
         await this.setState({
             jsonData:siteInfoData.resultantJSON
         })

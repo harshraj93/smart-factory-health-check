@@ -48,7 +48,8 @@ class Reports extends React.Component{
             shareResults:false,
             userProfile:true,
             userName:  "",
-            password: ""
+            password: "",
+            clipboardCopySuccess: false,
         }
         this.props.disableMenu(false);        
     }
@@ -111,6 +112,15 @@ class Reports extends React.Component{
         })
     }
 
+    copyLink = () => {
+        var copyText = document.getElementById("linkURL").baseURI
+        navigator.clipboard.writeText(copyText);
+        this.setState({
+            clipboardCopySuccess: true
+        })
+        // console.log("copyText", copyText)
+    }
+
     publishModal = ()=>{
         return(
             <div className = "publish-modal">
@@ -142,14 +152,18 @@ class Reports extends React.Component{
             <div className="share-results">
                 <div className="Username"><span>Username:</span>{this.state.userName}</div>
                 <div className="Username"><span>Password:</span>{this.state.password}</div>
-                <div className="link">{window.location.href}</div>
+                {/* <div id="linkURL" className="link">{window.location.href}</div> */}
+                <input type="text" readonly id="linkURL" value={window.location.href} className="link"/>
 
           
             </div>
-            <div className="button-group">
-            <FormNavigationButton labelName = "Send Email"/>
-            <FormNavigationButton labelName = "Copy Link" />
-            </div>
+            {this.state.clipboardCopySuccess === false ? 
+            (<div className="button-group">
+                <FormNavigationButton labelName = "Send Email"/>
+                <FormNavigationButton labelName = "Copy Link" onClick={this.copyLink}/>
+            </div>) : 
+            (<div className="linkCopySuccess">Link Copied to Clipboard</div>)
+            }
             </>
         </Modal.Footer>
       </Modal>
@@ -168,7 +182,8 @@ class Reports extends React.Component{
     showPopup = (e,popupToLoad)=>{
         if(popupToLoad==="publishResults"){
         this.setState({
-            publishResults:true
+            publishResults:true,
+            clipboardCopySuccess: false,
         })
         }
         else{
@@ -212,7 +227,7 @@ class Reports extends React.Component{
             <div className="reports-container">
             <div className="assessment-title">
             <div className="assessment-overview-title">
-                <CustomButton imgSrc={leftIcon} clickFunction={JSON.stringify(this.state.assessOverview) !== "{}"?this.navigateBackFromResults:this.navigateBack}/>
+                {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={JSON.stringify(this.state.assessOverview) !== "{}"?this.navigateBackFromResults:this.navigateBack}/> : ""}
                 <span className="title-text">
                     {"Results "+this.state.title}
                 </span>
@@ -241,7 +256,7 @@ class Reports extends React.Component{
                     return(
                         
                         <Tab key={index} eventKey={index} title={element} >
-                            {(element==="Demographics" &&  this.state.demographicsData) ?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview} profile={this.props.profile}/>}
+                            {(element==="Demographics" &&  this.state.demographicsData) ?<DemographicsForm formData={this.state.demographicsData}/>:<ReportsOverview data={this.state.reportsOverview} resultsRefresh={this.resultsRefresh} profile={this.props.profile}/>}
 
                         </Tab>
                     )
@@ -259,7 +274,7 @@ class Reports extends React.Component{
             <div className="reports-container">
                 <div className="assessment-title">
                     <div className="assessment-overview-title">
-                        <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
+                        {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
                         <span className="title-text">
                             {this.props.location.sector+" Network"}
                         </span>
@@ -335,7 +350,7 @@ class Reports extends React.Component{
             <div className="reports-container">
                 {this.state.x?this.deleteModal():""}
                 <div className="assessment-overview-title">
-                    <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/>
+                    {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
                     <span className="title-text">
                         Assessment Overview
                     </span>
@@ -357,7 +372,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData}/>:<ClientInfo client={this.props.location.companyName}/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData} siteinfoRefresh={this.siteinfoRefresh}/>:<ClientInfo client={this.props.location.companyName}/>))}
                             </Tab>
                         )
                     })}
@@ -423,6 +438,16 @@ class Reports extends React.Component{
         catch(err){
             return err
         }
+    }
+
+    siteinfoRefresh = async() => {
+        let siteInfoData = await this.fetchSiteInfo();
+        siteInfoData.resultantJSON.siteId = this.props.location.siteid;
+        siteInfoData.resultantJSON.clientName = this.props.location.companyName;
+
+        await this.setState({
+            siteInfoData: siteInfoData.resultantJSON
+        })
     }
 
     fetchSiteInfo = async()=> {
@@ -611,6 +636,15 @@ class Reports extends React.Component{
         return jsonData;
     }
 
+    resultsRefresh = async() => {
+        let resultData = await this.fetchResultsData();
+        resultData.resultantJSON.siteid = this.props.location.siteid;
+
+        await this.setState({
+            reportsOverview: resultData.resultantJSON
+        })
+    }
+
     fetchResultsData = async()=>{
         let body = { 
             // "clientName": this.props.location.companyName, 
@@ -709,6 +743,8 @@ class Reports extends React.Component{
             notesData = await this.fetchNotes();
             siteInfoData = await this.fetchSiteInfo();
             overviewData.clientName = this.props.location.companyName;
+            overviewData.clientId = this.props.location.clientid;
+            // console.log(this.props.location.clientid)
             overviewData.siteName = this.props.location.locationString;
             overviewData.sector = this.props.location.industryType;
             overviewData.siteid = this.props.location.siteid;
@@ -716,13 +752,13 @@ class Reports extends React.Component{
             siteInfoData.resultantJSON.siteId = this.props.location.siteid;
             siteInfoData.resultantJSON.clientName = this.props.location.companyName;
         }
-        else if (this.props.location.clientid) {
+        else if (this.props.location.siteid === undefined) {
             clientReportsData = await this.fetchClientLevelData();
             // formattedClientReportsData = await this.formatClientLevelData(clientReportsData.resultantJSON);
             clientReportsData.sites.map((data, index)=> {
                 colors.push(Math.floor(Math.random()*16777215).toString(16))
             });
-            // console.log(colors);
+            // console.log(clientReportsData);
         }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
@@ -746,7 +782,7 @@ class Reports extends React.Component{
         
     return(
     
-      this.props.location.clientid?
+      this.props.location.siteid === undefined?
             (this.networkHeader()):
             (this.state.loadComponentString==="results"?this.resultHeader():
                     (this.state.loadComponentString==="assessments"?this.AssessmentsHeader():this.loadingScreen()))

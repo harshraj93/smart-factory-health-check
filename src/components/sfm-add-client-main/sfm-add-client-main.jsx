@@ -18,6 +18,7 @@ export default function Header(props){
 function backNavigation(e,props){
     let locationpath = props.props.location.pathname;
     let history = props.props.history;
+    
     if(locationpath==="/addnewclient"){
         return history.push({
             pathname:"/"
@@ -42,6 +43,7 @@ function backNavigation(e,props){
     else if(locationpath==="/addbusinessfunctions"){
         let addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
         let siteDetails = JSON.parse(localStorage.getItem("sitedetailsstate"))
+        console.log(addSiteData,siteDetails);
         return history.push({
             pathname:"/addsitedetails",
             state:{

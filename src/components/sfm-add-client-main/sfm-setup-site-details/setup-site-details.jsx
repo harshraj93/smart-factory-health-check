@@ -11,14 +11,14 @@ import FileUpload from '../../sfm-file-upload/file-upload';
 
 let siteNumber=[];
 let requiredFieldNames=[];
-let excelData=[];
+let excelDataBack=[];
 
 let prevIndex;
 function siteHeader(props,enableButton){
     return(
         <div className="site-header-container">
             <span className="site-name">{props.location.state.clientName}</span>
-        {props.location.state.page?<FormNavigationButton labelName="Next Step" buttonStatus={enableButton}/>:""}
+        <FormNavigationButton labelName="Next Step" buttonStatus={enableButton}/>
         </div>
     )
 }
@@ -58,15 +58,15 @@ class AddSiteDetails extends React.Component{
         }
         let sitedetailsJSON = this.triggerFormSubmission();
         localStorage.setItem("addsitedata",JSON.stringify({sitedetailsJSON:sitedetailsJSON}))
-        localStorage.setItem("excelData",excelData)
-        console.log(excelData,this.props.location.state.siteDetails)
+        localStorage.setItem("excelData",this.state.excelData)
+        console.log(this.state.excelData,this.props.location.state.siteDetails,sitedetailsJSON)
         this.props.history.push({
             pathname:'/addbusinessfunctions',
             state:{
                 dataForBusinessFunctions:dataForBusinessFunctions,
                 siteName:this.props.location.state.clientName,
                 sitedetailsJSON:sitedetailsJSON,
-                excelData:this.props.location.state.siteDetails?this.props.location.state.siteDetails:excelData,
+                excelData:this.props.location.state.siteDetails?this.props.location.state.siteDetails:this.state.excelData,
                 page:this.props.location.state.page
             }
         })
@@ -160,6 +160,7 @@ class AddSiteDetails extends React.Component{
             ["percentAvailable"+index]: backData["availabilityOEE"],
             ["percentQuality"+index]: backData["qualityOEE"]
         })
+        console.log(this.state);
         this.checkRequiredFields();   
     }
 
@@ -194,6 +195,7 @@ class AddSiteDetails extends React.Component{
         <div className="required">* Required field</div>
         <div className="site-form">
          <div className="row-1"> 
+         {/* <LabelledInputField placeholder={true} data={this.state["siteName"+index]} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"siteName"+index} required={true} labelName="Site Name*"/> */}
         <LabelledInputField placeholder={true} data={backData?(backData["sitename"]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"siteName"+index} required={true} labelName="Site Name*"/>
         <LabelledInputField placeholder={true} data={backData?(backData["primaryPOC"]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primePoc"+index} required={true} labelName="Primary POC*" />
         <LabelledInputField placeholder={true} data={backData?(backData["primaryPOCRole"]):null} onChange={this.handleChange} changeButtonState={this.setNextStepState} name={"primPocRole"+index} required={true} labelName="Primary POC Role*"  />
@@ -204,7 +206,7 @@ class AddSiteDetails extends React.Component{
         <div className="row-2">
         <DropDownMenu placeholder= "Sector*" dropdownIndex={index} value={this.state["sector"+index]} showRequired={showIndustryRequired} data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
         <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} value={this.state["manfArch"+index]} showRequired={showArchetypeRequired} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
-        <LabelledInputField placeholder={true} data={backData?(backData["numShifts"]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
+        <LabelledInputField placeholder={true} data={backData?(backData["shifts"]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["employees"]):null} labelName="# Employees (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["assets"]):null} labelName="# of Assets (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["siteRevenue"]):null} labelName="Site Revenue (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"SiteRevenue"+index}/>
@@ -243,17 +245,23 @@ class AddSiteDetails extends React.Component{
     }
 
 
-    checkBackData = ()=>{
+    checkBackData = async()=>{
         let backData;
+        console.log(this.props.location.state.data,this.props.location.state.siteDetails,this.props.location.addSiteData)
         if(this.props.location.state.data){
             backData = this.props.location.state.data.sitedetailsJSON.sites;
             backData.forEach((site,index)=>{
                 this.setData(site.siteDetails,index)
             })
             }
+        // if(this.props.location.addSiteData){
+        //     backData = this.props.location.addSiteData.sitedetailsJSON.sites;
+        //     backData.forEach((site,index)=>{
+        //         this.setData(site.siteDetails,index)
+        //     })   
+        // }
        if(this.props.location.state.siteDetails){
-            excelData = this.props.location.state.siteDetails;
-            excelData.forEach((site,index)=>{
+            this.props.location.state.siteDetails.forEach((site,index)=>{
                 this.setData(site,index)
             })
         } 
@@ -320,9 +328,11 @@ class AddSiteDetails extends React.Component{
 
 
     parseUploadedExcel = async(jsonResponse)=>{
-        excelData= jsonResponse.siteDetails;
-        siteNumber = await this.evaluateSiteNumber(excelData.length);
-        excelData.forEach((site,index)=>{
+        await this.setState({
+            excelData:jsonResponse.siteDetails
+        })
+        siteNumber = await this.evaluateSiteNumber(this.state.excelData.length);
+        this.state.excelData.forEach((site,index)=>{
             this.setData(site,index)
         })
         this.checkRequiredFields();
@@ -343,10 +353,10 @@ class AddSiteDetails extends React.Component{
                     backData = this.props.location.state.data.sitedetailsJSON.sites[index].siteDetails;
                  }
                  else if(this.props.location.state.siteDetails){
-                    backData = this.props.location.state.siteDetails[index];
+                    backData = this.props.location.state.siteDetails[index]
                 }
-                else if(excelData){
-                    backData=excelData[index]
+                else if(this.state.excelData){
+                    backData=this.state.excelData[index]
                 }
                 return (
                     this.siteInfoForm(number,index,backData)

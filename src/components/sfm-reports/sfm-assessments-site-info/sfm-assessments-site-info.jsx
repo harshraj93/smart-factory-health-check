@@ -26,6 +26,7 @@ class SiteInfo extends React.Component{
         await this.setState({
             [name]:e.target.value
         })
+        
     }
 
     // fetchSiteInfo = async()=> {
@@ -59,6 +60,7 @@ class SiteInfo extends React.Component{
                 name += arr[i].toLowerCase();
             }
         }
+        
         return name;
     }
 
@@ -121,8 +123,8 @@ class SiteInfo extends React.Component{
             else if (data.BusinessFunction === "Information Technology") {
                 obj.resourceName = this.state.informationtechnology?this.state.informationtechnology:data.ResourceName
             }
-            else if (data.BusinessFunction === "Replenishment & Material Management") {
-                obj.resourceName = this.state.replenishmentmaterialmanagement?this.state.replenishmentmaterialmanagement:data.ResourceName
+            else if (data.BusinessFunction === "Replenishment & Materials Management") {
+                obj.resourceName = this.state.replenishmentmaterialsmanagement?this.state.replenishmentmaterialsmanagement:data.ResourceName
             }
             else if (data.BusinessFunction === "Operations") {
                 obj.resourceName = this.state.operations?this.state.operations:data.ResourceName
@@ -185,11 +187,13 @@ class SiteInfo extends React.Component{
         try{
             const response = await fetch(siteInfoApi.siteInfoEdit,apiPostHeader)
             const message = await response.json();
-            return message;
+            console.log(message);
         }
         catch(err){
-            return err
+            console.log(err)
         }
+
+        this.props.siteinfoRefresh();
     }
 
     render() {
@@ -228,7 +232,7 @@ class SiteInfo extends React.Component{
                             {this.props.data.BusinessFunctionPoC.map((data,index) => {
 
                                 return (
-                                    <LabelledInputField placeholder={false} name={this.variableName(data.BusinessFunction)} labelName={data.BusinessFunction} data={data.ResourceName!==null&&data.ResourceName!=="null"?data.ResourceName:""} required={false} readOnly={false} onChange={this.onChange}/>
+                                    <LabelledInputField placeholder={false} name={this.variableName(data.BusinessFunction)} labelName={data.BusinessFunction} data={data.ResourceName?data.ResourceName:""} required={false} readOnly={false} onChange={this.onChange}/>
                                 )
                             })}
                         </div>
