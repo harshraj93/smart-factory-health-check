@@ -8,7 +8,8 @@ let resultsApi={
     clientReport: apiUrl+"clientService/clientNetworkReport",
     clientEditText: apiUrl+"clientService/sectorySummaryAndRecommendation",
     reportOnly:apiUrl+"clientService/reportOnly",
-    userInfoDetails: apiUrl+"userService/userInfoDetails"
+    userInfoDetails: apiUrl+"userService/userInfoDetails",
+    associateUserSite: apiUrl+"siteService/associateUserSite"
 }
 
 export {
