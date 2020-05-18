@@ -70,7 +70,7 @@ class ReportsOverview extends React.Component {
         apiPostHeader.body = JSON.stringify(body);
         let editresp;
         try{
-            const response = await fetch(resultsApi.clientReport,apiPostHeader)
+            const response = await fetch(resultsApi.clientEditText,apiPostHeader)
             editresp = await response.json();
         }
         catch(err){
@@ -162,7 +162,7 @@ class ReportsOverview extends React.Component {
         apiPostHeader.body = JSON.stringify(body);
         let editresp;
         try{
-            const response = await fetch(resultsApi.clientReport,apiPostHeader)
+            const response = await fetch(resultsApi.clientEditText,apiPostHeader)
             editresp = await response.json();
         }
         catch(err){
