@@ -275,7 +275,7 @@ class AssessmentsOverview extends React.Component {
             <Card key={index} className={"card"}>                                   
                 <Card.Header className={"card-header "+(this.state.arrayIndex===String(index))}>
                 
-                <Form.Switch name={data.name} id={data.businessFunctionId} label="" onChange={this.onChange(index)}/> 
+                {data.active && Number(data.percentComplete)===100?<Form.Switch name={data.name} id={data.businessFunctionId} label="" checked={false}/>:<Form.Switch name={data.name} id={data.businessFunctionId} label="" onChange={this.onChange(index)}/>} 
                 {/* checked={true} */}
                     <div className="assess-overview-card">
                         <span className="area-name">{data.name}</span>
@@ -292,7 +292,7 @@ class AssessmentsOverview extends React.Component {
                             return (
                                 <div className="assess-overview-card" key={y}>
                                     {x.active?
-                                        <Form.Switch name={data.name + "_" + x.name} id={data.businessFunctionId + "+" + x.capabilityId} label="" onChange={this.onChange(y)}/>:
+                                        (x.status==="Open"?<Form.Switch name={data.name + "_" + x.name} id={data.businessFunctionId + "+" + x.capabilityId} label="" onChange={this.onChange(y)}/>:<Form.Switch name={data.name + "_" + x.name} id={data.businessFunctionId + "+" + x.capabilityId} label="" checked={false}/>):
                                         <Form.Switch name={data.name + "_" + x.name} id={data.businessFunctionId + "+" + x.capabilityId} label="" onChange={this.onChange(y)} defaultChecked/>
                                     }
                                     <div className="child-group">
