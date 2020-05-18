@@ -50,6 +50,7 @@ class Reports extends React.Component{
             userName:  "",
             password: "",
             clipboardCopySuccess: false,
+            correctEmailFormat: false,
         }
         this.props.disableMenu(false);        
     }
@@ -101,14 +102,14 @@ class Reports extends React.Component{
     }
 
     shareResults = async() => {
-        let userInfo = resultsApi.userInfoDetails+`?siteid=${this.props.location.siteid}`
-        const response = await fetch(userInfo,apiGetHeader)
-        const demo = await response.json();
+        // let userInfo = resultsApi.userInfoDetails+`?siteid=${this.props.location.siteid}`
+        // const response = await fetch(userInfo,apiGetHeader)
+        // const demo = await response.json();
         this.setState({
             publishResults:false,
             shareResults:true,
-            userName: demo.resultantJSON.emailOrUsername,
-            password: demo.resultantJSON.defaultPassword,
+            // userName: demo.resultantJSON.emailOrUsername,
+            // password: demo.resultantJSON.defaultPassword,
         })
     }
 
@@ -119,6 +120,50 @@ class Reports extends React.Component{
             clipboardCopySuccess: true
         })
         // console.log("copyText", copyText)
+    }
+
+    checkEmailValidity = (val) => {
+        let emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (val.match(emailFormat)) {
+            this.setState({
+                correctEmailFormat : true
+            })
+        } else {
+            this.setState({
+                correctEmailFormat : false
+            })
+        }
+    }
+
+    changeUsername = (e) => {
+        let username = e.target.value;
+        // console.log("username", username)
+        this.checkEmailValidity(username)
+        this.setState({
+            userName : username
+        })
+    }
+
+    submitUsername = async() => {
+        // console.log("submit clicked")
+        let body = { 
+            "siteid": this.props.location.siteid, 
+            "userEmail": this.state.userName
+        };
+        apiPostHeader.body = JSON.stringify(body);
+        try{
+        const response = await fetch(resultsApi.associateUserSite,apiPostHeader);
+        const json =  await response.json();
+        this.setState({
+            shareResults: false,
+            userName: "",
+        })
+        // console.log(json);
+        return json;
+        }
+        catch(err){
+            return err
+        }
     }
 
     publishModal = ()=>{
@@ -150,8 +195,9 @@ class Reports extends React.Component{
         <Modal.Footer>
             <>
             <div className="share-results">
-                <div className="Username"><span>Username:</span>{this.state.userName}</div>
-                <div className="Username"><span>Password:</span>{this.state.password}</div>
+                <div className="Username"><span>Username:</span><input type="text" id="username" value={this.state.userName} className="username" onInput={(e)=>this.changeUsername(e)}/><FormNavigationButton labelName = "Submit" disabled={!this.state.correctEmailFormat} onClick={this.submitUsername}/></div>
+                
+                {/* <div className="Username"><span>Password:</span>{this.state.password}</div> */}
                 {/* <div id="linkURL" className="link">{window.location.href}</div> */}
                 <input type="text" readonly id="linkURL" value={window.location.href} className="link"/>
 
