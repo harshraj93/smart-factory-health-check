@@ -50,6 +50,7 @@ class Reports extends React.Component{
             userName:  "",
             password: "",
             clipboardCopySuccess: false,
+            percentCompleteCheck: 0,
         }
         this.props.disableMenu(false);        
     }
@@ -364,10 +365,10 @@ class Reports extends React.Component{
                     
                 <h5 className="company-name">{this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}</h5>
                 
-                <div className="goToResults" onClick={this.goToResults}>
+                {this.state.percentCompleteCheck?<div className="goToResults" onClick={this.goToResults}>
                     <span className="text">Go to Results</span>
                     <img src={DropDownImg} alt="" className="right-arrow"></img>
-                </div>
+                </div>:""}
                 <Tabs className="tab-group">
                     {inProgressList.map((element,index)=>{
                         return(
@@ -732,7 +733,7 @@ class Reports extends React.Component{
         let notesData = {};
         let siteInfoData={};
         let clientReportsData = {};
-        let formattedClientReportsData = {};
+        let percentCompleteCheck = 0;
         if (this.props.location.loadComponentString === "results" || this.state.loadComponentString === "results") {
             resultJSON = await this.fetchResultsData();
             demographicsData = await this.fetchDemographicsData();
@@ -751,6 +752,11 @@ class Reports extends React.Component{
             notesData.resultantJSON.siteId = this.props.location.siteid;
             siteInfoData.resultantJSON.siteId = this.props.location.siteid;
             siteInfoData.resultantJSON.clientName = this.props.location.companyName;
+            for (let i = 0; i < overviewData.businessFunction.length; i++) {
+                if (Number(overviewData.businessFunction[i].percentComplete) === 100) {
+                    percentCompleteCheck += 1;
+                }
+            }
         }
         else if (this.props.location.siteid === undefined) {
             clientReportsData = await this.fetchClientLevelData();
@@ -773,7 +779,8 @@ class Reports extends React.Component{
             demographicsData:demographicsData,
             assessOverview: overviewData,
             notesData: notesData.resultantJSON,
-            siteInfoData: siteInfoData.resultantJSON
+            siteInfoData: siteInfoData.resultantJSON,
+            percentCompleteCheck: percentCompleteCheck
         })
     }
     }
