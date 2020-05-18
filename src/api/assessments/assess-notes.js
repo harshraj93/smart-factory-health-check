@@ -1,8 +1,8 @@
 import {apiUrl} from '../main/mainapistorage'
 
 let assessNotesApi={
-    assessNotes:apiUrl+'/users/getSiteAssessmentNote',
-    downloadNotes:apiUrl+'/site/siteNotesDownload'
+    assessNotes:apiUrl+'userService/getSiteAssessmentNote',
+    downloadNotes:apiUrl+'siteService/siteNotesDownload'
 }
 
 export default assessNotesApi;

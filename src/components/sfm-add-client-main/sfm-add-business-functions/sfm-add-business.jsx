@@ -2,7 +2,7 @@ import React from "react";
 import {FormNavigationButton} from '../../../assets/sfm-button';
 import Header from '../sfm-add-client-main';
 import {withRouter} from 'react-router-dom';
-import {CustomButton} from '../../../assets/sfm-button';
+import CheckBox from '../../../assets/check-box'
 import {createCardSelectedObj} from '../../../util/addbusinessfunctions'
 import addclientapi from "../../../api/addclient/addclient";
 import {apiGetHeader,apiPostHeader} from '../../../api/main/mainapistorage';
@@ -88,6 +88,7 @@ class AddBusinessFunctions extends React.Component{
 
 
     handleCheckBox = (e,siteName)=>{
+        
         let tempArray = this.state.cardSelectedIndexArray; 
         let businessNameObjArray = tempArray.filter(element=>{
             return element.businessName===siteName;
@@ -97,6 +98,7 @@ class AddBusinessFunctions extends React.Component{
             element.indexArray = businessNameObjArray[0].indexArray
         })
         if(!this.state.checked){
+            
         this.setState({
             cardSelectedIndexArray:[...tempArray],
             checked:!this.state.checked
@@ -107,7 +109,9 @@ class AddBusinessFunctions extends React.Component{
                 return element.businessName!==siteName
             })
             if(businessArray[0]){
-            businessArray[0].indexArray=[];
+            businessArray.forEach(element=>{
+                element.indexArray=[]
+            })
             }
             this.setState({
                 checked:false,
@@ -133,6 +137,18 @@ class AddBusinessFunctions extends React.Component{
         
     }
 
+    enableButton = (cnt,length)=>{
+        if(cnt===length){
+            this.setState({
+                enableButton:"true"
+            })
+        }
+        else{
+            this.setState({
+                enableButton:"false"
+            }) 
+        }
+    }
 
     navigate = ()=>{
         this.props.history.push({
@@ -161,10 +177,8 @@ class AddBusinessFunctions extends React.Component{
                 siteDetailsJSON.sites[i].businessFunctions=functionsArray;
                 functionsArray = [];
             }
-            
         }
         apiPostHeader.body = JSON.stringify(siteDetailsJSON);
-        console.log(apiPostHeader,addclientapi.addSite)
         fetch(addclientapi.addSite,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{
@@ -179,10 +193,27 @@ class AddBusinessFunctions extends React.Component{
 
     componentDidMount = async()=>{
         let indexObjArray=[];
-        console.log(this.props.location);
-        indexObjectArray = await createCardSelectedObj(this.props.location.state.dataForBusinessFunctions.clientNames,indexObjArray)
+        let cnt=0;
+       console.log(this.props.location)
        let resp =  await fetch(addclientapi.getBusinessFunctions,apiGetHeader)
        let response =   await resp.json()
+       indexObjectArray = await createCardSelectedObj(this.props.location.state.dataForBusinessFunctions.clientNames,indexObjArray,this.props.location.state.excelData,response,this.enableButton)
+       indexObjArray.forEach(element=>{
+        if(element.indexArray.length>0){
+            cnt++;
+        }
+       })
+       if(cnt===indexObjArray.length){
+
+        this.setState({
+            enableButton:"true"
+        })
+    }
+    else{
+        this.setState({
+            enableButton:"false"
+        }) 
+    }
        await this.setState({
            businessNames:response.resultantJSON,
            cardSelectedIndexArray:[...indexObjectArray]
@@ -204,12 +235,15 @@ class AddBusinessFunctions extends React.Component{
                 <div className="site-name" key={index}>
                     {element}
                     {index===0?
-                    <>
-                        <span className="check-box" onChange={(e)=>this.handleCheckBox(e,element)}>
+                    <>  
+                        
+                    <span className="check-box"><CheckBox label="Apply Selections across all sites" onClick={(e)=>this.handleCheckBox(e,element)}/>
+                    </span>
+                        {/* <span className="check-box" onChange={(e)=>this.handleCheckBox(e,element)}>
                              <input type="checkbox" checked={this.state.checked} />
                             <span></span>
                             <label style={{marginLeft:"8px"}}>Apply Selections across all sites</label>
-                        </span>
+                        </span> */}
                     </>:""}
                 </div>
         

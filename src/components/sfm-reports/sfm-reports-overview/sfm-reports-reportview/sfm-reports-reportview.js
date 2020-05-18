@@ -43,19 +43,19 @@ class ReportsCardView extends React.Component {
 
     clientLevel = () => {
         return(
-            this.props.data.businessFunction.map((data,index)=>{
+            this.props.data.reportsData.map((data,index)=>{
                 return(
-                    <div>
-                    <Accordion className="industry-reportview-accordion">
+                    <div style = {{position: "relative"}}>
+                    <Accordion className="industry-reportview-accordion" defaultActiveKey={0}>
                         <Card key={index} className={"card"}>
                             <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} variant="link" eventKey={index} value={index} onClick={(e)=>this.handleClick(e)}>
                                 <span className="area-name">{data.name}</span>
                                 <img className="drop-down" src={DropDownImg} alt=""></img>
-                                <p className="score">{Number(data.score).toFixed(1)}</p>
+                                {(data.score)!=="NaN" && Number(data.score) !== 0?<p className="score">{Number(data.score).toFixed(1)}</p>:<p className="score">-</p>}
                                 <span className="circle" style={{backgroundColor: this.circleColor((data.target - data.score).toFixed(1))}}></span>
-                                <p className="score">{Number(data.target).toFixed(1)}</p>
-                                <p className="score">{(data.target - data.score).toFixed(1)}</p>
-                                <p className="score">{Number(data.indAvg).toFixed(1)}</p>
+                                {(data.target)!=="NaN" && Number(data.target) !== 0?<p className="score">{Number(data.target).toFixed(1)}</p>:<p className="score">-</p>}
+                                {JSON.stringify(data.target - data.score)!=="null"?<p className="score">{(data.target - data.score).toFixed(1)}</p>:<p className="score">-</p>}
+                                {(data.indAvg)!=="NaN" && Number(data.indAvg) !== 0?<p className="score">{Number(data.indAvg).toFixed(1)}</p>:<p className="score">-</p>}
                             </Accordion.Toggle>
                                 <Accordion.Collapse eventKey={index}>
                                     <div>
@@ -65,12 +65,11 @@ class ReportsCardView extends React.Component {
                                                     <div className="reportview-card" key={y}>
                                                         <span className="area-name">{x.name}</span>
                                                         <span className="circle" style={{backgroundColor: "#232325"}}></span>
-                                                        <span className="vertical-line"></span>
-                                                        <p className="score">{Number(x.score).toFixed(1)}</p>
+                                                        {(x.score)!=="NaN" && Number(x.score) !== 0?<p className="score">{Number(x.score).toFixed(1)}</p>:<p className="score">-</p>}
                                                         <span className="circle" style={{backgroundColor: this.circleColor((x.target - x.score).toFixed(1))}}></span>
-                                                        <p className="score">{Number(x.target).toFixed(1)}</p>
-                                                        <p className="score">{(x.target - x.score).toFixed(1)}</p>
-                                                        <p className="score">{Number(x.indAvg).toFixed(1)}</p>
+                                                        {(x.target)!=="NaN" && Number(x.target) !== 0?<p className="score">{Number(x.target).toFixed(1)}</p>:<p className="score">-</p>}
+                                                        {JSON.stringify(x.target - x.score)!=="null"?<p className="score">{(x.target - x.score).toFixed(1)}</p>:<p className="score">-</p>}
+                                                        {(x.indAvg)!=="NaN" && Number(x.indAvg) !== 0?<p className="score">{Number(x.indAvg).toFixed(1)}</p>:<p className="score">-</p>}
                                                     </div>
                                                     {y<data.sites.length-1?<span className="repCard-bottom-line"></span>:""}
                                                 </div>
@@ -80,18 +79,20 @@ class ReportsCardView extends React.Component {
                                 </Accordion.Collapse>
                         </Card>
                     </Accordion>
-                    <Accordion className="cap-report-accordion">
-                    {data.capabilities.map((x, y) => {
+                    <Accordion className="cap-report-accordion" defaultActiveKey={0}>
+                    <div>
+                    {data.parts.map((x, y) => {
                         return (
+                            <div>
                             <Card key={y} className={"card"}>
                                 <Accordion.Toggle as={Card.Header} className={"cap-report-card-header "+(this.state.arrayCapIndex===String(y))} variant="link" eventKey={y} value={y} onClick={(e)=>this.handleCapClick(e)}>
                                     <span className="area-name">{x.name}</span>
                                     <img className="drop-down" src={DropDownImg} alt=""></img>
-                                    <p className="score">{Number(x.score).toFixed(1)}</p>
+                                    {(x.score)!=="NaN" && Number(x.score) !== 0?<p className="score">{Number(x.score).toFixed(1)}</p>:<p className="score">-</p>}
                                     <span className="circle" style={{backgroundColor: this.circleColor((x.target - x.score).toFixed(1))}}></span>
-                                    <p className="score">{Number(x.target).toFixed(1)}</p>
-                                    <p className="score">{(x.target - x.score).toFixed(1)}</p>
-                                    <p className="score">{Number(x.indAvg).toFixed(1)}</p>
+                                    {(x.target)!=="NaN" && Number(x.target) !== 0?<p className="score">{Number(x.target).toFixed(1)}</p>:<p className="score">-</p>}
+                                    {JSON.stringify(x.target - x.score)!=="null"?<p className="score">{(x.target - x.score).toFixed(1)}</p>:<p className="score">-</p>}
+                                    {(x.indAvg)!=="NaN" && Number(x.indAvg) !== 0?<p className="score">{Number(x.indAvg).toFixed(1)}</p>:<p className="score">-</p>}
                                 </Accordion.Toggle>
                                     <Accordion.Collapse eventKey={y}>
                                         <div>
@@ -101,22 +102,26 @@ class ReportsCardView extends React.Component {
                                                         <div className="reportview-card" key={j}>
                                                             <span className="area-name">{i.name}</span>
                                                             <span className="circle" style={{backgroundColor: "#35353b"}}></span>
-                                                            <span className="vertical-line"></span>
-                                                            <p className="score">{Number(i.score).toFixed(1)}</p>
+                                                            {(i.score)!=="NaN" && Number(i.score) !== 0?<p className="score">{Number(i.score).toFixed(1)}</p>:<p className="score">-</p>}
                                                             <span className="circle" style={{backgroundColor: this.circleColor((i.target - i.score).toFixed(1))}}></span>
-                                                            <p className="score">{Number(i.target).toFixed(1)}</p>
-                                                            <p className="score">{(i.target - i.score).toFixed(1)}</p>
-                                                            <p className="score">{Number(i.indAvg).toFixed(1)}</p>
+                                                            {(i.target)!=="NaN" && Number(i.target) !== 0?<p className="score">{Number(i.target).toFixed(1)}</p>:<p className="score">-</p>}
+                                                            {JSON.stringify(i.target - i.score)!=="null"?<p className="score">{(i.target - i.score).toFixed(1)}</p>:<p className="score">-</p>}
+                                                            {(x.indAvg)!=="NaN" && Number(i.indAvg) !== 0?<p className="score">{Number(i.indAvg).toFixed(1)}</p>:<p className="score">-</p>}
                                                         </div>
                                                         {j<x.sites.length-1?<span className="repCard-bottom-line"></span>:""}
                                                     </div>
                                                 )
                                             })}
+                                            <span className="vertical-line"></span>
                                         </div>
                                     </Accordion.Collapse>
                             </Card>
+                            {/* y<data.parts.length-1?<span className="repCard-bottom-line"></span>:"" */}
+                            </div>
                         )
                     })}
+                    <span className="vertical-line"></span>
+                    </div>
                     </Accordion>
                     
                     </div>
@@ -134,31 +139,31 @@ class ReportsCardView extends React.Component {
                         <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} variant="link" eventKey={index} value={index} onClick={(e)=>this.handleClick(e)}>
                             <span className="area-name">{data.name}</span>
                             <img className="drop-down" src={DropDownImg} alt=""></img>
-                            <p className="score">{Number(data.score).toFixed(1)}</p>
+                            {(data.score)!=="NaN" && Number(data.score) !== 0?<p className="score">{Number(data.score).toFixed(1)}</p>:<p className="score">-</p>}
                             <span className="circle" style={{backgroundColor: this.circleColor((data.target - data.score).toFixed(1))}}></span>
-                            <p className="score">{Number(data.target).toFixed(1)}</p>
-                            <p className="score">{(data.target - data.score).toFixed(1)}</p>
-                            <p className="score">{Number(data.indAvg).toFixed(1)}</p>
+                            {(data.target)!=="NaN" && Number(data.target) !== 0?<p className="score">{Number(data.target).toFixed(1)}</p>:<p className="score">-</p>}
+                            {JSON.stringify(data.target - data.score)!=="null"?<p className="score">{(data.target - data.score).toFixed(1)}</p>:<p className="score">-</p>}
+                            {(data.indAvg)!=="NaN" && Number(data.indAvg) !== 0?<p className="score">{Number(data.indAvg).toFixed(1)}</p>:<p className="score">-</p>}
                         </Accordion.Toggle>
                             <Accordion.Collapse eventKey={index}>
-                                <div>
+                                <div style={{position: "relative"}}>
                                     {data.parts.map((x,y) => {
                                         return (
                                             <div>
                                                 <div className="reportview-card" key={y}>
                                                     <span className="area-name">{x.name}</span>
                                                     <span className="circle" style={{backgroundColor: "#35353b"}}></span>
-                                                    <span className="vertical-line"></span>
-                                                    <p className="score">{Number(x.score).toFixed(1)}</p>
+                                                    {(x.score)!=="NaN" && Number(x.score) !== 0?<p className="score">{Number(x.score).toFixed(1)}</p>:<p className="score">-</p>}
                                                     <span className="circle" style={{backgroundColor: this.circleColor((x.target - x.score).toFixed(1))}}></span>
-                                                    <p className="score">{Number(x.target).toFixed(1)}</p>
-                                                    <p className="score">{(x.target - x.score).toFixed(1)}</p>
-                                                    <p className="score">{Number(x.indAvg).toFixed(1)}</p>
+                                                    {(x.target)!=="NaN" && Number(x.target) !== 0?<p className="score">{Number(x.target).toFixed(1)}</p>:<p className="score">-</p>}
+                                                    {JSON.stringify(x.target - x.score)!=="null"?<p className="score">{(x.target - x.score).toFixed(1)}</p>:<p className="score">-</p>}
+                                                    {(x.indAvg)!=="NaN" && Number(x.indAvg) !== 0?<p className="score">{Number(x.indAvg).toFixed(1)}</p>:<p className="score">-</p>}
                                                 </div>
                                                 {y<data.parts.length-1?<span className="repCard-bottom-line"></span>:""}
                                             </div>
                                         )
                                     })}
+                                    <span className="vertical-line"></span>
                                 </div>
                             </Accordion.Collapse>
                     </Card>
@@ -170,7 +175,7 @@ class ReportsCardView extends React.Component {
 
     render() {
         return(
-            this.props.data.reportsData?this.siteLevel():this.clientLevel()
+            this.props.data.sites === undefined?this.siteLevel():this.clientLevel()
         )
     }
 }

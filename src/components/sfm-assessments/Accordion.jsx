@@ -3,11 +3,10 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Table from '../../assets/bootstrap-table';
-import {CustomButton} from '../../assets/sfm-button'
-import UploadImg from '../../images/icon-small-upload.svg';
+import {Link} from 'react-router-dom';
 import DropDownImg from '../../images/icon-small-chevron-down.svg';
 import {withRouter} from 'react-router-dom';
-
+import addIcon from "../../images/icon-small-add-first.svg";
 let companyName =""; 
 function industryCard (props){
     companyName=props["companyName"]===undefined?companyName:props["companyName"];
@@ -27,7 +26,12 @@ function industryCard (props){
             </span>
         </div>
         <div className="industry-text-info">
-            <span></span>
+            <span className="add-site">{props["companyName"]?<Link to={{
+                pathname:"/addnewsite",
+                companyName:props["companyName"],
+                clientid:props["clientid"]
+            }}
+                ><div className="add-site"><img src={addIcon} alt=""/>Add Site</div></Link>:""}</span>
             <span className="open-text">
                 Open
             </span>
@@ -98,6 +102,7 @@ class CustomAccordion extends React.Component{
                                                     industryType={element.sector} 
                                                     disableMenu={this.props.disableMenu}
                                                     companyName = {companyName}
+                                                    clientid={data.clientid}
                                                     />
                                                 </Accordion.Collapse>
 

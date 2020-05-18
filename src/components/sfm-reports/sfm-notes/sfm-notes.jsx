@@ -1,9 +1,8 @@
 import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import DropDownImg from '../../../images/icon-small-chevron-down.svg';
-import FlagImg from '../../../images/icon-small-flagged-outline.svg';
+import FlagImg from '../../../images/icon-small-flagged-highlited.svg';
 import DownloadIcon from '../../../images/icon-small-download.svg';
 import assessNotesApi from '../../../api/assessments/assess-notes.js';
 import {apiPostHeader} from '../../../api/main/mainapistorage';
@@ -21,7 +20,7 @@ class Notes extends React.Component {
 
     noOfNotes (data) {
         var count = 0;
-        data.subcapabilities.map((x, y)=>{
+        data.subcapabilities.forEach((x, y)=>{
             count += x.notes.length;
         });
         return count;
@@ -61,6 +60,7 @@ class Notes extends React.Component {
         return (
             <Accordion className="notes-accordion" defaultActiveKey={0}>
             {this.props.data.businessFunctions.map((data,index)=>{
+                if (data.capabilities.length > 0) {
                 return(
                     <Card key={index} className={"card"}>                                   
                         <Accordion.Toggle as={Card.Header} className={"card-header "+(this.state.arrayIndex===String(index))} value={index} variant="link" eventKey={index} onClick={(e,value)=>this.handleClick(e,value)}>
@@ -108,7 +108,7 @@ class Notes extends React.Component {
                                                                             <div className="notes-block">
                                                                                 <div className="notes-header">
                                                                                     <div className="context">
-                                                                                        {m.flagType!==null?<img src={FlagImg} alt="" style={{marginRight: "10px"}}/>:""}
+                                                                                        {m.flagType!==""?<img src={FlagImg} alt="" style={{marginRight: "10px"}}/>:""}
                                                                                         <span className="user-name">{m.username}</span>
                                                                                     </div>
                                                                                     <div className="date-time">
@@ -139,7 +139,7 @@ class Notes extends React.Component {
                             </Accordion>
                         </Accordion.Collapse>
                     </Card>
-                )
+                )}
             })}
             </Accordion>
         )

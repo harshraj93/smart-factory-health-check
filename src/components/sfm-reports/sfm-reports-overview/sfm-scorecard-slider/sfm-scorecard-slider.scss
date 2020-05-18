@@ -58,6 +58,59 @@
         border-radius: 50%;
     }
 
+    .tooltip-circle {
+        display: flex;
+        .slider-circle {
+            width: 3.512vh;
+            height: 3.512vh;
+            border-radius: 50%;
+        }
+        .tooltiptext {
+            p {
+                margin: 0;
+                font-size: 14px;
+            }
+
+            visibility: hidden;
+            width: max-content;
+            background-color: black;
+            color: #ffffff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 7px 9px;
+            padding-left: 14px;
+
+            position: absolute;
+            z-index: 5;
+            bottom: 50%;
+            left: 50%;
+            margin-left: -60px;
+
+            &:after {
+                content: " ";
+                position: absolute;
+                top: 100%; /* At the bottom of the tooltip */
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: black transparent transparent transparent;
+            }
+
+            .line {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                text-align: left;
+            }
+        }
+
+        &:hover {
+            .tooltiptext {
+                visibility: visible;
+            }
+        }
+    }
+
     .small-circle {
         border-radius: 50%;
         border: solid 0.01em #727279;

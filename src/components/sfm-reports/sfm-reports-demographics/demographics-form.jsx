@@ -29,6 +29,12 @@ export default function DemographicsForm(props){
         <div className="bottom-border"></div>
         <div className="title-name-demographics">Business Function Point of Contact</div>
         <div className="business-poc-demographics">
+        {pocDetails.map(element=>{
+            return(
+                <LabelledInputField placeholder={true} labelName={element.BusinessFunction} data={element.ResourceName!==null&&element.ResourceName!=="null"?element.ResourceName:""} readOnly={true}/>
+            )
+        })}
+        {/* <LabelledInputField placeholder={false} name={this.variableName(data.BusinessFunction)} labelName={data.BusinessFunction} data={data.ResourceName!==null&&data.ResourceName!=="null"?data.ResourceName:""} required={true} readOnly={true}/>
         <LabelledInputField placeholder={true} labelName="Operations" data={pocDetails[3].ResourceName} readOnly={true}/>
         <LabelledInputField placeholder={true} labelName="Quality" data={pocDetails[4].ResourceName} readOnly={true}/>
         <LabelledInputField placeholder={true} labelName="Information Technology" data={pocDetails[0].ResourceName} readOnly={true}/>
@@ -38,7 +44,7 @@ export default function DemographicsForm(props){
         <LabelledInputField placeholder={true} labelName="Maintenance" data={pocDetails[6].ResourceName} readOnly={true}/>
         <LabelledInputField placeholder={true} labelName="Planning & Scheduling" data={pocDetails[8].ResourceName} readOnly={true}/>
         <LabelledInputField placeholder={true} labelName="Human Resources" data={pocDetails[0].ResourceName} readOnly={true}/>
-        <LabelledInputField placeholder={true} labelName="Engineering & R&D" data={pocDetails[0].ResourceName} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Engineering & R&D" data={pocDetails[0].ResourceName} readOnly={true}/> */}
         </div>
         </>
     )

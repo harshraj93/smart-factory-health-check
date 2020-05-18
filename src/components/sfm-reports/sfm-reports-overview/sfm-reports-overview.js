@@ -13,6 +13,7 @@ import {resultsApi} from '../../../api/assessments/reports'
 import {apiPostHeader} from '../../../api/main/mainapistorage'
 
 let tabValues = ["List","Report Card"];
+let colors = [];
 
 class ReportsOverview extends React.Component {
     constructor(props){
@@ -59,6 +60,27 @@ class ReportsOverview extends React.Component {
         });
     }
 
+    saveClientRecs = async() => {
+        let body = {
+            "type": "recommendation",
+            "data": this.state.overallRecs,
+            "clientId": this.props.data.clientid,
+            "sector": this.props.data.sector
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        let editresp;
+        try{
+            const response = await fetch(resultsApi.clientReport,apiPostHeader)
+            editresp = await response.json();
+        }
+        catch(err){
+            editresp = err;
+        }
+        this.setState({
+            recsEdit: false
+        });
+    }
+
     saveRecs = async() => {
         let body = {
             "type": "recommendation",
@@ -66,12 +88,13 @@ class ReportsOverview extends React.Component {
             "siteid": this.props.data.siteid
         }
         apiPostHeader.body = JSON.stringify(body);
+        let editresp;
         try{
             const response = await fetch(resultsApi.textEdit,apiPostHeader)
-            const editresp = await response.json();
+            editresp = await response.json();
         }
         catch(err){
-            const editresp = err;
+            editresp = err;
         }
         this.setState({
             recsEdit: false
@@ -88,6 +111,22 @@ class ReportsOverview extends React.Component {
                     )
                 })}
             </ul>
+        )
+    }
+
+    overallRecsClientForm() {
+        return (
+            <InputGroup>
+                <Form.Control as={"textarea"} maxLength={400} value={this.state.overallRecs} onChange={this.handleChangeRecs}/>
+                <InputGroup.Append>
+                    <Form.Text className="text-muted">
+                        {this.state.overallRecs.length}/400 characters
+                    </Form.Text>
+                    <Button variant="primary" type="submit" onClick={this.saveClientRecs}>
+                        Done
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
         )
     }
 
@@ -113,6 +152,28 @@ class ReportsOverview extends React.Component {
         })
     }
 
+    saveClientSummary = async() => {
+        let body = {
+            "type": "summary",
+            "data": this.state.summary,
+            "clientId": this.props.data.clientid,
+            "sector": this.props.data.sector
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        let editresp;
+        try{
+            const response = await fetch(resultsApi.clientReport,apiPostHeader)
+            editresp = await response.json();
+        }
+        catch(err){
+            editresp = err;
+        }
+        // console.log(editresp)
+        this.setState({
+            summaryEdit: false
+        });
+    }
+
     saveSummary = async() => {
         let body = {
             "type": "summary",
@@ -128,10 +189,26 @@ class ReportsOverview extends React.Component {
         catch(err){
             editresp = err;
         }
-        console.log(editresp)
+        // console.log(editresp)
         this.setState({
             summaryEdit: false
         });
+    }
+
+    summaryClientForm() {
+        return (
+            <InputGroup>
+                <Form.Control as={"textarea"} maxLength={600} value={this.state.summary} onChange={this.handleChange}/>
+                <InputGroup.Append>
+                    <Form.Text className="text-muted">
+                        {this.state.summary.length}/600 characters
+                    </Form.Text>
+                    <Button variant="primary" type="submit" onClick={this.saveClientSummary}>
+                        Done
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
+        )
     }
 
     summaryForm() {
@@ -180,28 +257,88 @@ class ReportsOverview extends React.Component {
         }
     }
 
-    componentDidMount() {
-        if (this.props.data.summary !== null) {
-            this.setState ({
-                summary: this.props.data.summary
-            })
-        }
-
-        if (this.props.data.overallRecs !== null) {
-            this.setState({
-                overallRecs: this.props.data.overallRecs
-            })
-        }
+    clientLevel() {
+        return (
+            <div className="reports-overview">
+                <div className="legend">
+                    <div style={{display: "flex", width: "50%", justifyContent: "space-evenly"}}>
+                        <div className="legend-part">
+                            <span className="ind-avg"></span>
+                            <p style={{margin: "0"}}>Industry Range</p>
+                        </div>
+                        <div className="legend-part">
+                            <span className="target"></span>
+                            <p style={{margin: "0"}}>Target Average</p>
+                        </div>
+                    </div>
+                    <div className="sites-info">
+                        {this.props.data.sites.map((data, index) => {
+                            return (
+                                <div className="legend-part">
+                                    <span className="score" style={{backgroundColor: "#"+this.props.colors[index]}}></span>
+                                    <p style={{margin: "0"}}>{data.name}</p>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+                <div className="overview-top">
+                    <div className="summary">
+                        <div className="summary-header">
+                            <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
+                            {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img> : ""}
+                        </div>
+                        {this.state.summaryEdit?this.summaryClientForm():<p className="summary-text">{this.state.summary}</p>}
+                    </div>
+                    <div className="overall">
+                        <div className="overall-header">
+                            <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Scorecard</p>
+                        </div>
+                        <div className="overall-score">
+                            <p style={{fontSize: "18px", fontWeight: "bold", marginBottom: "30px"}}>Overall</p>
+                            <Slider data={this.props.data} colors={this.props.colors}/>
+                            <div className="overall-recs">
+                                <div className="overall-recs-header">
+                                    <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
+                                    {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img> : ""}
+                                </div>
+                                {this.state.recsEdit?this.overallRecsClientForm():this.recsTextFormat()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span className="reports-line"></span>
+                <div className="overview-tab-group">
+                    <div className="overview-tab-header">
+                        <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Business Function Overview</p>
+                        <div className="reorder">
+                            <img src={ReorderIcon} alt=""></img>
+                            <p style={{margin: "0", paddingLeft:"10px"}}>Reorder</p>
+                        </div>
+                    </div>
+                    <Tabs defaultActiveKey="List" id="overview-selection-tabs" onSelect={this.selectTab}>
+                        {tabValues.map((element,index)=>{
+                            return(
+                                <Tab key={index} eventKey={element} title={element} >
+                                    {element==="List"?<ReportsListView data={this.props.data} colors={this.props.colors} profile={this.props.profile}/>:this.reportView()}
+                                </Tab>
+                            )
+                        })}
+                            
+                    </Tabs>
+                </div>
+            </div>
+        )
     }
 
-    render() {
+    siteLevel() {
         return (
             <div className="reports-overview">
                 <div className="overview-top">
                     <div className="summary">
                         <div className="summary-header">
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
-                            {localStorage.getItem("userProfile")!=="Client"?<img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img>:""}
+                            {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img> : ""}
                         </div>
                         {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.state.summary}</p>}
                     </div>
@@ -225,11 +362,11 @@ class ReportsOverview extends React.Component {
                         </div>
                         <div className="overall-score">
                             <p style={{fontSize: "18px", fontWeight: "bold", marginBottom: "30px"}}>Overall</p>
-                            {this.props.data.score?<Slider data={this.props.data}/>:""}
+                            <Slider data={this.props.data}/>
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
-                                    {localStorage.getItem("userProfile")!=="Client"?<img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img>:""}
+                                    {this.props.profile !== "Client" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("recs")}></img> : ""}
                                 </div>
                                 {this.state.recsEdit?this.overallRecsForm():this.recsTextFormat()}
                             </div>
@@ -249,7 +386,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data} resultsRefresh={this.props.resultsRefresh} profile={this.props.profile}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
@@ -257,6 +394,38 @@ class ReportsOverview extends React.Component {
                     </Tabs>
                 </div>
             </div>
+        )
+    }
+
+    componentDidMount() {
+        console.log(this.props.data)
+        if (this.props.data) {
+            if (this.props.data.summary !== null) {
+                this.setState ({
+                    summary: this.props.data.summary
+                })
+            }
+
+            if (this.props.data.overallRecs !== null) {
+                this.setState({
+                    overallRecs: this.props.data.overallRecs
+                })
+            }
+
+            // console.log(this.props.data.sites);
+            // this.props.data.sites.map((data, index)=> {
+            //     colors.push(Math.floor(Math.random()*16777215).toString(16))
+            // });
+            // console.log(colors);
+        }
+
+        // console.log(this.props.data);
+        // console.log(this.props.sample);
+    }
+
+    render() {
+        return (
+            this.props.data ? this.props.data.sites !== undefined?this.clientLevel():this.siteLevel() : ""
         );
     }
 }

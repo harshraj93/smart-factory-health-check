@@ -67,6 +67,17 @@
             display: grid;
             grid-template-columns:3fr 1fr 1fr;
             opacity: 0.6;
+            .add-site{
+               text-align: left; 
+               font-size: 16px;
+               font-weight: 600;
+               color: #727279;
+               img{
+                   margin-right: 7px;
+                   padding-bottom: 2px;
+               }
+               
+            }
             .open-text{
                text-align: right;
                margin-right: 4px;

@@ -1,20 +1,99 @@
-.dropdown{
-   
+.dropdown-container{
     margin-top: 16px;
+    display: grid;
+    grid-template-rows: 20px 40px;
     label{
         font-size:12px;
         opacity: 0.5;
         font-size: 12px;
     }
-    display: grid;
-    grid-template-rows: 1fr 1fr ;
-    .dropdown-select{
-    background-color: inherit;
-    border: unset;
-    border-bottom: 1px solid #727279;
-    color: white;
-    width: 90%;
-    border-radius: unset;
-    
-    }   
+.tkey-dropdown{
+    background-color:inherit;
+    font-size: 18px;
+    color: $base-white;
+    text-align: left;
+    position: relative;
+    font-weight: $bold;
+    z-index: 1000;
+    width: 240px;
+    height: 44px;
+  }
+.tkey-dropdown .dropdown-options-container{
+    display: none;
 }
+.tkey-dropdown .show{
+    display: block;
+    background-color:#665e69;
+    position: absolute;
+    left: 0;
+    top:40px;
+    width: 100%;
+}
+.dropdown-options{
+    height: 40px;
+    padding: 8px;
+    font-size: 13px;
+}
+.tkey-dropdown {
+    border-bottom: 1px solid #ffffff;
+    width: 91%;
+    .toggle { 
+        display: flex;
+    padding: 2.5px;
+    margin: 10px 4px 2px 0px;
+    overflow: hidden;
+  
+    span{
+        font-size: 16px;
+        font-weight: normal;
+        font-style: unset !important;
+        opacity: 0.5;     
+    }
+    img{
+        margin-left: auto;
+    }
+    .text-place-holder{
+        overflow: scroll;
+        overflow-x: scroll;
+        overflow-y:hidden ;
+  white-space: nowrap;
+  width: 22vw;
+
+ 
+    }
+    .text-place-holder::-webkit-scrollbar {
+        width: 0.1px !important;
+        height: 0.1px !important;
+    }
+    
+}
+}
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+.required-text{
+   // border-top: 1px solid red !important;;
+    padding-top: 8px;
+}
+}
+// .dropdown{
+   
+//     margin-top: 16px;
+//     label{
+//         font-size:12px;
+//         opacity: 0.5;
+//         font-size: 12px;
+//     }
+//     display: grid;
+//     grid-template-rows: 1fr 1fr ;
+//     .dropdown-select{
+//     background-color: inherit;
+//     border: unset;
+//     border-bottom: 1px solid #727279;
+//     color: white;
+//     width: 90%;
+//     border-radius: unset;
+    
+//     }   
+// }

@@ -46,6 +46,7 @@
                 grid-template-columns: 1fr 8fr;
                 grid-template-rows: 87px;
                 align-items: center;
+                width: 71vw;
 
                 .area-name {
                     width: 139px;
@@ -122,7 +123,7 @@
                         align-items: center;
                         justify-content: space-between;
                         margin-bottom: 1.5vh;
-                        margin-left: 2vw;
+                        margin-left: 1vw;
                         font-weight: 600;
                         font-size: 14px;
                     }
@@ -179,15 +180,19 @@
                     align-items: center;
 
                     .btn {
-                        border-radius: 25px;
-                        width: 8vw;
+                        border-radius: 16px;
+                        width: 68px;
+                        height: 32px;
+                        padding: 0;
+                        font-size: 14px;
                     }
                 }
             }
 
             .listview-card {
                 display: grid;
-                grid-template-columns: 1fr 8fr 1fr;
+                grid-template-columns: auto 1fr;
+                width: 71vw;
                 grid-template-rows: 87px;
                 align-items: center;
                 margin: 20px 32px;

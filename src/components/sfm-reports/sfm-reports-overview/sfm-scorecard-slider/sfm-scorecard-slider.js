@@ -14,27 +14,6 @@ class Slider extends React.Component {
         };
     }
 
-    // calcAvg() {
-    //     var avscore = 0;
-    //     var avindAvg = 0; 
-    //     var avtarget = 0;
-    //     let arr = this.props.data;
-    //     arr.forEach((data,index)=>{
-    //         avscore += data.score;
-    //         avtarget += data.target;
-    //         avindAvg += data.indAvg;
-    //     });
-
-    //     this.setState({
-    //         indAvg: (avindAvg/(arr.length)).toFixed(2),
-    //         score: (avscore/(arr.length)).toFixed(2),
-    //         target: (avtarget/(arr.length)).toFixed(2),
-    //         indAvgPos: this.updatePosition(avindAvg/(arr.length)),
-    //         scorePos: this.updatePosition(avscore/(arr.length)),
-    //         targetPos: this.updatePosition(avtarget/(arr.length))
-    //     });
-    // }
-
     updatePosition(value, str) {
         // Function to update the position value for the industry avg bar, score and target circles
         var x = 0;
@@ -69,38 +48,8 @@ class Slider extends React.Component {
         return ((x/532.469)*100).toFixed(2);
     }
 
-    componentDidMount() {
-        // if (Array.isArray(this.props.data)) {
-        //     this.calcAvg();
-        // }
-        // else {
-            this.setState({
-                score: Number(this.props.data.score).toFixed(1),
-                target: Number(this.props.data.target).toFixed(1),
-                indAvg: Number(this.props.data.indAvg).toFixed(1),
-                scorePos: this.updatePosition(Number(this.props.data.score), "score"),
-                targetPos: this.updatePosition(Number(this.props.data.target), "target"),
-                indAvgPos: this.updatePosition(this.props.data.indAvg, "indAvg")
-            });
-        // }
-    }
-
-    render() {
-        // if (Array.isArray(this.props.data)) {
-        //     this.calcAvg();
-        // }
-        // else {
-        //     this.setState({
-        //         score: this.props.data.score,
-        //         target: this.props.data.target,
-        //         indAvg: (this.props.data.indAvgFrom + this.props.data.indAvgTo)/2,
-        //         scorePos: this.updatePosition(this.props.data.score),
-        //         targetPos: this.updatePosition(this.props.data.target),
-        //         indAvgPos: this.updatePosition((this.props.data.indAvgFrom + this.props.data.indAvgTo)/2)
-        //     });
-        // }
-        // let score = this.state.score.toFixed(1);
-        return ( 
+    clientLevel() {
+        return (
             <div className="slider">
                 <p className="slider-text">Low 1</p>
                 <span className="slider-line"></span>
@@ -111,22 +60,96 @@ class Slider extends React.Component {
                     <span className="stop"></span>
                     <span className="stop"></span>
                 </div>
-                <span className="ind-avg" style={{marginLeft: this.state.indAvgPos + "%"}}></span>
+                {Number(this.props.data.indAvg)>0?<span className="ind-avg" style={{marginLeft: this.updatePosition(Number(this.props.data.indAvg).toFixed(1), "indAvg") + "%"}}></span>:""}
+                {this.props.data.sites.map((data, index) => {
+                    return (
+                        Number(data.score)>0?
+                        <div className="score-box" style={{marginTop: "-18px", marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
+                            <p className="score-text">{Number(data.score).toFixed(1)}</p>
+                            <div className="tooltip-circle">
+                                <span className="slider-circle" style={{backgroundColor: "#" + this.props.colors[index]}}></span>
+                                <div class="tooltiptext">
+                                    <p>{Number(data.score).toFixed(1) + "  " + data.name}</p>
+                                </div>
+                            </div>
+                        </div>
+                        :""
+                    )
+                })}
+                
+                {Number(this.props.data.target) > 0?<div className="score-box" style={{marginTop: "18px", marginLeft: this.updatePosition(Number(this.props.data.target).toFixed(1), "target") + "%"}}> 
+                    <div className="tooltip-circle">
+                        <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
+                        <div class="tooltiptext" style={{bottom: "100%", marginLeft: "-55px"}}>
+                            {this.props.data.sites.map((data, index) => {
+                                return (
+                                    <div className="line">
+                                        <p>{Number(data.target).toFixed(1)}</p>
+                                        <p>{data.name}</p>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                    <p className="score-text">{Number(this.props.data.target).toFixed(1)}</p>
+                </div>:""}
+                <p className="slider-text">High 7</p>
+            </div>
+        )
+    }
+
+    siteLevel(){
+        return (
+            <div className="slider">
+                <p className="slider-text">Low 1</p>
+                <span className="slider-line"></span>
+                <div className="stops">
+                    <span className="stop"></span>
+                    <span className="stop"></span>
+                    <span className="stop"></span>
+                    <span className="stop"></span>
+                    <span className="stop"></span>
+                </div>
+                <span className="ind-avg" style={this.state.score===0 || this.state.target===0 ? {display: "none"} : {marginLeft: this.state.indAvgPos + "%"}}></span>
                 <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "%"}}>
-                    <p className="score-text">{this.state.score}</p>
-                    <span className="slider-circle" style={{backgroundColor: "#57bb50"}}></span>
+                    <p className="score-text">{this.state.score===0 || this.state.target===0 ? '' : this.state.score}</p>
+                    <span className="slider-circle" style={this.state.score===0 || this.state.target===0 ? {backgroundColor: "transparent"} : {backgroundColor: "#57bb50"}}></span>
                 </div>
                 <div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "%"}}> 
-                    <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
+                    <span className="slider-circle" style={this.state.target===0 || this.state.score===0 ? {backgroundColor: "transparent"} : {backgroundColor: "#ffffff"}}></span>
                     {/* <span className="small-circle"></span>
                     <div className="plus">
                         <span className="small-line"></span>
                         <span className="small-line"></span>
                     </div> */}
-                    <p className="score-text">{this.state.target}</p>
+                    <p className="score-text">{this.state.target===0 || this.state.score===0 ? '' : this.state.target}</p>
                 </div>
                 <p className="slider-text">High 7</p>
             </div>
+        )
+    }
+
+    componentDidMount() {
+        if (this.props.data.sites !== undefined) {
+            // console.log("sites");
+            // console.log(this.props.colors);
+        }
+        else {
+            this.setState({
+                score: this.props.data.score!=="NaN" && this.props.data.score!==null?Number(this.props.data.score).toFixed(1):0,
+                target: this.props.data.target!=="NaN" && this.props.data.target!==null?Number(this.props.data.target).toFixed(1):0,
+                indAvg: this.props.data.indAvg!=="NaN" && this.props.data.indAvg!==null?Number(this.props.data.indAvg).toFixed(1):0,
+                scorePos: this.props.data.score!=="NaN" && this.props.data.score!==null?this.updatePosition(Number(this.props.data.score), "score"):0,
+                targetPos: this.props.data.target!=="NaN" && this.props.data.target!==null?this.updatePosition(Number(this.props.data.target), "target"):0,
+                indAvgPos: this.props.data.indAvg!=="NaN" && this.props.data.indAvg!==null?this.updatePosition(Number(this.props.data.indAvg), "indAvg"):0
+            });
+        }
+    }
+
+    render() {
+        // let score = this.state.score.toFixed(1);
+        return ( 
+            this.props.data.sites !== undefined?this.clientLevel():this.siteLevel()
         );
     }
 }

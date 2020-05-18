@@ -26,13 +26,13 @@ class Assessments extends React.Component {
         let tabText = e.target.childNodes[0].wholeText;
         if(tabText==="Open"){
             accordionData = this.state.data.filter(element=>{
-                return element.openNumber!=="0";
+                return element.openNumber!==0 ;
             })
             
         }
         else if(tabText==="Completed"){
             accordionData = this.state.data.filter(element=>{
-                return element.openNumber==="0";
+                return element.openNumber===0;
             })
            
         }
@@ -63,6 +63,9 @@ class Assessments extends React.Component {
 
     componentDidMount = ()=>{
         this.fetchAssessmentsData();
+        localStorage.setItem("sitedetailsstate","");
+        localStorage.setItem("addsitedata","");
+        localStorage.setItem("addnewclient","")
     }
 
 

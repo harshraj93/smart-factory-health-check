@@ -26,6 +26,7 @@ class SiteInfo extends React.Component{
         await this.setState({
             [name]:e.target.value
         })
+        
     }
 
     // fetchSiteInfo = async()=> {
@@ -59,6 +60,7 @@ class SiteInfo extends React.Component{
                 name += arr[i].toLowerCase();
             }
         }
+        
         return name;
     }
 
@@ -109,11 +111,50 @@ class SiteInfo extends React.Component{
         })
     }
 
+    addBFP() {
+        let arr = [];
+        bizFuncPoc.map((data, index)=>{
+            let obj = {};
+            obj.businessFunction = data.BusinessFunction;
+            obj.businessFunctionId = data.BusinessFunctionId;
+            if (data.BusinessFunction === "Continuous Improvement") {
+                obj.resourceName = this.state.continuousimprovement?this.state.continuousimprovement:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Information Technology") {
+                obj.resourceName = this.state.informationtechnology?this.state.informationtechnology:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Replenishment & Materials Management") {
+                obj.resourceName = this.state.replenishmentmaterialsmanagement?this.state.replenishmentmaterialsmanagement:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Operations") {
+                obj.resourceName = this.state.operations?this.state.operations:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Quality") {
+                obj.resourceName = this.state.quality?this.state.quality:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Maintenance") {
+                obj.resourceName = this.state.maintenance?this.state.maintenance:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Procurement & Supplier Management") {
+                obj.resourceName = this.state.procurementsuppliermanagement?this.state.procurementsuppliermanagement:data.ResourceName
+            }
+            else if (data.BusinessFunction === "Planning & Scheduling") {
+                obj.resourceName = this.state.planningscheduling?this.state.planningscheduling:data.ResourceName
+            }
+
+            arr.push(obj);
+        });
+
+        return arr;
+    }
+
     componentDidMount = () => {
-        this.props.data.BusinessFunctionPoC.map((data, index) => {
-            bizFuncPoc.push(data.ResourceName);
-        })
+        // this.props.data.BusinessFunctionPoC.forEach((data, index) => {
+        //     bizFuncPoc.push(data.ResourceName);
+        // })
         // console.log(bizFuncPoc)
+        bizFuncPoc = this.props.data.BusinessFunctionPoC;
+        console.log('bizFuncPoc',bizFuncPoc)
     }
 
     saveForm = async() => {
@@ -121,7 +162,7 @@ class SiteInfo extends React.Component{
             "siteDetails": {
                 "siteId": this.props.data.siteId,
                 "clientName" : this.props.data.clientName,
-                "siteName":this.props.data.sitename,
+                "siteName":this.state.location?this.state.location:this.props.data.sitename,
                 "sector":this.props.data.sector,
                 "primarySitePocName":this.state.primaryPoc?this.state.primaryPoc:this.props.data.primarysitepocname,
                 "primarySitePocRole": this.state.primaryPocRole?this.state.primaryPocRole:this.props.data.primarysitepocrole,
@@ -137,40 +178,7 @@ class SiteInfo extends React.Component{
                 "otif":Number(this.state.otif)>=0?Number(this.state.otif):this.props.data.otif,
                 "siteRevenue":Number(this.state.siteRevenue)>=0?Number(this.state.siteRevenue):this.props.data.siterevenue,
             },
-            "businessFunctionPoC":[
-                {
-                    "businessFunction":"Information Technology",
-                    "resourceName":this.state.informationtechnology?this.state.informationtechnology:bizFuncPoc[0],
-                },
-                {
-                    "businessFunction":"Continuous Improvement",
-                    "resourceName":this.state.continuousimprovement?this.state.continuousimprovement:bizFuncPoc[1],
-                },
-                {
-                    "businessFunction":"Replenishment & Material Management",
-                    "resourceName":this.state.replenishmentmaterialmanagement?this.state.replenishmentmaterialmanagement:bizFuncPoc[2],
-                },
-                {
-                    "businessFunction":"Operations",
-                    "resourceName":this.state.operations?this.state.operations:bizFuncPoc[3],
-                },
-                {
-                    "businessFunction":"Quality",
-                    "resourceName":this.state.quality?this.state.quality:bizFuncPoc[4],
-                },
-                {
-                    "businessFunction":"Maintenance",
-                    "resourceName":this.state.maintenance?this.state.maintenance:bizFuncPoc[5],
-                },
-                {
-                    "businessFunction":"Procurement & Supplier Management",
-                    "resourceName":this.state.procurementsuppliermanagement?this.state.procurementsuppliermanagement:bizFuncPoc[6],
-                },
-                {
-                    "businessFunction":"Planning & Scheduling",
-                    "resourceName":this.state.planningscheduling?this.state.planningscheduling:bizFuncPoc[7],
-                },
-            ]
+            "businessFunctionPoC":this.addBFP()
         }
 
         // console.log(siteInfoJSON);
@@ -179,11 +187,13 @@ class SiteInfo extends React.Component{
         try{
             const response = await fetch(siteInfoApi.siteInfoEdit,apiPostHeader)
             const message = await response.json();
-            return message;
+            console.log(message);
         }
         catch(err){
-            return err
+            console.log(err)
         }
+
+        this.props.siteinfoRefresh();
     }
 
     render() {
@@ -192,7 +202,7 @@ class SiteInfo extends React.Component{
                 <form id="add-client-form" onSubmit={this.handleSubmit}>
                     <div className="team-info-container">
                         <div className="team-info">
-                            <LabelledInputField placeholder={false} name="location" labelName="Location*" data={this.props.data.sitename} readOnly={true}/>  {/**changeButtonState={this.changeButtonState}*/}
+                            <LabelledInputField placeholder={false} name="location" labelName="Location*" data={this.props.data.sitename} readOnly={false} onChange={this.onChange}/>  {/**changeButtonState={this.changeButtonState}*/}
                             <LabelledInputField placeholder={false} name="primaryPoc" labelName="Primary POC*" data={this.props.data.primarysitepocname} readOnly={false} onChange={this.onChange}/>
                             <LabelledInputField placeholder={false} name="primaryPocRole" labelName="Primary POC Role*" data={this.props.data.primarysitepocrole} readOnly={false} onChange={this.onChange}/>
                         </div>
@@ -201,7 +211,7 @@ class SiteInfo extends React.Component{
                     <div className="mid-container">
                         <div className="client-info">
                             <LabelledInputField placeholder={false} name="sector" labelName="Sector*" data={this.props.data.sector} readOnly={true}/>
-                            <DropDownMenu placeholder={false} data={this.props.data.manufactureArchList} labelName="Manufacturing Archetype*" name="manuArchtype" onChange={this.handleChange} value={(this.props.data.manufacturearchtype!==undefined?this.props.data.manufacturearchtype:"-")}/>
+                            <DropDownMenu placeholder="Manufacturing Archetype*" data={this.props.data.manufactureArchList} labelName="" name="manuArchtype" onChange={this.handleChange} value={(this.props.data.manufacturearchtype!==undefined?this.props.data.manufacturearchtype:"-")}/>
                             {/* <LabelledInputField placeholder={false} name="manuArchtype" labelName="Manufacturing Archetype*" data={this.props.data.manufacturearchtype} readOnly={false} onChange={this.onChange}/> */}
                             <LabelledInputField placeholder={false} name="noShifts" labelName="# of Shifts" data={this.props.data.totalshifts} readOnly={false} onChange={this.onChange}/>
                             <LabelledInputField placeholder={false} name="noEmps" labelName="# Employees" data={this.props.data.totalemployees} readOnly={false} onChange={this.onChange}/>
@@ -222,7 +232,7 @@ class SiteInfo extends React.Component{
                             {this.props.data.BusinessFunctionPoC.map((data,index) => {
 
                                 return (
-                                    <LabelledInputField placeholder={false} name={this.variableName(data.BusinessFunction)} labelName={data.BusinessFunction} data={data.ResourceName!==null&&data.ResourceName!=="null"?data.ResourceName:""} required={false} readOnly={false} onChange={this.onChange}/>
+                                    <LabelledInputField placeholder={false} name={this.variableName(data.BusinessFunction)} labelName={data.BusinessFunction} data={data.ResourceName?data.ResourceName:""} required={false} readOnly={false} onChange={this.onChange}/>
                                 )
                             })}
                         </div>

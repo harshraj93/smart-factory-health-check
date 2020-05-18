@@ -17,34 +17,43 @@ export default function Header(props){
 
 function backNavigation(e,props){
     let locationpath = props.props.location.pathname;
-    let history = props.props.history
+    let history = props.props.history;
+    
     if(locationpath==="/addnewclient"){
         return history.push({
             pathname:"/"
         })
     }
     else if(locationpath==="/addsitedetails"){
-        let addClientData = localStorage.getItem("addnewclient")
+        
+        
+        if(props.props.location.state.page){
+            return history.push({
+                pathname:"/addnewsite",
+            })
+        }
+        else{
+            let addClientData = localStorage.getItem("addnewclient")
         return history.push({
             pathname:"/addnewclient",
             data:JSON.parse(addClientData)
         })
-       
+    }
     }
     else if(locationpath==="/addbusinessfunctions"){
         let addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
-        
         let siteDetails = JSON.parse(localStorage.getItem("sitedetailsstate"))
-        console.log(siteDetails);
+        console.log(addSiteData,siteDetails);
         return history.push({
             pathname:"/addsitedetails",
             state:{
-               data:(addSiteData),
+               data: addSiteData,
                sites: siteDetails.state.sites,
                clientName: siteDetails.state.clientName,
                industry: siteDetails.state.industry,
                industryList: siteDetails.state.industryList,
-               clientid: siteDetails.state.clientid
+               clientid: siteDetails.state.clientid,
+               page: siteDetails.state.page
             }
         })
     }

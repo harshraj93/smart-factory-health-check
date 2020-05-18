@@ -94,6 +94,7 @@
             }
             .title-text{
                 margin: auto;
+                margin-left: 39vw;
             }
             .remove-site {
                 display: flex;
@@ -124,7 +125,7 @@
             display: flex;
             left: 81.5%;
             align-items: center;
-            top: 26%;
+            //top: 26%;
             cursor: pointer;
 
             .text {
@@ -236,10 +237,19 @@
                 .link{
                     margin-left: 40px;
                     background-color: #161617;
+                    color: #dedede;
                     width: 85%;
                     overflow: auto;
                     padding: 16px;
+                    border: none;
+                    border-color: transparent;
                 }
+            }
+            .linkCopySuccess {
+                font-size: 16px;
+                color: #ffffff;
+                font-weight: bold;
+                margin: 30px;
             }
             .button-group{
                 margin-top: 32px;

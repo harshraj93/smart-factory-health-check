@@ -3,9 +3,16 @@
             margin: $common-margin;
             width: 98%;
             #revisit{
+                display: grid;
+                grid-template-columns: auto auto;
                 .custom-button{
-                    width: 40%;
+                    width: 5.4vw;
                     cursor: unset;
+                    margin-left: 1vw !important;
+                    font-size: 12px;
+                    height: 20px;
+                    font-weight: bold;
+                    margin-top: 0.5vh;
                 };
             }
             
@@ -17,15 +24,25 @@
             
         //     display: none;
         // }
+        .table-striped tbody tr:hover {
+            color: #006cc7;
+            cursor: pointer;
+        }
         tr td:first-child{
             font-weight: bold;
+            text-align: left;
+        }
+        .table-striped tbody tr{
+            text-align: center;
+        }
+        tr td:last-child{
+            font-weight: bold;
+            text-align: right;
         }
         
         .misc-container{
-            display: grid;
-            grid-template-columns: 1fr 1fr 2fr;
             .link-icon,.download{
-                //margin:10px;
+                text-align: center;
                 padding:4px;
                 cursor: pointer;
 
