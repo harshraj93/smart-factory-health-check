@@ -64,9 +64,8 @@ class HamburgerNav extends React.Component {
     
     render() {
         return (
-            
-                <>
-               <div className="sidenav">
+            <>
+                <div className="sidenav">
                     <div className="top-part">
                     <div className="sidebar-option-top">
                         <div className="hamburger" onClick={this.navbar}>
@@ -102,11 +101,9 @@ class HamburgerNav extends React.Component {
                         <img src={DropDownImg} alt="" className="logout-down-arrow"/>
                     </div>
                 </div>
-              </>
+            </>
         );
-    
     }
-    
 }
 
 export default HamburgerNav;
