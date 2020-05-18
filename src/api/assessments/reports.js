@@ -6,6 +6,7 @@ let resultsApi={
     textEdit:apiUrl +"siteService/siteSummaryAndRecommendation",
     themesEdit:apiUrl+"clientService/setKeythemesAndRecommendations",
     clientReport: apiUrl+"clientService/clientNetworkReport",
+    clientEditText: apiUrl+"clientService/sectorySummaryAndRecommendation",
     reportOnly:apiUrl+"clientService/reportOnly",
     userInfoDetails: apiUrl+"userService/userInfoDetails"
 }
