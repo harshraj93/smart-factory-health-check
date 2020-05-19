@@ -68,7 +68,7 @@ class ClientInfo extends React.Component {
     }
 
     componentDidMount = async()=> {
-        let clientName = localStorage.getItem("clientName")
+        let clientName = this.props.client;
         let siteInfoData = await this.fetchSiteInfo(clientName);
         await this.setState({
             jsonData:siteInfoData.resultantJSON

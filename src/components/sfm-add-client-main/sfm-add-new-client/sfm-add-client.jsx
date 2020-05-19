@@ -115,6 +115,7 @@ function teamInfoForm(props,state,handleChange,changeButtonState){
 
 function addSupportResource(handleChange,state,index,changeButtonState,hideSupportResource){
     return(
+        <>
         <div className = "support-info-container">
         <div className="support-info">
         <LabelledInputField placeholder={true}  
@@ -138,6 +139,9 @@ function addSupportResource(handleChange,state,index,changeButtonState,hideSuppo
         </div>
         {(index!==1)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
         </div>
+
+        {index===1?<div className="border-bottom"></div>:""}
+        </>
     )
 }
 
@@ -170,9 +174,9 @@ class AddNewClient extends React.Component{
     showSupportResource = ()=>{
         indexArray.push(this.state.showSupportIndex+1);
         this.setState(function(prevState,prevProps){
-            console.log(prevState)
+            // console.log(prevState)
            return{showSupportIndex:prevState.showSupportIndex+1,
-            showSupportResource:prevState.showSupportIndex+1===5?true:false,
+            showSupportResource:prevState.showSupportIndex+1===6?true:false,
             indexArray:[...indexArray]}
         })
       
@@ -181,9 +185,10 @@ class AddNewClient extends React.Component{
     hideSupportResource = ()=>{
         indexArray.pop();
         this.setState(function(prevState,prevProps){
+            console.log(prevState)
             return{showSupportIndex:prevState.showSupportIndex-1,
                 indexArray:[...indexArray],
-                showSupportResource:prevState.showSupportIndex-1===5?true:false,}
+                showSupportResource:prevState.showSupportIndex-1===1?true:false,}
         })
     }
 
@@ -451,7 +456,8 @@ class AddNewClient extends React.Component{
             excelData["supResourceName"+(index+1)]=resource.support_resource_name;
             excelData["supResourceEmail"+(index+1)]=resource.support_resource_email;
             excelData["supResourceLevel"+(index+1)]=resource.support_resource_level;
-            if(index+1!==supportResources.length){this.showSupportResource()}
+            // console.log(excelData);
+            this.showSupportResource()
         })
         siteDetails = response.siteDetails;
         await this.setState({
@@ -519,11 +525,11 @@ class AddNewClient extends React.Component{
             <div className="border-bottom"></div>
             {teamInfoForm(this.props,this.state,this.handleChange,this.setNextStepState)}
             <div className="border-bottom"></div>
-            {addSupportResource(this.handleChange,this.state,1)}
-            <div className="border-bottom"></div>
+            {/* {addSupportResource(this.handleChange,this.state,1)} */}
+            {/* <div className="border-bottom"></div> */}
             {this.state.indexArray.map((element,index)=>{
                 return(
-                this.state.showSupportIndex<6&&addSupportResource(this.handleChange,this.state,index+2,this.setNextStepState,this.hideSupportResource)
+                this.state.showSupportIndex<=6&&addSupportResource(this.handleChange,this.state,index+1,this.setNextStepState,this.hideSupportResource)
                 )
             })}
             {/* {this.state.showSupportIndex>0&&this.state.showSupportIndex!=5&&addSupportResource(this.handleChange,this.state,2,this.setNextStepState,this.hideSupportResource)} */}

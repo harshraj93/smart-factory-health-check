@@ -127,7 +127,7 @@ class ReportsListView extends React.Component {
             // console.log(recs);
             if (editresp) {
                 this.props.resultsRefresh();
-                this.refreshText();
+                // this.refreshText();
             }
             // console.log(keyThemes);
             // console.log(recs);
