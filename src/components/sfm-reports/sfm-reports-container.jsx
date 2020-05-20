@@ -678,6 +678,7 @@ class Reports extends React.Component{
         jsonData.sites = this.sendSiteArray(data.siteData);
         jsonData.reportsData = this.sendBusinessFunction(data.siteData);
         jsonData.target = this.numbersAvg(jsonData.sites, "target");
+        jsonData.sectorBusinessFnInfo = data.sectorBusinessFnInfo;
         // console.log(jsonData.target);
         // console.log("format data",jsonData);
         return jsonData;
@@ -807,9 +808,11 @@ class Reports extends React.Component{
         else if (this.props.location.siteid === undefined) {
             clientReportsData = await this.fetchClientLevelData();
             // formattedClientReportsData = await this.formatClientLevelData(clientReportsData.resultantJSON);
-            clientReportsData.sites.map((data, index)=> {
-                colors.push(Math.floor(Math.random()*16777215).toString(16))
-            });
+            if (clientReportsData.sites !== undefined){
+                clientReportsData.sites.map((data, index)=> {
+                    colors.push(Math.floor(Math.random()*16777215).toString(16))
+                });
+            }
             // console.log(clientReportsData);
         }
         this.setState({
