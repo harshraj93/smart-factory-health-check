@@ -27,6 +27,7 @@ function percentComplete(data, str) {
 
 let keyThemes = [];
 let recs = [];
+let bizfuncId = [];
 
 class ReportsListView extends React.Component {
     constructor(props){
@@ -104,7 +105,7 @@ class ReportsListView extends React.Component {
 
     onClientSave = index => async() => {
         let obj = {};
-        obj.function_id = this.state.clientTextArray[index].businessFunctionId;
+        obj.function_id = bizfuncId[index];
         obj.keyThemes = this.state.tempKT;
         obj.recommendation = this.state.tempRecs
         let arr = [];
@@ -376,21 +377,28 @@ class ReportsListView extends React.Component {
         // console.log("reports",this.props.data.reportsData);
         keyThemes = [];
         recs = [];
+        bizfuncId = [];
         if (this.props.data.reportsData !== undefined) {
             if (this.props.data.sectorBusinessFnInfo !== undefined) {
-                for (let i = 0; i < this.props.data.sectorBusinessFnInfo.length; i++) {
-                    if (this.props.data.sectorBusinessFnInfo[i].businessKeyThemes !== null) {
-                        keyThemes.push(this.props.data.sectorBusinessFnInfo[i].businessKeyThemes);
-                    }
-                    else {
-                        keyThemes.push(this.state.keyThemes);
-                    }
-                    
-                    if (this.props.data.sectorBusinessFnInfo[i].businessRecommendation !== null) {
-                        recs.push(this.props.data.sectorBusinessFnInfo[i].businessRecommendation);
-                    }
-                    else {
-                        recs.push(this.state.recs);
+                for (let j = 0; j < this.props.data.reportsData.length; j++) {
+                    for (let i = 0; i < this.props.data.sectorBusinessFnInfo.length; i++) {
+                        if (this.props.data.reportsData[j].id === this.props.data.sectorBusinessFnInfo[i].businessFunctionId) {
+                            if (this.props.data.sectorBusinessFnInfo[i].businessKeyThemes !== null) {
+                                keyThemes.push(this.props.data.sectorBusinessFnInfo[i].businessKeyThemes);
+                            }
+                            else {
+                                keyThemes.push(this.state.keyThemes);
+                            }
+                            
+                            if (this.props.data.sectorBusinessFnInfo[i].businessRecommendation !== null) {
+                                recs.push(this.props.data.sectorBusinessFnInfo[i].businessRecommendation);
+                            }
+                            else {
+                                recs.push(this.state.recs);
+                            }
+
+                            bizfuncId.push(this.props.data.sectorBusinessFnInfo[i].businessFunctionId);
+                        }
                     }
                 }
                 this.setState({
@@ -416,8 +424,9 @@ class ReportsListView extends React.Component {
             }
         }
 
-        // console.log(keyThemes);
-        // console.log(recs);
+        console.log(keyThemes);
+        console.log(recs);
+        console.log(bizfuncId);
     }
 
     render(){
