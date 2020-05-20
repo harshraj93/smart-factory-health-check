@@ -17,7 +17,7 @@ import Modal from "react-bootstrap/Modal";
 
 let capabilitiesArray = [];
 let subCapabilitiesArray = [];
-
+let globcurrentValue, globtargetValue;
 
 function QuestionnaireHeader(props) {
     return (
@@ -126,16 +126,16 @@ class QuestionnairePage extends React.Component {
 
 
     setCurrentValue = async (currentValue) => {
-        await this.setState({
-            currentValue: currentValue
-        })
+        globcurrentValue = currentValue
     }
 
+    componentWillUnmount = ()=>{
+        globcurrentValue="";
+        globtargetValue = ""
+    }
 
     setTargetValue = async (targetValue) => {
-        await this.setState({
-            targetValue: targetValue
-        })
+        globtargetValue = targetValue
     }
 
 
@@ -176,6 +176,8 @@ class QuestionnairePage extends React.Component {
                 return { arrayIndex: prevState.arrayIndex + 1, skipFlag: false }
             }
         })
+        globcurrentValue="";
+        globtargetValue = ""
         await this.setState({
             targetSelected:"",
             currentSelected:""
@@ -188,8 +190,8 @@ class QuestionnairePage extends React.Component {
     parseQuestionnaire = async (questionnaireResponse) => {
         fetch(questionnaire.getProgress + `?siteId=${localStorage.getItem("siteId")}&businessfunctionId=${localStorage.getItem("businessfunctionId")}&capabilityId=${capabilitiesArray[this.state.capabilitiesArrayIndex].capabilityId}`, apiGetHeader)
             .then(resp => resp.json())
-            .then(resp => {
-                this.setState({
+            .then(async(resp) => {
+               await this.setState({
                     progressValue: Math.round(resp.progress, 4),
                     targetValue: questionnaireResponse.targetLevel ? questionnaireResponse.targetLevel : "",
                     currentValue: questionnaireResponse.currentLevel ? questionnaireResponse.currentLevel : "",
@@ -525,9 +527,9 @@ class QuestionnairePage extends React.Component {
     }
 
 
-    componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleClickOutside);
-    }
+    // componentWillUnmount() {
+    //     document.removeEventListener('mousedown', this.handleClickOutside);
+    // }
 
 
     replaceSubCapabilitiesArray = async (arrayCapabilitiesIndex, flag) => {
@@ -544,21 +546,22 @@ class QuestionnairePage extends React.Component {
     }
 
     continueNav = async () => {
+        console.log(globcurrentValue)
         let saveAssessment = {
-            "currentLevel": this.state.currentValue ? this.state.currentValue : -1,
-            "targetLevel": this.state.targetValue ? this.state.targetValue : -1,
+            "currentLevel": globcurrentValue ? globcurrentValue : -1,
+            "targetLevel": globtargetValue ? globtargetValue : -1,
             "subCapability": subCapabilitiesArray[this.state.arrayIndex].subcapabilityId,
             "siteid": localStorage.getItem("siteId")
         }
         apiPostHeader.body = JSON.stringify(saveAssessment);
-
         fetch(questionnaire.saveAssessment, apiPostHeader)
             .then(resp => resp.json())
             .then(resp => {
             })
         await this.setState(function (prevState, props) {
+            //console.log(this.state.arrayIndex+1,Number(this.state.capabilitiesArrayIndex)+1,subCapabilitiesArray.length,capabilitiesArray.length)
             if (this.state.arrayIndex + 1 === subCapabilitiesArray.length) {
-                if (prevState.capabilitiesArrayIndex + 1 === capabilitiesArray.length) {
+                if (this.state.capabilitiesArrayIndex + 1 === capabilitiesArray.length) {
                     this.setState({
                         showContinue: false
                     })
@@ -576,6 +579,8 @@ class QuestionnairePage extends React.Component {
             }
         })
         this.getQuestionnaire();
+        globcurrentValue="";
+        globtargetValue = ""
         await this.setState({
             targetSelected: "",
             currentSelected: ""
@@ -609,6 +614,8 @@ class QuestionnairePage extends React.Component {
         }
 
         this.getQuestionnaire();
+        globcurrentValue="";
+        globtargetValue = ""
         await this.setState({
             targetSelected: "",
             currentSelected: ""
@@ -617,8 +624,8 @@ class QuestionnairePage extends React.Component {
 
     saveAndExit = () => {
         let saveAssessment = {
-            "currentLevel": this.state.currentValue ? this.state.currentValue : -1,
-            "targetLevel": this.state.targetValue ? this.state.targetValue : -1,
+            "currentLevel": globcurrentValue ? globcurrentValue : -1,
+            "targetLevel": globtargetValue ? globtargetValue : -1,
             "subCapability": subCapabilitiesArray[this.state.arrayIndex].subcapabilityId,
             "siteid": localStorage.getItem("siteId")
         }
@@ -643,21 +650,7 @@ class QuestionnairePage extends React.Component {
     }
 
 
-    handleChangeCurrent = async (e) => {
-        console.log(e, e.target);
-        let value;
-        if (e.target) {
-            value = e.target.value;
-            value = value[value.length - 1];
-        } else {
-            value = e;
-            value = value[value.length - 1];
-        }
-        await this.setState({
-            currentSelected: e.target ? e.target.value : e
-        })
-        this.state.currentSelected ? this.setCurrentValue(value) : this.setCurrentValue("")
-    }
+ 
 
 
     loadingScreen() {
@@ -692,7 +685,6 @@ class QuestionnairePage extends React.Component {
         )
     }
 
-
     handleTargetChange = async (e) => {
         let value;
         if (e.target) {
@@ -705,9 +697,23 @@ class QuestionnairePage extends React.Component {
         await this.setState({
             targetSelected: e.target ? e.target.value : e
         })
-        this.state.targetSelected ? this.setTargetValue(value) : this.setTargetValue("")
+        this.state.targetSelected ? await this.setTargetValue(value) : await this.setTargetValue("")
     }
 
+    handleChangeCurrent = async (e) => {
+        let value;
+        if (e.target) {
+            value = e.target.value;
+            value = value[value.length - 1];
+        } else {
+            value = e;
+            value = value[value.length - 1];
+        }
+        await this.setState({
+            currentSelected: e.target ? e.target.value : e
+        })
+        this.state.currentSelected ? await this.setCurrentValue(value) : await this.setCurrentValue("")
+    }
 
     showskipPopup = () => {
         this.setState({
