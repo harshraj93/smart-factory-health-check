@@ -18,7 +18,7 @@ export default function DemographicsForm(props){
         <LabelledInputField placeholder={true} labelName="# Employees" data={jsonData.totalemployees} readOnly={true}/>
         <LabelledInputField placeholder={true} labelName="# of production assets" data={jsonData.totalproductionassets} readOnly={true}/>
         <LabelledInputField placeholder={true} labelName="site revenue" data={jsonData.siterevenue} readOnly={true}/>
-        <LabelledInputField placeholder={true} labelName="Site EPITDA (optional)" data={jsonData.siteebitda} readOnly={true}/>
+        <LabelledInputField placeholder={true} labelName="Site EBITDA (optional)" data={jsonData.siteebitda} readOnly={true}/>
         <LabelledInputField placeholder={true} labelName="OTIF % (optional)" data={jsonData.otif} readOnly={true}/>
         <LabelledInputField placeholder={true} labelName="Site OEE (optional)" data={jsonData.overalloee} readOnly={true}/>
         <LabelledInputField placeholder={true} labelName="OEE - Performance % (optional)" data={jsonData.performanceoee} readOnly={true}/>

@@ -217,7 +217,7 @@ class SiteInfo extends React.Component{
                             <LabelledInputField placeholder={false} name="noEmps" labelName="# Employees" data={this.props.data.totalemployees} readOnly={false} onChange={this.onChange}/>
                             <LabelledInputField placeholder={false} name="noAssets" labelName="# of Assets" data={this.props.data.totalproductionassets} readOnly={false} onChange={this.onChange}/>
                             <LabelledInputField placeholder={false} name="siteRevenue" labelName="Site Revenue" data={this.props.data.siterevenue} readOnly={false} onChange={this.onChange}/>
-                            <LabelledInputField placeholder={false} name="epitda" labelName="Site EPITDA (optional)" data={this.props.data.siteebitda} readOnly={false} onChange={this.onChange}/>
+                            <LabelledInputField placeholder={false} name="epitda" labelName="Site EBITDA (optional)" data={this.props.data.siteebitda} readOnly={false} onChange={this.onChange}/>
                             <LabelledInputField placeholder={false} name="otif" labelName="OTIF % (optional)" data={this.props.data.otif} readOnly={false} onChange={this.onChange}/>
                             <LabelledInputField placeholder={false} name="oeeSite" labelName="Site OEE (optional)" data={this.props.data.overalloee} readOnly={false} onChange={this.onChange}/>
                             <LabelledInputField placeholder={false} name="oeePerf" labelName="OEE - Performance % (optional)" data={this.props.data.performanceoee} readOnly={false} onChange={this.onChange}/>

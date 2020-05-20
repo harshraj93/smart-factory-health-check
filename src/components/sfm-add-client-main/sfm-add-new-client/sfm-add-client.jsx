@@ -165,30 +165,29 @@ class AddNewClient extends React.Component{
             dropDownData:[],
             backData:{},
             showSupportIndex:0,
-            indexArray:[]
+            indexArray:[1]
         }
         this.props.disableMenu(false);
     }
 
   
-    showSupportResource = ()=>{
+    showSupportResource = async()=>{
         indexArray.push(this.state.showSupportIndex+1);
-        this.setState(function(prevState,prevProps){
+        await this.setState(function(prevState,prevProps){
             // console.log(prevState)
            return{showSupportIndex:prevState.showSupportIndex+1,
-            showSupportResource:prevState.showSupportIndex+1===6?true:false,
+            showSupportResource:indexArray.length===6?true:false,
             indexArray:[...indexArray]}
         })
       
     }
 
-    hideSupportResource = ()=>{
+    hideSupportResource = async()=>{
         indexArray.pop();
-        this.setState(function(prevState,prevProps){
-            console.log(prevState)
+        await this.setState(function(prevState,prevProps){
             return{showSupportIndex:prevState.showSupportIndex-1,
                 indexArray:[...indexArray],
-                showSupportResource:prevState.showSupportIndex-1===1?true:false,}
+                showSupportResource:prevState.indexArray.length-1<1?true:false}
         })
     }
 
@@ -218,7 +217,6 @@ class AddNewClient extends React.Component{
         addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
         }
         
-        console.log(addSiteData)
         let state={
             sites:this.state.numSites,
             clientName:this.state.clientName,
@@ -310,19 +308,19 @@ class AddNewClient extends React.Component{
              return (element!=null) 
         })
         let body = addClientJSON;
-        let callAPI = addclientapi.addClient;
+        let callAPI;
         apiPostHeader.body = JSON.stringify(body);
-        // if(back){
-        //     callAPI = addclientapi.updateClient
-        // }else{
-        //     callAPI = addclientapi.addClient
-        // }
+        if(back){
+            callAPI = addclientapi.updateClient
+        }else{
+            callAPI = addclientapi.addClient
+        }
         fetch(callAPI,apiPostHeader)
             .then(resp=>resp.json())
             .then(resp=>{
-            clientid=resp.clientid;
-            supportResourcesID=resp.supportResourcesID.length>0?resp.supportResourcesID:"";
-            primaryResourceID=resp.primaryResourceId?resp.primaryResourceId:""
+            clientid=resp.clientid?resp.clientid:"";
+            if(resp.supportResourcesID){supportResourcesID=resp.supportResourcesID.length>0?resp.supportResourcesID:""}
+            if(resp.primaryResourceId){primaryResourceID=resp.primaryResourceId?resp.primaryResourceId:""}
            if(!resp.errorMessage){
                 this.navigate(clientid,supportResourcesID,primaryResourceID);
                 this.setData(clientid,supportResourcesID,primaryResourceID);
@@ -514,6 +512,7 @@ class AddNewClient extends React.Component{
             showIndustryRequired = true
         } 
     }
+    console.log(this.state.indexArray)
       
        return(
             <div className='add-new-client-container'>
