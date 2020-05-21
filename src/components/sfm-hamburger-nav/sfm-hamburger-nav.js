@@ -3,6 +3,7 @@ import assessmentsIcon from '../../images/icon-small-assessments.svg';
 import analyticsIcon from '../../images/icon-small-analytics.svg';
 import utilSumIcon from '../../images/icon-small-utlization-summary.svg';
 import DropDownImg from '../../images/icon-small-chevron-down.svg';
+import DeloitteLogo from '../../images/deloitte-logo.svg';
 import {Link} from 'react-router-dom';
 
 class HamburgerNav extends React.Component {
@@ -73,7 +74,7 @@ class HamburgerNav extends React.Component {
                             <div className="bar"></div>
                             <div className="bar"></div>
                         </div>
-                        <div className="top-text" style={{display: this.state.toggleSidebar}}>SMART FACTORY</div>
+                        <div className="top-text" style={{display: this.state.toggleSidebar}}><img src={DeloitteLogo} alt=""/></div>
                     </div>
                     <Link onClick={() => this.darken("assessments")} className="sidebar-option" id="assessments" to="/" style={{background: "#161617"}}>
                         <img src={assessmentsIcon} className="sidebar-icon" alt=""/>

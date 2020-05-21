@@ -6,6 +6,7 @@ import {CustomButton,FormNavigationButton, SaveandExitButton} from '../../assets
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 import DeleteIcon from '../../images/combined-shape.svg';
 import DropDownImg from '../../images/icon-small-chevron-down.svg';
+import DeloitteLogo from '../../images/deloitte-logo.svg';
 import ReportsOverview from './sfm-reports-overview/sfm-reports-overview';
 import DemographicsForm from './sfm-reports-demographics/demographics-form';
 import AssessmentsOverview from './sfm-assessments-overview/sfm-assessments-overview';
@@ -275,21 +276,22 @@ class Reports extends React.Component{
             <div className="assessment-title">
             <div className="assessment-overview-title">
                 {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={JSON.stringify(this.state.assessOverview) !== "{}"?this.navigateBackFromResults:this.navigateBack}/> : ""}
+                <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                 <span className="title-text">
                     {"Results "+this.state.title}
                 </span>
-                <div className="remove-site" style={{opacity: "0"}}>
+                {/* <div className="remove-site" style={{opacity: "0"}}>
                     <img src={DeleteIcon} alt=""/>
                     <p style={{margin: "0", marginLeft: "10px"}}> Remove Site</p>
-                </div>
+                </div> */}
             </div>
             <h2 className="location-name">
-            {this.props.location.locationString!==undefined?this.props.location.locationString:"Bristol"}
+            {this.props.location.locationString!==undefined?this.props.location.locationString:this.state.reportsOverview.siteName}
             
             </h2>
                 
             <h5 className="company-name">
-            {this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}
+            {this.props.location.companyName!==undefined?this.props.location.companyName:this.state.reportsOverview.clientName}
             </h5>
             <span className="share-link">
              {this.props.profile  !== "Client" && <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>}
@@ -316,12 +318,13 @@ class Reports extends React.Component{
     }
 
     networkHeader = () => {
-        this.props.profile === "Client" ? resultsList = ["Overview"] : resultsList = ["Overview","Demographics"]
+        resultsList = ["Overview"]
         return(
             <div className="reports-container">
                 <div className="assessment-title">
                     <div className="assessment-overview-title">
                         {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
+                        <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                         <span className="title-text">
                             {this.props.location.sector+" Network"}
                         </span>
@@ -332,6 +335,9 @@ class Reports extends React.Component{
                     <span className="share-link">
                         <FormNavigationButton labelName="Publish" />
                     </span>
+                    {this.state.publishResults&&this.publishModal()}
+                    {this.state.businessContactModal&&this.publishBusinessContactModal()}
+                    {this.state.shareResults&&this.shareResultsModal()}
                     
                     <Tabs className="tab-group" onSelect={this.selectTab}>
                         {resultsList.map((element,index)=>{
@@ -398,13 +404,14 @@ class Reports extends React.Component{
                 {this.state.x?this.deleteModal():""}
                 <div className="assessment-overview-title">
                     {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
+                    <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                     <span className="title-text">
                         Assessment Overview
                     </span>
-                    <div className="remove-site" onClick={this.editToggle}>
+                    {/* <div className="remove-site" onClick={this.editToggle}>
                         <img src={DeleteIcon} alt=""/>
                         <p style={{margin: "0", marginLeft: "10px"}}> Remove Site</p>
-                    </div>
+                    </div> */}
                 </div>
                 <h2 className="location-name">{this.props.location.locationString!==undefined?this.props.location.locationString:"Bristol"}
                 </h2>
@@ -419,7 +426,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData} siteinfoRefresh={this.siteinfoRefresh}/>:<ClientInfo client={this.props.location.companyName}/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh} siteinfoRefresh={this.siteinfoRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData} siteinfoRefresh={this.siteinfoRefresh}/>:<ClientInfo client={this.props.location.companyName}/>))}
                             </Tab>
                         )
                     })}
@@ -757,7 +764,6 @@ class Reports extends React.Component{
         return demo;
     }
 
-
     componentDidMount = async()=>{
         let resultJSON = {};
         let userProfile=this.props.profile;
@@ -838,7 +844,7 @@ class Reports extends React.Component{
         
     return(
     
-      this.props.location.siteid === undefined?
+      this.state.loadComponentString === "network"?
             (this.networkHeader()):
             (this.state.loadComponentString==="results"?this.resultHeader():
                     (this.state.loadComponentString==="assessments"?this.AssessmentsHeader():this.loadingScreen()))

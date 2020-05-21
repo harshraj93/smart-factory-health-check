@@ -16,7 +16,8 @@ function addSiteRow (props){
             pathname:'/reports',
             clientName:props.companyName,
             sector : props.industryType,
-            clientid:props.clientid
+            clientid:props.clientid,
+            loadComponentString : "network",
         }}
         >
         <div className="view-plant">
