@@ -4,7 +4,7 @@ import Tab from 'react-bootstrap/Tab';
 import Spinner from 'react-bootstrap/Spinner'
 import {CustomButton,FormNavigationButton, SaveandExitButton} from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
-import DeleteIcon from '../../images/combined-shape.svg';
+// import DeleteIcon from '../../images/combined-shape.svg';
 import DropDownImg from '../../images/icon-small-chevron-down.svg';
 import DeloitteLogo from '../../images/deloitte-logo.svg';
 import ReportsOverview from './sfm-reports-overview/sfm-reports-overview';
@@ -148,23 +148,46 @@ class Reports extends React.Component{
 
     submitUsername = async() => {
         // console.log("submit clicked")
-        let body = { 
-            "siteid": this.props.location.siteid, 
-            "userEmail": this.state.userName
-        };
-        apiPostHeader.body = JSON.stringify(body);
-        try{
-        const response = await fetch(resultsApi.associateUserSite,apiPostHeader);
-        const json =  await response.json();
-        this.setState({
-            shareResults: false,
-            userName: "",
-        })
-        // console.log(json);
-        return json;
+        if (this.state.loadComponentString === "network") {
+            let body = { 
+                "clientid": this.props.location.clientid, 
+                "userEmail": this.state.userName,
+                "sector": this.props.location.sector
+            };
+            apiPostHeader.body = JSON.stringify(body);
+            try{
+            const response = await fetch(resultsApi.associateSectorAndUser,apiPostHeader);
+            const json =  await response.json();
+            this.setState({
+                shareResults: false,
+                userName: "",
+            })
+            // console.log(json);
+            return json;
+            }
+            catch(err){
+                return err
+            }
         }
-        catch(err){
-            return err
+        else {
+            let body = { 
+                "siteid": this.props.location.siteid, 
+                "userEmail": this.state.userName
+            };
+            apiPostHeader.body = JSON.stringify(body);
+            try{
+            const response = await fetch(resultsApi.associateUserSite,apiPostHeader);
+            const json =  await response.json();
+            this.setState({
+                shareResults: false,
+                userName: "",
+            })
+            // console.log(json);
+            return json;
+            }
+            catch(err){
+                return err
+            }
         }
     }
 
@@ -770,7 +793,6 @@ class Reports extends React.Component{
         let userEmail=this.props.userEmail === "" ? "harshraj@deloitte.com" : this.props.userEmail;
         if(userProfile==="Client"){
             let resultsJSON = await this.clientUserProfile(userEmail)
-            let demographicsData = {};
             // resultsJSON.resultantJSON.siteid = this.props.location.siteid;
             // demographicsData = await this.fetchDemographicsData();
             this.setState({
