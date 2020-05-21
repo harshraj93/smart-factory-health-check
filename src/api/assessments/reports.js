@@ -10,7 +10,8 @@ let resultsApi={
     clientThemesEdit: apiUrl+"clientService/setSectorKeyAndReco",
     reportOnly:apiUrl+"clientService/reportOnly",
     userInfoDetails: apiUrl+"userService/userInfoDetails",
-    associateUserSite: apiUrl+"siteService/associateUserSite"
+    associateUserSite: apiUrl+"siteService/associateUserSite",
+    associateSectorAndUser: apiUrl+"siteService/associateSectorAndUser",
 }
 
 export {
