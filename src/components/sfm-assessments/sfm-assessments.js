@@ -74,7 +74,7 @@ class Assessments extends React.Component {
             <div className="assessments">
                 
                 <div className="search-and-add">
-                    <span className="search">
+                    <span className="search" style={{opacity: "0"}}>
                         <label htmlFor="search-box"><span className="glyphicon glyphicon-search" /></label>
                         <input id="icon" onChange={(e)=>this.triggerSearch(e)} type="text" placeholder={"Search Clients"} className="search-clients"></input>
                     </span>
