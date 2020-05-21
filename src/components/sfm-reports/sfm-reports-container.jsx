@@ -603,7 +603,7 @@ class Reports extends React.Component{
 
             newarr.push(obj);
         })
-        return newarr;
+        return newarr.sort((a,b) => (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0));
     }
 
     sendBusinessFunction = (siteData) => {
@@ -632,7 +632,7 @@ class Reports extends React.Component{
                         }
                     }
                 }
-                obj.sites = sites;
+                obj.sites = sites.sort((a,b) => (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0));
                 obj.score = this.numbersAvg(obj.sites, "score");
                 obj.target = this.numbersAvg(obj.sites, "target");
                 obj.low = this.numbersAvg(obj.sites, "low");
@@ -669,7 +669,7 @@ class Reports extends React.Component{
                         }
                     }
                     // sites.push(this.numbersAvg(sites, "indAvg"))
-                    capObj.sites = sites;
+                    capObj.sites = sites.sort((a,b) => (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0));
                     capObj.score = this.numbersAvg(capObj.sites, "score");
                     capObj.target = this.numbersAvg(capObj.sites, "target");
                     capObj.low = this.numbersAvg(capObj.sites, "low");
