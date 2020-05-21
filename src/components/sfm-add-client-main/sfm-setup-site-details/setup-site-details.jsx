@@ -121,11 +121,13 @@ class AddSiteDetails extends React.Component{
         await this.setState({
             [name]:e.target.getAttribute("value")
         })
+       
         this.checkRequiredFields();
     }
 
 
     checkRequiredFields = ()=>{
+       
         let prevValue;
         let boolFlag;
         requiredFieldNames.forEach(element=>{
@@ -133,6 +135,7 @@ class AddSiteDetails extends React.Component{
             prevValue = this.state[element];
             boolFlag!==undefined?boolFlag=true:boolFlag=false
         })
+        
         if(boolFlag){
             this.setState({
             enableButton:"true"
@@ -160,12 +163,32 @@ class AddSiteDetails extends React.Component{
             ["percentAvailable"+index]: backData["availabilityOEE"],
             ["percentQuality"+index]: backData["qualityOEE"]
         })
-        console.log(this.state);
+        // let industryValue = this.state["sector"+index]
+        // let archeType = this.state["manfArch"+index];
+        // let showIndustryRequired;
+        // let showArchetypeRequired;
+        // if(industryValue){
+        // if(!(this.state.sectorData.includes(industryValue))){
+        //     showIndustryRequired=true;
+        // }
+        // }       
+        // else{
+        //     showIndustryRequired=false;
+        // }
+        // if(archeType){
+        // if(!(this.state.manuArchetype.includes(archeType))){
+        //     showArchetypeRequired = true
+        // }
+        // }
+        // else{
+        //     showArchetypeRequired = false
+        // }
         this.checkRequiredFields();   
     }
 
 
     siteInfoForm =(siteNumber,index,backData)=>{
+        let flag;
         let industryValue = this.state["sector"+index]
         let archeType = this.state["manfArch"+index];
         let showIndustryRequired;
@@ -173,19 +196,24 @@ class AddSiteDetails extends React.Component{
         if(industryValue){
         if(!(this.state.sectorData.includes(industryValue))){
             showIndustryRequired=true;
+            //this.checkRequiredFields(flag=true)
         }
         }       
         else{
             showIndustryRequired=false;
+            //this.checkRequiredFields(flag=false)
         }
         if(archeType){
         if(!(this.state.manuArchetype.includes(archeType))){
             showArchetypeRequired = true
+           // this.checkRequiredFields(flag=true)
         }
         }
         else{
             showArchetypeRequired = false
+           // this.checkRequiredFields(flag=false)
         }
+
         // }
         return(
             <>
@@ -204,8 +232,8 @@ class AddSiteDetails extends React.Component{
         <div className="bottom-border"></div> */}
         </div>
         <div className="row-2">
-        <DropDownMenu placeholder= "Sector*" dropdownIndex={index} value={this.state["sector"+index]} showRequired={showIndustryRequired} data={this.state.sectorData} required={true} name={"sector"+index} onChange={this.handleChange}/>
-        <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} value={this.state["manfArch"+index]} showRequired={showArchetypeRequired} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={this.handleChange}/>
+        <DropDownMenu placeholder= "Sector*" dropdownIndex={index} value={this.state["sector"+index]} showRequired={showIndustryRequired} data={this.state.sectorData} required={true} name={"sector"+index} onChange={(e,showIndustryRequired)=>this.handleChange(e,showIndustryRequired)}/>
+        <DropDownMenu placeholder= "Manufacturing Archetype*" required={true} value={this.state["manfArch"+index]} showRequired={showArchetypeRequired} dropdownIndex={index+1} data={this.state.manuArchetype} name={"manfArch"+index} onChange={(e,showArchetypeRequired)=>this.handleChange(e,showArchetypeRequired)}/>
         <LabelledInputField placeholder={true} data={backData?(backData["shifts"]):null} labelName="# of Shifts (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numShifts"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["employees"]):null} labelName="# Employees (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numEmployees"+index}/>
         <LabelledInputField placeholder={true} data={backData?(backData["assets"]):null} labelName="# of Assets (optional)" type="number" min="1" changeButtonState={this.setNextStepState} onChange={this.handleChange} name={"numAssets"+index}/>
@@ -247,7 +275,7 @@ class AddSiteDetails extends React.Component{
 
     checkBackData = async()=>{
         let backData;
-        console.log(this.props.location.state.data,this.props.location.state.siteDetails,this.props.location.addSiteData)
+
         if(this.props.location.state.data){
             backData = this.props.location.state.data.sitedetailsJSON.sites;
             backData.forEach((site,index)=>{
@@ -265,7 +293,7 @@ class AddSiteDetails extends React.Component{
                 this.setData(site,index)
             })
         } 
-            this.checkRequiredFields();
+           
     }
 
 
