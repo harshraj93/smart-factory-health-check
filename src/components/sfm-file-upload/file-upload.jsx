@@ -41,7 +41,9 @@ export default class FileUpload extends React.Component {
         let response = await fetch(addclientapi.upload, apiPostHeader);
         let jsonResponse = await response.json();
         this.props.parseUploadedExcel(jsonResponse);
-
+        // localStorage.setItem("sitedetailsstate","");
+        // localStorage.setItem("addsitedata","");
+        // localStorage.setItem("addnewclient","")
     }
 
 

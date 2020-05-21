@@ -22,7 +22,7 @@ let data =
 let requiredFieldNames=["clientName","clientParticipation","clientRole","industryDropdown","numSites","primOwnerName","primOwnerLevel","primOwnerEmail"]
 let indexArray = [];
 let siteDetails;
-let showIndustryRequired=false;
+let showIndustryRequired="";
 
 let clientInfoForm=(props,state,handleChange,changeButtonState,showIndustryRequired)=>{
     
@@ -137,7 +137,7 @@ function addSupportResource(handleChange,state,index,changeButtonState,hideSuppo
          />
         </>
         </div>
-        {(index!==1)&&<button className="close-button" onClick={hideSupportResource}>&times;</button>}
+        {(index!==1)&&<button id={index} className="close-button" onClick={(e)=>{hideSupportResource(e)}}>&times;</button>}
         </div>
 
         {index===1?<div className="border-bottom"></div>:""}
@@ -173,6 +173,7 @@ class AddNewClient extends React.Component{
   
     showSupportResource = async()=>{
         indexArray.push(this.state.showSupportIndex+1);
+        console.log(indexArray)
         await this.setState(function(prevState,prevProps){
             // console.log(prevState)
            return{showSupportIndex:prevState.showSupportIndex+1,
@@ -182,12 +183,17 @@ class AddNewClient extends React.Component{
       
     }
 
-    hideSupportResource = async()=>{
+    hideSupportResource = async(e)=>{
+        e.persist()
         indexArray.pop();
         await this.setState(function(prevState,prevProps){
             return{showSupportIndex:prevState.showSupportIndex-1,
                 indexArray:[...indexArray],
-                showSupportResource:prevState.indexArray.length-1<1?true:false}
+                showSupportResource:prevState.indexArray.length-1<1?true:false,
+                ["supResourceEmail"+e.target.id]:"",
+                ["supResourceLevel"+e.target.id]:"",
+                ["supResourceName"+e.target.id]:""
+            }
         })
     }
 
@@ -214,7 +220,7 @@ class AddNewClient extends React.Component{
         let addSiteData
 
         if(localStorage.getItem("addsitedata")&&this.props.location.data){
-        addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
+            addSiteData = JSON.parse(localStorage.getItem("addsitedata"))
         }
         
         let state={
@@ -226,7 +232,7 @@ class AddNewClient extends React.Component{
             data:addSiteData,
             siteDetails:siteDetails?siteDetails:"",
             supportResourcesID:supportResourcesID
-         }
+        }
 
         localStorage.setItem("sitedetailsstate",JSON.stringify({
             state:state
@@ -379,6 +385,11 @@ class AddNewClient extends React.Component{
     checkRequiredFields = ()=>{
         let boolFlag;
         let cnt=0;
+        let backData = this.props.location.data
+        if(backData){
+            showIndustryRequired = false;
+        }
+        
         requiredFieldNames.forEach(element=>{
             let stateName = this.state[element]
             if(stateName){
@@ -388,10 +399,12 @@ class AddNewClient extends React.Component{
         if(cnt>=requiredFieldNames.length){
             boolFlag=true;
         }
-        if(boolFlag){
+        
+        if(boolFlag&&!showIndustryRequired){
             this.setState({
             enableButton:true
         })
+    
         }
     }  
 
@@ -404,12 +417,24 @@ class AddNewClient extends React.Component{
 
     }
 
-
+    
     componentDidMount = async()=>{
         this.getIndustryList();
+        let value;
         let backData = this.props.location.data;
-        console.log(backData);
+        console.log(backData)
         if(backData){
+        let keys = Object.keys(backData);
+        
+        keys.forEach(key=>{
+            if(key.includes("supResourceName")){
+                value = key[key.length-1];
+            }
+        })
+        console.log(keys,value);
+        for(let i=0; i<value; i++){
+            this.showSupportResource();
+        }
         await this.setState({
             clientName:backData.clientName,
             industryDropdown:backData.industryDropdown,
@@ -440,7 +465,10 @@ class AddNewClient extends React.Component{
             "supResourceName6":backData.supResourceName6,
             "supResourceEmail6":backData.supResourceEmail6,
             "supResourceLevel6":backData.supResourceLevel6,
+            showSupportIndex:value,
         })
+       
+       
         this.checkRequiredFields();
     }
     }
@@ -458,6 +486,7 @@ class AddNewClient extends React.Component{
             this.showSupportResource()
         })
         siteDetails = response.siteDetails;
+        console.log(excelData)
         await this.setState({
             numSites:response.siteDetails.length,
             industryDropdown:clientDetails.clientindustry,
@@ -488,9 +517,11 @@ class AddNewClient extends React.Component{
             "supResourceName6":excelData.supResourceName6,
             "supResourceEmail6":excelData.supResourceEmail6,
             "supResourceLevel6":excelData.supResourceLevel6,
-            showSupportIndex:supportResources.length
+            showSupportIndex:supportResources.length,
+            //indexArray:[1]
         })
         this.checkRequiredFields();
+       // this.setData()
        
     }
 
@@ -512,7 +543,7 @@ class AddNewClient extends React.Component{
             showIndustryRequired = true
         } 
     }
-    console.log(this.state.indexArray)
+    
       
        return(
             <div className='add-new-client-container'>
