@@ -153,6 +153,7 @@ class ReportsListView extends React.Component {
             // console.log(recs);
             if (editresp) {
                 this.props.resultsRefresh();
+                this.initKeyThemesRecs();
                 // this.refreshText();
             }
 
@@ -373,49 +374,51 @@ class ReportsListView extends React.Component {
         });
     }
 
-    componentDidMount = async() => {
-        // console.log("reports",this.props.data.reportsData);
+    initKeyThemesRecs = (newProps) => {
+        console.log("Key Themes");
+        let data = newProps?newProps.data:this.props.data;
+        console.log(data);
         keyThemes = [];
         recs = [];
         bizfuncId = [];
-        if (this.props.data.reportsData !== undefined) {
-            if (this.props.data.sectorBusinessFnInfo !== undefined) {
-                for (let j = 0; j < this.props.data.reportsData.length; j++) {
-                    for (let i = 0; i < this.props.data.sectorBusinessFnInfo.length; i++) {
-                        if (this.props.data.reportsData[j].id === this.props.data.sectorBusinessFnInfo[i].businessFunctionId) {
-                            if (this.props.data.sectorBusinessFnInfo[i].businessKeyThemes !== null) {
-                                keyThemes.push(this.props.data.sectorBusinessFnInfo[i].businessKeyThemes);
+        if (data.reportsData !== undefined) {
+            if (data.sectorBusinessFnInfo !== undefined) {
+                for (let j = 0; j < data.reportsData.length; j++) {
+                    for (let i = 0; i < data.sectorBusinessFnInfo.length; i++) {
+                        if (data.reportsData[j].id === data.sectorBusinessFnInfo[i].businessFunctionId) {
+                            if (data.sectorBusinessFnInfo[i].businessKeyThemes !== null) {
+                                keyThemes.push(data.sectorBusinessFnInfo[i].businessKeyThemes);
                             }
                             else {
                                 keyThemes.push(this.state.keyThemes);
                             }
                             
-                            if (this.props.data.sectorBusinessFnInfo[i].businessRecommendation !== null) {
-                                recs.push(this.props.data.sectorBusinessFnInfo[i].businessRecommendation);
+                            if (data.sectorBusinessFnInfo[i].businessRecommendation !== null) {
+                                recs.push(data.sectorBusinessFnInfo[i].businessRecommendation);
                             }
                             else {
                                 recs.push(this.state.recs);
                             }
 
-                            bizfuncId.push(this.props.data.sectorBusinessFnInfo[i].businessFunctionId);
+                            bizfuncId.push(data.sectorBusinessFnInfo[i].businessFunctionId);
                         }
                     }
                 }
                 this.setState({
-                    clientTextArray: this.props.data.sectorBusinessFnInfo
+                    clientTextArray: data.sectorBusinessFnInfo
                 })
             }
             else {
-                for (let i = 0; i < this.props.data.reportsData.length; i++) {
-                    if (this.props.data.reportsData[i].keyThemes !== null) {
-                        keyThemes.push(this.props.data.reportsData[i].keyThemes);
+                for (let i = 0; i < data.reportsData.length; i++) {
+                    if (data.reportsData[i].keyThemes !== null) {
+                        keyThemes.push(data.reportsData[i].keyThemes);
                     }
                     else {
                         keyThemes.push(this.state.keyThemes);
                     }
                     
-                    if (this.props.data.reportsData[i].recs !== null) {
-                        recs.push(this.props.data.reportsData[i].recs);
+                    if (data.reportsData[i].recs !== null) {
+                        recs.push(data.reportsData[i].recs);
                     }
                     else {
                         recs.push(this.state.recs);
@@ -424,9 +427,23 @@ class ReportsListView extends React.Component {
             }
         }
 
-        console.log(keyThemes);
-        console.log(recs);
-        console.log(bizfuncId);
+        // console.log(keyThemes);
+        // console.log(recs);
+        // console.log(bizfuncId);
+    }
+
+    componentDidMount () {
+        this.initKeyThemesRecs();
+    }
+
+    componentWillReceiveProps(newProps) { 
+        const oldProps = this.props; 
+        console.log(oldProps);
+        
+        if(oldProps !== newProps) { 
+            console.log(newProps);
+            this.initKeyThemesRecs(newProps);
+        } 
     }
 
     render(){
