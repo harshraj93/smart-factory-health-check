@@ -157,11 +157,11 @@ class SiteInfo extends React.Component{
         this.setState({
             BusinessFunctionPoC: this.props.data.BusinessFunctionPoC
         })
-        for (let i = 0; i < this.props.data.BusinessFunctionPoC.length ; i++) {
-            bizFuncPoc.push(this.variableName(this.props.data.BusinessFunctionPoC[i].BusinessFunction))
-        }
-        bizFuncPoc = this.props.data.BusinessFunctionPoC;
-        console.log('bizFuncPoc',bizFuncPoc)
+        // for (let i = 0; i < this.props.data.BusinessFunctionPoC.length ; i++) {
+        //     bizFuncPoc.push(this.variableName(this.props.data.BusinessFunctionPoC[i].BusinessFunction))
+        // }
+        // bizFuncPoc = this.props.data.BusinessFunctionPoC;
+        // console.log('bizFuncPoc',bizFuncPoc)
     }
 
     saveForm = async(e) => {

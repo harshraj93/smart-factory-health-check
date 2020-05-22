@@ -792,6 +792,7 @@ class Reports extends React.Component{
         let userProfile=this.props.profile;
         let userEmail=this.props.userEmail === "" ? "harshraj@deloitte.com" : this.props.userEmail;
         if(userProfile==="Client"){
+            
             let resultsJSON = await this.clientUserProfile(userEmail)
             // resultsJSON.resultantJSON.siteid = this.props.location.siteid;
             // demographicsData = await this.fetchDemographicsData();
