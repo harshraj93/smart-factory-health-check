@@ -80,7 +80,7 @@ class HamburgerNav extends React.Component {
                         <img src={assessmentsIcon} className="sidebar-icon" alt=""/>
                         <div className="sidebar-text">Assessments</div>
                     </Link>
-                    <Link onClick={() => this.darken("analytics")} className="sidebar-option" id="analytics" to="/analytics">
+                    {/* <Link onClick={() => this.darken("analytics")} className="sidebar-option" id="analytics" to="/analytics">
                         <img src={analyticsIcon} className="sidebar-icon" alt=""/>
                         <div className="sidebar-text">Analytics</div>
                     </Link>
@@ -91,16 +91,16 @@ class HamburgerNav extends React.Component {
                     <Link onClick={() => this.darken("overview")} className="sidebar-option" id="overview" to="/overview">
                         <span className="circle"></span>
                         <div className="sidebar-text">Frame Overview</div>
-                    </Link>
+                    </Link> */}
                     </div>
-                    <div className="logout">
+                    {/* <div className="logout">
                         <span className="name-circle">{this.getNick(this.props.user)}</span>
                         <div className="user-info">
                             <p className="username">{this.props.user}</p>
                             <p className="logout-text">LOGOUT</p>
                         </div>
                         <img src={DropDownImg} alt="" className="logout-down-arrow"/>
-                    </div>
+                    </div> */}
                 </div>
             </>
         );

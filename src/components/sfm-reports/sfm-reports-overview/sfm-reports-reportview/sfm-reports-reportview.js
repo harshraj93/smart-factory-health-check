@@ -37,7 +37,7 @@ class ReportsCardView extends React.Component {
         let value = e.currentTarget.getAttribute("value");
         let index = value?value:0
         this.setState({
-            arrayIndex:this.state.arrayCapIndex===String(index)?"":String(index),
+            arrayCapIndex:this.state.arrayCapIndex===String(index)?"":String(index),
         });
     }
 
@@ -79,13 +79,13 @@ class ReportsCardView extends React.Component {
                                 </Accordion.Collapse>
                         </Card>
                     </Accordion>
-                    <Accordion className="cap-report-accordion" defaultActiveKey={0}>
+                    <Accordion className="cap-report-accordion">
                     <div>
                     {data.parts.map((x, y) => {
                         return (
                             <div>
                             <Card key={y} className={"card"}>
-                                <Accordion.Toggle as={Card.Header} className={"cap-report-card-header "+(this.state.arrayCapIndex===String(y))} variant="link" eventKey={y} value={y} onClick={(e)=>this.handleCapClick(e)}>
+                                <Accordion.Toggle as={Card.Header} className={"cap-report-card-header "+(this.state.arrayCapIndex===String(index*10+y))} variant="link" eventKey={y} value={index*10+y} onClick={(e)=>this.handleCapClick(e)}>
                                     <span className="area-name">{x.name}</span>
                                     <img className="drop-down" src={DropDownImg} alt=""></img>
                                     {(x.score)!=="NaN" && Number(x.score) !== 0?<p className="score">{Number(x.score).toFixed(1)}</p>:<p className="score">-</p>}
