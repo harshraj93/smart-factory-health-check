@@ -374,7 +374,7 @@ class ReportsListView extends React.Component {
         });
     }
 
-    initKeyThemesRecs = (newProps) => {
+    initKeyThemesRecs = async(newProps) => {
         console.log("Key Themes");
         let data = newProps?newProps.data:this.props.data;
         console.log(data);

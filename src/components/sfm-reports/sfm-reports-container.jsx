@@ -350,7 +350,7 @@ class Reports extends React.Component{
                         {this.props.profile !== "Sector" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
                         <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                         <span className="title-text">
-                            {this.props.location.sector+" Network"}
+                            {(this.props.location.sector?this.props.location.sector:this.state.clientReportsData.sectorName)+" Network"}
                         </span>
                     </div>
                     <h2 className="location-name">
@@ -813,6 +813,22 @@ class Reports extends React.Component{
         }
         else if(userProfile==="Sector") {
             let clientNetworkData = await this.clientNetworkOnlyData(userEmail)
+            if (clientNetworkData.sites !== undefined){
+                for (let i =  0; i < clientNetworkData.sites.length; i++) {
+                    if (i < palette.length) {
+                        colors.push(palette[i]);
+                    }
+                    else {
+                        var str = Math.floor(Math.random()*16777215).toString(16);
+                        if (str !== "ffffff" && str.length === 6) {
+                            colors.push(str);
+                        }
+                        else {
+                            colors.push(Math.floor(Math.random()*16777215).toString(16));
+                        }
+                    }
+                }
+            }
             this.setState({
                 loadComponentString: "network",
                 clientReportsData: clientNetworkData
