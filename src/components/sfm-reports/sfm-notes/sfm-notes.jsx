@@ -116,9 +116,7 @@ class Notes extends React.Component {
                                                                                         <p>{this.getDate(m.timestamp)}</p>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div className="notes-content">
-                                                                                    <p>{m.note}</p>
-                                                                                </div>
+                                                                                <div id="inner-html" dangerouslySetInnerHTML={{__html: this.props.data.notes}} />
                                                                             </div>
                                                                             <img className="right-arrow" src={DropDownImg} alt="" ></img>
                                                                         </div>

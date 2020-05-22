@@ -129,7 +129,7 @@ class Slider extends React.Component {
                     <span className="stop"></span>
                     <span className="stop"></span>
                 </div>
-                <span className="ind-avg" style={this.state.score===0 || this.state.target===0 ? {display: "none"} : {marginLeft: this.state.indAvgPos + "%"}}></span>
+                <span className="ind-avg" style={this.state.score===0 || this.state.target===0 || this.state.indAvg===0 ? {display: "none"} : {marginLeft: this.state.indAvgPos + "%"}}></span>
                 <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "%"}}>
                     <p className="score-text">{this.state.score===0 || this.state.target===0 ? '' : this.state.score}</p>
                     <span className="slider-circle" style={this.state.score===0 || this.state.target===0 ? {backgroundColor: "transparent"} : {backgroundColor: "#57bb50"}}></span>

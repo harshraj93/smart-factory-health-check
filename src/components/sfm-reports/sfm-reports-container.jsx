@@ -710,6 +710,9 @@ class Reports extends React.Component{
         jsonData.reportsData = this.sendBusinessFunction(data.siteData);
         jsonData.target = this.numbersAvg(jsonData.sites, "target");
         jsonData.sectorBusinessFnInfo = data.sectorBusinessFnInfo;
+        if (data.sector !== undefined) {
+            jsonData.sectorName = data.sector;
+        }
         // console.log(jsonData.target);
         // console.log("format data",jsonData);
         return jsonData;
