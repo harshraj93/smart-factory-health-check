@@ -173,7 +173,6 @@ class AddNewClient extends React.Component{
   
     showSupportResource = async()=>{
         indexArray.push(this.state.showSupportIndex+1);
-        console.log(indexArray)
         await this.setState(function(prevState,prevProps){
             // console.log(prevState)
            return{showSupportIndex:prevState.showSupportIndex+1,
@@ -422,13 +421,12 @@ class AddNewClient extends React.Component{
         this.getIndustryList();
         let value;
         let backData = this.props.location.data;
-        console.log(backData)
         if(backData){
         let keys = Object.keys(backData);
         
         keys.forEach(key=>{
             if(key.includes("supResourceName")){
-                value = key[key.length-1];
+                value = Number(key[key.length-1]);
             }
         })
         console.log(keys,value);
@@ -478,7 +476,6 @@ class AddNewClient extends React.Component{
         let supportResources = clientDetails.deloitteResources.supportResources;
         let excelData={};
         supportResources.forEach((resource,index)=>{
-            console.log(supportResources.length);
             excelData["supResourceName"+(index+1)]=resource.support_resource_name;
             excelData["supResourceEmail"+(index+1)]=resource.support_resource_email;
             excelData["supResourceLevel"+(index+1)]=resource.support_resource_level;
@@ -486,7 +483,6 @@ class AddNewClient extends React.Component{
             this.showSupportResource()
         })
         siteDetails = response.siteDetails;
-        console.log(excelData)
         await this.setState({
             numSites:response.siteDetails.length,
             industryDropdown:clientDetails.clientindustry,
