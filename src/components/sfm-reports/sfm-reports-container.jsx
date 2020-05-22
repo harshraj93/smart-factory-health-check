@@ -341,7 +341,7 @@ class Reports extends React.Component{
     }
 
     networkHeader = () => {
-        resultsList = ["Overview"]
+        this.props.profile === "Client" ? resultsList = ["Overview"] : resultsList = ["Overview","Demographics"]
         return(
             <div className="reports-container">
                 <div className="assessment-title">
@@ -356,7 +356,7 @@ class Reports extends React.Component{
                         {this.props.location.clientName!==undefined?this.props.location.clientName:""}
                     </h2>
                     <span className="share-link">
-                        <FormNavigationButton labelName="Publish" />
+                    {this.props.profile  !== "Client" && <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,"publishResults")}/>}
                     </span>
                     {this.state.publishResults&&this.publishModal()}
                     {this.state.businessContactModal&&this.publishBusinessContactModal()}
@@ -555,7 +555,7 @@ class Reports extends React.Component{
         try{
         const response = await fetch(resultsApi.clientReport,apiPostHeader);
         const json =  await response.json();
-        console.log(json);
+        // console.log(json);
         const data = this.formatClientLevelData(json.resultantJSON);
         data.clientid = this.props.location.clientid;
         data.sector = this.props.location.sector;
@@ -778,6 +778,13 @@ class Reports extends React.Component{
         }   
     }
 
+    clientNetworkOnlyData = async(userEmail) => {
+        let pocName = resultsApi.networkReportOnly+`?pocName=${userEmail}`
+        const response = await fetch(pocName,apiGetHeader)
+        const json = await response.json();
+        const data = this.formatClientLevelData(json.resultantJSON);
+        return data;
+    }
 
     clientUserProfile = async(userEmail)=>{
         // console.log(resultsApi)
@@ -801,6 +808,13 @@ class Reports extends React.Component{
                 // data:resultsJSON.resultantJSON,
                 // demographicsData:demographicsData,
                 reportsOverview:resultsJSON.resultantJSON,
+            })
+        }
+        else if(userProfile==="Sector") {
+            let clientNetworkData = await this.clientNetworkOnlyData(userEmail)
+            this.setState({
+                loadComponentString: "network",
+                clientReportsData: clientNetworkData
             })
         }
         else{
@@ -836,7 +850,10 @@ class Reports extends React.Component{
         }
         else if (this.props.location.siteid === undefined) {
             clientReportsData = await this.fetchClientLevelData();
+            // clientReportsData = await this.clientNetworkOnlyData("akshay.ukpass@gmail.com")
             // formattedClientReportsData = await this.formatClientLevelData(clientReportsData.resultantJSON);
+            // clientReportsData.clientid = this.props.location.clientid;
+            // clientReportsData.sector = this.props.location.sector;
             if (clientReportsData.sites !== undefined){
                 clientReportsData.sites.map((data, index)=> {
                     colors.push(Math.floor(Math.random()*16777215).toString(16))

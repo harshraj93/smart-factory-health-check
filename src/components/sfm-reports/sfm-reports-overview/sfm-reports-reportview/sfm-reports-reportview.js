@@ -9,7 +9,7 @@ class ReportsCardView extends React.Component {
         super(props);
         this.state={
             arrayIndex:"0",
-            arrayCapIndex: "0"
+            arrayCapIndex: ""
         }
     }
 

@@ -261,7 +261,7 @@ class ReportsOverview extends React.Component {
         return (
             <div className="reports-overview">
                 <div className="legend">
-                    <div style={{display: "flex", width: "50%", justifyContent: "space-evenly"}}>
+                    <div style={{display: "flex", width: "50%", justifyContent: "space-evenly", marginBottom: "12px"}}>
                         <div className="legend-part">
                             <span className="ind-avg"></span>
                             <p style={{margin: "0"}}>Industry Range</p>

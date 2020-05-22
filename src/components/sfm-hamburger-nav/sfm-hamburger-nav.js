@@ -93,14 +93,14 @@ class HamburgerNav extends React.Component {
                         <div className="sidebar-text">Frame Overview</div>
                     </Link> */}
                     </div>
-                    {/* <div className="logout">
+                    <div className="logout">
                         <span className="name-circle">{this.getNick(this.props.user)}</span>
                         <div className="user-info">
                             <p className="username">{this.props.user}</p>
-                            <p className="logout-text">LOGOUT</p>
+                            {/* <p className="logout-text">LOGOUT</p> */}
                         </div>
-                        <img src={DropDownImg} alt="" className="logout-down-arrow"/>
-                    </div> */}
+                        {/* <img src={DropDownImg} alt="" className="logout-down-arrow"/> */}
+                    </div>
                 </div>
             </>
         );
