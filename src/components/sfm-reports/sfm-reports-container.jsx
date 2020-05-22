@@ -341,12 +341,12 @@ class Reports extends React.Component{
     }
 
     networkHeader = () => {
-        this.props.profile === "Client" ? resultsList = ["Overview"] : resultsList = ["Overview","Demographics"]
+        this.props.profile === "Sector" ? resultsList = ["Overview"] : resultsList = ["Overview","Demographics"]
         return(
             <div className="reports-container">
                 <div className="assessment-title">
                     <div className="assessment-overview-title">
-                        {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
+                        {this.props.profile !== "Sector" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
                         <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                         <span className="title-text">
                             {this.props.location.sector+" Network"}
@@ -356,7 +356,7 @@ class Reports extends React.Component{
                         {this.props.location.clientName!==undefined?this.props.location.clientName:""}
                     </h2>
                     <span className="share-link">
-                    {this.props.profile  !== "Client" && <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,"publishResults")}/>}
+                    {this.props.profile  !== "Sector" && <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,"publishResults")}/>}
                     </span>
                     {this.state.publishResults&&this.publishModal()}
                     {this.state.businessContactModal&&this.publishBusinessContactModal()}
@@ -426,7 +426,7 @@ class Reports extends React.Component{
             <div className="reports-container">
                 {this.state.x?this.deleteModal():""}
                 <div className="assessment-overview-title">
-                    {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
+                    {this.props.profile !== "Client" && this.props.profile !== "Sector" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
                     <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                     <span className="title-text">
                         Assessment Overview
