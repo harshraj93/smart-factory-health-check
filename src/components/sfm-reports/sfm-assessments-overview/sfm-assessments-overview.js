@@ -197,6 +197,7 @@ class AssessmentsOverview extends React.Component {
 
             this.assessmentsCard();
             this.props.overviewRefresh();
+            this.props.siteinfoRefresh();
         }
         
         await this.setState({

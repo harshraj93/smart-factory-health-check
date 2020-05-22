@@ -113,34 +113,35 @@ class SiteInfo extends React.Component{
 
     addBFP() {
         let arr = [];
-        bizFuncPoc.map((data, index)=>{
+        this.state.BusinessFunctionPoC.forEach(data=>{
             let obj = {};
             obj.businessFunction = data.BusinessFunction;
             obj.businessFunctionId = data.BusinessFunctionId;
-            if (data.BusinessFunction === "Continuous Improvement") {
-                obj.resourceName = this.state.continuousimprovement?this.state.continuousimprovement:data.ResourceName
-            }
-            else if (data.BusinessFunction === "Information Technology") {
-                obj.resourceName = this.state.informationtechnology?this.state.informationtechnology:data.ResourceName
-            }
-            else if (data.BusinessFunction === "Replenishment & Materials Management") {
-                obj.resourceName = this.state.replenishmentmaterialsmanagement?this.state.replenishmentmaterialsmanagement:data.ResourceName
-            }
-            else if (data.BusinessFunction === "Operations") {
-                obj.resourceName = this.state.operations?this.state.operations:data.ResourceName
-            }
-            else if (data.BusinessFunction === "Quality") {
-                obj.resourceName = this.state.quality?this.state.quality:data.ResourceName
-            }
-            else if (data.BusinessFunction === "Maintenance") {
-                obj.resourceName = this.state.maintenance?this.state.maintenance:data.ResourceName
-            }
-            else if (data.BusinessFunction === "Procurement & Supplier Management") {
-                obj.resourceName = this.state.procurementsuppliermanagement?this.state.procurementsuppliermanagement:data.ResourceName
-            }
-            else if (data.BusinessFunction === "Planning & Scheduling") {
-                obj.resourceName = this.state.planningscheduling?this.state.planningscheduling:data.ResourceName
-            }
+            obj.resourceName = this.state[this.variableName(data.BusinessFunction)]!==undefined?(this.state[this.variableName(data.BusinessFunction)]!==""?this.state[this.variableName(data.BusinessFunction)]:null):data.ResourceName
+            // if (data.BusinessFunction === "Continuous Improvement") {
+            //     obj.resourceName = this.state.continuousimprovement?this.state.continuousimprovement:data.ResourceName
+            // }
+            // else if (data.BusinessFunction === "Information Technology") {
+            //     obj.resourceName = this.state.informationtechnology?this.state.informationtechnology:data.ResourceName
+            // }
+            // else if (data.BusinessFunction === "Replenishment & Materials Management") {
+            //     obj.resourceName = this.state.replenishmentmaterialsmanagement?this.state.replenishmentmaterialsmanagement:data.ResourceName
+            // }
+            // else if (data.BusinessFunction === "Operations") {
+            //     obj.resourceName = this.state.operations?this.state.operations:data.ResourceName
+            // }
+            // else if (data.BusinessFunction === "Quality") {
+            //     obj.resourceName = this.state.quality?this.state.quality:data.ResourceName
+            // }
+            // else if (data.BusinessFunction === "Maintenance") {
+            //     obj.resourceName = this.state.maintenance?this.state.maintenance:data.ResourceName
+            // }
+            // else if (data.BusinessFunction === "Procurement & Supplier Management") {
+            //     obj.resourceName = this.state.procurementsuppliermanagement?this.state.procurementsuppliermanagement:data.ResourceName
+            // }
+            // else if (data.BusinessFunction === "Planning & Scheduling") {
+            //     obj.resourceName = this.state.planningscheduling?this.state.planningscheduling:data.ResourceName
+            // }
 
             arr.push(obj);
         });
@@ -153,11 +154,19 @@ class SiteInfo extends React.Component{
         //     bizFuncPoc.push(data.ResourceName);
         // })
         // console.log(bizFuncPoc)
-        bizFuncPoc = this.props.data.BusinessFunctionPoC;
-        console.log('bizFuncPoc',bizFuncPoc)
+        this.setState({
+            BusinessFunctionPoC: this.props.data.BusinessFunctionPoC
+        })
+        // for (let i = 0; i < this.props.data.BusinessFunctionPoC.length ; i++) {
+        //     bizFuncPoc.push(this.variableName(this.props.data.BusinessFunctionPoC[i].BusinessFunction))
+        // }
+        // bizFuncPoc = this.props.data.BusinessFunctionPoC;
+        // console.log('bizFuncPoc',bizFuncPoc)
     }
 
-    saveForm = async() => {
+    saveForm = async(e) => {
+        e.preventDefault();
+        console.log(this.state)
         let siteInfoJSON=  {
             "siteDetails": {
                 "siteId": this.props.data.siteId,

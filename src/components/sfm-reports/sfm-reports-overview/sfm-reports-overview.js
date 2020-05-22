@@ -397,19 +397,37 @@ class ReportsOverview extends React.Component {
         )
     }
 
-    componentDidMount() {
+    componentDidMount = async() => {
         console.log(this.props.data)
         if (this.props.data) {
-            if (this.props.data.summary !== null) {
-                this.setState ({
-                    summary: this.props.data.summary
-                })
-            }
-
-            if (this.props.data.overallRecs !== null) {
-                this.setState({
-                    overallRecs: this.props.data.overallRecs
-                })
+            if (this.props.data.sites !== undefined) {
+                if (this.props.data.summary !== null) {
+                    // console.log(this.props.data.summary)
+                    this.setState ({
+                        summary: this.props.data.summary
+                    })
+                }
+    
+                if (this.props.data.overallRecs !== null) {
+                    // console.log(this.props.data.overallRecs)
+                    this.setState({
+                        overallRecs: this.props.data.overallRecs
+                    })
+                }
+            } else {
+                if (this.props.data.summary !== null) {
+                    // console.log(this.props.data.summary)
+                    this.setState ({
+                        summary: this.props.data.summary
+                    })
+                }
+    
+                if (this.props.data.overallRecs !== null) {
+                    // console.log(this.props.data.overallRecs)
+                    this.setState({
+                        overallRecs: this.props.data.overallRecs
+                    })
+                }
             }
 
             // console.log(this.props.data.sites);

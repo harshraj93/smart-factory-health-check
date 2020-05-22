@@ -3,6 +3,7 @@ import assessmentsIcon from '../../images/icon-small-assessments.svg';
 import analyticsIcon from '../../images/icon-small-analytics.svg';
 import utilSumIcon from '../../images/icon-small-utlization-summary.svg';
 import DropDownImg from '../../images/icon-small-chevron-down.svg';
+import DeloitteLogo from '../../images/deloitte-logo.svg';
 import {Link} from 'react-router-dom';
 
 class HamburgerNav extends React.Component {
@@ -73,13 +74,13 @@ class HamburgerNav extends React.Component {
                             <div className="bar"></div>
                             <div className="bar"></div>
                         </div>
-                        <div className="top-text" style={{display: this.state.toggleSidebar}}>SMART FACTORY</div>
+                        <div className="top-text" style={{display: this.state.toggleSidebar}}><img src={DeloitteLogo} alt=""/></div>
                     </div>
                     <Link onClick={() => this.darken("assessments")} className="sidebar-option" id="assessments" to="/" style={{background: "#161617"}}>
                         <img src={assessmentsIcon} className="sidebar-icon" alt=""/>
                         <div className="sidebar-text">Assessments</div>
                     </Link>
-                    <Link onClick={() => this.darken("analytics")} className="sidebar-option" id="analytics" to="/analytics">
+                    {/* <Link onClick={() => this.darken("analytics")} className="sidebar-option" id="analytics" to="/analytics">
                         <img src={analyticsIcon} className="sidebar-icon" alt=""/>
                         <div className="sidebar-text">Analytics</div>
                     </Link>
@@ -90,16 +91,16 @@ class HamburgerNav extends React.Component {
                     <Link onClick={() => this.darken("overview")} className="sidebar-option" id="overview" to="/overview">
                         <span className="circle"></span>
                         <div className="sidebar-text">Frame Overview</div>
-                    </Link>
+                    </Link> */}
                     </div>
-                    <div className="logout">
+                    {/* <div className="logout">
                         <span className="name-circle">{this.getNick(this.props.user)}</span>
                         <div className="user-info">
                             <p className="username">{this.props.user}</p>
                             <p className="logout-text">LOGOUT</p>
                         </div>
                         <img src={DropDownImg} alt="" className="logout-down-arrow"/>
-                    </div>
+                    </div> */}
                 </div>
             </>
         );

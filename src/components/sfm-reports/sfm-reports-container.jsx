@@ -4,8 +4,9 @@ import Tab from 'react-bootstrap/Tab';
 import Spinner from 'react-bootstrap/Spinner'
 import {CustomButton,FormNavigationButton, SaveandExitButton} from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
-import DeleteIcon from '../../images/combined-shape.svg';
+// import DeleteIcon from '../../images/combined-shape.svg';
 import DropDownImg from '../../images/icon-small-chevron-down.svg';
+import DeloitteLogo from '../../images/deloitte-logo.svg';
 import ReportsOverview from './sfm-reports-overview/sfm-reports-overview';
 import DemographicsForm from './sfm-reports-demographics/demographics-form';
 import AssessmentsOverview from './sfm-assessments-overview/sfm-assessments-overview';
@@ -147,23 +148,46 @@ class Reports extends React.Component{
 
     submitUsername = async() => {
         // console.log("submit clicked")
-        let body = { 
-            "siteid": this.props.location.siteid, 
-            "userEmail": this.state.userName
-        };
-        apiPostHeader.body = JSON.stringify(body);
-        try{
-        const response = await fetch(resultsApi.associateUserSite,apiPostHeader);
-        const json =  await response.json();
-        this.setState({
-            shareResults: false,
-            userName: "",
-        })
-        // console.log(json);
-        return json;
+        if (this.state.loadComponentString === "network") {
+            let body = { 
+                "clientid": this.props.location.clientid, 
+                "userEmail": this.state.userName,
+                "sector": this.props.location.sector
+            };
+            apiPostHeader.body = JSON.stringify(body);
+            try{
+            const response = await fetch(resultsApi.associateSectorAndUser,apiPostHeader);
+            const json =  await response.json();
+            this.setState({
+                shareResults: false,
+                userName: "",
+            })
+            // console.log(json);
+            return json;
+            }
+            catch(err){
+                return err
+            }
         }
-        catch(err){
-            return err
+        else {
+            let body = { 
+                "siteid": this.props.location.siteid, 
+                "userEmail": this.state.userName
+            };
+            apiPostHeader.body = JSON.stringify(body);
+            try{
+            const response = await fetch(resultsApi.associateUserSite,apiPostHeader);
+            const json =  await response.json();
+            this.setState({
+                shareResults: false,
+                userName: "",
+            })
+            // console.log(json);
+            return json;
+            }
+            catch(err){
+                return err
+            }
         }
     }
 
@@ -275,21 +299,22 @@ class Reports extends React.Component{
             <div className="assessment-title">
             <div className="assessment-overview-title">
                 {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={JSON.stringify(this.state.assessOverview) !== "{}"?this.navigateBackFromResults:this.navigateBack}/> : ""}
+                <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                 <span className="title-text">
                     {"Results "+this.state.title}
                 </span>
-                <div className="remove-site" style={{opacity: "0"}}>
+                {/* <div className="remove-site" style={{opacity: "0"}}>
                     <img src={DeleteIcon} alt=""/>
                     <p style={{margin: "0", marginLeft: "10px"}}> Remove Site</p>
-                </div>
+                </div> */}
             </div>
             <h2 className="location-name">
-            {this.props.location.locationString!==undefined?this.props.location.locationString:"Bristol"}
+            {this.props.location.locationString!==undefined?this.props.location.locationString:this.state.reportsOverview.siteName}
             
             </h2>
                 
             <h5 className="company-name">
-            {this.props.location.companyName!==undefined?this.props.location.companyName:"Conagra"}
+            {this.props.location.companyName!==undefined?this.props.location.companyName:this.state.reportsOverview.clientName}
             </h5>
             <span className="share-link">
              {this.props.profile  !== "Client" && <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>}
@@ -316,12 +341,13 @@ class Reports extends React.Component{
     }
 
     networkHeader = () => {
-        this.props.profile === "Client" ? resultsList = ["Overview"] : resultsList = ["Overview","Demographics"]
+        resultsList = ["Overview"]
         return(
             <div className="reports-container">
                 <div className="assessment-title">
                     <div className="assessment-overview-title">
                         {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
+                        <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                         <span className="title-text">
                             {this.props.location.sector+" Network"}
                         </span>
@@ -332,6 +358,9 @@ class Reports extends React.Component{
                     <span className="share-link">
                         <FormNavigationButton labelName="Publish" />
                     </span>
+                    {this.state.publishResults&&this.publishModal()}
+                    {this.state.businessContactModal&&this.publishBusinessContactModal()}
+                    {this.state.shareResults&&this.shareResultsModal()}
                     
                     <Tabs className="tab-group" onSelect={this.selectTab}>
                         {resultsList.map((element,index)=>{
@@ -398,13 +427,14 @@ class Reports extends React.Component{
                 {this.state.x?this.deleteModal():""}
                 <div className="assessment-overview-title">
                     {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
+                    <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                     <span className="title-text">
                         Assessment Overview
                     </span>
-                    <div className="remove-site" onClick={this.editToggle}>
+                    {/* <div className="remove-site" onClick={this.editToggle}>
                         <img src={DeleteIcon} alt=""/>
                         <p style={{margin: "0", marginLeft: "10px"}}> Remove Site</p>
-                    </div>
+                    </div> */}
                 </div>
                 <h2 className="location-name">{this.props.location.locationString!==undefined?this.props.location.locationString:"Bristol"}
                 </h2>
@@ -419,7 +449,7 @@ class Reports extends React.Component{
                     {inProgressList.map((element,index)=>{
                         return(
                             <Tab key={index} eventKey={index} title={element}>
-                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData} siteinfoRefresh={this.siteinfoRefresh}/>:<ClientInfo client={this.props.location.companyName}/>))}
+                                {element==="Overview"?<AssessmentsOverview data={this.state.assessOverview} overviewRefresh={this.overviewRefresh} siteinfoRefresh={this.siteinfoRefresh}/>:(element==="Notes"?<Notes data={this.state.notesData}/>:(element==="Site Info"?<SiteInfo data={this.state.siteInfoData} siteinfoRefresh={this.siteinfoRefresh}/>:<ClientInfo client={this.props.location.companyName}/>))}
                             </Tab>
                         )
                     })}
@@ -573,7 +603,7 @@ class Reports extends React.Component{
 
             newarr.push(obj);
         })
-        return newarr;
+        return newarr.sort((a,b) => (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0));
     }
 
     sendBusinessFunction = (siteData) => {
@@ -602,7 +632,7 @@ class Reports extends React.Component{
                         }
                     }
                 }
-                obj.sites = sites;
+                obj.sites = sites.sort((a,b) => (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0));
                 obj.score = this.numbersAvg(obj.sites, "score");
                 obj.target = this.numbersAvg(obj.sites, "target");
                 obj.low = this.numbersAvg(obj.sites, "low");
@@ -639,7 +669,7 @@ class Reports extends React.Component{
                         }
                     }
                     // sites.push(this.numbersAvg(sites, "indAvg"))
-                    capObj.sites = sites;
+                    capObj.sites = sites.sort((a,b) => (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0));
                     capObj.score = this.numbersAvg(capObj.sites, "score");
                     capObj.target = this.numbersAvg(capObj.sites, "target");
                     capObj.low = this.numbersAvg(capObj.sites, "low");
@@ -678,6 +708,7 @@ class Reports extends React.Component{
         jsonData.sites = this.sendSiteArray(data.siteData);
         jsonData.reportsData = this.sendBusinessFunction(data.siteData);
         jsonData.target = this.numbersAvg(jsonData.sites, "target");
+        jsonData.sectorBusinessFnInfo = data.sectorBusinessFnInfo;
         // console.log(jsonData.target);
         // console.log("format data",jsonData);
         return jsonData;
@@ -756,14 +787,13 @@ class Reports extends React.Component{
         return demo;
     }
 
-
     componentDidMount = async()=>{
         let resultJSON = {};
         let userProfile=this.props.profile;
         let userEmail=this.props.userEmail === "" ? "harshraj@deloitte.com" : this.props.userEmail;
         if(userProfile==="Client"){
+            
             let resultsJSON = await this.clientUserProfile(userEmail)
-            let demographicsData = {};
             // resultsJSON.resultantJSON.siteid = this.props.location.siteid;
             // demographicsData = await this.fetchDemographicsData();
             this.setState({
@@ -807,9 +837,11 @@ class Reports extends React.Component{
         else if (this.props.location.siteid === undefined) {
             clientReportsData = await this.fetchClientLevelData();
             // formattedClientReportsData = await this.formatClientLevelData(clientReportsData.resultantJSON);
-            clientReportsData.sites.map((data, index)=> {
-                colors.push(Math.floor(Math.random()*16777215).toString(16))
-            });
+            if (clientReportsData.sites !== undefined){
+                clientReportsData.sites.map((data, index)=> {
+                    colors.push(Math.floor(Math.random()*16777215).toString(16))
+                });
+            }
             // console.log(clientReportsData);
         }
         this.setState({
@@ -835,7 +867,7 @@ class Reports extends React.Component{
         
     return(
     
-      this.props.location.siteid === undefined?
+      this.state.loadComponentString === "network"?
             (this.networkHeader()):
             (this.state.loadComponentString==="results"?this.resultHeader():
                     (this.state.loadComponentString==="assessments"?this.AssessmentsHeader():this.loadingScreen()))

@@ -27,6 +27,7 @@ function percentComplete(data, str) {
 
 let keyThemes = [];
 let recs = [];
+let bizfuncId = [];
 
 class ReportsListView extends React.Component {
     constructor(props){
@@ -38,7 +39,8 @@ class ReportsListView extends React.Component {
             recs: "Enter Recommendations",
             businessFunction: "",
             tempKT: "",
-            tempRecs: ""
+            tempRecs: "",
+            clientTextArray: []
         }
 
         this.editToggle = this.editToggle.bind(this);
@@ -58,13 +60,9 @@ class ReportsListView extends React.Component {
         });
         keyThemes[index] = e.target.value;
         // this.capTextForm(index);
-        // console.log(e.target.value)
-        // console.log(keyThemes[index])
     }
 
     editToggle = (data, index)=> {
-        console.log(index)
-        console.log(data)
         if (this.state.capTextEdit) {
             this.setState({
                 capTextEdit: false,
@@ -105,6 +103,34 @@ class ReportsListView extends React.Component {
         }
     }
 
+    onClientSave = index => async() => {
+        let obj = {};
+        obj.function_id = bizfuncId[index];
+        obj.keyThemes = this.state.tempKT;
+        obj.recommendation = this.state.tempRecs
+        let arr = [];
+        arr.push(obj);
+
+        let body = {
+            "businessFunctions": arr,
+            "clientid": this.state.clientTextArray[index].clientId,
+            "sector": this.state.clientTextArray[index].sector
+        }
+        apiPostHeader.body = JSON.stringify(body);
+        let editresp;
+        try{
+            const response = await fetch(resultsApi.clientThemesEdit,apiPostHeader)
+            editresp = await response.json();
+        }
+        catch(err){
+            editresp = err;
+        }
+        
+        this.setState ({
+            capTextEdit: false
+        });
+    }
+
     onSave = async() => {
         if (this.props.data.sites === undefined) {
             let body = {
@@ -129,8 +155,6 @@ class ReportsListView extends React.Component {
                 this.props.resultsRefresh();
                 // this.refreshText();
             }
-            // console.log(keyThemes);
-            // console.log(recs);
 
             this.setState ({
                 capTextEdit: false
@@ -146,20 +170,6 @@ class ReportsListView extends React.Component {
     // setText (keyThemes, recs) {}
 
     capTextBox = (index) => {
-        // console.log(keyThemes + " + " + recs);
-        // if (keyThemes !== null) {
-        //     this.setState({
-        //         keyThemes: keyThemes
-        //     })
-        // }
-        // if (recs !== null) {
-        //     this.setState({
-        //         recs: recs
-        //     })
-        // }
-        // console.log(keyThemes)
-        // console.log(recs)
-        // console.log(index)
         if (keyThemes[index] !== undefined && recs[index] !== undefined) {
             return (
                 <div style={{display: "grid" , "grid-template-columns": "1fr 1fr"}}>
@@ -176,17 +186,7 @@ class ReportsListView extends React.Component {
         }
     }
 
-    // setTempText = (index) => {
-    //     this.setState ({
-    //         tempKT: keyThemes[index],
-    //         tempRecs: recs[index]
-    //     });
-    //     console.log(this.state.tempKT);
-    //     console.log(keyThemes[index]);
-    // }
-
     capTextForm = (index) => {
-        // this.setTempText(index);
         return (
             <InputGroup controlId="capText">
                 <Form.Row>
@@ -208,9 +208,14 @@ class ReportsListView extends React.Component {
                 </Form.Row>
                 
                 <InputGroup.Append>
-                    <Button variant="primary" type="submit" onClick={this.onSave}>
-                        Done
-                    </Button>
+                    {this.props.data.sectorBusinessFnInfo === undefined?
+                        <Button variant="primary" type="submit" onClick={this.onSave}>
+                            Done
+                        </Button>:
+                        <Button variant="primary" type="submit" onClick={this.onClientSave(index)}>
+                            Done
+                        </Button>
+                    }
                 </InputGroup.Append>
             </InputGroup>
         )
@@ -369,29 +374,59 @@ class ReportsListView extends React.Component {
     }
 
     componentDidMount = async() => {
-        console.log("reports",this.props.data.reportsData);
+        // console.log("reports",this.props.data.reportsData);
         keyThemes = [];
         recs = [];
+        bizfuncId = [];
         if (this.props.data.reportsData !== undefined) {
-            for (let i = 0; i < this.props.data.reportsData.length; i++) {
-                if (this.props.data.reportsData[i].keyThemes !== null) {
-                    keyThemes.push(this.props.data.reportsData[i].keyThemes);
+            if (this.props.data.sectorBusinessFnInfo !== undefined) {
+                for (let j = 0; j < this.props.data.reportsData.length; j++) {
+                    for (let i = 0; i < this.props.data.sectorBusinessFnInfo.length; i++) {
+                        if (this.props.data.reportsData[j].id === this.props.data.sectorBusinessFnInfo[i].businessFunctionId) {
+                            if (this.props.data.sectorBusinessFnInfo[i].businessKeyThemes !== null) {
+                                keyThemes.push(this.props.data.sectorBusinessFnInfo[i].businessKeyThemes);
+                            }
+                            else {
+                                keyThemes.push(this.state.keyThemes);
+                            }
+                            
+                            if (this.props.data.sectorBusinessFnInfo[i].businessRecommendation !== null) {
+                                recs.push(this.props.data.sectorBusinessFnInfo[i].businessRecommendation);
+                            }
+                            else {
+                                recs.push(this.state.recs);
+                            }
+
+                            bizfuncId.push(this.props.data.sectorBusinessFnInfo[i].businessFunctionId);
+                        }
+                    }
                 }
-                else {
-                    keyThemes.push(this.state.keyThemes);
-                }
-                
-                if (this.props.data.reportsData[i].recs !== null) {
-                    recs.push(this.props.data.reportsData[i].recs);
-                }
-                else {
-                    recs.push(this.state.recs);
+                this.setState({
+                    clientTextArray: this.props.data.sectorBusinessFnInfo
+                })
+            }
+            else {
+                for (let i = 0; i < this.props.data.reportsData.length; i++) {
+                    if (this.props.data.reportsData[i].keyThemes !== null) {
+                        keyThemes.push(this.props.data.reportsData[i].keyThemes);
+                    }
+                    else {
+                        keyThemes.push(this.state.keyThemes);
+                    }
+                    
+                    if (this.props.data.reportsData[i].recs !== null) {
+                        recs.push(this.props.data.reportsData[i].recs);
+                    }
+                    else {
+                        recs.push(this.state.recs);
+                    }
                 }
             }
         }
 
         console.log(keyThemes);
         console.log(recs);
+        console.log(bizfuncId);
     }
 
     render(){

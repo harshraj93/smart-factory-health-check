@@ -1,5 +1,7 @@
 import React from 'react';
 
+let locations = [];
+
 class Slider extends React.Component {
     constructor(props) {
         super(props);
@@ -62,19 +64,36 @@ class Slider extends React.Component {
                 </div>
                 {Number(this.props.data.indAvg)>0?<span className="ind-avg" style={{marginLeft: this.updatePosition(Number(this.props.data.indAvg).toFixed(1), "indAvg") + "%"}}></span>:""}
                 {this.props.data.sites.map((data, index) => {
-                    return (
-                        Number(data.score)>0?
-                        <div className="score-box" style={{marginTop: "-18px", marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
-                            <p className="score-text">{Number(data.score).toFixed(1)}</p>
-                            <div className="tooltip-circle">
-                                <span className="slider-circle" style={{backgroundColor: "#" + this.props.colors[index]}}></span>
-                                <div class="tooltiptext">
-                                    <p>{Number(data.score).toFixed(1) + "  " + data.name}</p>
-                                </div>
-                            </div>
-                        </div>
-                        :""
-                    )
+                    // console.log(locations[index])
+                    if (locations[index] !== undefined) {
+                        return (
+                            Number(data.score)>0?
+                                    <div className="score-box" style={{marginTop: "-18px", marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
+                                        <p className="score-text">{Number(data.score).toFixed(1)}</p>
+                                        <div className="tooltip-circle">
+                                            <span className="slider-circle" style={{backgroundColor: "#" + this.props.colors[index]}}></span>
+                                            <div class="tooltiptext">
+                                                <p>{Number(data.score).toFixed(1) + "  " + data.name}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                            :""
+                        )
+                    }
+                    else {
+                        return (
+                            Number(data.score)>0?
+                                    <div className="score-box" style={{marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
+                                        <div className="tooltip-circle">
+                                            <span className="slider-circle" style={{backgroundColor: "#" + this.props.colors[index]}}></span>
+                                            <div class="tooltiptext">
+                                                <p>{Number(data.score).toFixed(1) + "  " + data.name}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                            :""
+                        )
+                    }
                 })}
                 
                 {Number(this.props.data.target) > 0?<div className="score-box" style={{marginTop: "18px", marginLeft: this.updatePosition(Number(this.props.data.target).toFixed(1), "target") + "%"}}> 
@@ -133,6 +152,20 @@ class Slider extends React.Component {
         if (this.props.data.sites !== undefined) {
             // console.log("sites");
             // console.log(this.props.colors);
+            locations = [];
+            let arr = []
+            for (let i = 0; i < this.props.data.sites.length; i++) {
+                locations.push(this.updatePosition(Number(this.props.data.sites[i].score).toFixed(1), "score"))
+            }
+            arr = locations.sort(function(a, b){return a - b});
+
+            for (let i = arr.length-1; i >= 0; i--) {
+                if (arr[i]-arr[i-1] < 5.5) {
+                    var x = locations.indexOf(arr[i]);
+                    locations[x] = null;
+                }
+            }
+            // console.log(locations);
         }
         else {
             this.setState({
