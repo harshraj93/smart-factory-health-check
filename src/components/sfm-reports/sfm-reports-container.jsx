@@ -27,6 +27,7 @@ let resultsList=[];
 let allPoc = false;
 
 let colors = [];
+let palette = ["E3E48D", "00A3E0", "C4D600", "0076A8", "009A44", "005587", "046A38", "012169"];
 
 class Reports extends React.Component{
     constructor(props){
@@ -855,9 +856,20 @@ class Reports extends React.Component{
             // clientReportsData.clientid = this.props.location.clientid;
             // clientReportsData.sector = this.props.location.sector;
             if (clientReportsData.sites !== undefined){
-                clientReportsData.sites.map((data, index)=> {
-                    colors.push(Math.floor(Math.random()*16777215).toString(16))
-                });
+                for (let i =  0; i < clientReportsData.sites.length; i++) {
+                    if (i < palette.length) {
+                        colors.push(palette[i]);
+                    }
+                    else {
+                        var str = Math.floor(Math.random()*16777215).toString(16);
+                        if (str !== "ffffff" && str.length === 6) {
+                            colors.push(str);
+                        }
+                        else {
+                            colors.push(Math.floor(Math.random()*16777215).toString(16));
+                        }
+                    }
+                }
             }
             // console.log(clientReportsData);
         }
