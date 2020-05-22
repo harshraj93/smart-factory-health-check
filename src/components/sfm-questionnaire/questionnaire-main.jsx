@@ -347,7 +347,7 @@ class QuestionnairePage extends React.Component {
         
         let notesSubmission = {
             "clientAssessmentId": subCapabilitiesArray[this.state.arrayIndex].clientAssessmentId,
-            "resourceEmailId": this.props.userEmail === "" ? "harshraj@deloitte.com" : this.props.userEmail,
+            "resourceEmailId": this.props.userEmail === "" ? "akpm@deloitte.com" : this.props.userEmail,
             "note": this.state.textAreaNotesValue,
             "timestamp": Str,
             "flagType": this.state.flagType
@@ -503,10 +503,10 @@ class QuestionnairePage extends React.Component {
     }
 
 
-    textAreaValue = async (e) => {
+    textAreaValue = async (value) => {
         await this.setState({
-            textAreaNotesValue: e.target.value,
-            textArealength: e.target.value.length
+            textAreaNotesValue: value,
+            textArealength: value.toString('html').replace(/<[^>]+>/g, '').length
         })
 
         if (this.state.textArealength === 0) {

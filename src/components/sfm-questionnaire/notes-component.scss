@@ -22,8 +22,10 @@
         background-color: #35353b;
         padding: 24px 31px 24px 24px;
         width: 50%;
-        text-align: right;
         border-radius: 8px;
         margin-top: 16px;
+        #inner-html{
+            overflow: scroll;
+        }
     }
 }

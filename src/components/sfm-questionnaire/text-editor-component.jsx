@@ -1,37 +1,31 @@
 import React from 'react';
 //import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import FlagImg from '../../images/icon-small-flagged-outline.svg';
-//import MUIRichTextEditor from 'mui-rte'
-//import './text-editor-component.scss';
-//let options = ["bold", "italic", "underline", "strikethrough", "bulletList", "numberList", "highlight", "save"];
+import RichTextEditor from 'react-rte';
 
 export default class TextEditor extends React.Component{
     constructor(props){
         super(props);
        
         this.state={
-
+            value: RichTextEditor.createEmptyValue()
         }
     }
 
-    notesCards() {
-        return(
-            <div className="notes-card">
-                <div className="notes-card-header">
-                    {this.props.data.type!==null?<img src={FlagImg} alt="" style={{marginTop: "2.5px", marginRight: "10px"}}></img>:""}
-                    <div className="header-block">
-                        <span className="user-name">{this.props.data.userName}</span>
-                        <div className="date-time">
-                            <p>11:28AM</p>
-                            <p>02/01/2020</p>
-                        </div>
-                    </div>
-                </div>
-                <p className="notes-card-content">{this.props.data.text}</p>
-            </div>
-        )
-    }
-
+    onChange = (value) => {
+        console.log(value.toString('html').length)
+        let length = value.toString('html').replace(/<[^>]+>/g, '').length
+        //editorState.getCurrentContent().getPlainText('').length;
+        if(length<=1000){this.setState({value})};
+        if (this.props.textAreaValue&&length<=1000) {
+          // Send the changes up to the parent component as an HTML string.
+          // This is here to demonstrate using `.toString()` but in a real app it
+          // would be better to avoid generating a string on each change.
+          this.props.textAreaValue(
+            value.toString('html')
+          );
+        }
+      };
     render(){
 //         const defaultTheme = createMuiTheme()
 
@@ -73,7 +67,13 @@ export default class TextEditor extends React.Component{
             //     value={JSON.parse(this.props.value)}
             // />
             // </MuiThemeProvider>
-            <textarea className="notes-editor-area" placeholder={this.props.placeholder} onChange={(e)=>this.props.textAreaValue(e)} defaultValue={this.props.value}></textarea>
+            <RichTextEditor
+            value={this.state.value}
+            onChange={this.onChange}
+            placeholder={this.props.placeholder}
+            maxlength={1000}
+            />
+            
            
             
         )
