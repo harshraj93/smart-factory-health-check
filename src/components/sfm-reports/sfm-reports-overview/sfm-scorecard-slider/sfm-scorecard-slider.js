@@ -65,7 +65,7 @@ class Slider extends React.Component {
                 {Number(this.props.data.indAvg)>0?<span className="ind-avg" style={{marginLeft: this.updatePosition(Number(this.props.data.indAvg).toFixed(1), "indAvg") + "%"}}></span>:""}
                 {this.props.data.sites.map((data, index) => {
                     // console.log(locations[index])
-                    if (locations[index] !== undefined) {
+                    if (locations[index] !== undefined && locations[index] !== null) {
                         return (
                             Number(data.score)>0?
                                     <div className="score-box" style={{marginTop: "-18px", marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
