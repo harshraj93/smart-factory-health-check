@@ -58,7 +58,13 @@ class HamburgerNav extends React.Component {
         if(user && user !== null && user!==""){
         let nameArray = user.split(" ");
         console.log(nameArray[0])
-        let nickName = nameArray[0];
+        let nickName = "";
+        if (nameArray.length<2) {
+            nickName = nameArray[0].substring(0,2);
+        }
+        else {
+            nickName = nameArray[0].chartAt(0)+""+nameArray[1].charAt(0);
+        }
         return nickName;
     }
     }
@@ -93,14 +99,14 @@ class HamburgerNav extends React.Component {
                         <div className="sidebar-text">Frame Overview</div>
                     </Link> */}
                     </div>
-                    {/* <div className="logout">
+                    <div className="logout">
                         <span className="name-circle">{this.getNick(this.props.user)}</span>
                         <div className="user-info">
                             <p className="username">{this.props.user}</p>
-                            <p className="logout-text">LOGOUT</p>
+                            {/* <p className="logout-text">LOGOUT</p> */}
                         </div>
-                        <img src={DropDownImg} alt="" className="logout-down-arrow"/>
-                    </div> */}
+                        {/* <img src={DropDownImg} alt="" className="logout-down-arrow"/> */}
+                    </div>
                 </div>
             </>
         );

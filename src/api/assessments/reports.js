@@ -11,7 +11,8 @@ let resultsApi={
     reportOnly:apiUrl+"clientService/reportOnly",
     userInfoDetails: apiUrl+"userService/userInfoDetails",
     associateUserSite: apiUrl+"siteService/associateUserSite",
-    associateSectorAndUser: apiUrl+"siteService/associateSectorAndUser",
+    associateSectorAndUser: apiUrl+"clientService/associateUserSector",
+    networkReportOnly:apiUrl+"userService/networkReportOnly"
 }
 
 export {
