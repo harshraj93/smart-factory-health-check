@@ -275,7 +275,7 @@ class ReportsOverview extends React.Component {
                         {this.props.data.sites.map((data, index) => {
                             return (
                                 <div className="legend-part">
-                                    <span className="score" style={{backgroundColor: "#"+this.props.colors[index]}}></span>
+                                    <span className="score" style={{backgroundColor: "#"+this.props.colors[index].color}}></span>
                                     <p style={{margin: "0"}}>{data.name}</p>
                                 </div>
                             )
@@ -296,7 +296,7 @@ class ReportsOverview extends React.Component {
                         </div>
                         <div className="overall-score">
                             <p style={{fontSize: "18px", fontWeight: "bold", marginBottom: "30px"}}>Overall</p>
-                            <Slider data={this.props.data} colors={colors}/>
+                            <Slider data={this.props.data} colors={this.props.colors}/>
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
@@ -320,7 +320,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors} profile={this.props.profile}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data} colors={this.props.colors} profile={this.props.profile}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
@@ -415,15 +415,15 @@ class ReportsOverview extends React.Component {
                     })
                 }
 
-                for (let i = 0; i < this.props.data.sites.length; i++) {
-                    let obj = {};
-                    obj.name = this.props.data.sites[i].name;
-                    obj.color = this.props.colors[i];
-                    // console.log(i)
-                    // console.log(this.props.data.sites[i].name)
-                    // console.log(this.props.colors[i])
-                    colors.push(obj);
-                }
+                // for (let i = 0; i < this.props.data.sites.length; i++) {
+                //     let obj = {};
+                //     obj.name = this.props.data.sites[i].name;
+                //     obj.color = this.props.colors[i];
+                //     // console.log(i)
+                //     // console.log(this.props.data.sites[i].name)
+                //     // console.log(this.props.colors[i])
+                //     colors.push(obj);
+                // }
             } else {
                 if (this.props.data.summary !== null) {
                     // console.log(this.props.data.summary)

@@ -27,6 +27,7 @@ let resultsList=[];
 let allPoc = false;
 
 let colors = [];
+let colorData = [];
 let palette = ["E3E48D", "00A3E0", "C4D600", "0076A8", "009A44", "005587", "046A38", "012169"];
 
 class Reports extends React.Component{
@@ -367,7 +368,7 @@ class Reports extends React.Component{
                         {resultsList.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={index} title={element} >
-                                    {element==="Demographics"?"":<ReportsOverview data={this.state.clientReportsData} colors ={colors} profile={this.props.profile}/>}
+                                    {element==="Demographics"?"":<ReportsOverview data={this.state.clientReportsData} colors ={colorData} profile={this.props.profile}/>}
 
                                 </Tab>
                             )
@@ -908,6 +909,16 @@ class Reports extends React.Component{
                             colors.push(Math.floor(Math.random()*16777215).toString(16));
                         }
                     }
+                }
+
+                for (let i = 0; i < clientReportsData.sites.length; i++) {
+                    let obj = {};
+                    obj.name = clientReportsData.sites[i].name;
+                    obj.color = colors[i];
+                    // console.log(i)
+                    // console.log(this.props.data.sites[i].name)
+                    // console.log(this.props.colors[i])
+                    colorData.push(obj);
                 }
             }
             // console.log(clientReportsData);
