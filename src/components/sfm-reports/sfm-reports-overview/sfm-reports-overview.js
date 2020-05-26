@@ -296,7 +296,7 @@ class ReportsOverview extends React.Component {
                         </div>
                         <div className="overall-score">
                             <p style={{fontSize: "18px", fontWeight: "bold", marginBottom: "30px"}}>Overall</p>
-                            <Slider data={this.props.data} colors={this.props.colors}/>
+                            <Slider data={this.props.data} colors={colors}/>
                             <div className="overall-recs">
                                 <div className="overall-recs-header">
                                     <p style={{fontSize: "12px", fontWeight: "bold", margin: "0"}}>RECOMMENDATIONS</p>
@@ -320,7 +320,7 @@ class ReportsOverview extends React.Component {
                         {tabValues.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={element} title={element} >
-                                    {element==="List"?<ReportsListView data={this.props.data} colors={this.props.colors} profile={this.props.profile}/>:this.reportView()}
+                                    {element==="List"?<ReportsListView data={this.props.data} colors={colors} profile={this.props.profile}/>:this.reportView()}
                                 </Tab>
                             )
                         })}
@@ -398,7 +398,7 @@ class ReportsOverview extends React.Component {
     }
 
     componentDidMount = async() => {
-        console.log(this.props.data)
+        // console.log(this.props.data)
         if (this.props.data) {
             if (this.props.data.sites !== undefined) {
                 if (this.props.data.summary !== null) {
@@ -413,6 +413,16 @@ class ReportsOverview extends React.Component {
                     this.setState({
                         overallRecs: this.props.data.overallRecs
                     })
+                }
+
+                for (let i = 0; i < this.props.data.sites.length; i++) {
+                    let obj = {};
+                    obj.name = this.props.data.sites[i].name;
+                    obj.color = this.props.colors[i];
+                    // console.log(i)
+                    // console.log(this.props.data.sites[i].name)
+                    // console.log(this.props.colors[i])
+                    colors.push(obj);
                 }
             } else {
                 if (this.props.data.summary !== null) {

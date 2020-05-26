@@ -560,7 +560,7 @@ class Reports extends React.Component{
         const data = this.formatClientLevelData(json.resultantJSON);
         data.clientid = this.props.location.clientid;
         data.sector = this.props.location.sector;
-        console.log(data);
+        // console.log(data);
         return data; 
         }
         catch(err){
@@ -699,7 +699,27 @@ class Reports extends React.Component{
             newarr.push(JSON.parse(arr[i]));
         }
 
-        return newarr;
+        let x = [];
+        for (let i = newarr.length-1; i >= 0; i--) {
+            if (x.length === 0) {
+                x.push(newarr[i]);
+            }
+            else {
+                let j = 0;
+                for (j = 0; j < x.length; j++) {
+                    if (newarr[i].name === x[j].name) {
+                        break;
+                    }
+                }
+
+                if (j >= x.length) {
+                    x.push(newarr[i]);
+                }
+            }
+        }
+        // console.log(x);
+
+        return x.reverse();
     }
 
     formatClientLevelData = (data) => {

@@ -16,6 +16,14 @@ class Slider extends React.Component {
         };
     }
 
+    getColor(name) {
+        for (let i = 0; i < this.props.colors.length; i++) {
+            if (this.props.colors[i].name === name) {
+                return this.props.colors[i].color;
+            }
+        }
+    }
+
     updatePosition(value, str) {
         // Function to update the position value for the industry avg bar, score and target circles
         var x = 0;
@@ -65,13 +73,13 @@ class Slider extends React.Component {
                 {Number(this.props.data.indAvg)>0?<span className="ind-avg" style={{marginLeft: this.updatePosition(Number(this.props.data.indAvg).toFixed(1), "indAvg") + "%"}}></span>:""}
                 {this.props.data.sites.map((data, index) => {
                     // console.log(locations[index])
-                    if (locations[index] !== undefined && locations[index] !== null) {
+                    if (locations[index] !== "null") {
                         return (
                             Number(data.score)>0?
                                     <div className="score-box" style={{marginTop: "-18px", marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
                                         <p className="score-text">{Number(data.score).toFixed(1)}</p>
                                         <div className="tooltip-circle">
-                                            <span className="slider-circle" style={{backgroundColor: "#" + this.props.colors[index]}}></span>
+                                            <span className="slider-circle" style={{backgroundColor: "#" + this.getColor(data.name)}}></span>
                                             <div class="tooltiptext">
                                                 <p>{Number(data.score).toFixed(1) + "  " + data.name}</p>
                                             </div>
@@ -85,7 +93,7 @@ class Slider extends React.Component {
                             Number(data.score)>0?
                                     <div className="score-box" style={{marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
                                         <div className="tooltip-circle">
-                                            <span className="slider-circle" style={{backgroundColor: "#" + this.props.colors[index]}}></span>
+                                            <span className="slider-circle" style={{backgroundColor: "#" + this.getColor(data.name)}}></span>
                                             <div class="tooltiptext">
                                                 <p>{Number(data.score).toFixed(1) + "  " + data.name}</p>
                                             </div>
@@ -148,24 +156,39 @@ class Slider extends React.Component {
         )
     }
 
-    componentDidMount() {
-        if (this.props.data.sites !== undefined) {
-            // console.log("sites");
-            // console.log(this.props.colors);
-            locations = [];
-            let arr = []
-            for (let i = 0; i < this.props.data.sites.length; i++) {
-                locations.push(this.updatePosition(Number(this.props.data.sites[i].score).toFixed(1), "score"))
-            }
-            arr = locations.sort(function(a, b){return a - b});
+    initLocations = async() => {
+        // console.log("sites");
+        // console.log(this.props.colors);
+        locations = [];
+        let arr = []
+        for (let i = 0; i < this.props.data.sites.length; i++) {
+            locations.push(this.updatePosition(Number(this.props.data.sites[i].score).toFixed(1), "score"))
+        }
+        arr = locations.sort(function(a, b){return a - b});
 
-            for (let i = arr.length-1; i >= 0; i--) {
-                if (arr[i]-arr[i-1] < 5.5) {
-                    var x = locations.indexOf(arr[i]);
-                    locations[x] = null;
-                }
+        // console.log("pre",locations);
+        for (let i = arr.length-1; i >= 1; i--) {
+            if (arr[i]-arr[i-1] < 5.5) {
+                var x = locations.indexOf(arr[i]);
+                locations[x] = "null";
             }
-            // console.log(locations);
+        }
+        // console.log("post ",locations);
+    }
+
+    // componentWillReceiveProps(newProps) { 
+    //     const oldProps = this.props; 
+    //     console.log(oldProps);
+        
+    //     if(oldProps !== newProps) { 
+    //         console.log(newProps);
+    //         this.initLocations(newProps);
+    //     } 
+    // }
+
+    componentWillReceiveProps() {
+        if (this.props.data.sites !== undefined) {
+            this.initLocations();
         }
         else {
             this.setState({
