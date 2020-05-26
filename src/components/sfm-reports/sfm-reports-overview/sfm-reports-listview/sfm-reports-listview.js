@@ -438,10 +438,10 @@ class ReportsListView extends React.Component {
 
     componentWillReceiveProps(newProps) { 
         const oldProps = this.props; 
-        console.log(oldProps);
+        // console.log(oldProps);
         
         if(oldProps !== newProps) { 
-            console.log(newProps);
+            // console.log(newProps);
             this.initKeyThemesRecs(newProps);
         } 
     }

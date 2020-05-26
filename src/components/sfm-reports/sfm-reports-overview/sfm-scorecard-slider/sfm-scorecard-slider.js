@@ -176,16 +176,6 @@ class Slider extends React.Component {
         // console.log("post ",locations);
     }
 
-    // componentWillReceiveProps(newProps) { 
-    //     const oldProps = this.props; 
-    //     console.log(oldProps);
-        
-    //     if(oldProps !== newProps) { 
-    //         console.log(newProps);
-    //         this.initLocations(newProps);
-    //     } 
-    // }
-
     componentWillReceiveProps() {
         if (this.props.data.sites !== undefined) {
             this.initLocations();
