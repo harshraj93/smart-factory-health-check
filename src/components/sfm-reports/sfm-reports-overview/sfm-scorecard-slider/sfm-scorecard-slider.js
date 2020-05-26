@@ -198,7 +198,10 @@ class Slider extends React.Component {
         if (this.props.data.sites !== undefined) {
             this.initLocations();
         }
-        else {
+    }
+
+    componentDidMount() {
+        if (this.props.data.sites === undefined) {
             this.setState({
                 score: this.props.data.score!=="NaN" && this.props.data.score!==null?Number(this.props.data.score).toFixed(1):0,
                 target: this.props.data.target!=="NaN" && this.props.data.target!==null?Number(this.props.data.target).toFixed(1):0,
