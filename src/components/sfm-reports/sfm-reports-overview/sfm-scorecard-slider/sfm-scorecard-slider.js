@@ -168,9 +168,27 @@ class Slider extends React.Component {
 
         // console.log("pre",locations);
         for (let i = arr.length-1; i >= 1; i--) {
-            if (arr[i]-arr[i-1] < 5.5) {
-                var x = locations.indexOf(arr[i]);
-                locations[x] = "null";
+            if (arr[i]-arr[i-1] <= 5.3) {
+                if (arr[i-2] !== undefined) {
+                    if (arr[i]-arr[i-2] <= 5.3) {
+                        if (arr[i]-arr[i-1] === 0) {
+                            let x = locations.indexOf(arr[i]);
+                            locations[x] = "null";
+                            x = locations.indexOf(arr[i-1]);
+                            locations[x] = "null";
+                        }
+                        let x = locations.indexOf(arr[i]);
+                        locations[x] = "null";
+                    }
+                    else {
+                        let x = locations.indexOf(arr[i-1]);
+                        locations[x] = "null";
+                    }
+                }
+                else {
+                    let x = locations.indexOf(arr[i]);
+                    locations[x] = "null";
+                }
             }
         }
         // console.log("post ",locations);
