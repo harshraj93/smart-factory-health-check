@@ -3,6 +3,7 @@ import {CustomButton} from '../../assets/sfm-button';
 import CustomAccordion from './Accordion'
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+import Spinner from 'react-bootstrap/Spinner';
 import {Link} from 'react-router-dom';
 import {assessmentsApi} from '../../api/assessments/assessments'
 import {apiGetHeader} from '../../api/main/mainapistorage'
@@ -62,14 +63,29 @@ class Assessments extends React.Component {
 
 
     componentDidMount = ()=>{
-        this.fetchAssessmentsData();
-        localStorage.setItem("sitedetailsstate","");
-        localStorage.setItem("addsitedata","");
-        localStorage.setItem("addnewclient","")
+        if (localStorage.getItem("clientview")==="true") {
+            console.log(localStorage.getItem("clientview"))
+            this.props.disableMenu(false);
+        }
+        else {
+            console.log(localStorage.getItem("clientview"))
+            this.fetchAssessmentsData();
+            localStorage.setItem("sitedetailsstate","");
+            localStorage.setItem("addsitedata","");
+            localStorage.setItem("addnewclient","");
+        }
     }
 
+    loadingScreen() {
+        return (
+            <div className="loader">
+                <Spinner animation="border" variant="success" />
+                <p>Loading page...</p>
+            </div>
+        )
+    }
 
-    render() {
+    assessmentsPage() {
         return (
             <div className="assessments">
                 
@@ -97,6 +113,12 @@ class Assessments extends React.Component {
             </div>
             
         );
+    }
+
+    render() {
+        return(
+            localStorage.getItem("clientview")==="true"?this.loadingScreen():this.assessmentsPage()
+        )
     }
 }
 

@@ -13,6 +13,7 @@ import AddNewSite from '../components/sfm-add-new-site/add-new-site';
 export default function Routes(props){
     let profile = props.userProfile;
     if(profile==="Client" || profile==="Sector"){
+        localStorage.setItem("clientview","true");
         return(
             <Switch>
                 <Route exact path="/"> <Reports disableMenu={props.disableMenu} profile={props.userProfile} username={props.username} userEmail={props.userEmail}/> </Route>
@@ -20,6 +21,7 @@ export default function Routes(props){
         )
     }
     else{
+        localStorage.setItem("clientview","false");
     return(
     <Switch>
         <Route exact path="/"> <Assessments disableMenu={props.disableMenu}/> </Route>

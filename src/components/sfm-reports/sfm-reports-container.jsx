@@ -1,7 +1,7 @@
 import React from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import Spinner from 'react-bootstrap/Spinner'
+import Spinner from 'react-bootstrap/Spinner';
 import {CustomButton,FormNavigationButton, SaveandExitButton} from '../../assets/sfm-button';
 import leftIcon from '../../images/icon-small-chevron-left.svg';
 // import DeleteIcon from '../../images/combined-shape.svg';
@@ -18,7 +18,7 @@ import {resultsApi} from '../../api/assessments/reports'
 import assessOverviewApi from '../../api/assessments/assess-overview';
 import assessNotesApi from '../../api/assessments/assess-notes';
 import siteInfoApi from '../../api/assessments/assess-siteInfo';
-import {apiPostHeader, apiGetHeader} from '../../api/main/mainapistorage'
+import {apiPostHeader, apiGetHeader} from '../../api/main/mainapistorage';
 import Modal from "react-bootstrap/Modal";
 
 let inProgressList=["Overview","Notes","Site Info","Client Info"];
@@ -368,7 +368,7 @@ class Reports extends React.Component{
                         {resultsList.map((element,index)=>{
                             return(
                                 <Tab key={index} eventKey={index} title={element} >
-                                    {element==="Demographics"?"":<ReportsOverview data={this.state.clientReportsData} colors ={colorData} profile={this.props.profile}/>}
+                                    {(element==="Demographics") ?<ClientInfo client={this.props.location.clientName}/>:<ReportsOverview data={this.state.clientReportsData} colors ={colorData} profile={this.props.profile}/>}
 
                                 </Tab>
                             )
@@ -463,8 +463,11 @@ class Reports extends React.Component{
     loadingScreen() {
         return (
             <div className="loader">
-                {this.props.location.loadComponentString===undefined?"":<Spinner animation="border" variant="success" />}
-                {this.props.location.loadComponentString===undefined?<p>No data. Please click on back button.</p>:<p>Loading {this.props.location.loadComponentString.toUpperCase()} page...</p>}
+                {this.props.location.loadComponentString===undefined && localStorage.getItem("clientview")==="false"?"":<Spinner animation="border" variant="success" />}
+                {this.props.location.loadComponentString===undefined?
+                        (localStorage.getItem("clientview")==="false"?<p>No data. Please click on back button.</p>:<p>Loading page...</p>)
+                        :
+                        <p>Loading {this.props.location.loadComponentString.toUpperCase()} page...</p>}
             </div>
         )
     }
