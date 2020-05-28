@@ -397,8 +397,14 @@ class ReportsOverview extends React.Component {
         )
     }
 
+    componentWillReceiveProps = async() => {
+        console.log("props ",this.props.colors)
+        colors= this.props.colors;
+    }
+
     componentDidMount = async() => {
-        // console.log(this.props.data)
+        console.log(this.props.data)
+        console.log(this.props.colors)
         if (this.props.data) {
             if (this.props.data.sites !== undefined) {
                 if (this.props.data.summary !== null) {

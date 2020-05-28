@@ -115,9 +115,11 @@
                 }
                 .tr-box {
                     margin: 0 35px;
-                    width: 335px;
+                    width: 91.5%;
                     margin-bottom: 12px;
-                    color: #dedede;              
+                    color: #dedede;
+                    font-size: 14px;
+
                     .tr-heading {
                         display: flex;
                         align-items: center;
@@ -125,7 +127,6 @@
                         margin-bottom: 1.5vh;
                         margin-left: 1vw;
                         font-weight: 600;
-                        font-size: 14px;
                     }
 
                     .tr-text {
@@ -191,7 +192,7 @@
 
             .listview-card {
                 display: grid;
-                grid-template-columns: auto 1fr;
+                grid-template-columns: 1fr 8fr;
                 width: 71vw;
                 grid-template-rows: 87px;
                 align-items: center;

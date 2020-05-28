@@ -898,6 +898,7 @@ class Reports extends React.Component{
             // formattedClientReportsData = await this.formatClientLevelData(clientReportsData.resultantJSON);
             // clientReportsData.clientid = this.props.location.clientid;
             // clientReportsData.sector = this.props.location.sector;
+            colorData=[];
             if (clientReportsData.sites !== undefined){
                 for (let i =  0; i < clientReportsData.sites.length; i++) {
                     if (i < palette.length) {
@@ -924,7 +925,8 @@ class Reports extends React.Component{
                     colorData.push(obj);
                 }
             }
-            // console.log(clientReportsData);
+            console.log(clientReportsData);
+            console.log(colorData)
         }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 

@@ -206,9 +206,9 @@ class Slider extends React.Component {
                 score: this.props.data.score!=="NaN" && this.props.data.score!==null?Number(this.props.data.score).toFixed(1):0,
                 target: this.props.data.target!=="NaN" && this.props.data.target!==null?Number(this.props.data.target).toFixed(1):0,
                 indAvg: this.props.data.indAvg!=="NaN" && this.props.data.indAvg!==null?Number(this.props.data.indAvg).toFixed(1):0,
-                scorePos: this.props.data.score!=="NaN" && this.props.data.score!==null?this.updatePosition(Number(this.props.data.score), "score"):0,
-                targetPos: this.props.data.target!=="NaN" && this.props.data.target!==null?this.updatePosition(Number(this.props.data.target), "target"):0,
-                indAvgPos: this.props.data.indAvg!=="NaN" && this.props.data.indAvg!==null?this.updatePosition(Number(this.props.data.indAvg), "indAvg"):0
+                scorePos: this.props.data.score!=="NaN" && this.props.data.score!==null?this.updatePosition(Number(this.props.data.score).toFixed(1), "score"):0,
+                targetPos: this.props.data.target!=="NaN" && this.props.data.target!==null?this.updatePosition(Number(this.props.data.target).toFixed(1), "target"):0,
+                indAvgPos: this.props.data.indAvg!=="NaN" && this.props.data.indAvg!==null?this.updatePosition(Number(this.props.data.indAvg).toFixed(1), "indAvg"):0
             });
         }
     }
