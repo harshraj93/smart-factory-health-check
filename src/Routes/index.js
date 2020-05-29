@@ -20,7 +20,7 @@ export default function Routes(props){
             </Switch>
         )
     }
-    else{
+    else if(profile!=="Client" && profile!=="Sector"){
         localStorage.setItem("clientview","false");
     return(
     <Switch>
