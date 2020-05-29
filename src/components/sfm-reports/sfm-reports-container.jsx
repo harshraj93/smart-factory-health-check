@@ -899,13 +899,14 @@ class Reports extends React.Component{
             // clientReportsData.clientid = this.props.location.clientid;
             // clientReportsData.sector = this.props.location.sector;
             colorData=[];
+            colors=[];
             if (clientReportsData.sites !== undefined){
                 for (let i =  0; i < clientReportsData.sites.length; i++) {
                     if (i < palette.length) {
                         colors.push(palette[i]);
                     }
                     else {
-                        var str = Math.floor(Math.random()*16777215).toString(16);
+                        let str = Math.floor(Math.random()*16777215).toString(16);
                         if (str !== "ffffff" && str.length === 6) {
                             colors.push(str);
                         }
@@ -914,19 +915,21 @@ class Reports extends React.Component{
                         }
                     }
                 }
+                // console.log(colors);
 
+                // console.log(colorData);
                 for (let i = 0; i < clientReportsData.sites.length; i++) {
                     let obj = {};
                     obj.name = clientReportsData.sites[i].name;
                     obj.color = colors[i];
+                    // console.log(obj)
                     // console.log(i)
-                    // console.log(this.props.data.sites[i].name)
-                    // console.log(this.props.colors[i])
+                    // console.log(colors[i])
                     colorData.push(obj);
                 }
             }
-            console.log(clientReportsData);
-            console.log(colorData)
+            // console.log(clientReportsData);
+            // console.log(colorData)
         }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
