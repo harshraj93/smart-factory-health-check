@@ -12,7 +12,7 @@ import QuestionnairePage from '../components/sfm-questionnaire/questionnaire-mai
 import AddNewSite from '../components/sfm-add-new-site/add-new-site';
 export default function Routes(props){
     let profile = props.userProfile;
-    if(profile.toLowerCase()==="Client" || profile.toLowerCase()==="Sector"){
+    if(profile.toLowerCase()==="client" || profile.toLowerCase()==="sector"){
         localStorage.setItem("clientview","true");
         return(
             <Switch>
@@ -20,7 +20,7 @@ export default function Routes(props){
             </Switch>
         )
     }
-    else if(profile.toLowerCase()!=="Client" && profile.toLowerCase()!=="Sector" && profile!=undefined){
+    else if(profile.toLowerCase()!=="client" && profile.toLowerCase()!=="sector" && profile!==undefined){
         localStorage.setItem("clientview","false");
         return(
             <Switch>

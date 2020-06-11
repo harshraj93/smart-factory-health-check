@@ -826,7 +826,7 @@ class Reports extends React.Component{
         let resultJSON = {};
         let userProfile=this.props.profile;
         let userEmail=this.props.userEmail === "" ? "harshraj@deloitte.com" : this.props.userEmail;
-        if(userProfile==="Client"){
+        if(userProfile.toLowerCase()==="client"){
             
             let resultsJSON = await this.clientUserProfile(userEmail)
             // resultsJSON.resultantJSON.siteid = this.props.location.siteid;
@@ -838,7 +838,7 @@ class Reports extends React.Component{
                 reportsOverview:resultsJSON.resultantJSON,
             })
         }
-        else if(userProfile==="Sector") {
+        else if(userProfile.toLowerCase()==="sector") {
             let clientNetworkData = await this.clientNetworkOnlyData(userEmail)
             if (clientNetworkData.sites !== undefined){
                 for (let i =  0; i < clientNetworkData.sites.length; i++) {

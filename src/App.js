@@ -4,9 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import HamburgerNav from './components/sfm-hamburger-nav/sfm-hamburger-nav';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './Routes/index';
-import {apiGetHeader} from './api/main/mainapistorage';
-import userInfo from './api/userInfo/userInfo';
 
+let apiGetHeader = {
+  method:'GET',
+  headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'x-api-key': "ITEdpYmxd29yhWvXwmW07IUHyLtJaPZ1gmRDDGZ4",
+  }
+}
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +23,7 @@ class App extends React.Component {
       profile: ""
     }
   }
-
+ 
   disableMenu = (showFlag) => {
     this.setState({
       showMenu: showFlag
@@ -34,7 +40,7 @@ class App extends React.Component {
         'Authorization': 'Bearer ' + accessTokenActual
       }
     };
-
+    localStorage.setItem("userProfile", "")
     fetch('https://sfhc-dev.auth.us-east-1.amazoncognito.com/oauth2/userInfo', obj)
       .then(resp => resp.json())
       .then(
@@ -45,19 +51,25 @@ class App extends React.Component {
               userName: "Error"
             });
           } else {
-            fetch(userInfo+`?pocName=${result.email}`,apiGetHeader)
-            .then(resp => resp.json())
+            fetch(`https://dev.sfhcapp.com/dev-userService/loginUserInfo?pocName=${result.userName}`,apiGetHeader)
+            .then(resp => resp.json() )
+           
             .then(
-              (resultant) => 
+              (resultant) => {
+                console.log(resultant)
               this.setState({
               userName: result.username,
               email: result.email,
-              profile: resultant.profile
-            }))
-           
+              profile: resultant.resultantJSON.profile ? resultant.resultantJSON.profile : ""
+            })
+            localStorage.setItem("userProfile", resultant.resultantJSON.profile)
+          }
+            ).catch(err => {
+              console.log(err)
+            })
+    
             localStorage.setItem("userName", result.username);
             localStorage.setItem("userEmail", result.email);
-            localStorage.setItem("userProfile", result.profile)
           }
         }
       ).catch(err => {
