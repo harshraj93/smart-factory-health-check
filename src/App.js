@@ -3,7 +3,10 @@ import './SCSS/main.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HamburgerNav from './components/sfm-hamburger-nav/sfm-hamburger-nav';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Routes from './Routes/index'
+import Routes from './Routes/index';
+import {apiGetHeader} from './api/main/mainapistorage';
+import userInfo from './api/userInfo/userInfo';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -42,7 +45,7 @@ class App extends React.Component {
               userName: "Error"
             });
           } else {
-            fetch(`https://dev.sfhcapp.com/dev-userService/loginUserInfo?pocName=${result.email}`)
+            fetch(userInfo+`?pocName=${result.email}`,apiGetHeader)
             .then(resp => resp.json())
             .then(
               (resultant) => 
