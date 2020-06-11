@@ -42,11 +42,16 @@ class App extends React.Component {
               userName: "Error"
             });
           } else {
-            this.setState({
+            fetch(`https://dev.sfhcapp.com/dev-userService/loginUserInfo?pocName=${result.email}`)
+            .then(resp => resp.json())
+            .then(
+              (resultant) => 
+              this.setState({
               userName: result.username,
               email: result.email,
-              profile: result.profile
-            });
+              profile: resultant.profile
+            }))
+           
             localStorage.setItem("userName", result.username);
             localStorage.setItem("userEmail", result.email);
             localStorage.setItem("userProfile", result.profile)
