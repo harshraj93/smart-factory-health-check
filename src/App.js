@@ -51,7 +51,7 @@ class App extends React.Component {
               userName: "Error"
             });
           } else {
-            fetch(`https://dev.sfhcapp.com/dev-userService/loginUserInfo?pocName=${result.username}`,apiGetHeader)
+            fetch(`https://dev.sfhcapp.com/dev-userService/loginUserInfo?pocName=${result.email}`,apiGetHeader)
             .then(resp => resp.json() )
            
             .then(
