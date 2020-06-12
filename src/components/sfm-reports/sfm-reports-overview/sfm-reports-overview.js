@@ -338,7 +338,7 @@ class ReportsOverview extends React.Component {
                     <div className="summary">
                         <div className="summary-header">
                             <p style={{fontSize: "20px", fontWeight: "bold", margin: "0"}}>Summary</p>
-                            {this.props.profile !== "client" && this.props.profile !== "Sector" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img> : ""}
+                            {this.props.profile !== "client" && this.props.profile.toLowerCase() !== "sector" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle("summary")}></img> : ""}
                         </div>
                         {this.state.summaryEdit?this.summaryForm():<p className="summary-text">{this.state.summary}</p>}
                     </div>
