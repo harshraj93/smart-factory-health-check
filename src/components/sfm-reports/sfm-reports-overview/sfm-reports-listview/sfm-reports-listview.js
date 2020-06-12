@@ -255,7 +255,7 @@ class ReportsListView extends React.Component {
                             <div>
                                 <div className="tr-com-box">
                                     <div className="edit">
-                                        {this.props.profile !== "Client" && this.props.profile !== "Sector" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle(data, index)}></img> : ""}
+                                        {this.props.profile.toLowerCase() !== "client" && this.props.profile.toLowerCase() !== "sector" ? <img src={EditIcon} alt="" onClick={()=>this.editToggle(data, index)}></img> : ""}
                                     </div>
                                     {this.state.capTextEdit?this.capTextForm(index):this.capTextBox(index)}
                                 </div>

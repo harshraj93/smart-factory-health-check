@@ -319,7 +319,7 @@ class Reports extends React.Component{
             {this.props.location.companyName!==undefined?this.props.location.companyName:this.state.reportsOverview.clientName}
             </h5>
             <span className="share-link">
-             {this.props.profile  !== "Client" && <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>}
+             {this.props.profile.toLowerCase()  !== "client" && <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,allPoc?"publishResults":"business")}/>}
             </span>
             {this.state.publishResults&&this.publishModal()}
             {this.state.businessContactModal&&this.publishBusinessContactModal()}
@@ -343,12 +343,12 @@ class Reports extends React.Component{
     }
 
     networkHeader = () => {
-        this.props.profile === "Sector" ? resultsList = ["Overview"] : resultsList = ["Overview","Demographics"]
+        this.props.profile.toLowerCase() === "sector" ? resultsList = ["Overview"] : resultsList = ["Overview","Demographics"]
         return(
             <div className="reports-container">
                 <div className="assessment-title">
                     <div className="assessment-overview-title">
-                        {this.props.profile !== "Sector" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
+                        {this.props.profile.toLowerCase() !== "sector" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
                         <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                         <span className="title-text">
                             {(this.props.location.sector?this.props.location.sector:this.state.clientReportsData.sectorName)+" Network"}
@@ -358,7 +358,7 @@ class Reports extends React.Component{
                         {this.props.location.clientName!==undefined?this.props.location.clientName:""}
                     </h2>
                     <span className="share-link">
-                    {this.props.profile  !== "Sector" && <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,"publishResults")}/>}
+                    {this.props.profile.toLowerCase()  !== "sector" && <FormNavigationButton labelName="Publish" onClick={(e)=>this.showPopup(e,"publishResults")}/>}
                     </span>
                     {this.state.publishResults&&this.publishModal()}
                     {this.state.businessContactModal&&this.publishBusinessContactModal()}
@@ -428,7 +428,7 @@ class Reports extends React.Component{
             <div className="reports-container">
                 {this.state.x?this.deleteModal():""}
                 <div className="assessment-overview-title">
-                    {this.props.profile !== "Client" && this.props.profile !== "Sector" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
+                    {this.props.profile.toLowerCase() !== "client" && this.props.profile.toLowerCase() !== "sector" ? <CustomButton imgSrc={leftIcon} clickFunction={this.navigateBack}/> : ""}
                     <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                     <span className="title-text">
                         Assessment Overview
