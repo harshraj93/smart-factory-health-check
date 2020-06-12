@@ -295,12 +295,12 @@ class Reports extends React.Component{
 
 
     resultHeader = ()=>{
-        this.props.profile === "Client" ? resultsList = ["Overview"] : resultsList = ["Overview","Demographics"]
+        this.props.profile.toLowerCase() === "client" ? resultsList = ["Overview"] : resultsList = ["Overview","Demographics"]
         return(
             <div className="reports-container">
             <div className="assessment-title">
             <div className="assessment-overview-title">
-                {this.props.profile !== "Client" ? <CustomButton imgSrc={leftIcon} clickFunction={JSON.stringify(this.state.assessOverview) !== "{}"?this.navigateBackFromResults:this.navigateBack}/> : ""}
+                {this.props.profile.toLowerCase() !== "client" ? <CustomButton imgSrc={leftIcon} clickFunction={JSON.stringify(this.state.assessOverview) !== "{}"?this.navigateBackFromResults:this.navigateBack}/> : ""}
                 <img src={DeloitteLogo} alt="" style={{marginLeft: "3.5vw"}}/>
                 <span className="title-text">
                     {"Results "+this.state.title}
@@ -551,7 +551,7 @@ class Reports extends React.Component{
     }
 
     fetchClientLevelData = async()=>{
-        console.log("fetch")
+
         let body = { 
             "clientName": this.props.location.clientid, 
             "sector": this.props.location.sector
@@ -798,6 +798,7 @@ class Reports extends React.Component{
         try{
         const response = await fetch(resultsApi.demographics,apiPostHeader)
         const demographicsData = await response.json();
+        console.log(demographicsData)
         this.checkPOCs(demographicsData);
         return demographicsData;
         }
