@@ -76,7 +76,7 @@ class Slider extends React.Component {
                     if (locations[index] !== "null") {
                         return (
                             Number(data.score)>0?
-                                    <div className="score-box" style={{marginTop: "-18px", marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
+                                    <div className="score-box" style={{marginTop: "-36px", marginLeft: this.updatePosition(Number(data.score).toFixed(1), "score") + "%"}}>
                                         <p className="score-text">{Number(data.score).toFixed(1)}</p>
                                         <div className="tooltip-circle">
                                             <span className="slider-circle" style={{backgroundColor: "#" + this.getColor(data.name)}}></span>
@@ -104,7 +104,7 @@ class Slider extends React.Component {
                     }
                 })}
                 
-                {Number(this.props.data.target) > 0?<div className="score-box" style={{marginTop: "18px", marginLeft: this.updatePosition(Number(this.props.data.target).toFixed(1), "target") + "%"}}> 
+                {Number(this.props.data.target) > 0?<div className="score-box" style={{marginTop: "36px", marginLeft: this.updatePosition(Number(this.props.data.target).toFixed(1), "target") + "%"}}> 
                     <div className="tooltip-circle">
                         <span className="slider-circle" style={{backgroundColor: "#ffffff"}}></span>
                         <div class="tooltiptext" style={{bottom: "100%", marginLeft: "-55px"}}>
@@ -138,11 +138,11 @@ class Slider extends React.Component {
                     <span className="stop"></span>
                 </div>
                 <span className="ind-avg" style={this.state.score===0 || this.state.target===0 || this.state.indAvg===0 ? {display: "none"} : {marginLeft: this.state.indAvgPos + "%"}}></span>
-                <div className="score-box" style={{marginTop: "-18px", marginLeft: this.state.scorePos + "%"}}>
+                <div className="score-box" style={{marginTop: "-36px", marginLeft: this.state.scorePos + "%"}}>
                     <p className="score-text">{this.state.score===0 || this.state.target===0 ? '' : this.state.score}</p>
                     <span className="slider-circle" style={this.state.score===0 || this.state.target===0 ? {backgroundColor: "transparent"} : {backgroundColor: "#57bb50"}}></span>
                 </div>
-                <div className="score-box" style={{marginTop: "18px", marginLeft: this.state.targetPos + "%"}}> 
+                <div className="score-box" style={{marginTop: "36px", marginLeft: this.state.targetPos + "%"}}> 
                     <span className="slider-circle" style={this.state.target===0 || this.state.score===0 ? {backgroundColor: "transparent"} : {backgroundColor: "#ffffff"}}></span>
                     {/* <span className="small-circle"></span>
                     <div className="plus">
