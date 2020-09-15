@@ -857,6 +857,12 @@ class Reports extends React.Component{
                     }
                 }
             }
+            for (let i = 0; i < clientNetworkData.sites.length; i++) {
+                let obj = {};
+                obj.name = clientNetworkData.sites[i].name;
+                obj.color = colors[i];
+                colorData.push(obj);
+            }
             this.setState({
                 loadComponentString: "network",
                 clientReportsData: clientNetworkData
@@ -930,7 +936,7 @@ class Reports extends React.Component{
                 }
             }
             // console.log(clientReportsData);
-            // console.log(colorData)
+            console.log("SFMreports",colorData)
         }
         this.setState({
             assessBody: {"clientName": this.props.location.companyName, 
